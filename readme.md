@@ -5,52 +5,52 @@
 Project management, Account management, and internal company tools system designed for InsideOut Solutions.
 
 ##Pulling from bitbucket
-###Use SourceTree and clone this project into a new directory (office.localdev for example)
+Use SourceTree and clone this project into a new directory (office.localdev for example)
 
-###Run in terminal:
+Run in terminal:
 
-composer install
+	composer install
 
-###Installation complete!
+Installation complete at http://office.localdev !
 
 ##Once pulled from bitbucket:
-###Overwrite .gitignore with the following (exactly):
+Overwrite .gitignore with the following (exactly):
 
-/bootstrap/compiled.php
-/vendor
-/app/config/dev-brad
-/app/config/dev-jack
-/app/config/dev-taylor
-composer.phar
-composer.lock
-.env.local.php
-.env.php
-.DS_Store
-Thumbs.db
+	/bootstrap/compiled.php
+	/vendor
+	/app/config/dev-brad
+	/app/config/dev-jack
+	/app/config/dev-taylor
+	composer.phar
+	composer.lock
+	.env.local.php
+	.env.php
+	.DS_Store
+	Thumbs.db
 
-###In /bootstrap/start.php under 'detectEnvironment' section, update hostname for your appropriate line (only change the CHANGE_ME text). Type 'hostname' in terminal to determine hostname. Ok to push to git after updated.
+In /bootstrap/start.php under 'detectEnvironment' section, update hostname for your appropriate line (only change the CHANGE_ME text). Type 'hostname' in terminal to determine hostname. Ok to push to git after updated.
 
-###In /app/config/dev-YOURNAME/database.php update the appropriate lines for your database connection.
-#We'll be using 'remoteoffice' as the main database. The database structure will be included with a migration (more on that below).
+In /app/config/dev-YOURNAME/database.php update the appropriate lines for your database connection.
+We'll be using 'remoteoffice' as the main database. The database structure will be included with a migration (more on that below).
 
 
 
 
 ##Quick guide for a new Laravel install on a local dev environment:
-###Go to https://getcomposer.org/download/ and run this command in terminal:
+Go to https://getcomposer.org/download/ and run this command in terminal:
 
-curl -sS https://getcomposer.org/installer | php
+	curl -sS https://getcomposer.org/installer | php
 
-###Then run:
+Then run:
 
-sudo mv composer.phar /usr/local/bin/composer
+	sudo mv composer.phar /usr/local/bin/composer
 
-###Go the the directory you want to install a new Laravel installation. e.g.:
+Go the the directory you want to install a new Laravel installation. e.g.:
 
-cd ~/Sites/laraveltest.localdev
+	cd ~/Sites/laraveltest.localdev
 
-###Install Laravel in above desired directory (this takes a couple of minutes to complete):
+Install Laravel in above desired directory (this takes a couple of minutes to complete):
 
-composer create-project laravel/laravel laraveltest.localdev
+	composer create-project laravel/laravel laraveltest.localdev
 
-###Go to http://laraveltest.localdev and you should have a fresh installation of Laravel!
+Go to http://laraveltest.localdev and you should have a fresh installation of Laravel!
