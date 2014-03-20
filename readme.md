@@ -7,6 +7,10 @@ Project management, Account management, and internal company tools system design
 ##Pulling from bitbucket
 Use SourceTree and clone this project into a new directory (office.localdev for example)
 
+In terminal, go to the new directory stated above (your directory may vary), e.g.:
+
+	cd ~/Sites/office.localdev
+
 Run in terminal:
 
 	composer install
@@ -33,7 +37,9 @@ In /bootstrap/start.php under 'detectEnvironment' section, update hostname for y
 In /app/config/dev-YOURNAME/database.php update the appropriate lines for your database connection.
 We'll be using 'remoteoffice' as the main database. The database structure will be included with a migration (more on that below).
 
+##Databse Migrations:
 
+Coming soon...
 
 
 ##Quick guide for a new Laravel install on a local dev environment:
