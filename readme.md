@@ -78,12 +78,15 @@ To seed the database with default values (mainly for testing during development)
 
 	php artisan db:seed
 
-If you have issues doing the above, try running:
+If you have issues doing the above, try running (then run the above again):
 
 	composer dump-autoload
 
 
 ##Quick guide for a new Laravel install on a local dev environment:
+
+Not needed for this project, but good if you want to run a separate Laravel install for additional testing.
+
 Go to https://getcomposer.org/download/ and run this command in terminal:
 
 	curl -sS https://getcomposer.org/installer | php
