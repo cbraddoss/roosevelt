@@ -34,12 +34,53 @@ Overwrite .gitignore with the following (exactly):
 
 In /bootstrap/start.php under 'detectEnvironment' section, update hostname for your appropriate line (only change the CHANGE_ME text). Type 'hostname' in terminal to determine hostname. Ok to push to git after updated.
 
-In /app/config/dev-YOURNAME/database.php update the appropriate lines for your database connection.
-We'll be using 'remoteoffice' as the main database. The database structure will be included with a migration (more on that below).
+Create a directory in /app/config/ called dev-YOURNAME
+
+Create 2 files. One called database.php and one called app.php
+
+In app.php, add:
+
+	<?php
+	return array(
+		'debug' => true,
+		'url' => 'http://localhost'
+	);
+
+In database.php, add:
+
+	<?php
+	return array(
+		'connections' => array(
+			'mysql' => array(
+				'driver'    => 'mysql',
+				'host'      => 'localhost',
+				'database'  => 'io_remoteoffice',
+				'username'  => 'CHANGE_ME',
+				'password'  => 'CHANGE_ME',
+				'charset'   => 'utf8',
+				'collation' => 'utf8_unicode_ci',
+				'prefix'    => '',
+			)
+		)
+	);
+
+Update appropriate CHANGE_ME values.
+
+We'll be using 'io_remoteoffice' as the main database. Create a database with this name in your local environment. The database structure will be included with a migration (more on that below).
 
 ##Databse Migrations:
 
-Coming soon...
+Run the following command to migrate included database structures:
+
+	php artisan migrate
+
+To seed the database with default values (mainly for testing during development):
+
+	php artisan db:seed
+
+If you have issues doing the above, try running:
+
+	composer dump-autoload
 
 
 ##Quick guide for a new Laravel install on a local dev environment:
