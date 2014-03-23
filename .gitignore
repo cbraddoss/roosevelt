@@ -1,7 +1,9 @@
 /bootstrap/compiled.php
 /vendor
 composer.phar
-composer.lock
+/app/config/dev-brad
+/app/config/dev-jack
+/app/config/dev-taylor
 .env.local.php
 .env.php
 .DS_Store
