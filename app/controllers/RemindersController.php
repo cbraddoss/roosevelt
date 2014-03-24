@@ -19,11 +19,11 @@ class RemindersController extends Controller {
 	 */
 	public function postRemind()
 	{
-		Password::remind(Input::only('email'), function($message)
+		$response = Password::remind(Input::only('email'), function($message)
 		{
 		    $message->subject('Password Reminder');
 		});
-		
+
 		$emailToCheck = Input::only('email');
 		//dd($emailToCheck);
 		if(!empty($emailToCheck['email'])) {
@@ -33,7 +33,7 @@ class RemindersController extends Controller {
 				if($userToCheck->active == 0) return Redirect::back()->with('error', 'This user is not active.');
 			}
 		}
-		switch ($response = Password::remind(Input::only('email')))
+		switch ($response)
 		{
 			case Password::INVALID_USER:
 				return Redirect::back()->with('error', Lang::get($response));
