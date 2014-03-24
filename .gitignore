@@ -4,6 +4,7 @@ composer.phar
 /app/config/dev-brad
 /app/config/dev-jack
 /app/config/dev-taylor
+/app/config/dev-brad-laptop
 .env.local.php
 .env.php
 .DS_Store
