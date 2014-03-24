@@ -24,17 +24,17 @@ class SessionsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$username = Input::get('username');
+		$email = Input::get('email');
 		$password = Input::get('password');
 
-		$authorize = Auth::attempt( array('username' => $username, 'password' => $password, 'active' => 1) );
+		$authorize = Auth::attempt( array('email' => $email, 'password' => $password, 'active' => 1) );
 		if( $authorize )
 		{
 			return Redirect::route('dashboard');
 		}
 		else
 		{
-			return Redirect::back()->withInput()->with('flash_message','Username or Password incorrect.');
+			return Redirect::back()->withInput()->with('flash_message','Password incorrect or email not registered.');
 		}
 	}
 

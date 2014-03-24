@@ -21,8 +21,8 @@
 		{{ Form::open(array('route' => 'sessions.store')) }}
 
 			<div id="login-username" class="field-div">
-				{{ Form::label('username','Username') }}
-				{{ Form::text('username', null, array('placeholder' => 'username', 'class' => 'field', 'autofocus' => 'autofocus')) }}<span class="ss-user"></span>
+				{{ Form::label('email','Email Address') }}
+				{{ Form::text('email', null, array('placeholder' => 'email address', 'class' => 'field', 'autofocus' => 'autofocus')) }}<span class="ss-user"></span>
 			</div>
 			<div id="login-password" class="field-div">
 				{{ Form::label('password','Password') }}

@@ -7,57 +7,52 @@ class UsersTableSeeder extends Seeder {
 		User::truncate();
 
 		User::create(array(
-			'username' => 'brad',
+			'email' => 'brad@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
-			'email' => 'brad@insideout.com',
 			'first_name' => 'Brad',
 			'last_name' => 'Doss',
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
-			'active' => '1'
+			'active' => 1
 		));
 
 		User::create(array(
-			'username' => 'jack',
+			'email' => 'jack@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
-			'email' => 'jack@insideout.com',
 			'first_name' => 'Jack',
 			'last_name' => 'Waknitz',
 			'extension' => '308',
-			'active' => '1'
+			'active' => 1
 		));
 
 		User::create(array(
-			'username' => 'taylor',
+			'email' => 'taylor@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
-			'email' => 'taylor@insideout.com',
 			'first_name' => 'Taylor',
 			'last_name' => 'Hasenpflug',
 			'extension' => '313,315',
-			'active' => '1'
+			'active' => 1
 		));
 
 		User::create(array(
-			'username' => 'standard',
+			'email' => 'devteam@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
-			'email' => 'sysadmin@insideout.com',
 			'first_name' => 'TestAccount',
 			'last_name' => 'Active',
-			'active' => '1'
+			'active' => 1
 		));
 
 		User::create(array(
-			'username' => 'standardna',
+			'email' => 'sysadmin@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
-			'email' => 'servers@insideout.com',
 			'first_name' => 'TestAccount',
 			'last_name' => 'NotActive',
-			'active' => '0'
+			'active' => 0
 		));
 	}
 }
