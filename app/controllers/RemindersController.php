@@ -19,6 +19,11 @@ class RemindersController extends Controller {
 	 */
 	public function postRemind()
 	{
+		Password::remind(Input::only('email'), function($message)
+		{
+		    $message->subject('Password Reminder');
+		});
+		
 		$emailToCheck = Input::only('email');
 		//dd($emailToCheck);
 		if(!empty($emailToCheck['email'])) {

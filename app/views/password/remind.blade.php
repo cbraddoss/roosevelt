@@ -15,7 +15,7 @@
 				{{ Session::get('error') }}
 		</div>
 		@elseif (Session::has('status'))
-		<div id="message">
+		<div id="message-success">
 				{{ Session::get('status') }}
 		</div>
 		@endif
