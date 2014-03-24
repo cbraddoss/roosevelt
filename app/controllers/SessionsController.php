@@ -14,7 +14,7 @@ class SessionsController extends \BaseController {
 		
 		// Redirect to Dashboard.
 		//Todo: redirect to intended() url
-		else return View::make('dashboard.index');
+		else return Redirect::route('dashboard');
 	}
 
 	/**
