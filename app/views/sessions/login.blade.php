@@ -18,7 +18,7 @@
 
 		<div id="login">
 		<div class="login-image"><a href="/" target="_blank"><img src="/images/ios-logo2-clear.png" alt="InsideOut Solutions"></a></div>
-		{{ Form::open(['route' => 'sessions.store']) }}
+		{{ Form::open(array('route' => 'sessions.store')) }}
 
 			<div id="login-username" class="field-div">
 				{{ Form::label('username','Username') }}

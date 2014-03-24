@@ -6,7 +6,7 @@ class UsersTableSeeder extends Seeder {
 	{
 		User::truncate();
 
-		User::create([
+		User::create(array(
 			'username' => 'brad',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
@@ -16,9 +16,9 @@ class UsersTableSeeder extends Seeder {
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
 			'active' => '1'
-		]);
+		));
 
-		User::create([
+		User::create(array(
 			'username' => 'jack',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
@@ -27,9 +27,9 @@ class UsersTableSeeder extends Seeder {
 			'last_name' => 'Waknitz',
 			'extension' => '308',
 			'active' => '1'
-		]);
+		));
 
-		User::create([
+		User::create(array(
 			'username' => 'taylor',
 			'password' => Hash::make('1234'),
 			'userrole' => 'admin',
@@ -38,9 +38,9 @@ class UsersTableSeeder extends Seeder {
 			'last_name' => 'Hasenpflug',
 			'extension' => '313,315',
 			'active' => '1'
-		]);
+		));
 
-		User::create([
+		User::create(array(
 			'username' => 'standard',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
@@ -48,9 +48,9 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'TestAccount',
 			'last_name' => 'Active',
 			'active' => '1'
-		]);
+		));
 
-		User::create([
+		User::create(array(
 			'username' => 'standardna',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
@@ -58,6 +58,6 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'TestAccount',
 			'last_name' => 'NotActive',
 			'active' => '0'
-		]);
+		));
 	}
 }
