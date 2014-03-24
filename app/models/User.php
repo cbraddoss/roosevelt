@@ -5,6 +5,9 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+
+	protected $fillable =['username','password'];
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -49,4 +52,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->email;
 	}
 
+	// Need to research more. Probably need to just remove
+	// public function setPasswordAttribute($value)
+	// {
+	// 	$this->attributes['password'] = Hash::make($value);
+	// }
 }

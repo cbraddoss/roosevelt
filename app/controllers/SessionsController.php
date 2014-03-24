@@ -1,0 +1,54 @@
+<?php
+
+class SessionsController extends \BaseController {
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//check if user is not logged in, redirect back to login page
+		if(Auth::guest()) return View::make('sessions.login');
+		
+		// Redirect to Dashboard.
+		//Todo: redirect to intended() url
+		else return View::make('dashboard.index');
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store()
+	{
+		$username = Input::get('username');
+		$password = Input::get('password');
+
+		$authorize = Auth::attempt( array('username' => $username, 'password' => $password, 'active' => 1) );
+		if( $authorize )
+		{
+			return Redirect::route('dashboard');
+		}
+		else
+		{
+			return Redirect::back()->withInput()->with('flash_message','Username or Password incorrect.');
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy()
+	{
+		Auth::logout();
+
+		return Redirect::route('login');
+	}
+
+}

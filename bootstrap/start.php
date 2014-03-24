@@ -26,7 +26,10 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('your-machine-name'),
+	'dev-brad' => array('Cs-Mac-Pro.local'),
+	'dev-jack' => array('CHANGE_ME'),
+	'dev-taylor' => array('CHANGE_ME'),
+	'production' => array('roosevelt.insideout.com')
 
 ));
 

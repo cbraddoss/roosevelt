@@ -10,8 +10,18 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('/',['as' => 'dashboard', 'uses' => 'DashboardController@index'])->before('auth');
 
-Route::get('/', function()
+Route::get('login',['as' => 'login', 'uses' => 'SessionsController@create']);
+Route::get('logout','SessionsController@destroy');
+Route::resource('sessions','SessionsController',['only' => ['create','store','destroy'] ]);
+
+Route::controller('password', 'RemindersController');
+
+Route::get('/admin',['as' => 'admin', 'uses' => 'AdminController@index'])->before('auth');
+
+App::missing(function($exception)
 {
-	return View::make('hello');
+    if(Auth::guest()) return Redirect::route('login');
+    else return;
 });
