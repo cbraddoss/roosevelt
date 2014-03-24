@@ -13,6 +13,16 @@ Orange2: A97506
 Blue: 102A72 4B83B4
 Green: 055F67
 */
+.event-listen {
+	position:fixed;
+	bottom:0px;
+	right:0px;
+	width:800px;
+	border:1px solid #333;
+	background:rgba(75,131,180,0.9);
+	box-shadow: 0px 0px 10px #888;
+	color:#eee;
+}
 /* General */
 body {
 	text-align:left;
@@ -171,7 +181,6 @@ ul {
 .section {
 	width: 1400px;
 	position:relative;
-	height:100%;
 	margin:0 auto;
 }
 #header .section {
@@ -564,7 +573,6 @@ input.search {
 	/*background:#eee;*/
 	font-size: 1.2em;
 	width:100%;
-	height:100%;
 	margin: 75px 0 10px;
 	/*background: #eee url('../images/black-Linen.png') top left;*/
 }
@@ -683,9 +691,13 @@ input.search {
 	padding:10px;
 	border-spacing:0;
 }
+#content table tbody {
+	border-spacing: 0;
+}
 #content table tr {
 	margin: 0;
 	border-spacing:0;
+	width:100%;
 }
 #content table tr th {
 	border-bottom: 1px solid rgba(32,32,32,0.1);
@@ -733,9 +745,16 @@ input.search {
 #admin-page button.delete {
 	background-color: rgba(204,0,0,0.9);
 	border: 1px solid rgba(204,0,0,0.6);
+	margin:5px 0 0 25px;
 }
 #admin-page button.delete:hover {
 	background-color: rgba(204,0,0,0.6);
+}
+#admin-page button.cancel {
+	margin:5px 0 0 25px;
+}
+#admin-page button.save {
+	margin-top:5px;
 }
 #admin-page button.add-new {
 	margin-bottom: 10px;
@@ -749,20 +768,26 @@ input.search {
 
 
 #users-table .user-update-form {
-	background:rgba(75,131,180,0.9);
-	box-shadow: 0px 0px 10px rgba(32,32,32,0.1);
-	border: 1px solid rgba(32,32,32,0.1);
+	background:rgba(75,131,180,0.2);
+	/*box-shadow: 0px 0px 5px rgba(32,32,32,0.8);*/
+	/*border: 1px solid rgba(75,131,180,0.2);*/
 	border-top:none;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 5px;
-	padding:10px;
+	padding:10px 5px 5px;
 }
 #users-table .user-form td {
-	padding:0 0 10px;
+	padding:0;
 	border-top:none;
+	border-spacing: 0;
 }
 #users-table .user-update-form label {
 	display: block;
+}
+#users-table .user-update-form input {
+	height:25px;
+	font-size:1em;
+	margin: 0;
+	border:none;
+	border-spacing: 0;
 }
 /* Projects Page */
 .create-new {
