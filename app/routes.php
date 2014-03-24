@@ -12,13 +12,13 @@
 */
 Route::get('/',array('as' => 'dashboard', 'uses' => 'DashboardController@index'))->before('auth');
 
-Route::get('login',['as' => 'login', 'uses' => 'SessionsController@create']);
+Route::get('login',array('as' => 'login', 'uses' => 'SessionsController@create'));
 Route::get('logout','SessionsController@destroy');
-Route::resource('sessions','SessionsController',['only' => ['create','store','destroy'] ]);
+Route::resource('sessions','SessionsController',array('only' => array('create','store','destroy') ));
 
 Route::controller('password', 'RemindersController');
 
-Route::get('/admin',['as' => 'admin', 'uses' => 'AdminController@index'])->before('auth');
+Route::get('/admin',array('as' => 'admin', 'uses' => 'AdminController@index'))->before('auth');
 
 App::missing(function($exception)
 {
