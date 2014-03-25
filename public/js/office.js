@@ -218,18 +218,18 @@ jQuery(document).ready(function($){
 					$('#admin-page .user-updated p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
 					$('#users-table #user-new').hide();
 					$('#users-table button.add-new').parent().parent().fadeTo("slow",1);
-					// $('#users-table .user-list').last().after("<tr class='user-list user-list-"+data.id+"'>"+
-					// 		"<td class='user-name'>"+data.first_name+" "+data.last_name+"</td>"+
-					// 		"<td class='user-email'>"+data.email+"</td>"+
-					// 		"<td class='user-password'>********</td>"+
-					// 		"<td class='user-userrole'>"+data.userrole+"</td>"+
-					// 		"<td class='user-extension'>"+data.extension+"</td>"+
-					// 		"<td class='user-cell-phone'>"+data.cell_phone+"</td>"+
-					// 		"<td class='user-status'>"+data.status+"</td>"+
-					// 		"<td class='user-edit'>"+
-					// 			"<button id='"+data.id+"' class='edit ss-write'></button>"+
-					// 		"</td>"+
-					// 	"</tr>");
+					$('#users-table .user-list').last().after("<tr class='user-list user-list-"+data.id+"'>"+
+							"<td class='user-name'>"+data.first_name+" "+data.last_name+"</td>"+
+							"<td class='user-email'>"+data.email+"</td>"+
+							"<td class='user-password'>********</td>"+
+							"<td class='user-userrole'>"+data.userrole+"</td>"+
+							"<td class='user-extension'>"+data.extension+"</td>"+
+							"<td class='user-cell-phone'>"+data.cell_phone+"</td>"+
+							"<td class='user-status'>"+data.status+"</td>"+
+							"<td class='user-edit'>"+
+								"<button id='"+data.id+"' class='edit ss-write'></button>"+
+							"</td>"+
+						"</tr>");
 					// $('#users-table .user-list-'+formID+' .user-name').html(data.first_name +' '+ data.last_name);
 				// $('#users-table .user-list-'+formID+' .user-email').html(data.email);
 				// $('#users-table .user-list-'+formID+' .user-userrole').html(data.userrole);
