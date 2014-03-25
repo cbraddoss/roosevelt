@@ -12,11 +12,43 @@ class AdminController extends \BaseController {
 		$user = Auth::user();
 		if($user->userrole == 'admin') {
 			$users = User::all();
+			
 			return View::make('admin.index', compact('user','users'));
 		}
 		else return Redirect::route('dashboard');
 	}
 
+	public function userToUpdate() {
+		if ( Session::token() !== Input::get( '_token' ) ) {
+            return Response::json( array(
+                'msg' => 'Request not valid.'
+            ) );
+        }
+		$userToUpdate = User::find(Input::get('id'));
+		$userToUpdate->first_name =  Input::get('first_name');
+		$userToUpdate->last_name =  Input::get('last_name');
+		$userToUpdate->email =  Input::get('email');
+		if(Input::get('password') != '') $userToUpdate->password =  Hash::make(Input::get('password'));
+		$userToUpdate->userrole =  Input::get('userrole');
+		$userToUpdate->extension =  Input::get('extension');
+		$userToUpdate->cell_phone =  Input::get('cell_phone');
+		$userToUpdate->status =  Input::get('status');
+		$userToUpdate->save();
+		
+		$response = array(
+			'id' => Input::get('id'),
+			'first_name' => Input::get('first_name'),
+			'last_name' => Input::get('last_name'),
+			'email' => Input::get('email'),
+			'userrole' => Input::get('userrole'),
+			'extension' => Input::get('extension'),
+			'cell_phone' => Input::get('cell_phone'),
+			'status' => Input::get('status'),
+            'msg' => 'User Saved!',
+        );
+ 
+        return Response::json( $response );
+	}
 	/**
 	 * Show the form for creating a new resource.
 	 *

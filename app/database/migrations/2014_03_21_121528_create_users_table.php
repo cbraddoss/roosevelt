@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->string('last_name', 50);
 			$table->string('extension', 40);
 			$table->string('cell_phone', 40);
-			$table->boolean('active');
+			$table->string('status', 8);
 			$table->timestamps();
 		});
 	}

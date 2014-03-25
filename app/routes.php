@@ -19,6 +19,8 @@ Route::resource('sessions','SessionsController',array('only' => array('create','
 Route::controller('password', 'RemindersController');
 
 Route::get('/admin',array('as' => 'admin', 'uses' => 'AdminController@index'))->before('auth');
+Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
+//Route::resource('admin','AdminController');
 
 App::missing(function($exception)
 {

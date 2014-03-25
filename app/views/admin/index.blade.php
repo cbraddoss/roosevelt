@@ -26,7 +26,7 @@
 				<td class="user-userrole">{{ $u->userrole }}</td>
 				<td class="user-extension">{{ $u->extension }}</td>
 				<td class="user-cell-phone">{{ $u->cell_phone }}</td>
-				<td class="user-active">@if( $u->active == 1) <span class="ss-check"></span> @else <span class="ss-delete"></span> @endif</td>
+				<td class="user-status">@if( $u->status == "active") <span class="ss-check"></span> @else <span class="ss-delete"></span> @endif</td>
 				<td class="user-edit"><button id="{{ $u->id }}" class="edit ss-write"></button></td>
 			</tr>
 			
@@ -34,7 +34,7 @@
 				<td colspan="8">
 					<div class="user-update-form">
 					
-					{{ Form::open( array('id' => $u->id) ) }}
+					{{ Form::open( array('id' => $u->id, 'url' => 'admin', 'method' => 'post') ) }}
 					
 					{{ Form::hidden('id',$u->id) }}
 					
@@ -44,19 +44,27 @@
 					
 					{{ Form::email('email', $u->email, array('placeholder' => 'Email Address', 'class' => 'email field')) }}
 					
-					{{ Form::password('password', null, array('placeholder' => 'Password', 'class' => 'password field')) }}
+					{{ Form::password('password', array('placeholder' => 'Password', 'class' => 'password field')) }}
 					
-					{{ Form::text('userrole', $u->userrole, array('placeholder' => 'User Role', 'class' => 'userrole field')) }}
-					
+					{{ Form::select('userrole', array('admin' => 'admin', 'standard' => 'standard') , $u->userrole) }}
+					<span class="select-label"></span>
 					{{ Form::text('extension', $u->extension, array('placeholder' => 'Extension', 'class' => 'extension field')) }}
 					
 					{{ Form::text('cell_phone', $u->cell_phone, array('placeholder' => 'Cell Phone', 'class' => 'cell-phone field')) }}
 					
-					{{ Form::checkbox('active', $u->active , array('class' => 'active checkbox')) }}
-					{{ Form::close() }}
-					<button id="{{ $u->id }}" class="save">Save</button>
+					{{ Form::select('status', array('active' => 'active', 'inactive' => 'inactive'), $u->status ) }}
+					<span class="select-label"></span>
+					{{ Form::submit('Save User', array('class' => 'save', 'id' => $u->id) ) }}
+					
 					<button id="{{ $u->id }}" class="cancel">Cancel</button>
-					<button id="{{ $u->id }}" class="delete">Delete User</button>
+
+					{{ Form::close() }}
+					
+					{{ Form::open( array('id' => 'delete-'.$u->id, 'url' => 'admin', 'method' => 'post') ) }}
+					
+					{{ Form::submit('Delete User', array('class' => 'delete', 'id' => $u->id) ) }}
+
+					{{ Form::close() }}
 					</div>
 				</td>
 			</tr>

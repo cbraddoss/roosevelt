@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder {
 			'last_name' => 'Doss',
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
-			'active' => 1
+			'status' => "active"
 		));
 
 		User::create(array(
@@ -24,7 +24,7 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'Jack',
 			'last_name' => 'Waknitz',
 			'extension' => '308',
-			'active' => 1
+			'status' => "active"
 		));
 
 		User::create(array(
@@ -34,7 +34,7 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'Taylor',
 			'last_name' => 'Hasenpflug',
 			'extension' => '313,315',
-			'active' => 1
+			'status' => "active"
 		));
 
 		User::create(array(
@@ -43,7 +43,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'TestAccount',
 			'last_name' => 'Active',
-			'active' => 1
+			'status' => "active"
 		));
 
 		User::create(array(
@@ -52,7 +52,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'TestAccount',
 			'last_name' => 'NotActive',
-			'active' => 0
+			'status' => "inactive"
 		));
 	}
 }

@@ -27,7 +27,7 @@ class SessionsController extends \BaseController {
 		$email = Input::get('email');
 		$password = Input::get('password');
 
-		$authorize = Auth::attempt( array('email' => $email, 'password' => $password, 'active' => 1) );
+		$authorize = Auth::attempt( array('email' => $email, 'password' => $password, 'status' => 'active') );
 		if( $authorize )
 		{
 			return Redirect::route('dashboard');
