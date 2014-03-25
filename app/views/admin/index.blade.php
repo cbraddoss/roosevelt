@@ -62,9 +62,11 @@
 					
 					{{ Form::submit('Save User', array('class' => 'save', 'id' => $u->id) ) }}
 					
+					<span id="{{ $u->id }}" class="cancel">Hide</span>
+
 					{{ Form::close() }}
 
-					<button id="{{ $u->id }}" class="cancel">Hide</button>
+					
 
 					{{ Form::open( array('id' => $u->id, 'class' => 'delete-user', 'url' => 'admin', 'method' => 'post') ) }}
 					
@@ -107,15 +109,12 @@
 					
 					{{ Form::text('extension', null, array('placeholder' => 'Extension', 'class' => 'extension field')) }}
 					
-					{{ Form::text('cell_phone', null, array('placeholder' => 'Cell Phone', 'class' => 'cell-phone field')) }}
-					
-					{{ Form::select('status', array('active' => 'active', 'inactive' => 'inactive'), 'active' ) }}
-					
 					{{ Form::submit('Add User', array('class' => 'save', 'id' => 'add-new-submit') ) }}
 					
+					<span id="add-new" class="cancel">Cancel</span>
+
 					{{ Form::close() }}
 
-					<button id="add-new" class="cancel">Cancel</button>
 					</div>
 				</td>
 			</tr>

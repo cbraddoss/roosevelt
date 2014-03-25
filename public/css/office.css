@@ -774,8 +774,8 @@ input.search {
 	color:#bbb;
 }
 #admin-page button,
+#admin-page span.cancel,
 #admin-page input[type=submit] {
-	-webkit-appearance: button;
 	cursor: pointer;
 	color: #fff;
 	background-color: rgba(75,131,180,1);
@@ -792,6 +792,7 @@ input.search {
 	box-shadow: 1px 1px 1px #333;
 }
 #admin-page button:hover,
+#admin-page span.cancel:hover,
 #admin-page input[type=submit]:hover {
 	background-color: rgba(75,131,180,0.6);
 }
@@ -802,20 +803,13 @@ input.search {
 	display: inline-block;
 	position:absolute;
 	bottom:5px;
-	left: -webkit-calc( 25% - 75px );
-	left: -moz-calc( 25% - 75px );
-	left: calc( 25% - 75px );
+	right:50px;
 }
 #admin-page input.delete:hover {
 	background-color: rgba(204,0,0,0.6);
 }
-#admin-page button.cancel {
+#admin-page span.cancel {
 	margin:5px;
-	position:absolute;
-	bottom:5px;
-	left: -webkit-calc( 25% - 150px );
-	left: -moz-calc( 25% - 150px );
-	left: calc( 25% - 150px );
 	display: inline-block;
 }
 #admin-page input.save {

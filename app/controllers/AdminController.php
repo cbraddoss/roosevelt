@@ -98,8 +98,7 @@ class AdminController extends \BaseController {
 				$newUser->password = Hash::make(Input::get('password'));
 				$newUser->userrole = Input::get('userrole');
 				$newUser->extension = Input::get('extension');
-				$newUser->cell_phone = Input::get('cell_phone');
-				$newUser->status = Input::get('status');
+				$newUser->status = 'active';
 
 				$newUser->save();
 

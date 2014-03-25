@@ -27,7 +27,7 @@ jQuery(document).ready(function($){
 			$(this).attr('disabled', true);
 			$(this).css('cursor', 'not-allowed');
 		});
-		$('#users-table .user-form').hide();
+		//$('#users-table .user-form').hide();
 		var userRow = $(this).attr('id');
 		//alert($userToEdit);
 		$(this).parent().parent().find('td').hide();
@@ -54,7 +54,7 @@ jQuery(document).ready(function($){
 		$(this).parent().parent().parent().find('#user-'+userRow+' select[name="status"]').css('width',(userStatusWidth-4)+'px');
 
 	});
-	$('#users-table .user-update-form button.cancel').click(function(){
+	$('#users-table .user-update-form span.cancel').click(function(){
 		$('#users-table').find('button.edit').each(function() {
 			$(this).attr('disabled', false);
 			$(this).css('cursor', 'pointer');
@@ -63,9 +63,10 @@ jQuery(document).ready(function($){
 			$(this).fadeTo("slow",1);
 			$(this).css('cursor', 'inherit');
 		});
-		$('#users-table .user-form').hide();
 		var userRow = $(this).attr('id');
-		$(this).parent().parent().parent().parent().find('.user-list-'+userRow+' td').fadeTo("slow",1);
+		$('#users-table #user-'+userRow).hide();
+		
+		$(this).parent().parent().parent().parent().parent().find('.user-list-'+userRow+' td').fadeTo("slow",1);
 	});
 	$('#users-table .user-update-form form.update-user').each(function() {
 		$(this).on('submit', function(){
@@ -109,7 +110,7 @@ jQuery(document).ready(function($){
 				$(this).fadeTo("slow",1);
 				$(this).css('cursor', 'inherit');
 			});
-			$('#users-table .user-form').hide();
+			$('#users-table #user-'+formID).hide();
 			$(this).parent().parent().parent().parent().find('.user-list-'+formID+' td').fadeTo("slow",1);
 			
 			return false;
@@ -188,11 +189,11 @@ jQuery(document).ready(function($){
 		$(this).parent().parent().parent().find('#user-new input.cell-phone').css('width',(userCellPhoneWidth-4)+'px');
 		$(this).parent().parent().parent().find('#user-new select[name="status"]').css('width',(userStatusWidth-4)+'px');
 	});
-	$('#users-table .user-add-form button.cancel').click(function(){
-		$(this).parent().parent().parent().parent().find('#user-new input.field').each(function(){
+	$('#users-table .user-add-form span.cancel').click(function(){
+		$(this).parent().find('input.field').each(function(){
 			$(this).val('');
 		});
-		$(this).parent().parent().parent().parent().find('#user-new').hide();
+		$(this).parent().parent().parent().parent().parent().find('#user-new').hide();
 		$('#users-table button.add-new').parent().parent().fadeTo("slow",1);
 	});
 	$('#users-table .user-add-form form.add-user').on('submit', function(){
@@ -225,24 +226,15 @@ jQuery(document).ready(function($){
 							"<td class='user-userrole'>"+data.userrole+"</td>"+
 							"<td class='user-extension'>"+data.extension+"</td>"+
 							"<td class='user-cell-phone'>"+data.cell_phone+"</td>"+
-							"<td class='user-status'>"+data.status+"</td>"+
+							"<td class='user-status'><span class='ss-check'></span></td>"+
 							"<td class='user-edit'>"+
 								"<button id='"+data.id+"' class='edit ss-write'></button>"+
 							"</td>"+
 						"</tr>");
-					// $('#users-table .user-list-'+formID+' .user-name').html(data.first_name +' '+ data.last_name);
-				// $('#users-table .user-list-'+formID+' .user-email').html(data.email);
-				// $('#users-table .user-list-'+formID+' .user-userrole').html(data.userrole);
-				// $('#users-table .user-list-'+formID+' .user-extension').html(data.extension);
-				// $('#users-table .user-list-'+formID+' .user-cell-phone').html(data.cell_phone);
-				// if(data.status == 'active')
-				// 	$('#users-table .user-list-'+formID+' .user-status').html('<span class="ss-check"></span>');
-				// else
-				// 	$('#users-table .user-list-'+formID+' .user-status').html('<span class="ss-delete"></span>');
+					$('#users-table .user-add-form #add-new').find('input.field').each(function(){
+						$(this).val('');
+					});
 				}
-				//alert(data.msg);
-				
-				
 			},'json'
 		);
 		$('#admin-page .user-updated').show().delay(4000).fadeOut();
