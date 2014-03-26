@@ -101,7 +101,7 @@
 					
 					{{ Form::text('last_name', null, array('placeholder' => 'Last Name', 'class' => 'last-name field')) }}
 					
-					{{ Form::email('email', null, array('placeholder' => 'Email Address', 'class' => 'email field')) }}
+					{{ Form::email('email', null, array('placeholder' => 'Email Address', 'class' => 'email field', 'autocomplete', 'off')) }}
 					
 					{{ Form::password('password', array('placeholder' => 'Password', 'class' => 'password field')) }}
 					
