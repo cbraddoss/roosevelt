@@ -228,7 +228,7 @@ jQuery(document).ready(function($){
 							"<td class='user-cell-phone'>"+data.cell_phone+"</td>"+
 							"<td class='user-status'><span class='ss-check'></span></td>"+
 							"<td class='user-edit'>"+
-								"<button id='"+data.id+"' class='edit ss-write'></button>"+
+								
 							"</td>"+
 						"</tr>");
 					$('#users-table .user-add-form #add-new').find('input.field').each(function(){
