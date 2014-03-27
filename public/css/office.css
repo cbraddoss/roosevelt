@@ -740,6 +740,14 @@ input.search {
 	border: 1px solid #555;
 }
 /* Admin Page */
+#admin-page #users-list-title ul {
+	list-style:none;
+	border-bottom: 1px solid rgba(32,32,32,0.1);
+}
+#admin-page #users-list-title ul li {
+	border:none;
+	float:left;
+}
 #users-table .user-list,
 #users-table .user-list td {
 	position:relative;
@@ -753,7 +761,7 @@ input.search {
 	padding:10px 5px 5px;
 	position:relative;
 }
-#users-table .user-form td {
+#users-table td.user-update {
 	padding:0;
 	border-top:none;
 	border-spacing: 0;
