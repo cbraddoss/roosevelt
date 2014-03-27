@@ -106,7 +106,8 @@ jQuery(document).ready(function($){
 				});
 			});
 
-			$('.activeEdit form').on('submit', function(){
+			// Update a user
+			$('.activeEdit form.update-user').on('submit', function(){
 				var formID = $(this).attr('id');
 				//alert($(this).find('input.cell-phone').val());
 				$.post(
@@ -162,6 +163,55 @@ jQuery(document).ready(function($){
 				
 				return false;
 			});
+
+			// // Delete a user
+			$('.activeEdit form.delete-user').on('submit', function(){
+				var deleteConfirm = confirm('Delete user? This cannot be undone.');
+				if(deleteConfirm == true) {
+					var deleteID = $(this).attr('id');
+					$.post(
+						$(this).prop('action'),
+						{
+							"_token" : $( this ).find( 'input[name=_token]' ).val(),
+							"id" : deleteID,
+							"first_name" : $(this).find('input.first-name').val(),
+							"last_name" : $(this).find('input.last-name').val(),
+							"confirm-delete" : $( this ).find( 'input[name=confirm-delete]' ).val(),
+						}, function (data) {
+							//console.log(data);
+							$('#admin-page .user-deleted p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+							//$('#users-table .user-list-'+deleteID).remove();
+							// $('#users-table #user-' + deleteID).fadeOut("slow").remove();
+						},'json'
+					);
+					$('tr.activeEdit').remove();
+					$('#admin-page .user-deleted').show().delay(4000).fadeOut();
+					$('#admin-page .user-deleted p').empty();
+					$('#users-table').find('button.edit').each(function() {
+						$(this).attr('disabled', false);
+						$(this).css('cursor', 'pointer');
+					});
+					$('#users-table').find('.user-list').each(function() {
+						$(this).fadeTo("slow",1);
+						$(this).css('cursor', 'inherit');
+					});
+
+				}
+				else {
+					$('#admin-page .user-deleted p').empty();
+					$('#users-table').find('button.edit').each(function() {
+						$(this).attr('disabled', false);
+						$(this).css('cursor', 'pointer');
+					});
+					$('#users-table').find('.user-list').each(function() {
+						$(this).fadeTo("slow",1);
+						$(this).css('cursor', 'inherit');
+					});
+					$('tr.activeEdit').html(userListOriginal).removeClass('activeEdit');
+					$(this).parent().parent().parent().parent().find('.user-list-'+deleteID+' td').fadeTo("slow",1);
+				}
+				return false;
+			});
 		});
 	});
 	
@@ -212,55 +262,55 @@ jQuery(document).ready(function($){
 	// 	return false;
 	// });
 
-	// Delete a user
-	$('#users-table .user-update-form form.delete-user').each(function() {
-		$(this).on('submit', function(){
-			var deleteConfirm = confirm('Delete user? This cannot be undone.');
-			if(deleteConfirm == true) {
-				var deleteID = $(this).attr('id');
-				//alert($(this).find('input.cell-phone').val());
-				$.post(
-					$(this).prop('action'),
-					{
-						"_token" : $( this ).find( 'input[name=_token]' ).val(),
-						"id" : deleteID,
-						"first_name" : $(this).find('input[name=first_name]').val(),
-						"last_name" : $(this).find('input[name=last_name]').val(),
-						"confirm-delete" : $( this ).find( 'input[name=confirm-delete]' ).val(),
-					}, function (data) {
-						//alert(target);
-						$('#admin-page .user-deleted p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
-						$('#users-table .user-list-'+deleteID).remove();
-					},'json'
-				);
-				$('#admin-page .user-deleted').show().delay(4000).fadeOut();
-				$('#admin-page .user-deleted p').empty();
-				$('#users-table').find('button.edit').each(function() {
-					$(this).attr('disabled', false);
-					$(this).css('cursor', 'pointer');
-				});
-				$('#users-table').find('.user-list').each(function() {
-					$(this).fadeTo("slow",1);
-					$(this).css('cursor', 'inherit');
-				});
-				$('#users-table #user-' + deleteID).fadeOut("slow").remove();
+	// // Delete a user
+	// $('#users-table .user-update-form form.delete-user').each(function() {
+	// 	$(this).on('submit', function(){
+	// 		var deleteConfirm = confirm('Delete user? This cannot be undone.');
+	// 		if(deleteConfirm == true) {
+	// 			var deleteID = $(this).attr('id');
+	// 			//alert($(this).find('input.cell-phone').val());
+	// 			$.post(
+	// 				$(this).prop('action'),
+	// 				{
+	// 					"_token" : $( this ).find( 'input[name=_token]' ).val(),
+	// 					"id" : deleteID,
+	// 					"first_name" : $(this).find('input[name=first_name]').val(),
+	// 					"last_name" : $(this).find('input[name=last_name]').val(),
+	// 					"confirm-delete" : $( this ).find( 'input[name=confirm-delete]' ).val(),
+	// 				}, function (data) {
+	// 					//alert(target);
+	// 					$('#admin-page .user-deleted p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+	// 					$('#users-table .user-list-'+deleteID).remove();
+	// 				},'json'
+	// 			);
+	// 			$('#admin-page .user-deleted').show().delay(4000).fadeOut();
+	// 			$('#admin-page .user-deleted p').empty();
+	// 			$('#users-table').find('button.edit').each(function() {
+	// 				$(this).attr('disabled', false);
+	// 				$(this).css('cursor', 'pointer');
+	// 			});
+	// 			$('#users-table').find('.user-list').each(function() {
+	// 				$(this).fadeTo("slow",1);
+	// 				$(this).css('cursor', 'inherit');
+	// 			});
+	// 			$('#users-table #user-' + deleteID).fadeOut("slow").remove();
 
-			}
-			else {
-				$('#users-table').find('button.edit').each(function() {
-					$(this).attr('disabled', false);
-					$(this).css('cursor', 'pointer');
-				});
-				$('#users-table').find('.user-list').each(function() {
-					$(this).fadeTo("slow",1);
-					$(this).css('cursor', 'inherit');
-				});
-				$('#users-table .user-form').hide();
-				$(this).parent().parent().parent().parent().find('.user-list-'+formID+' td').fadeTo("slow",1);
-			}
-			return false;
-		});
-	});
+	// 		}
+	// 		else {
+	// 			$('#users-table').find('button.edit').each(function() {
+	// 				$(this).attr('disabled', false);
+	// 				$(this).css('cursor', 'pointer');
+	// 			});
+	// 			$('#users-table').find('.user-list').each(function() {
+	// 				$(this).fadeTo("slow",1);
+	// 				$(this).css('cursor', 'inherit');
+	// 			});
+	// 			$('#users-table .user-form').hide();
+	// 			$(this).parent().parent().parent().parent().find('.user-list-'+formID+' td').fadeTo("slow",1);
+	// 		}
+	// 		return false;
+	// 	});
+	// });
 	
 	// Add New User
 	$('#users-table button.add-new').click(function(){

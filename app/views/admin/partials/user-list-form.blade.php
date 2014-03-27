@@ -29,9 +29,20 @@
 
 	{{ Form::close() }}
 
-	
 
+	{{ Form::open( array('class' => 'delete-user', 'url' => 'admin', 'method' => 'post') ) }}
+					
+	{{ Form::hidden('id') }}
+
+	{{ Form::hidden('confirm-delete', 'yes') }}
+
+	{{ Form::hidden('first_name', null, array('class' => 'first-name field')) }}
 	
+	{{ Form::hidden('last_name', null, array('class' => 'last-name field')) }}
+
+	{{ Form::submit('Delete User', array('class' => 'delete') ) }}
+
+	{{ Form::close() }}
 	</div>
 </td>
 			
