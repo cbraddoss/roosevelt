@@ -30,6 +30,9 @@ class SessionsController extends \BaseController {
 		$authorize = Auth::attempt( array('email' => $email, 'password' => $password, 'status' => 'active') );
 		if( $authorize )
 		{
+			$user = Auth::user();
+			$user->last_login = new \DateTime;
+			$user->save();
 			return Redirect::route('dashboard');
 		}
 		else

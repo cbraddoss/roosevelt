@@ -749,8 +749,15 @@ input.search {
 	float:left;
 }
 #users-table .user-list,
-#users-table .user-list td {
+#users-table .user-list td,
+#users-table .user-list td div {
 	position:relative;
+}
+#users-table .user-list .last-login {
+	color:#888;
+	position:absolute;
+	left:0;
+	bottom:-13px;
 }
 #users-table .user-update-form,
 #users-table .user-add-form {

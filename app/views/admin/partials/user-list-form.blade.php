@@ -17,9 +17,9 @@
 	
 	{{ Form::select('userrole', array('admin' => 'admin', 'standard' => 'standard')) }}
 	
-	{{ Form::text('extension', null, array('placeholder' => 'Extension', 'class' => 'extension field')) }}
+	{{ Form::text('extension', null, array('placeholder' => '555', 'class' => 'extension field')) }}
 	
-	{{ Form::text('cell_phone', null, array('placeholder' => 'Cell Phone', 'class' => 'cell-phone field')) }}
+	{{ Form::text('cell_phone', null, array('placeholder' => '555-555-5555', 'class' => 'cell-phone field')) }}
 	
 	{{ Form::select('status', array('active' => 'active', 'inactive' => 'inactive') ) }}
 	
