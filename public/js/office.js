@@ -62,7 +62,7 @@ jQuery(document).ready(function($){
 		
 		// Replace list with form for this user by ID
 		var userListOriginal = $('tr.user-list-'+ userRow).find('td');
-					console.log(userListOriginal);
+					//console.log(userListOriginal);
 		var userFirstNameVal = $(this).parent().parent().find('.user-name').attr('fieldvalfirst');
 		var userLastNameVal = $(this).parent().parent().find('.user-name').attr('fieldvallast');
 		var userEmailVal = $(this).parent().parent().find('.user-email').attr('fieldval');
@@ -94,7 +94,7 @@ jQuery(document).ready(function($){
 
 			// Cancel form: hide form, display original user list
 			$(document).on('click','.activeEdit span.cancel',function(){
-				console.log(userListOriginal);
+				//console.log(userListOriginal);
 				$('tr.user-list-'+ userRow).html(userListOriginal).removeClass('activeEdit');
 				$('#users-table').find('button.edit').each(function() {
 					$(this).attr('disabled', false);
@@ -138,6 +138,13 @@ jQuery(document).ready(function($){
 						else
 							$('#users-table .user-list-'+formID+' .user-status').html('<span class="ss-delete"></span>');
 						$('#admin-page .user-updated p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+						$('#users-table .user-list-'+formID+' .user-name').attr('fieldvalfirst',data.first_name);
+						$('#users-table .user-list-'+formID+' .user-name').attr('fieldvallast',data.last_name);
+						$('#users-table .user-list-'+formID+' .user-email').attr('fieldval',data.email);
+						$('#users-table .user-list-'+formID+' .user-userrole').attr('fieldval',data.userrole);
+						$('#users-table .user-list-'+formID+' .user-extension').attr('fieldval',data.extension);
+						$('#users-table .user-list-'+formID+' .user-cell-phone').attr('fieldval',data.cell_phone);
+						$('#users-table .user-list-'+formID+' .user-status').attr('fieldval',data.status);
 					},'json'
 				);
 				$('#admin-page .user-updated').show().delay(4000).fadeOut();
