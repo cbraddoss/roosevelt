@@ -82,6 +82,26 @@ If you have issues doing the above, try running (then run the above again):
 
 	composer dump-autoload
 
+##Additional Notes:
+
+Creating a new view? Use the following structure as a guideline when extending the main view. Replace all instances of 'NewPage' with desired page name.
+
+	@extends('layout.main')
+
+	@section('page-title')
+	{{ 'NewPage' }}
+	@stop
+
+	@section('page-content')
+	<div id="page-title">
+		<h2>NewPage</h2>
+	</div>
+
+	<div id="NewPage-page"  class="inner-page">
+
+	</div>
+	@stop
+
 
 ##Quick guide for a new Laravel install on a local dev environment:
 
