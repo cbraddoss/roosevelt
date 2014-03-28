@@ -124,8 +124,8 @@ class AdminController extends \BaseController {
 				else {
 					$newUser = new User;
 					
-					$newUser->first_name = Input::get('first_name');
-					$newUser->last_name = Input::get('last_name');
+					$newUser->first_name = ucwords(Input::get('first_name'));
+					$newUser->last_name = ucwords(Input::get('last_name'));
 					$newUser->email = Input::get('email');
 					$newUser->password = Hash::make(Input::get('password'));
 					$newUser->userrole = Input::get('userrole');
