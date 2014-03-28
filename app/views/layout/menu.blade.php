@@ -1,7 +1,7 @@
 				<div id="menu_header">
 					<div class="menu_nav">
 						<ul id="menu_links">
-							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="/index.php">Dashboard</a></li>
+							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="/">Dashboard</a></li>
 							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a><span class="ss-bookmark"></span><span class="linked-to">5</span></li>
 							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a><span class="ss-bookmark"></span><span class="linked-to">3</span></li>
 							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign">Invoices</a></li>
