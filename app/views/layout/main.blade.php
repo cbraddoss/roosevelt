@@ -30,7 +30,8 @@
 			<div class="clear"></div>
 		</div> <!-- .section -->
 	</div> <!-- #page -->
-
+	<div class="success-notice"><span class="ss-check"></span><p></p></div>
+	<div class="error-notice"><span class="ss-delete"></span><p></p></div>
 @include('layout.js')
 </body>
 </html>

@@ -79,8 +79,8 @@ class AdminController extends \BaseController {
 		}
 		elseif(Input::get('confirm-add') == 'yes') {
 			$validator = Validator::make(Input::all(), array(
-				'first_name' => 'required|max:40',
-				'last_name' => 'required|max:40',
+				'first_name' => 'required|max:40|alpha',
+				'last_name' => 'required|max:40|alpha',
 				'email' => array('required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
 				'password' => 'required|between:8,30',
 				'extension' => 'between:3,12|regex:/^([0-9,])+$/i'

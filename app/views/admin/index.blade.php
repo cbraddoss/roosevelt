@@ -4,10 +4,10 @@
 <div id="page-title">
 	<h2>Admin</h2>
 </div>
+
 <div id="admin-page"  class="inner-page">
 	<div id="user-management">
-		<div class="user-updated"><p></p></div>
-		<div class="user-deleted"><p></p></div>
+		
 		<h3>User Management</h3>
 		<!-- <div id="users-list-title">
 			<ul>

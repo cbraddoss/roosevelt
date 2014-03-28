@@ -47,7 +47,7 @@ jQuery(document).ready(function($){
 			$(this).css('cursor', 'not-allowed');
 		});
 
-		// Fade and disable other user lists
+		// Fade and disable other user lists and elements
 		$('#users-table').find('.user-list').each(function(index,Element) {
 			if($(this).is('.activeEdit')) { }
 			else {
@@ -55,6 +55,8 @@ jQuery(document).ready(function($){
 				$(this).css('cursor', 'not-allowed');				
 			}
 		});
+		$('.success-notice').hide();
+		$('.error-notice').hide();
 
 		// Reenable active user area
 		$(this).attr('disabled', false);
@@ -95,6 +97,8 @@ jQuery(document).ready(function($){
 
 			// Cancel form: hide form, display original user list
 			$(document).on('click','.activeEdit span.cancel',function(){
+				$('.success-notice').hide();
+				$('.error-notice').hide();
 				//console.log(userListOriginal);
 				$('tr.user-list-'+ userRow).html(userListOriginal).removeClass('activeEdit');
 				$('#users-table').find('button.edit').each(function() {
@@ -128,17 +132,17 @@ jQuery(document).ready(function($){
 					}, function (data) {
 						//alert(target);
 						if(data.errorMsg) {
-							if(data.errorMsg == 'The email format is invalid.') $('#admin-page .user-deleted p').html('Only @insideout.com accounts are allowed.');
-							else $('#admin-page .user-deleted p').html(data.errorMsg);
-							$('#admin-page .user-deleted').show().delay(4000).fadeOut();
+							if(data.errorMsg == 'The email format is invalid.') $('.error-notice p').html('Only @insideout.com accounts are allowed.');
+							else $('.error-notice p').html(data.errorMsg);
+							$('.error-notice').show().delay(5000).fadeOut();
 							//var dataObj = JSON.parse(data.errorMsg);
 							//console.log(data.errorMsg);
-							//$('#admin-page .user-deleted').show().delay(4000).fadeOut();
+							//$('.error-notice').show().delay(4000).fadeOut();
 						}
 						else {
 							$('tr.activeEdit').html(userListOriginal).removeClass('activeEdit');
-							$('#admin-page .user-deleted p').html(data.msg);
-							$('#admin-page .user-updated').show().delay(4000).fadeOut();
+							$('.error-notice p').html(data.msg);
+							$('.success-notice').show().delay(5000).fadeOut();
 
 							$('#users-table .user-list-'+formID+' .user-name').html('<div>' + data.first_name +' '+ data.last_name + '</div>');
 							$('#users-table .user-list-'+formID+' .user-name div').append(userLastLogin);
@@ -150,7 +154,7 @@ jQuery(document).ready(function($){
 								$('#users-table .user-list-'+formID+' .user-status').html('<span class="ss-check"></span>');
 							else
 								$('#users-table .user-list-'+formID+' .user-status').html('<span class="ss-delete"></span>');
-							$('#admin-page .user-updated p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+							$('.success-notice p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
 							$('#users-table .user-list-'+formID+' .user-name').attr('fieldvalfirst',data.first_name);
 							$('#users-table .user-list-'+formID+' .user-name').attr('fieldvallast',data.last_name);
 							$('#users-table .user-list-'+formID+' .user-email').attr('fieldval',data.email);
@@ -161,7 +165,7 @@ jQuery(document).ready(function($){
 						}
 					},'json'
 				);
-				$('#admin-page .user-updated p').empty();
+				$('.success-notice p').empty();
 				$('#users-table').find('button.edit').each(function() {
 					$(this).attr('disabled', false);
 					$(this).css('cursor', 'pointer');
@@ -191,14 +195,14 @@ jQuery(document).ready(function($){
 							"confirm-delete" : $( this ).find( 'input[name=confirm-delete]' ).val(),
 						}, function (data) {
 							//console.log(data);
-							$('#admin-page .user-deleted p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+							$('.error-notice p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
 							//$('#users-table .user-list-'+deleteID).remove();
 							// $('#users-table #user-' + deleteID).fadeOut("slow").remove();
 						},'json'
 					);
 					$('tr.activeEdit').remove();
-					$('#admin-page .user-deleted').show().delay(4000).fadeOut();
-					$('#admin-page .user-deleted p').empty();
+					$('.error-notice').show().delay(5000).fadeOut();
+					$('.error-notice p').empty();
 					$('#users-table').find('button.edit').each(function() {
 						$(this).attr('disabled', false);
 						$(this).css('cursor', 'pointer');
@@ -210,7 +214,7 @@ jQuery(document).ready(function($){
 
 				}
 				else {
-					$('#admin-page .user-deleted p').empty();
+					$('.error-notice p').empty();
 					$('#users-table').find('button.edit').each(function() {
 						$(this).attr('disabled', false);
 						$(this).css('cursor', 'pointer');
@@ -230,6 +234,8 @@ jQuery(document).ready(function($){
 	// Add New User
 	$(document).on('click','#users-table button.add-new',function(){
 		$(this).parent().parent().hide();
+		$('.success-notice').hide();
+		$('.error-notice').hide();
 		
 		$(this).parent().parent().parent().find('#user-new').fadeTo("slow",1);
 		var userNameWidth = $(this).parent().parent().parent().find('.title-name').width();
@@ -240,7 +246,7 @@ jQuery(document).ready(function($){
 		var userCellPhoneWidth = $(this).parent().parent().parent().find('.title-cell-phone').width();
 		var userStatusWidth = $(this).parent().parent().parent().find('.title-status').width();
 		//alert(userNameWidth);
-		$(this).parent().parent().parent().find('#user-new input.first-name').css('width',((userNameWidth)/2)-6+'px');
+		$(this).parent().parent().parent().find('#user-new input.first-name').css('width',((userNameWidth)/2)-6+'px').focus();
 		$(this).parent().parent().parent().find('#user-new input.last-name').css('width',((userNameWidth)/2)-6+'px');
 		$(this).parent().parent().parent().find('#user-new input.email').css('width',(userEmailWidth-4)+'px');
 		$(this).parent().parent().parent().find('#user-new input[name="password"]').css('width',(userPasswordWidth-4)+'px');
@@ -250,6 +256,8 @@ jQuery(document).ready(function($){
 		$(this).parent().parent().parent().find('#user-new select[name="status"]').css('width',(userStatusWidth-4)+'px');
 	});
 	$('#users-table .user-add-form span.cancel').click(function(){
+		$('.success-notice').hide();
+		$('.error-notice').hide();
 		$(this).parent().find('input.field').each(function(){
 			$(this).val('');
 		});
@@ -272,12 +280,12 @@ jQuery(document).ready(function($){
 				"status" : $(this).find('select[name=status]').val()
 			}, function (data) {
 				if(data.errorMsg) {
-					if(data.errorMsg == 'The email format is invalid.') $('#admin-page .user-deleted p').html('Only @insideout.com accounts are allowed.');
-					else $('#admin-page .user-deleted p').html(data.errorMsg);
-					$('#admin-page .user-deleted').show().delay(4000).fadeOut();
+					if(data.errorMsg == 'The email format is invalid.') $('.error-notice p').html('Only @insideout.com accounts are allowed.');
+					else $('.error-notice p').html(data.errorMsg);
+					$('.error-notice').show().delay(5000).fadeOut();
 				}
 				else {
-					$('#admin-page .user-updated p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
+					$('.success-notice p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
 					$('#users-table #user-new').hide();
 					$('#users-table button.add-new').parent().parent().fadeTo("slow",1);
 					$('#users-table .user-list').last().after("<tr class='user-list user-list-"+data.id+"'>"+
@@ -295,11 +303,11 @@ jQuery(document).ready(function($){
 					$('#users-table .user-add-form #add-new').find('input.field').each(function(){
 						$(this).val('');
 					});
-					$('#admin-page .user-updated').show().delay(4000).fadeOut();
+					$('.success-notice').show().delay(5000).fadeOut();
 				}
 			},'json'
 		);
-		$('#admin-page .user-updated p').empty();
+		$('.success-notice p').empty();
 		return false;
 	});
 	/************/
