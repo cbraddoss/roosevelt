@@ -1,5 +1,9 @@
 @extends('layout.main')
 
+@section('page-title')
+{{ 'Admin' }}
+@stop
+
 @section('page-content')
 <div id="page-title">
 	<h2>Admin</h2>
@@ -9,18 +13,7 @@
 	<div id="user-management">
 		
 		<h3>User Management</h3>
-		<!-- <div id="users-list-title">
-			<ul>
-				<li class="title-name">Name</li>
-				<li class="title-email">Email</li>
-				<li class="title-password">Password</li>
-				<li class="title-userrole">User Role</li>
-				<li class="title-extension">Extension</li>
-				<li class="title-cell-phone">Cell Phone</li>
-				<li class="title-status">Status</li>
-				<li class="title-edit">Edit</li>
-			</ul>
-		</div> -->
+		
 		<table id="users-table">
 			
 			<tr>

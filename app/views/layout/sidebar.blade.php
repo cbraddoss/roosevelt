@@ -1,6 +1,6 @@
 			<div id="sidebar">
 				<div id="todo-welcome">
-						<h2><span class="user-image"><img src="images/user-image.png" /></span> Welcome, {{ $user->first_name }}</h2>
+						<h2><span class="user-image"><img src="{{ gravatar_url(Auth::user()->email) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span> Welcome, {{ Auth::user()->first_name }}</h2>
 					</div>
 				<div id="todo-box">
 					
@@ -38,6 +38,6 @@
 					</div> <!-- #todo-list -->
 				</div> <!-- #todo-box -->
 				<div id="user-menu">
-					<a href="/profile/">Profile</a> | @if($user->userrole == 'admin')<a href="/admin/">Admin</a> | @endif<a href="/logout">Logout</a>
+					<a href="/profile/">Profile</a> | @if(Auth::user()->userrole == 'admin')<a href="/admin/">Admin</a> | @endif<a href="/logout">Logout</a>
 				</div>
 			</div>

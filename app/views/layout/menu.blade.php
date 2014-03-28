@@ -1,17 +1,17 @@
 				<div id="menu_header">
 					<div class="menu_nav">
 						<ul id="menu_links">
-							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="index.php">Dashboard</a></li>
-							<li alt="Projects" id="link-projects" class="link"><span class="ss-list">Projects</span><span class="ss-bookmark"></span><span class="linked-to">5</span></li>
-							<li alt="Billable Updates" id="link-billables" class="link"><span class="ss-flag">Billables</span><span class="ss-bookmark"></span><span class="linked-to">3</span></li>
-							<li alt="Invoices" id="link-invoices" class="link"><span class="ss-dollarsign">Invoices</span></li>
-							<li alt="Accounts" id="link-accounts" class="link"><span class="ss-buildings">Accounts</span></li>
-							<li alt="Calendar" id="link-calendar" class="link"><span class="ss-calendar">Calendar</span><span class="ss-bookmark"></span><span class="linked-to">10</span></li>
-							<li alt="Internal Help" id="link-help" class="link"><span class="ss-help">Help</span><span class="ss-bookmark"></span><span class="linked-to">7</span></li>
-							<li alt="Wiki" id="link-wiki" class="link"><span class="ss-compose">Wiki</span></li>
-							<li alt="Tools" id="link-tools" class="link"><span class="ss-settings">Tools</span></li>
+							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="/index.php">Dashboard</a></li>
+							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a><span class="ss-bookmark"></span><span class="linked-to">5</span></li>
+							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a><span class="ss-bookmark"></span><span class="linked-to">3</span></li>
+							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign">Invoices</a></li>
+							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings">Accounts</a></li>
+							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a><span class="ss-bookmark"></span><span class="linked-to">10</span></li>
+							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a><span class="ss-bookmark"></span><span class="linked-to">7</span></li>
+							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
+							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-settings">Tools</a></li>
 							<li alt="Search" id="link-search" class="link"><span class="ss-search">Search</span></li>
-							<li alt="Profile" id="link-profile" class="link"><!-- <img class="profile-image" src="images/profile_image.png" /> --><span class="profile ss-user">Profile</span></li>
+							<li alt="Profile" id="link-profile" class="link"><!-- <img class="profile-image" src="images/profile_image.png" /> --><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}" class="profile ss-user">Profile</a></li>
 						</ul>
 					</div> <!-- .menu_nav -->
 				</div> <!-- #menu_header -->

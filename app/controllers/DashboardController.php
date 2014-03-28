@@ -10,9 +10,7 @@ class DashboardController extends \BaseController {
 	public function index()
 	{
 		if(Auth::check()) {
-			$user = Auth::user();
-			//return $username;
-			return View::make('dashboard.index', compact('user'));
+			return View::make('dashboard.index');
 		}
 		else return View::make('sessions.login');
 	}

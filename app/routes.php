@@ -1,5 +1,9 @@
 <?php
 
+// Event::listen('illuminate.query', function($query){
+// 	var_dump($query);
+// });
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -21,6 +25,12 @@ Route::controller('password', 'RemindersController');
 Route::get('/admin',array('as' => 'admin', 'uses' => 'AdminController@index'))->before('auth');
 Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
 //Route::resource('admin','AdminController');
+
+Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
+
+Route::get('/tools', function(){
+	return View::make('tools.index');
+})->before('auth');
 
 App::missing(function($exception)
 {

@@ -12,8 +12,8 @@ class AdminController extends \BaseController {
 		$user = Auth::user();
 		if($user->userrole == 'admin') {
 			$users = User::all();
-			if(Request::ajax()) return View::make('admin.partials.user-list-form', compact('user','users'));
-			else return View::make('admin.index', compact('user','users'));
+			if(Request::ajax()) return View::make('admin.partials.user-list-form', compact('users'));
+			else return View::make('admin.index', compact('users'));
 		}
 		else return Redirect::route('dashboard');
 	}

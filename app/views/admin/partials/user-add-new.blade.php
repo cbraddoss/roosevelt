@@ -6,7 +6,7 @@
 	
 	{{ Form::hidden('confirm-add', 'yes') }}
 	
-	{{ Form::text('first_name', null, array('placeholder' => 'First Name', 'class' => 'first-name field', 'autofocus' => 'autofocus')) }}
+	{{ Form::text('first_name', null, array('placeholder' => 'First Name', 'class' => 'first-name field')) }}
 	
 	{{ Form::text('last_name', null, array('placeholder' => 'Last Name', 'class' => 'last-name field')) }}
 	

@@ -13,16 +13,7 @@ Orange2: A97506
 Blue: 102A72 4B83B4
 Green: 055F67
 */
-.event-listen {
-	position:fixed;
-	bottom:0px;
-	right:0px;
-	width:800px;
-	border:1px solid #333;
-	background:rgba(75,131,180,0.9);
-	box-shadow: 0px 0px 10px #888;
-	color:#eee;
-}
+
 /* General */
 body {
 	text-align:left;
@@ -468,15 +459,15 @@ input.search {
 #todo-welcome h2 span {
 	position:relative;
 }
-#todo-welcome h2 span img {
+#todo-welcome h2 .user-image img {
 	width: 42px;
 	height: auto;
 	position: absolute;
-	top: 0px;
-	left: -47px;
+	top: -6px;
+	left: -60px;
 	z-index:101;
 	border-radius: 5px;
-	box-shadow: 1px 1px 1px #bbb;
+	border:1px solid #bbb;
 }
 /* ToDo */
 #todo-box {
@@ -647,6 +638,9 @@ input.search {
 	border:1px solid #ddd;
 	background: #fff;
 	border-radius: 5px;
+}
+#content p {
+	margin:10px 0;
 }
 #content ul {
 	list-style:none;
