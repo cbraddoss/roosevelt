@@ -38,6 +38,12 @@
 					</div> <!-- #todo-list -->
 				</div> <!-- #todo-box -->
 				<div id="user-menu">
-					<a href="/profile/">Profile</a> | @if(Auth::user()->userrole == 'admin')<a href="/admin/">Admin</a> | @endif<a href="/logout">Logout</a>
+					<ul>
+					<li><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}"><span class="ss-user"></span>Profile</a></li>
+					@if(Auth::user()->userrole == 'admin')
+						<li><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
+					@endif
+					<li><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
+					</ul>
 				</div>
 			</div>

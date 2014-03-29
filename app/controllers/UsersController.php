@@ -40,7 +40,9 @@ class UsersController extends \BaseController {
 	 */
 	public function show($usersname)
 	{
-		//
+		$name = lcfirst(Auth::user()->first_name) . '-' . lcfirst(Auth::user()->last_name);
+		if($name == $usersname)	return View::make('profile.index');
+		else return Redirect::route('dashboard');
 	}
 
 	/**

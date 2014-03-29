@@ -41,8 +41,8 @@ class UsersTableSeeder extends Seeder {
 			'email' => 'devteam@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
-			'first_name' => 'TestAccount',
-			'last_name' => 'Active',
+			'first_name' => 'User',
+			'last_name' => 'One',
 			'status' => "active"
 		));
 
@@ -50,8 +50,8 @@ class UsersTableSeeder extends Seeder {
 			'email' => 'sysadmin@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',
-			'first_name' => 'TestAccount',
-			'last_name' => 'NotActive',
+			'first_name' => 'User',
+			'last_name' => 'Two',
 			'status' => "inactive"
 		));
 	}

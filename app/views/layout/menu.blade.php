@@ -11,7 +11,6 @@
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
 							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-settings">Tools</a></li>
 							<li alt="Search" id="link-search" class="link"><span class="ss-search">Search</span></li>
-							<li alt="Profile" id="link-profile" class="link"><!-- <img class="profile-image" src="images/profile_image.png" /> --><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}" class="profile ss-user">Profile</a></li>
 						</ul>
 					</div> <!-- .menu_nav -->
 				</div> <!-- #menu_header -->

@@ -254,8 +254,9 @@ border-bottom-left-radius: 5px;
 #menu_header ul li.active {
 	background:rgba(75,131,180,0.7);
 	border-radius: 5px;
-	padding-top:10px;
-	margin-top:-5px;
+	padding:5px 0;
+	margin-top:0px;
+	box-shadow: 0px 0px 2px #333;
 }
 #menu_header ul li.active:hover,
 #menu_header ul li.active span:hover,
@@ -268,8 +269,8 @@ border-bottom-left-radius: 5px;
 #menu_header ul li:hover {
 	background:rgba(75,131,180,0.7);
 	border-radius: 5px;
-	padding-top:10px;
-	margin-top:-5px;
+	padding:5px 0;
+	margin-top:0px;
 }
 #menu_header ul li span:hover,
 #menu_header ul li a:hover {
@@ -559,6 +560,28 @@ input.search {
 	padding:10px 10px 10px 15px;
 	text-align:center;
 }
+#user-menu a {
+	text-decoration: none;
+	color: rgba(75,131,180,1);
+	text-shadow:
+	-1px -1px 0 #fff,
+	1px -1px 0 #fff,
+	-1px 1px 0 #fff,
+	1px 1px 0 #fff;
+}
+#user-menu ul {
+	width:255px;
+	margin:0 auto;
+}
+#user-menu ul li {
+	float:left;
+	width:85px;
+}
+#user-menu span {
+	display:block;
+	text-decoration: none;
+	font-size:2em;
+}
 /* Page */
 #page {
 	/*background:#eee;*/
@@ -566,6 +589,35 @@ input.search {
 	width:100%;
 	margin: 75px 0 10px;
 	/*background: #eee url('../images/black-Linen.png') top left;*/
+}
+.success-notice,
+.error-notice {
+	display: none;
+	position:fixed;
+	top:200px;
+	left: -webkit-calc( 50% + 100px );
+	left: -moz-calc( 50% + 100px );
+	left: calc( 50% + 100px );
+	width:200px;
+	color: #fff;
+	padding:10px;
+	font-size: 1.8em;
+	font-weight: 100;
+	text-align:center;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0,179,0,0.5);
+	background: rgba(125,125,125,1);
+	text-shadow: 1px 1px 3px #222;
+	border:1px solid rgba(0,179,0,0.5);
+	z-index:90;
+}
+.success-notice span,
+.error-notice span {
+	font-size:3em;
+}
+.error-notice {
+	box-shadow: 0px 0px 10px rgba(204,0,0,0.5);
+	border:1px solid rgba(204,0,0,0.5);	
 }
 /* Page Content */
 #content {
@@ -641,6 +693,28 @@ input.search {
 }
 #content p {
 	margin:10px 0;
+}
+#content button,
+#content span.cancel,
+#content input[type=submit] {
+	cursor: pointer;
+	color: #fff;
+	background-color: rgba(75,131,180,1);
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: 100;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid rgba(75,131,180,1);
+	white-space: nowrap;
+	padding: 3px 6px;
+	font-size:0.9em;
+	border-radius: 5px;
+}
+#content button:hover,
+#content span.cancel:hover,
+#content input[type=submit]:hover {
+	background-color: rgba(75,131,180,0.6);
 }
 #content ul {
 	list-style:none;
@@ -799,7 +873,6 @@ input.search {
 	padding: 3px 6px;
 	font-size:0.9em;
 	border-radius: 5px;
-	box-shadow: 1px 1px 1px #333;
 }
 #admin-page button:hover,
 #admin-page span.cancel:hover,
@@ -840,36 +913,10 @@ input.search {
 .error-notice .ss-delete {
 	color: rgba(204,0,0,0.9);
 }
-.success-notice,
-.error-notice {
-	display: none;
-	position:fixed;
-	top:200px;
-	left: -webkit-calc( 50% + 100px );
-	left: -moz-calc( 50% + 100px );
-	left: calc( 50% + 100px );
-	width:200px;
-	color: #fff;
-	padding:10px;
-	font-size: 1.8em;
-	font-weight: 100;
-	text-align:center;
-	border-radius: 5px;
-	box-shadow: 0px 0px 10px rgba(0,179,0,0.5);
-	background: rgba(125,125,125,1);
-	text-shadow: 1px 1px 3px #222;
-	border:1px solid rgba(0,179,0,0.5);
-	z-index:90;
+/* Proile Page */
+#profile-page .profile-update-button {
+	float:right;
 }
-.success-notice span,
-.error-notice span {
-	font-size:3em;
-}
-.error-notice {
-	box-shadow: 0px 0px 10px rgba(204,0,0,0.5);
-	border:1px solid rgba(204,0,0,0.5);	
-}
-
 /* Projects Page */
 .create-new {
 	margin: 0;
