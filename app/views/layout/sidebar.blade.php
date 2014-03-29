@@ -1,6 +1,6 @@
 			<div id="sidebar">
 				<div id="todo-welcome">
-						<h2><span class="user-image"><img src="{{ gravatar_url(Auth::user()->email) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span> Welcome, {{ Auth::user()->first_name }}</h2>
+						<h2><span class="user-image"><img src="{{ gravatar_url(Auth::user()->email) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h2>
 					</div>
 				<div id="todo-box">
 					

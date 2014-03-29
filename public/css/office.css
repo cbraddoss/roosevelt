@@ -252,11 +252,10 @@ border-bottom-left-radius: 5px;
 	text-shadow: 1px 1px 1px #333;
 }
 #menu_header ul li.active {
-	background:rgba(75,131,180,0.7);
-	border-radius: 5px;
+	background:rgba(75,131,180,0.8);
 	padding:5px 0;
 	margin-top:0px;
-	box-shadow: 0px 0px 2px #333;
+
 }
 #menu_header ul li.active:hover,
 #menu_header ul li.active span:hover,
@@ -267,8 +266,7 @@ border-bottom-left-radius: 5px;
 #menu_header ul li.active:hover {
 }
 #menu_header ul li:hover {
-	background:rgba(75,131,180,0.7);
-	border-radius: 5px;
+	background:rgba(75,131,180,0.8);
 	padding:5px 0;
 	margin-top:0px;
 }
@@ -426,7 +424,6 @@ input.search {
 	width:325px;
 	margin:0px 0;
 	padding:0;
-	height: 100%;
 	z-index:101;
 	/*box-shadow: 0px 0px 15px #bbb;*/
 }
@@ -447,9 +444,10 @@ input.search {
 	font-size: 1.5em;
 	line-height: 1.5em;
 	font-weight: 100;
-	padding:0;
-	margin: 0 0 10px;
+	padding:0 0 10px;
+	margin: 0 0 0px 60px;
 	text-align:center;
+	z-index:101;
 }
 /*#todo-box h3:after {
 	content:'';
@@ -464,11 +462,12 @@ input.search {
 	width: 42px;
 	height: auto;
 	position: absolute;
-	top: -6px;
+	top: -7px;
 	left: -60px;
 	z-index:101;
 	border-radius: 5px;
 	border:1px solid #bbb;
+	background: rgba(75,131,180,0.8);
 }
 /* ToDo */
 #todo-box {
