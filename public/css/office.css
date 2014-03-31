@@ -342,33 +342,33 @@ border-bottom-left-radius: 5px;
 	margin-bottom: -1px;
 	/*padding-top:5px;*/
 }
-#menu_header ul li span.ss-bookmark,
-#menu_header ul li span.ss-bookmark:hover {
+#menu_header ul li span.ss-chat,
+#menu_header ul li span.ss-chat:hover {
 	position: absolute;
-	top: -10px;
-	right: -6px;
-	font-size:1.2em;
+	top: -14px;
+	right: -7px;
+	font-size: 1em;
 	color: rgba(75,131,180,1);
 	text-shadow: 0px 0px 2px #333;
-	z-index: 55;
+	z-index: 58;
 	border-bottom: none;
 }
 #menu_header ul li span.linked-to {
 	position: absolute;
-	top: -8px;
-	right: 5px;
+	top: -13px;
+	right: 0px;
 	padding: 5px 1px;
 	color: #eee;
 	text-shadow: 1px 1px 1px #333;
-	z-index: 56;
+	z-index: 58;
 	border-bottom: none;
 }
-#menu_header ul li.active span.ss-bookmark,
-#menu_header ul li.active span.ss-bookmark:hover {
-	top: -5px;
+#menu_header ul li.active span.ss-chat,
+#menu_header ul li.active span.ss-chat:hover {
+	top: -8px;
 }
 #menu_header ul li.active span.linked-to {
-	top: -3px;
+	top: -8px;
 }
 #menu_header ul li img.profile-image {
 	height: 34px;

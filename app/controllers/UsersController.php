@@ -40,7 +40,7 @@ class UsersController extends \BaseController {
 	 */
 	public function show($usersname)
 	{
-		$name = lcfirst(Auth::user()->first_name) . '-' . lcfirst(Auth::user()->last_name);
+		$name = user_path();
 		if(Request::ajax()) return View::make('profile.partials.profile-update-form');
 		elseif($name == $usersname)	return View::make('profile.index');
 		else return Redirect::route('dashboard');

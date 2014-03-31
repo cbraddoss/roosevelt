@@ -30,6 +30,7 @@ Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'Users
 Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->before('auth');
 
 Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
+Route::get('/news/{article}',array('uses' => 'ArticlesController@show'))->before('auth');
 
 Route::get('/tools', function(){
 	return View::make('tools.index');

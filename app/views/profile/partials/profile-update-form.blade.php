@@ -1,4 +1,4 @@
-{{ Form::open( array('class' => 'update-profile', 'url' => '/profile/' . lcfirst(Auth::user()->first_name) . '-' . lcfirst(Auth::user()->last_name), 'method' => 'post') ) }}
+{{ Form::open( array('class' => 'update-profile', 'url' => '/profile/' . user_path(), 'method' => 'post') ) }}
 
 {{ Form::hidden('id') }}
 

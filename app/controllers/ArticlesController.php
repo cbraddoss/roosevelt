@@ -39,9 +39,12 @@ class ArticlesController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($article)
 	{
-		//
+		$article = convert_link_to_title($article);
+		$articleView = Article::where('title', $article)->first();
+		if($articleView) return View::make('news.single', compact('articleView'));
+		else return Redirect::route('news');
 	}
 
 	/**
