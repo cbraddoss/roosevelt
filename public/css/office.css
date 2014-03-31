@@ -541,10 +541,10 @@ input.search {
 	font-weight: 100;
 	padding:0;
 	position:relative;
-	text-align:left;
+	text-align:left;/*
 	background: #fff;
 	border: 1px solid #ddd;
-	border-radius: 5px;
+	border-radius: 5px;*/
 }
 #todo-box .todo-sub-box {	
 }
@@ -556,15 +556,16 @@ input.search {
 }*/
 #todo-box .todo-feed-title {
 	text-decoration:none;
-	margin: 10px 0;
+	margin: 0 0 10px;
 	padding: 5px 0;
 	display:block;
 	width:100%;
-	color: rgba(75,131,180,1);
-	font-weight:500;
+	color: #fff;
+	font-weight:100;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-	background: rgba(75,131,180,0.2);
+	background: rgba(75,131,180,0.9);
+	border-radius: 5px;
 }
 #todo-box .todo-feed-title:before {
 	padding-right:10px;
@@ -576,11 +577,11 @@ input.search {
 	font-size: 0.6em;
 }
 #todo-box span.todo-num {
-	background: rgba(75,131,180,1); /*rgba(169,83,6, 0.9);*//*rgba(75,131,180,0.9);*/
+	background: rgba(51,51,51,0.6); /*rgba(169,83,6, 0.9);*//*rgba(75,131,180,0.9);*/
 	border-radius: 3px;
 	padding: 0px 10px;
 	font-weight:100;
-	color: #eee;
+	color: #fff;
 	text-shadow: 1px 1px 1px #333;
 	float: right;
 	margin-right: 15px;
@@ -670,8 +671,13 @@ input.search {
 	font-size: 1.5em;
 	line-height: 1.5em;
 	font-weight: 100;
-	padding:0;
-	margin:10px 0;
+	padding:0 20px 10px;
+	margin:10px 0 -10px;
+	background: rgba(75,131,180,1);
+	color: #fff;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border:1px solid #ddd;
 	/*border-bottom: 1px solid rgba(32,32,32,0.4);*/
 }
 #content h3 {

@@ -1,12 +1,14 @@
 			<div id="user-menu">
-				<div class="user-menu-name"><img src="{{ gravatar_url(Auth::user()->email,30) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
-				<ul>
-					<li id="link-profile" class="link"><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}"><span class="ss-user"></span>Profile</a></li>
-					@if(Auth::user()->userrole == 'admin')
-					<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
-					@endif
-					<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
-				</ul>
+				<div class="section">
+					<div class="user-menu-name"><img src="{{ gravatar_url(Auth::user()->email,30) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
+					<ul>
+						<li id="link-profile" class="link"><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}"><span class="ss-user"></span>Profile</a></li>
+						@if(Auth::user()->userrole == 'admin')
+						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
+						@endif
+						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
+					</ul>
+				</div>
 			</div>
 			<div id="company-header">
 				<a class="logo" href="/"><img src="/images/ios-logo-remote-office.png" alt="InsideOut Solutions Logo" /></a>

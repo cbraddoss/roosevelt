@@ -1,7 +1,4 @@
 			<div id="sidebar">
-				<div id="todo-welcome">
-					<h2>Action Items</h2>
-				</div>
 				<div id="todo-box">
 					
 					<div id="todo-list">

@@ -29,9 +29,35 @@ Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
 Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
 Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->before('auth');
 
+// This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/projects', function(){
 	return View::make('projects.index');
 })->before('auth');
+
+Route::get('/billables', function(){
+	return View::make('billables.index');
+})->before('auth');
+
+Route::get('/invoices', function(){
+	return View::make('invoices.index');
+})->before('auth');
+
+Route::get('/accounts', function(){
+	return View::make('accounts.index');
+})->before('auth');
+
+Route::get('/calendar', function(){
+	return View::make('calendar.index');
+})->before('auth');
+
+Route::get('/help', function(){
+	return View::make('help.index');
+})->before('auth');
+
+Route::get('/wiki', function(){
+	return View::make('wiki.index');
+})->before('auth');
+// End dummy pages section
 
 Route::get('/tools', function(){
 	return View::make('tools.index');
