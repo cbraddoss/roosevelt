@@ -27,6 +27,7 @@ Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
 //Route::resource('admin','AdminController');
 
 Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
+Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->before('auth');
 
 Route::get('/projects', function(){
 	return View::make('projects.index');
