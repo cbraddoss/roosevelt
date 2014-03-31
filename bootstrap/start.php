@@ -29,7 +29,7 @@ $env = $app->detectEnvironment(array(
 	'dev-brad' => array('Cs-Mac-Pro.local'),
 	'dev-brad-laptop' => array('precise64'),
 	'dev-jack' => array('CHANGE_ME'),
-	'dev-taylor' => array('CHANGE_ME'),
+	'dev-taylor' => array('taylor-VirtualBox'),
 	'production' => array('roosevelt.insideout.com')
 
 ));
