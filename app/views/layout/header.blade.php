@@ -24,6 +24,7 @@
 							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings">Accounts</a></li>
 							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a><span class="ss-bookmark"></span><span class="linked-to">10</span></li>
 							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a><span class="ss-bookmark"></span><span class="linked-to">7</span></li>
+							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a><span class="ss-bookmark"></span><span class="linked-to">4</span></li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
 							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-settings">Tools</a></li>
 							<li alt="Search" id="link-search" class="link"><span class="ss-search">Search</span></li>

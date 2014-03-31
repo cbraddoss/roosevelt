@@ -153,7 +153,7 @@ class AdminController extends \BaseController {
 		}
 		else {
 			$response = array(
-				'msg' => 'why am i here?'
+				'errorMsg' => 'Something went wrong. Please contact a devteam member.'
 			);
 		}
  

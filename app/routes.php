@@ -29,6 +29,12 @@ Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
 Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
 Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->before('auth');
 
+Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
+
+Route::get('/tools', function(){
+	return View::make('tools.index');
+})->before('auth');
+
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/projects', function(){
 	return View::make('projects.index');
@@ -59,9 +65,6 @@ Route::get('/wiki', function(){
 })->before('auth');
 // End dummy pages section
 
-Route::get('/tools', function(){
-	return View::make('tools.index');
-})->before('auth');
 
 App::missing(function($exception)
 {
