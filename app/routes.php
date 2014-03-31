@@ -49,8 +49,8 @@ Route::get('/invoices', function(){
 	return View::make('invoices.index');
 })->before('auth');
 
-Route::get('/accounts',array('uses' => 'AccountsController@index'))->before('auth');
-Route::get('/accounts/{accountname}',array('uses' => 'AccountsController@show'))->before('auth');
+Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'))->before('auth');
+Route::get('/accounts/{accountname}',array('as' => 'accounts', 'uses' => 'AccountsController@show'))->before('auth');
 
 Route::get('/calendar', function(){
 	return View::make('calendar.index');
