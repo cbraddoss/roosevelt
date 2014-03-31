@@ -163,11 +163,11 @@ ul {
 	top:0;
 	left:0;
 	width:100%;
-	height:65px;
+	height:95px;
 	/*background: #222;*/
 	z-index:57;
 	clear:both;
-	box-shadow: 1px 1px 5px #bbb;
+	box-shadow: 0px 1px 5px #333;
 }
 .section {
 	width: 1400px;
@@ -178,12 +178,72 @@ ul {
 	/*background: rgba(32,32,32,0.4);*/
 	/*background: rgba(32,32,32,0.4);*/
 }
+/* Top Menu */
+#user-menu {
+	position: fixed;
+	top:0;
+	left:0px;
+	width:100%;
+	height: 30px;
+	z-index:58;
+	background: #333;
+}
+.user-menu-name {
+	float:left;
+	color:#fff;
+	font-size:1.8em;
+	height:15px;
+	padding:3px 0px 5px 35px;
+	position: relative;
+}
+.user-menu-name img {
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+#user-menu ul {
+	float:right;
+}
+#user-menu ul li {
+	float:left;
+	width:65px;
+	margin:0px 0px 0px 30px;
+	height:30px;
+	font-size:1.4em;
+}
+#user-menu ul li:last-child {
+	border:none;
+}
+#user-menu ul li.active,
+#user-menu ul li.active a {
+	color:rgba(75,131,180,0.8);
+}
+#user-menu ul li a {
+	height: 25px;
+	margin-top: 5px;
+	vertical-align: bottom;
+	display: inline-block;
+	text-decoration: none;
+	color: #fff;
+	position: relative;
+}
+#user-menu ul li a:hover {
+	color:rgba(75,131,180,0.8);
+}
+#user-menu span:before {
+	text-decoration: none;
+	font-size: 1em;
+	margin-top: 0px;
+	position: absolute;
+	left: -17px;
+	top: 1px;
+}
 /* Company Header */
 #company-header {
 	width:346px;
 	height:65px;
 	float:left;
-	margin: 0;
+	margin: 30px 0 0;
 	/*
 border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
@@ -204,6 +264,7 @@ border-bottom-left-radius: 5px;
 #nav_menu {
 	z-index:55;
 	height:65px;
+	margin-top:30px;
 	/*width: 850px;*/
 	float:right;
 }
@@ -252,7 +313,7 @@ border-bottom-left-radius: 5px;
 	text-shadow: 1px 1px 1px #333;
 }
 #menu_header ul li.active {
-	background:rgba(75,131,180,0.8);
+	background: #333;
 	padding:5px 0;
 	margin-top:0px;
 
@@ -266,7 +327,7 @@ border-bottom-left-radius: 5px;
 #menu_header ul li.active:hover {
 }
 #menu_header ul li:hover {
-	background:rgba(75,131,180,0.8);
+	background: #333;
 	padding:5px 0;
 	margin-top:0px;
 }
@@ -304,10 +365,10 @@ border-bottom-left-radius: 5px;
 }
 #menu_header ul li.active span.ss-bookmark,
 #menu_header ul li.active span.ss-bookmark:hover {
-	top: 0px;
+	top: -5px;
 }
 #menu_header ul li.active span.linked-to {
-	top: 2px;
+	top: -3px;
 }
 #menu_header ul li img.profile-image {
 	height: 34px;
@@ -418,7 +479,7 @@ input.search {
 /* Sidebar */
 #sidebar {
 	position:fixed;
-	top: 75px;
+	top: 105px;
 	text-align:left;
 	font-size: 1.2em;
 	width:325px;
@@ -445,7 +506,7 @@ input.search {
 	line-height: 1.5em;
 	font-weight: 100;
 	padding:0 0 10px;
-	margin: 0 0 0px 60px;
+	margin: 0px;
 	text-align:center;
 	z-index:101;
 }
@@ -471,7 +532,7 @@ input.search {
 }
 /* ToDo */
 #todo-box {
-	
+	clear:both;
 	width:325px;
 	position:relative;
 	font-size:1.2em;
@@ -555,38 +616,13 @@ input.search {
 	text-align:right;
 	display:block;
 }
-#user-menu {
-	padding:10px 10px 10px 15px;
-	text-align:center;
-}
-#user-menu a {
-	text-decoration: none;
-	color: rgba(75,131,180,1);
-	text-shadow:
-	-1px -1px 0 #fff,
-	1px -1px 0 #fff,
-	-1px 1px 0 #fff,
-	1px 1px 0 #fff;
-}
-#user-menu ul {
-	width:255px;
-	margin:0 auto;
-}
-#user-menu ul li {
-	float:left;
-	width:85px;
-}
-#user-menu span {
-	display:block;
-	text-decoration: none;
-	font-size:2em;
-}
+
 /* Page */
 #page {
 	/*background:#eee;*/
 	font-size: 1.2em;
 	width:100%;
-	margin: 75px 0 10px;
+	margin: 105px 0 10px;
 	/*background: #eee url('../images/black-Linen.png') top left;*/
 }
 .success-notice,
@@ -914,7 +950,7 @@ input.search {
 }
 /* Proile Page */
 #profile-page .profile-update-button {
-	float:right;
+	
 }
 /* Projects Page */
 .create-new {

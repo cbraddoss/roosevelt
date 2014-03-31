@@ -1,7 +1,7 @@
 <?php
 
-function gravatar_url($email) {
-	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=40';
+function gravatar_url($email,$size = '40') {
+	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size;
 }
 
 // Save for later

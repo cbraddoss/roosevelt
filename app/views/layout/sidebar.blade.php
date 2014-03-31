@@ -1,7 +1,7 @@
 			<div id="sidebar">
 				<div id="todo-welcome">
-						<h2><span class="user-image"><img src="{{ gravatar_url(Auth::user()->email) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span>{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</h2>
-					</div>
+					<h2>Action Items</h2>
+				</div>
 				<div id="todo-box">
 					
 					<div id="todo-list">
@@ -37,13 +37,4 @@
 						</div>
 					</div> <!-- #todo-list -->
 				</div> <!-- #todo-box -->
-				<div id="user-menu">
-					<ul>
-					<li><a href="/profile/{{ lcfirst(Auth::user()->first_name) }}-{{ lcfirst(Auth::user()->last_name) }}"><span class="ss-user"></span>Profile</a></li>
-					@if(Auth::user()->userrole == 'admin')
-						<li><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
-					@endif
-					<li><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
-					</ul>
-				</div>
 			</div>

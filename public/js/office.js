@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	// Listen for ajax events and update page
+	// Listen for ajax events and update page (still in development)
 	var userListLengthOnLoad = $('.user-list').length;
 	// setInterval(function(){
 	// 	var userListLengthWithNew = $('.user-list').length;
@@ -15,6 +15,23 @@ jQuery(document).ready(function($){
 	
 	$('#projects-feed').hide();
 	$('#leads-feed').hide();
+
+	//Update active status of a menu link (both top menu bar and user menu bar)
+	var currentPage = window.location.pathname;
+	currentPage = currentPage.replace("/", "");
+	$('#menu_links').find('li').each(function(){
+		var linkActiveMain = $(this).attr('id');
+		linkActiveMain = linkActiveMain.replace("link-", "");
+		$(this).removeClass('active');
+		if(currentPage == linkActiveMain) $(this).addClass('active');
+		if(currentPage == '' && linkActiveMain == 'dashboard') $(this).addClass('active');
+	});
+	$('#user-menu ul').find('li').each(function(){
+		var linkActiveUser = $(this).attr('id');
+		linkActiveUser = linkActiveUser.replace("link-", "");
+		$(this).removeClass('active');
+		if(currentPage.indexOf(linkActiveUser) >= 0 ) $(this).addClass('active');
+	});
 
 	//Show/hide task items in sidebar
 	$('#show-tasks-list').click(function() {

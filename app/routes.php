@@ -28,6 +28,10 @@ Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
 
 Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
 
+Route::get('/projects', function(){
+	return View::make('projects.index');
+})->before('auth');
+
 Route::get('/tools', function(){
 	return View::make('tools.index');
 })->before('auth');
