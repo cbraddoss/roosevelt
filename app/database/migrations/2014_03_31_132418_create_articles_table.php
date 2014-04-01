@@ -19,6 +19,7 @@ class CreateArticlesTable extends Migration {
 			$table->text('content');
 			$table->integer('author_id');
 			$table->datetime('scheduled');
+			$table->string('been_read');
 			$table->string('viewed_by');
 			$table->string('attachment');
 			$table->timestamps();

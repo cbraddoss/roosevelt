@@ -10,7 +10,8 @@ class DashboardController extends \BaseController {
 	public function index()
 	{
 		if(Auth::check()) {
-			return View::make('dashboard.index');
+			$articles = Article::orderBy('created_at','DESC')->take(3)->get();
+			return View::make('dashboard.index', compact('articles'));
 		}
 		else return View::make('sessions.login');
 	}

@@ -9,7 +9,7 @@ class ArticlesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$articles = Article::all();
+		$articles = Article::orderBy('created_at','DESC')->get();
 		return View::make('news.index', compact('articles'));
 	}
 

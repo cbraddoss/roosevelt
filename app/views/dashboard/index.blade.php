@@ -15,7 +15,7 @@
 	<p class=""><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a></p>
 	<p class=""><a href="#" class="ss-globe ql-hosted">Website List</a></p>
 	<p class=""><a href="https://dropbox.com" target="_blank" class="ss-box ql-dropbox">Dropbox</a></p>
-	<span>Request something new...</span>
+	<span><a href="/tools">View Tools page for more...</a></span>
 </div>
 <div class="clear"></div>
 <div id="page-second-title">
@@ -23,23 +23,15 @@
 </div>
 <div id="news-feed">
 	<ul>
-		<li>
-			<a href="#" class="news_link">TITLE</a>
-			<span class="text-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...</span>
-			<span class="date-posted">POSTEDDATE</span>
+		@foreach($articles as $article)
+		@if($article->been_read == Auth::user()->id) <li> @else <li class="unread"> @endif
+			<h3>{{ convert_title_to_link('news', $article->title) }}</h3>
+			<p>{{ $article->content }}</p>
+			<small>Posted by: {{ User::find($article->author_id)->first_name }} on {{ $article->created_at }}</small>
 		</li>
-		<li><a href="#" class="news_link">TITLE</a>
-		<span class="text-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...</span>
-		<span class="date-posted">POSTEDDATE</span></li>
-		<li><a href="#" class="news_link">TITLE</a>
-		<span class="text-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...</span>
-		<span class="date-posted">POSTEDDATE</span></li>
-		<li><a href="#" class="news_link">TITLE</a>
-		<span class="text-snippet">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book...</span>
-		<span class="date-posted">POSTEDDATE</span></li>
-		
+		@endforeach
 	</ul>
-	<a href="#" class="news_link view-all">View all...</a>
+	<a href="/news" class="news_link view-all">View all...</a>
 </div>
 <div class="clear"></div>
 @stop
