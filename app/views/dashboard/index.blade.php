@@ -24,7 +24,7 @@
 <div id="news-feed">
 	<ul>
 		@foreach($articles as $article)
-		@if($article->been_read == Auth::user()->id) <li> @else <li class="unread"> @endif
+		@if(strpos($article->been_read,user_path()) !== false) <li> @else <li class="unread"> @endif
 			<h3>{{ convert_title_to_link('news', $article->title) }}</h3>
 			<p>{{ $article->content }}</p>
 			<small>Posted by: {{ User::find($article->author_id)->first_name }} on {{ $article->created_at }}</small>

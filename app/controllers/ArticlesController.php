@@ -43,6 +43,15 @@ class ArticlesController extends \BaseController {
 	{
 		$article = convert_link_to_title($article);
 		$articleView = Article::where('title', $article)->first();
+		$userRead = user_path();
+		$oldRead = $articleView->been_read;
+		if(strpos($oldRead,$userRead) !== false) {
+			$articleView->been_read = $oldRead;
+		}
+		else {
+			$articleView->been_read = $oldRead.' '.$userRead;
+			$articleView->save();
+		}
 		if($articleView) return View::make('news.single', compact('articleView'));
 		else return Redirect::route('news');
 	}

@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
 		$(this).removeClass('active');
-		if(currentPage == linkActiveMain) $(this).addClass('active');
+		if(currentPage.indexOf(linkActiveMain) >= 0 ) $(this).addClass('active');
 		if(currentPage == '' && linkActiveMain == 'dashboard') $(this).addClass('active');
 	});
 	$('#user-menu ul').find('li').each(function(){

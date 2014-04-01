@@ -732,8 +732,12 @@ input.search {
 #news-feed li.unread {
 	background: rgba(75,131,180,0.2);
 }
-.news-article {
+#news-page .news-article {
 	border-bottom:1px solid #ddd;
+	padding:5px;
+}
+#news-page .unread {
+	background: rgba(75,131,180,0.2);	
 }
 #content p {
 	margin:10px 0;
