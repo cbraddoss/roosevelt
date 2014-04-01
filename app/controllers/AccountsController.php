@@ -9,7 +9,7 @@ class AccountsController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('accounts.index');
+		return View::make('accounts.index')->withAccounts(Account::all());
 	}
 
 	/**
@@ -19,7 +19,7 @@ class AccountsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return View::make('accounts.new');
 	}
 
 	/**

@@ -32,7 +32,7 @@ class CreateAccountsTable extends Migration {
 			$table->string('state');
 			$table->string('zip');
 			$table->string('phone_number');
-			$table->string('800_number');
+			$table->string('toll_free_number');
 			$table->string('fax');
 			$table->string('client_type');
 			$table->string('site_designed');
