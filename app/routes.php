@@ -50,7 +50,8 @@ Route::get('/invoices', function(){
 })->before('auth');
 
 Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'))->before('auth');
-Route::get('/accounts/{accountname}',array('as' => 'accounts', 'uses' => 'AccountsController@show'))->before('auth');
+Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'))->before('auth');
+Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'))->before('auth');
 
 Route::get('/calendar', function(){
 	return View::make('calendar.index');

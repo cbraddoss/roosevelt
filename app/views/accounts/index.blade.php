@@ -11,7 +11,8 @@
 
 <div class="inner-page">
     Search Accounts: <input type="text" />
-    <button>+</button>
+    
+    <div><a href="/account-new/">Create a New Account</a></div>
     
 </div>
 <div class="inner-page">
@@ -21,6 +22,5 @@
         @endforeach
     </ul>
 </div>
-
 
 @stop
