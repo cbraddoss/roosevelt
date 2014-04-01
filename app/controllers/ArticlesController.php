@@ -41,10 +41,12 @@ class ArticlesController extends \BaseController {
 	 */
 	public function show($article)
 	{
+		
 		$article = convert_link_to_title($article);
 		$articleView = Article::where('title', $article)->first();
-		$userRead = user_path();
-		$oldRead = $articleView->been_read;
+		$userRead = current_user_path();
+		if(empty($articleView)) return Redirect::route('news');
+		else $oldRead = $articleView->been_read;
 		if(strpos($oldRead,$userRead) !== false) {
 			$articleView->been_read = $oldRead;
 		}
@@ -54,6 +56,37 @@ class ArticlesController extends \BaseController {
 		}
 		if($articleView) return View::make('news.single', compact('articleView'));
 		else return Redirect::route('news');
+	}
+
+	/**
+	 * Return search for author
+	 *
+	 * @param  int  $author
+	 * @return Response
+	 */
+	public function authorSearch($author) {
+		$userAuthor = find_user_from_path($author);
+		if($userAuthor != null)	{
+			$articles = Article::where('author_id','=',$userAuthor->id)->get();
+			return View::make('news.search.author', compact('articles','userAuthor'));
+		}
+		else return Redirect::route('news');
+	}
+
+	/**
+	 * Return search for date
+	 *
+	 * @param  int  $date
+	 * @return Response
+	 */
+	public function dateSearch($year, $month) {
+		$date = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax->modify('+1 month');		
+		$articles = Article::where('created_at','>=', $date)
+					->where('created_at','<', $dateMax)->get();
+		$date = $date->format('F, Y');
+		return View::make('news.search.date', compact('articles','articlesOlder','date'));
 	}
 
 	/**

@@ -4,8 +4,30 @@ function gravatar_url($email,$size = '40') {
 	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size;
 }
 
-function user_path() {
+function current_user_path() {
 	return lcfirst(Auth::user()->first_name) . '-' . lcfirst(Auth::user()->last_name);
+}
+
+function any_user_path($id) {
+	$user = User::find($id);
+	return lcfirst($user->first_name) . '-' . lcfirst($user->last_name);
+}
+
+function find_user_from_path($user) {
+	$user = explode('-',$user);
+	$user = User::where('first_name','=', ucwords($user[0]))
+			->where('last_name','=', ucwords($user[1]))
+			->first();
+	return $user;
+}
+
+function get_user_list_select() {
+	$users = User::all();
+	$options = '';
+	foreach($users as $user) {
+		$options .= '<option value="'.any_user_path($user->id).'">'.$user->first_name.' '.$user->last_name.'</option>';
+	}
+	return $options;
 }
 
 function convert_title_to_link($base_url, $title, $class = null) {
@@ -21,13 +43,17 @@ function convert_link_to_title($link) {
 }
 
 function find_unread_count($resource) {
-	$currentUser = user_path();
-	$count = '';
+	$currentUser = current_user_path();
 	if($resource == 'articles') {
 		$articles = Article::where('been_read','not like','%'.$currentUser.'%')->get()->count();
 		if($articles != 0) return '<span class="ss-chat"></span><span class="linked-to">'.$articles.'</span>';
 	}
-	elseif($resource == 'projects') {
+	else return;
+}
+
+function find_assigned_count($resource) {
+	$currentUser = current_user_path();
+	if($resource == 'projects') {
 		$projects = '2';
 		return '<span class="ss-chat"></span><span class="linked-to">'.$projects.'</span>';
 	}
@@ -44,6 +70,13 @@ function find_unread_count($resource) {
 		return '<span class="ss-chat"></span><span class="linked-to">'.$help.'</span>';
 	}
 	else return;
+}
+
+function user_last_login($login) {
+	$login = new DateTime($login);
+	$login = $login->format('F j, Y');
+	if($login != 'November 30, -0001') return 'Last Login: '.$login;
+	else return 'Last Login: null';
 }
 // Save for later
 // function link_to_task(Task $task) {

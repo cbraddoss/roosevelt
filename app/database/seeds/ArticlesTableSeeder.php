@@ -11,6 +11,7 @@ class ArticlesTableSeeder extends Seeder {
 			'content' => 'Hello world. This is our first news article!',
 			'author_id' => '1',
 			'scheduled' => '2014-04-01 08:00:00',
+			'created_at' => '2014-02-25 21:22:48'
 		));
 
 		Article::create(array(
@@ -18,6 +19,7 @@ class ArticlesTableSeeder extends Seeder {
 			'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'author_id' => '2',
 			'scheduled' => '2014-04-01 08:00:00',
+			'created_at' => '2014-03-31 21:22:48'
 		));
 
 		Article::create(array(
@@ -25,6 +27,7 @@ class ArticlesTableSeeder extends Seeder {
 			'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'author_id' => '3',
 			'scheduled' => '2014-04-01 08:00:00',
+			'created_at' => '2014-04-01 21:22:48'
 		));
 
 		Article::create(array(
@@ -32,6 +35,7 @@ class ArticlesTableSeeder extends Seeder {
 			'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'author_id' => '4',
 			'scheduled' => '2014-04-01 08:00:00',
+			'created_at' => '2014-01-31 21:22:48'
 		));
 	}
 }

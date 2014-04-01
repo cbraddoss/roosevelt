@@ -2,7 +2,7 @@
 				<div class="section">
 					<div class="user-menu-name"><img src="{{ gravatar_url(Auth::user()->email,30) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
 					<ul>
-						<li id="link-profile" class="link"><a href="/profile/{{ user_path() }}"><span class="ss-user"></span>Profile</a></li>
+						<li id="link-profile" class="link"><a href="/profile/{{ current_user_path() }}"><span class="ss-user"></span>Profile</a></li>
 						@if(Auth::user()->userrole == 'admin')
 						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
 						@endif
@@ -18,12 +18,12 @@
 					<div class="menu_nav">
 						<ul id="menu_links">
 							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="/">Dashboard</a></li>
-							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a>{{ find_unread_count('projects') }}</li>
-							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a>{{ find_unread_count('billables') }}</li>
+							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a>{{ find_assigned_count('projects') }}</li>
+							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a>{{ find_assigned_count('billables') }}</li>
 							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign">Invoices</a></li>
 							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings">Accounts</a></li>
-							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a>{{ find_unread_count('calendar') }}</li>
-							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a>{{ find_unread_count('help') }}</li>
+							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</li>
+							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a>{{ find_assigned_count('help') }}</li>
 							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
 							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-settings">Tools</a></li>

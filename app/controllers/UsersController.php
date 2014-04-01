@@ -40,7 +40,7 @@ class UsersController extends \BaseController {
 	 */
 	public function show($usersname)
 	{
-		$name = user_path();
+		$name = current_user_path();
 		if(Request::ajax()) return View::make('profile.partials.profile-update-form');
 		elseif($name == $usersname)	return View::make('profile.index');
 		else return Redirect::route('dashboard');
@@ -76,8 +76,8 @@ class UsersController extends \BaseController {
 				'id' => 'same:id',
 				'password' => 'between:8,30',
 				'password_again' => 'required_with:password|same:password',
-				'first_name' => 'required|max:40',
-				'last_name' => 'required|max:40',
+				'first_name' => 'required|max:40|alpha',
+				'last_name' => 'required|max:40|alpha',
 				'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
 				'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
 			));

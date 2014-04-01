@@ -412,6 +412,24 @@ jQuery(document).ready(function($){
 			});
 		});
 	});
+	
+	/* News Page */
+	$(document).on('click','#news-page .search-all', function(){
+		window.location.href='/news/';
+	});
+	$(document).on('change','#news-page .search-author', function(){
+		var authorLink = $(this).val();
+		window.location.href='/news/author/'+authorLink;
+	});
+	$('#news-page .search-date').datepicker().on('changeDate', function(ev) {
+		$('.dropdown-menu').hide();
+		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dateLink = new Date(ev.date.valueOf());
+		var yearLink = dateLink.getFullYear();
+		var monthLink = months[dateLink.getMonth()];
+		window.location.href='/news/'+yearLink+'/'+monthLink;
+
+	});
 
 	/* Projects Page */
 	//Change color of high priority project items
