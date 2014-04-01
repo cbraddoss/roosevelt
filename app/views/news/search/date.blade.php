@@ -13,17 +13,9 @@
 	
 	<div class="news-filter">
 		<ul>
-			<li>Filter by:</li>
-			<li><button class="search-all">All</button></li>
-			<li>
-				<select class="search-author">
-					<option>Select Author</option>
-					{{ get_user_list_select() }}
-				</select>
-			</li>
-			<li><input type="text" class="datepicker search-date" value="" placeholder="Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
-			<li>Unread</li>
-			<li>Favorites</li>
+			<li>Filtered for:</li>
+			<li><input type="text" class="datepicker filter-date" value="@if(!empty($date)) {{ $date }} @endif" placeholder="Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
+			<li><button class="filter-all">Reset</button></li>
 		</ul>
 	</div>
 	

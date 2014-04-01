@@ -65,10 +65,13 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function authorSearch($author) {
-		$userAuthor = find_user_from_path($author);
-		if($userAuthor != null)	{
-			$articles = Article::where('author_id','=',$userAuthor->id)->get();
-			return View::make('news.search.author', compact('articles','userAuthor'));
+		if(!empty($author)) {
+			$userAuthor = find_user_from_path($author);
+			if($userAuthor != null)	{
+				$articles = Article::where('author_id','=',$userAuthor->id)->get();
+				return View::make('news.search.author', compact('articles','userAuthor'));
+			}
+			else return Redirect::route('news');
 		}
 		else return Redirect::route('news');
 	}

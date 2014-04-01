@@ -21,11 +21,12 @@ function find_user_from_path($user) {
 	return $user;
 }
 
-function get_user_list_select() {
+function get_user_list_select($selected = null) {
 	$users = User::all();
 	$options = '';
 	foreach($users as $user) {
-		$options .= '<option value="'.any_user_path($user->id).'">'.$user->first_name.' '.$user->last_name.'</option>';
+		if($selected == $user->first_name.' '.$user->last_name) $options .= '<option value="'.any_user_path($user->id).'" selected>'.$user->first_name.' '.$user->last_name.'</option>';
+		else $options .= '<option value="'.any_user_path($user->id).'">'.$user->first_name.' '.$user->last_name.'</option>';
 	}
 	return $options;
 }

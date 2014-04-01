@@ -414,14 +414,14 @@ jQuery(document).ready(function($){
 	});
 	
 	/* News Page */
-	$(document).on('click','#news-page .search-all', function(){
+	$(document).on('click','#news-page .filter-all', function(){
 		window.location.href='/news/';
 	});
-	$(document).on('change','#news-page .search-author', function(){
+	$(document).on('change','#news-page .filter-author', function(){
 		var authorLink = $(this).val();
 		window.location.href='/news/author/'+authorLink;
 	});
-	$('#news-page .search-date').datepicker().on('changeDate', function(ev) {
+	$('#news-page .filter-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
