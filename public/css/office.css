@@ -873,8 +873,9 @@ input.search {
 	background: rgba(75,131,180,0.2);
 }
 #news-page .news-article {
-	border-bottom:1px solid #ddd;
+	border-bottom:1px solid rgba(32,32,32,0.4);;
 	padding:5px;
+	margin-bottom:5px;
 }
 #news-page .unread {
 	background: rgba(75,131,180,0.2);	
