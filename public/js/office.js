@@ -10,7 +10,7 @@ jQuery(document).ready(function($){
 			if(elementsLoaded>elementsActive) {
 			var findLastLoaded = $(data).filter('tr.user-list').last();
 			//$('tr.user-list').fadeOut('slow').remove();
-			$( findLastLoaded ).insertAfter( "tr.user-list:last" );
+			$( findLastLoaded ).insertAfter( "tr.user-list:last" ).css('background','rgba(75,131,180,0.2)');
 			}
 			//console.log( findLastLoaded );
 		});
