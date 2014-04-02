@@ -1,37 +1,17 @@
 jQuery(document).ready(function($){
 	// Listen for ajax events and update page (still in development)
-	var userListLengthOnLoad = $('.user-list').length;
+	//var userListLengthOnLoad = $('.user-list').length;
 	
-	setInterval(function(){
-		var elementsActive = $('.user-list').length;
-		//console.log(elementsActive);
-		$.get( "/admin/check", function( data ) {
-			var elementsLoaded = $(data).filter('tr.user-list').length;
-			if(elementsLoaded>elementsActive) {
-			var findLastLoaded = $(data).filter('tr.user-list').last();
-			//$('tr.user-list').fadeOut('slow').remove();
-			$( findLastLoaded ).insertAfter( "tr.user-list:last" ).css('background','rgba(75,131,180,0.2)');
-			}
-			//console.log( findLastLoaded );
-		});
-	}, 5000);
-
 	// setInterval(function(){
-	// 	var userListLengthWithNew = $('.user-list').length;
-	// 	var originalElement = $('.user-list').find('td');
-	// 	//console.log(originalElement);
-	// 	if(userListLengthWithNew > userListLengthOnLoad) {
-	// 		console.log('item added.');
-	// 		var newElement = $('.user-list').last('td');
-	// 		console.log(newElement);
-	// 		$('.user-list').append(newElement);
-
-	// 	}
-	// 	else if(userListLengthWithNew < userListLengthOnLoad) {
-	// 		console.log('item deleted.');
-	// 	}
-	// 	console.log('old: ' + userListLengthOnLoad + ' new: ' + userListLengthWithNew);
-	// }, 5000);
+	// 	var elementsActive = $('.user-list').length;
+	// 	$.get( "/admin/check", function( data ) {
+	// 		var elementsLoaded = $(data).filter('tr.user-list').length;
+	// 		if(elementsLoaded>elementsActive) {
+	// 		var findLastLoaded = $(data).filter('tr.user-list').last();
+	// 		$( findLastLoaded ).insertAfter( "tr.user-list:last" ).css('background','rgba(75,131,180,0.2)');
+	// 		}
+	// 	});
+	// }, 10000);
 	
 	$('#projects-feed').hide();
 	$('#leads-feed').hide();

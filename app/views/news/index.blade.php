@@ -27,7 +27,7 @@
 	</div>
 
 	@foreach($articles as $article)
-		@if(strpos($article->been_read,current_user_path()) !== false) <div class="news-article"> @else <div class="news-article unread"> @endif
+		@if(strpos($article->been_read,current_user_path()) !== false) <div class="news-article"> @else <div class="news-article unread"><span class="ss-lightbulb"></span> @endif
 		
 			<h3>{{ convert_title_to_link('news', $article->title, 'news-link') }}</h3>
 			<p>{{ $article->content }}</p>

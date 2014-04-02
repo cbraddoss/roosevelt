@@ -51,7 +51,7 @@ class ArticlesController extends \BaseController {
 			$articleView->been_read = $oldRead;
 		}
 		else {
-			$articleView->been_read = $oldRead.' '.$userRead;
+			$articleView->been_read = $oldRead.' '.$userRead.' ';
 			$articleView->save();
 		}
 		if($articleView) return View::make('news.single', compact('articleView'));
@@ -69,7 +69,7 @@ class ArticlesController extends \BaseController {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
 				$articles = Article::where('author_id','=',$userAuthor->id)->get();
-				return View::make('news.search.author', compact('articles','userAuthor'));
+				return View::make('news.filters.author', compact('articles','userAuthor'));
 			}
 			else return Redirect::route('news');
 		}
@@ -89,7 +89,7 @@ class ArticlesController extends \BaseController {
 		$articles = Article::where('created_at','>=', $date)
 					->where('created_at','<', $dateMax)->get();
 		$date = $date->format('F, Y');
-		return View::make('news.search.date', compact('articles','articlesOlder','date'));
+		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
 	}
 
 	/**

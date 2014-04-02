@@ -45,8 +45,10 @@ function convert_link_to_title($link) {
 
 function find_unread_count($resource) {
 	$currentUser = current_user_path();
+	$lastMonth = new DateTime('-1 month');
 	if($resource == 'articles') {
-		$articles = Article::where('been_read','not like','%'.$currentUser.'%')->get()->count();
+		$articles = Article::where('created_at','>=',$lastMonth)
+					->where('been_read','not like','%'.$currentUser.'%')->get()->count();
 		if($articles != 0) return '<span class="ss-chat"></span><span class="linked-to">'.$articles.'</span>';
 	}
 	else return;

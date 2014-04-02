@@ -14,7 +14,7 @@
 	<p class=""><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
 	<p class=""><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a></p>
 	<p class=""><a href="#" class="ss-globe ql-hosted">Website List</a></p>
-	<p class=""><a href="https://dropbox.com" target="_blank" class="ss-box ql-dropbox">Dropbox</a></p>
+	<p class=""><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
 	<span><a href="/tools">View Tools page for more...</a></span>
 </div>
 <div class="clear"></div>
@@ -24,7 +24,7 @@
 <div id="news-feed">
 	<ul>
 		@foreach($articles as $article)
-		@if(strpos($article->been_read,current_user_path()) !== false) <li> @else <li class="unread"> @endif
+		@if(strpos($article->been_read,current_user_path()) !== false) <li> @else <li class="unread"><span class="ss-lightbulb"></span> @endif
 			<h3>{{ convert_title_to_link('news', $article->title) }}</h3>
 			<p>{{ $article->content }}</p>
 			<small>Posted by: {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }} on {{ $article->created_at }}</small>

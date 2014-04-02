@@ -26,7 +26,7 @@
 							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a>{{ find_assigned_count('help') }}</li>
 							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
-							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-settings">Tools</a></li>
+							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask">Tools</a></li>
 							<li alt="Search" id="link-search" class="link"><span class="ss-search">Search</span></li>
 						</ul>
 					</div> <!-- .menu_nav -->

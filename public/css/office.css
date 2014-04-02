@@ -898,6 +898,12 @@ input.search {
 	color: #fff !important;
 	padding:5px;
 }
+#news-feed li .ss-lightbulb,
+#news-page .news-article .ss-lightbulb {
+	position:absolute;
+	right:20px;
+	color: rgba(204,0,0, 0.9);
+}
 /* Admin Page */
 #admin-page #users-list-title ul {
 	list-style:none;

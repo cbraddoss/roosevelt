@@ -13,7 +13,7 @@
 	<div class="news-article">
 		<h3>{{ $articleView->title }}</h3>
 		<p>{{ $articleView->content }}</p>
-		<small>Posted by: {{ User::find($articleView->author_id)->first_name }} on {{ $articleView->created_at }}</small>
+		<small>Posted by {{ link_to('/news/author/'.any_user_path($articleView->author_id), User::find($articleView->author_id)->first_name) }} on {{ $articleView->created_at->format('F j, Y') }}</small>
 	</div>
 <p>{{ link_to('/news', 'View all News...') }}</p>
 </div>
