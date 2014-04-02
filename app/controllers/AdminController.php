@@ -18,6 +18,16 @@ class AdminController extends \BaseController {
 		else return Redirect::route('dashboard');
 	}
 
+	public function check() {
+		$user = Auth::user();
+		if($user->userrole == 'admin') {
+			$users = User::all();
+			if(Request::ajax()) return View::make('admin.partials.user-list', compact('users'));
+			else return View::make('admin.index', compact('users'));
+		}
+		else return Redirect::route('dashboard');
+	}
+
 	public function userToUpdate() {
 		if ( Session::token() !== Input::get( '_token' ) ) {
             return Response::json( array(

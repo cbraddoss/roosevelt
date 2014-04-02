@@ -16,7 +16,7 @@
 		
 		<table id="users-table">
 			
-			<tr>
+			<tr class="table-title">
 				<th class="title-name">Name</th>
 				<th class="title-email">Email</th>
 				<th class="title-password">Password</th>
@@ -27,11 +27,7 @@
 				<th class="title-edit">Edit</th>
 			</tr>
 			
-			@foreach($users as $u)
-			<tr class="user-list user-list-{{ $u->id }}">
-				@include('admin.partials.user-list')
-			</tr>
-			@endforeach
+			@include('admin.partials.user-list')
 
 			<tr>
 				<td class="button-add-new"><button class="add-new">Add New User</button></td>

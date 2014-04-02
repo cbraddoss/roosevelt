@@ -64,7 +64,7 @@ class ArticlesController extends \BaseController {
 	 * @param  int  $author
 	 * @return Response
 	 */
-	public function authorSearch($author) {
+	public function authorFilter($author) {
 		if(!empty($author)) {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
@@ -82,7 +82,7 @@ class ArticlesController extends \BaseController {
 	 * @param  int  $date
 	 * @return Response
 	 */
-	public function dateSearch($year, $month) {
+	public function dateFilter($year, $month) {
 		$date = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax->modify('+1 month');		
