@@ -682,6 +682,7 @@ input.search {
 	margin:10px 0;
 }
 #content button,
+#content .button,
 #content span.cancel,
 #content input[type=submit] {
 	cursor: pointer;
@@ -699,6 +700,7 @@ input.search {
 	border-radius: 5px;
 }
 #content button:hover,
+#content .button:hover,
 #content span.cancel:hover,
 #content input[type=submit]:hover {
 	background-color: rgba(75,131,180,0.6);

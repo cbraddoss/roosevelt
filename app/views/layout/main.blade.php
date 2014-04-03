@@ -5,12 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>@yield('page-title') :: InsideOut Solutions Employee Hub & Remote Office</title>
-	<link rel="stylesheet" type="text/css" href="/css/office.css" media="screen">
-	<link rel="stylesheet" type="text/css" href="/css/datepicker.css" media="screen">
-	<link rel="stylesheet" href="/fonts/genericons/genericons.css">
-	<link rel="stylesheet" href="/fonts/Symbolset/ss-social.css">
-	<link rel="stylesheet" href="/fonts/Symbolset/ss-standard.css">
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,400,300,600&subset=latin,cyrillic-ext,greek-ext,greek,vietnamese,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+	
+	@include('layout.css')
 
 	@yield('page-css')
 
@@ -119,9 +115,7 @@
 	<div class="success-notice"><span class="ss-check"></span><p></p></div>
 	<div class="error-notice"><span class="ss-delete"></span><p></p></div>
 
-<script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/js/office.js"></script>
+@include('layout.js')
 
 @yield('page-js')
 

@@ -32,9 +32,9 @@ Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->b
 
 Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
 Route::get('/news/{article}',array('uses' => 'ArticlesController@show'))->before('auth');
-Route::get('/news/author/{usersname}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'))->before('auth');
+Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'))->before('auth');
 Route::get('/news/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'))->before('auth');
-Route::get('/news/unread/{user}', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
+Route::get('/news/unread/{usersname}', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
 
 Route::get('/tools', function(){
 	return View::make('tools.index');

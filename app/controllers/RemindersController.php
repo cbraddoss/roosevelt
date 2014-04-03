@@ -30,7 +30,7 @@ class RemindersController extends Controller {
 			$userToCheck = User::where('email','=',$emailToCheck['email'])->first();
 			//dd($userToCheck);
 			if(is_object($userToCheck)) {
-				if($userToCheck->active == 0) return Redirect::back()->with('error', 'This user is not active.');
+				if($userToCheck->active == 'no') return Redirect::back()->with('error', 'This user is not active.');
 			}
 		}
 		switch ($response)

@@ -1,18 +1,5 @@
 jQuery(document).ready(function($){
-	// Listen for ajax events and update page (still in development)
-	//var userListLengthOnLoad = $('.user-list').length;
-	
-	// setInterval(function(){
-	// 	var elementsActive = $('.user-list').length;
-	// 	$.get( "/admin/check", function( data ) {
-	// 		var elementsLoaded = $(data).filter('tr.user-list').length;
-	// 		if(elementsLoaded>elementsActive) {
-	// 		var findLastLoaded = $(data).filter('tr.user-list').last();
-	// 		$( findLastLoaded ).insertAfter( "tr.user-list:last" ).css('background','rgba(75,131,180,0.2)');
-	// 		}
-	// 	});
-	// }, 10000);
-	
+		
 	$('#projects-feed').hide();
 	$('#leads-feed').hide();
 
@@ -116,7 +103,6 @@ jQuery(document).ready(function($){
 			$(document).on('click','.activeEdit span.cancel',function(){
 				$('.success-notice').hide();
 				$('.error-notice').hide();
-				//console.log(userListOriginal);
 				$('tr.user-list-'+ userRow).html(userListOriginal).removeClass('activeEdit');
 				$('#users-table').find('button.edit').each(function() {
 					$(this).attr('disabled', false);
@@ -131,7 +117,6 @@ jQuery(document).ready(function($){
 			// Update a user
 			$('.activeEdit form.update-user').on('submit', function(){
 				var formID = $(this).attr('id');
-				//alert($(this).find('input.cell-phone').val());
 				$.post(
 					$(this).prop('action'),
 					{
@@ -147,14 +132,10 @@ jQuery(document).ready(function($){
 						"cell_phone" : $(this).find('input.cell-phone').val(),
 						"status" : $(this).find('select[name=status]').val()
 					}, function (data) {
-						//alert(target);
 						if(data.errorMsg) {
 							if(data.errorMsg == 'The email format is invalid.') $('.error-notice p').html('Only @insideout.com accounts are allowed.');
 							else $('.error-notice p').html(data.errorMsg);
 							$('.error-notice').show().delay(5000).fadeOut();
-							//var dataObj = JSON.parse(data.errorMsg);
-							//console.log(data.errorMsg);
-							//$('.error-notice').show().delay(4000).fadeOut();
 						}
 						else {
 							$('tr.activeEdit').html(userListOriginal).removeClass('activeEdit');
@@ -211,10 +192,7 @@ jQuery(document).ready(function($){
 							"last_name" : $(this).find('input.last-name').val(),
 							"confirm-delete" : $( this ).find( 'input[name=confirm-delete]' ).val(),
 						}, function (data) {
-							//console.log(data);
 							$('.error-notice p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
-							//$('#users-table .user-list-'+deleteID).remove();
-							// $('#users-table #user-' + deleteID).fadeOut("slow").remove();
 						},'json'
 					);
 					$('tr.activeEdit').remove();
@@ -262,7 +240,7 @@ jQuery(document).ready(function($){
 		var userExtensionWidth = $(this).parent().parent().parent().find('.title-extension').width();
 		var userCellPhoneWidth = $(this).parent().parent().parent().find('.title-cell-phone').width();
 		var userStatusWidth = $(this).parent().parent().parent().find('.title-status').width();
-		//alert(userNameWidth);
+
 		$(this).parent().parent().parent().find('#user-new input.first-name').css('width',((userNameWidth)/2)-6+'px').focus();
 		$(this).parent().parent().parent().find('#user-new input.last-name').css('width',((userNameWidth)/2)-6+'px');
 		$(this).parent().parent().parent().find('#user-new input.email').css('width',(userEmailWidth-4)+'px');
@@ -414,9 +392,6 @@ jQuery(document).ready(function($){
 	});
 	
 	/* News Page */
-	$(document).on('click','#news-page .filter-all', function(){
-		window.location.href='/news/';
-	});
 	$(document).on('change','#news-page .filter-author', function(){
 		var authorLink = $(this).val();
 		window.location.href='/news/author/'+authorLink;
@@ -428,7 +403,6 @@ jQuery(document).ready(function($){
 		var yearLink = dateLink.getFullYear();
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/news/'+yearLink+'/'+monthLink;
-
 	});
 
 	/* Projects Page */

@@ -43,18 +43,18 @@ class ArticlesController extends \BaseController {
 	{
 		
 		$article = convert_link_to_title($article);
-		$articleView = Article::where('title', $article)->first();
+		$article = Article::where('title', $article)->first();
 		$userRead = current_user_path();
-		if(empty($articleView)) return Redirect::route('news');
-		else $oldRead = $articleView->been_read;
+		if(empty($article)) return Redirect::route('news');
+		else $oldRead = $article->been_read;
 		if(strpos($oldRead,$userRead) !== false) {
-			$articleView->been_read = $oldRead;
+			$article->been_read = $oldRead;
 		}
 		else {
-			$articleView->been_read = $oldRead.' '.$userRead.' ';
-			$articleView->save();
+			$article->been_read = $oldRead.' '.$userRead.' ';
+			$article->save();
 		}
-		if($articleView) return View::make('news.single', compact('articleView'));
+		if($article) return View::make('news.single', compact('article'));
 		else return Redirect::route('news');
 	}
 
@@ -90,6 +90,23 @@ class ArticlesController extends \BaseController {
 					->where('created_at','<', $dateMax)->get();
 		$date = $date->format('F, Y');
 		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
+	}
+
+	/**
+	 * Return search for date
+	 *
+	 * @param  int  $date
+	 * @return Response
+	 */
+	public function unreadFilter($usersname) {
+		$currentUser = current_user_path();
+		$lastMonth = new DateTime('-1 month');
+		if($currentUser == $usersname)	{ 
+			$articles = Article::where('created_at','>=',$lastMonth)
+						->where('been_read','like','%'.$currentUser.'%')->get();
+			return View::make('news.filter.unread');
+		}
+		else return Redirect::route('dashboard');
 	}
 
 	/**

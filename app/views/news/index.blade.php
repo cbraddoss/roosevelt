@@ -17,19 +17,12 @@
 				</select>
 			</li>
 			<li><input type="text" class="datepicker filter-date" value="@if(!empty($date)) {{ $date }} @endif" placeholder="Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
-			<li><button class="filter-unread">Unread</button></li>
+			<li><a href="/news/unread/{{ current_user_path() }}" class="button filter-unread">Unread</a></li>
 			<li>Favorites</li>
 		</ul>
 	</div>
 
-	@foreach($articles as $article)
-		@if(strpos($article->been_read,current_user_path()) !== false) <div class="news-article"> @else <div class="news-article unread"><span class="ss-lightbulb"></span> @endif
-		
-			<h3>{{ convert_title_to_link('news', $article->title, 'news-link') }}</h3>
-			<p>{{ $article->content }}</p>
-			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }} on {{ $article->created_at->format('F j, Y') }}</small>
-		</div>
-	@endforeach
+	@include('news.partials.findArticles')
 
 </div>
 @stop
