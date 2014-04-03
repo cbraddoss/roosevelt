@@ -1,14 +1,10 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'News' }}
+{{ 'Company News' }}
 @stop
 
 @section('page-content')
-<div id="page-title">
-	<h2>Company News</h2>
-</div>
-
 <div id="news-page"  class="inner-page">
 
 	<div class="news-filter">

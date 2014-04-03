@@ -5,10 +5,6 @@
 @stop
 
 @section('page-content')
-<div id="page-title">
-	<h2>Tools</h2>
-</div>
-
 <div id="tools-page"  class="inner-page">
 	<p>Miscellaneous Tools and Links for InsideOut Employees</p>
 

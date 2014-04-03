@@ -82,6 +82,15 @@ If you have issues doing the above, try running (then run the above again):
 
 	composer dump-autoload
 
+##Staging and Production commands:
+
+	php artisan migrate:rollback
+	composer dump-autoload -o
+	php artisan migrate
+	php artisan db:seed
+	php artisan office:clear-article-unread
+
+
 ##Additional Notes:
 
 Creating a new view? Use the following structure as a guideline when extending the main view. Replace all instances of 'NewPage' with desired page name.

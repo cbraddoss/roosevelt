@@ -5,10 +5,6 @@
 @stop
 
 @section('page-content')
-<div id="page-title">
-	<h2>Admin</h2>
-</div>
-
 <div id="admin-page"  class="inner-page">
 	<div id="user-management">
 		
@@ -47,7 +43,6 @@
 	</div>
 
 </div>
-
 @stop
 
 @section('page-js')

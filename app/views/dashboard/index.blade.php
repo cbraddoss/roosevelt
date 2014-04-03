@@ -1,9 +1,10 @@
 @extends('layout.main')
 
+@section('page-title')
+{{ 'Dashboard' }}
+@stop
+
 @section('page-content')
-<div id="page-title">
-	<h2>Dashboard</h2>
-</div>
 <div id="quicklinks">
 	<p class=""><a href="/todo/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List</a></p>
 	<p class=""><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>

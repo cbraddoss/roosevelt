@@ -5,10 +5,6 @@
 @stop
 
 @section('page-content')
-<div id="page-title">
-	<h2>Accounts</h2>
-</div>
-
 <div class="inner-page">
     Search Accounts: <input type="text" />
     

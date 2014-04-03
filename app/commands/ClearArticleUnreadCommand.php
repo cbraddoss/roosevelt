@@ -50,6 +50,7 @@ class ClearArticleUnreadCommand extends Command {
 			$article->been_read = $beenRead;
 			$article->save();
 		}
+		$this->info('Articles older than 1 month marked as read for all users.');
 	}
 
 	/**

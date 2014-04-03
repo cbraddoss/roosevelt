@@ -5,10 +5,6 @@
 @stop
 
 @section('page-content')
-<div id="page-title">
-	<h2>Your Profile</h2>
-</div>
-
 <div id="profile-page"  class="inner-page">
 	
 	<p><span class="user-image"><img src="{{ gravatar_url(Auth::user()->email,100) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span></p>
