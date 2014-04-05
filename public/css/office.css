@@ -698,12 +698,14 @@ input.search {
 	padding: 3px 6px;
 	font-size:0.9em;
 	border-radius: 5px;
+	text-decoration:none;
 }
 #content button:hover,
 #content .button:hover,
 #content span.cancel:hover,
 #content input[type=submit]:hover {
 	background-color: rgba(75,131,180,0.6);
+	text-decoration:none;
 }
 #content ul {
 	list-style:none;
@@ -1134,8 +1136,23 @@ input.search {
 }
 
 
-
-
+#fourOhFour-page p {
+	margin: 10px auto;
+	width: 300px;
+	text-align: center;
+	font-size:1.5em;
+}
+#fourOhFour-page span {
+	margin: 10px auto;
+	width: 300px;
+	text-align: center;
+	display: block;
+	color: #888;	
+}
+#fourOhFour-page p.alert-icon span {
+	font-size:8em;
+	color: #CC3333;
+}
 /* Footer */
 #foot {
 	font-size:1.2em;

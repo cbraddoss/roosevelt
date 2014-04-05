@@ -17,7 +17,7 @@
 				</select>
 			</li>
 			<li><input type="text" class="datepicker filter-date" value="@if(!empty($date)) {{ $date }} @endif" placeholder="Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
-			<li><a href="/news/unread/{{ current_user_path() }}" class="button filter-unread">Unread</a></li>
+			<li><a href="/news/unread/" class="button filter-unread">Unread</a></li>
 			<li>Favorites</li>
 		</ul>
 	</div>

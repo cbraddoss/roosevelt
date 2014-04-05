@@ -38,12 +38,11 @@ class UsersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($usersname)
+	public function show()
 	{
-		$currentUser = current_user_path();
 		if(Request::ajax()) return View::make('profile.partials.profile-update-form');
-		elseif($currentUser == $usersname)	return View::make('profile.index');
-		else return Redirect::route('dashboard');
+		else return View::make('profile.index');
+		
 	}
 
 	/**

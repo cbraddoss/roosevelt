@@ -14,7 +14,8 @@ class UsersTableSeeder extends Seeder {
 			'last_name' => 'Doss',
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
-			'status' => "active",
+			'status' => 'active',
+			'user_path' => 'brad-doss'
 		));
 
 		User::create(array(
@@ -24,7 +25,8 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'Jack',
 			'last_name' => 'Waknitz',
 			'extension' => '308',
-			'status' => "active",
+			'status' => 'active',
+			'user_path' => 'jack-waknitz'
 		));
 
 		User::create(array(
@@ -34,7 +36,8 @@ class UsersTableSeeder extends Seeder {
 			'first_name' => 'Taylor',
 			'last_name' => 'Hasenpflug',
 			'extension' => '313,315',
-			'status' => "active",
+			'status' => 'active',
+			'user_path' => 'taylor-hasenpflug'
 		));
 
 		User::create(array(
@@ -43,7 +46,8 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'One',
-			'status' => "active",
+			'status' => 'active',
+			'user_path' => 'user-one'
 		));
 
 		User::create(array(
@@ -52,7 +56,28 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'Two',
-			'status' => "inactive",
+			'status' => 'inactive',
+			'user_path' => 'user-two'
+		));
+
+		User::create(array(
+			'email' => 'userthree@insideout.com',
+			'password' => Hash::make('1234'),
+			'userrole' => 'standard',
+			'first_name' => 'User',
+			'last_name' => 'Three',
+			'status' => 'active',
+			'user_path' => 'user-three'
+		));
+
+		User::create(array(
+			'email' => 'userthreeagain@insideout.com',
+			'password' => Hash::make('1234'),
+			'userrole' => 'standard',
+			'first_name' => 'User',
+			'last_name' => 'Three',
+			'status' => 'active',
+			'user_path' => 'user-three-2'
 		));
 	}
 }

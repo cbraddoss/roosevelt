@@ -17,10 +17,12 @@ class CreateArticlesTable extends Migration {
 			$table->increments('id');
 			$table->string('title', 40)->unique();
 			$table->text('content');
-			$table->integer('author_id');
+			$table->string('link');
 			$table->datetime('scheduled');
+			$table->integer('author_id');
 			$table->string('been_read');
-			$table->string('viewed_by');
+			$table->string('favorited');
+			$table->string('mentions');
 			$table->string('attachment');
 			$table->timestamps();
 		});

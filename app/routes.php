@@ -23,18 +23,18 @@ Route::resource('sessions','SessionsController',array('only' => array('create','
 Route::controller('password', 'RemindersController');
 
 Route::get('/admin',array('as' => 'admin', 'uses' => 'AdminController@index'))->before('auth');
-Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) );
-Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ) );
-//Route::resource('admin','AdminController');
+Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) )->before('auth');
+Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ) )->before('auth');
 
-Route::get('/profile/{usersname}',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
-Route::post('/profile/{usersname}',array('uses' => 'UsersController@update'))->before('auth');
+
+Route::get('/profile/',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
+Route::post('/profile/',array('uses' => 'UsersController@update'))->before('auth');
 
 Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
-Route::get('/news/{article}',array('uses' => 'ArticlesController@show'))->before('auth');
+Route::get('/news/article/{article}',array('uses' => 'ArticlesController@show'))->before('auth');
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'))->before('auth');
-Route::get('/news/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'))->before('auth');
-Route::get('/news/unread/{usersname}', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
+Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
+Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'))->before('auth');
 
 Route::get('/tools', function(){
 	return View::make('tools.index');
@@ -74,5 +74,5 @@ Route::get('/wiki', function(){
 App::missing(function($exception)
 {
     if(Auth::guest()) return Redirect::route('login');
-    else return;
+    else return Response::view('errors.missing');
 });

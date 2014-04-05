@@ -98,15 +98,12 @@ class ArticlesController extends \BaseController {
 	 * @param  int  $date
 	 * @return Response
 	 */
-	public function unreadFilter($usersname) {
+	public function unreadFilter() {
 		$currentUser = current_user_path();
 		$lastMonth = new DateTime('-1 month');
-		if($currentUser == $usersname)	{ 
-			$articles = Article::where('created_at','>=',$lastMonth)
-						->where('been_read','like','%'.$currentUser.'%')->get();
-			return View::make('news.filter.unread');
-		}
-		else return Redirect::route('dashboard');
+		$articles = Article::where('created_at','>=',$lastMonth)
+					->where('been_read','not like','%'.$currentUser.'%')->get();
+		return View::make('news.filters.unread', compact('articles'));
 	}
 
 	/**

@@ -19,7 +19,7 @@
 				<div class="section">
 					<div class="user-menu-name"><img src="{{ gravatar_url(Auth::user()->email,30) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
 					<ul>
-						<li id="link-profile" class="link"><a href="/profile/{{ current_user_path() }}"><span class="ss-user"></span>Profile</a></li>
+						<li id="link-profile" class="link"><a href="/profile/"><span class="ss-user"></span>Profile</a></li>
 						@if(Auth::user()->userrole == 'admin')
 						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
 						@endif

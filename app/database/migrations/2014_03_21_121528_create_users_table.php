@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->string('last_name', 50);
 			$table->string('extension', 40);
 			$table->string('cell_phone', 40);
+			$table->string('user_path', 128)->unique();
 			$table->dateTime('last_login');
 			$table->string('status', 8);
 			$table->timestamps();

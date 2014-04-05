@@ -1,4 +1,4 @@
-{{ Form::open( array('class' => 'update-profile', 'url' => '/profile/' . current_user_path(), 'method' => 'post') ) }}
+{{ Form::open( array('class' => 'update-profile', 'url' => '/profile', 'method' => 'post') ) }}
 
 {{ Form::hidden('id') }}
 

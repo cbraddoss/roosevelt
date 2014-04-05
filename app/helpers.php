@@ -5,12 +5,12 @@ function gravatar_url($email,$size = '40') {
 }
 
 function current_user_path() {
-	return lcfirst(Auth::user()->first_name) . '-' . lcfirst(Auth::user()->last_name);
+	return Auth::user()->user_path;
 }
 
 function any_user_path($id) {
 	$user = User::find($id);
-	return lcfirst($user->first_name) . '-' . lcfirst($user->last_name);
+	return $user->user_path;
 }
 
 function find_user_from_path($user) {
@@ -34,7 +34,7 @@ function get_user_list_select($selected = null) {
 function convert_title_to_link($base_url, $title, $class = null) {
 	$link = str_replace(' ','-',$title);
 	$link = strtolower($link);
-	return '<a href="/'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
+	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
 }
 
 function convert_link_to_title($link) {

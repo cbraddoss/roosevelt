@@ -325,7 +325,7 @@ jQuery(document).ready(function($){
 		var profileEmailVal = $(this).parent().parent().parent().parent().find('.profile-email').attr('fieldval');
 		var profileExtensionVal = $(this).parent().parent().parent().parent().find('.profile-extension').attr('fieldval');
 		var profileCellPhoneVal = $(this).parent().parent().parent().parent().find('.profile-cell-phone').attr('fieldval');
-		$(this).parent().parent().parent().parent().parent().load('/profile/'+profileFirstNameValLowercase+'-'+profileLastNameValLowercase, function() {
+		$(this).parent().parent().parent().parent().parent().load('/profile', function() {
 			// Set form ID
 			$(this).find('form').attr('id',ProfileID);
 
@@ -402,7 +402,7 @@ jQuery(document).ready(function($){
 		var dateLink = new Date(ev.date.valueOf());
 		var yearLink = dateLink.getFullYear();
 		var monthLink = months[dateLink.getMonth()];
-		window.location.href='/news/'+yearLink+'/'+monthLink;
+		window.location.href='/news/date/'+yearLink+'/'+monthLink;
 	});
 
 	/* Projects Page */

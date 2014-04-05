@@ -51,29 +51,64 @@ class AdminController extends \BaseController {
 				$response = array(
 					'errorMsg' => $messages->first()
 				);
-			} else {
-				$userToUpdate = User::find(Input::get('id'));
-				$userToUpdate->first_name =  Input::get('first_name');
-				$userToUpdate->last_name =  Input::get('last_name');
-				$userToUpdate->email =  Input::get('email');
-				if(Input::get('password') != '') $userToUpdate->password =  Hash::make(Input::get('password'));
-				$userToUpdate->userrole =  Input::get('userrole');
-				$userToUpdate->extension =  Input::get('extension');
-				$userToUpdate->cell_phone =  Input::get('cell_phone');
-				$userToUpdate->status =  Input::get('status');
-				$userToUpdate->save();
-				
-				$response = array(
-					'id' => Input::get('id'),
-					'first_name' => Input::get('first_name'),
-					'last_name' => Input::get('last_name'),
-					'email' => Input::get('email'),
-					'userrole' => Input::get('userrole'),
-					'extension' => Input::get('extension'),
-					'cell_phone' => Input::get('cell_phone'),
-					'status' => Input::get('status'),
-		            'msg' => 'successfully updated.',
-		        );
+			} 
+			else {
+				$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name'));
+				$usersCheck = User::where('user_path','like','%'.$userPath.'%')->get();
+				$error = '';
+				if(!$usersCheck->isEmpty()) {
+					foreach($usersCheck as $userCheck) {
+						$pathCheck[] = $userCheck->user_path;
+					}
+					rsort($pathCheck);
+					//dd($pathCheck);
+					$pathCheck = $pathCheck[0];
+
+					if(preg_match('/(?<fName>\w+)-(?<lName>\w+)-(?<digit>\d+)/', $pathCheck, $pathMatch)) {
+						if($pathMatch['digit'] >= 9) {
+							$error = 'Too many users with that name. Please use another name.';
+							$pathBump = '';
+						}
+						else {
+							$newPathNum = $pathMatch['digit']+1;
+							$pathBump = '-'.$newPathNum;
+						}
+					}
+					else $pathBump = '-2';
+					
+					$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name')) . $pathBump;
+				}
+				if($error) {
+					$response = array(
+		                'errorMsg' => $error
+		            );
+				}
+				else {
+					$userToUpdate = User::find(Input::get('id'));
+					$userToUpdate->first_name =  ucwords(Input::get('first_name'));
+					$userToUpdate->last_name =  ucwords(Input::get('last_name'));
+					$userToUpdate->user_path = $userPath;
+					$userToUpdate->email =  Input::get('email');
+					if(Input::get('password') != '') $userToUpdate->password =  Hash::make(Input::get('password'));
+					$userToUpdate->userrole =  Input::get('userrole');
+					$userToUpdate->extension =  Input::get('extension');
+					$userToUpdate->cell_phone =  Input::get('cell_phone');
+					$userToUpdate->status =  Input::get('status');
+					
+					$userToUpdate->save();		
+					
+					$response = array(
+						'id' => Input::get('id'),
+						'first_name' => ucwords(Input::get('first_name')),
+						'last_name' => ucwords(Input::get('last_name')),
+						'email' => Input::get('email'),
+						'userrole' => Input::get('userrole'),
+						'extension' => Input::get('extension'),
+						'cell_phone' => Input::get('cell_phone'),
+						'status' => Input::get('status'),
+			            'msg' => 'successfully updated.',
+			        );
+				}
 			}
 		}
 		elseif(Input::get('confirm-delete') == 'yes') {
@@ -91,7 +126,7 @@ class AdminController extends \BaseController {
 			$validator = Validator::make(Input::all(), array(
 				'first_name' => 'required|max:40|alpha',
 				'last_name' => 'required|max:40|alpha',
-				'email' => array('required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
+				'email' => array('unique:users', 'required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
 				'password' => 'required|between:8,30',
 				'extension' => 'between:3,12|regex:/^([0-9,])+$/i'
 			));
@@ -103,40 +138,43 @@ class AdminController extends \BaseController {
 				);
 			}
 			else {
-				$findUserMaybe = User::where('email', '=', Input::get('email'))->first();
-				$newUserEmail = Input::get('email');
-				$newUserPassword = Input::get('password');
-				$newUserFirst = Input::get('first_name');
-				$newUserLast = Input::get('last_name');
-				
-				if(empty($newUserFirst) || empty($newUserLast)) {
-					$response = array(
-						'errorMsg' => 'Name fields are required. Please try again.'
-					);
-				}
-				elseif($newUserEmail == '') {
-					$response = array(
-						'errorMsg' => 'Email address required. Please try again.'
-					);
-				}
-				elseif(!empty($findUserMaybe->email)) {
+				$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name'));
+				$usersCheck = User::where('user_path','like','%'.$userPath.'%')->get();
+				$error = '';
+				if(!$usersCheck->isEmpty()) {
+					foreach($usersCheck as $userCheck) {
+						$pathCheck[] = $userCheck->user_path;
+					}
+					rsort($pathCheck);
+					$pathCheck = $pathCheck[0];
+
+					if(preg_match('/(?<fName>\w+)-(?<lName>\w+)-(?<digit>\d+)/', $pathCheck, $pathMatch)) {
+						if($pathMatch['digit'] >= 9) {
+							$error = 'Too many users with that name. Please use another name.';
+							$pathBump = '';
+						}
+						else {
+							$newPathNum = $pathMatch['digit']+1;
+							$pathBump = '-'.$newPathNum;
+						}
+					}
+					else $pathBump = '-2';
 					
-					$response = array(
-						'errorMsg' => 'Email address exists. Please use another email address.'
-					);
+					$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name')) . $pathBump;
 				}
-				elseif(empty($newUserPassword)) {
-					
+				if($error) {
 					$response = array(
-						'errorMsg' => 'User must have a password.'
-					);
+		                'errorMsg' => $error
+		            );
 				}
 				else {
+
 					$newUser = new User;
 					
 					$newUser->first_name = ucwords(Input::get('first_name'));
 					$newUser->last_name = ucwords(Input::get('last_name'));
 					$newUser->email = Input::get('email');
+					$newUser->user_path = $userPath;
 					$newUser->password = Hash::make(Input::get('password'));
 					$newUser->userrole = Input::get('userrole');
 					$newUser->extension = Input::get('extension');
