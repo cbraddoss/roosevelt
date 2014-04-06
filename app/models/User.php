@@ -5,8 +5,11 @@ use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
+	protected $guarded = array('id');
 
 	protected $fillable =array('username','password');
+
+	protected $errors;
 
 	/**
 	 * The database table used by the model.
@@ -16,11 +19,49 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $table = 'users';
 
 	/**
+	* Validation rules for Users
+	*/
+	protected static $rules = array (
+				'first_name' => 'required|max:40|alpha',
+				'last_name' => 'required|max:40|alpha',
+				'email' => array('unique:users', 'required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
+				'password' => 'between:8,30',
+				'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
+				'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
+		);
+
+	// $validator = Validator::make(Input::all(), array(
+	// 			'first_name' => 'required|max:40|alpha',
+	// 			'last_name' => 'required|max:40|alpha',
+	// 			'email' => array('unique:users', 'required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
+	// 			'password' => 'required|between:8,30',
+	// 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i'
+	// 		));
+
+	// $validator = Validator::make(Input::all(), array(
+	// 			'id' => 'same:id',
+	// 			'password' => 'between:8,30',
+	// 			'email' => array('required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
+	// 			'first_name' => 'required|max:40|alpha',
+	// 			'last_name' => 'required|max:40|alpha',
+	// 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
+	// 			'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
+	// 		));
+	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
 	 */
 	protected $hidden = array('password');
+
+	/**
+	* Validate users on updating and creating
+	*
+	* @return boolean
+	*/
+	public function validate() {
+
+	}
 
 	/**
 	 * Get the unique identifier for the user.

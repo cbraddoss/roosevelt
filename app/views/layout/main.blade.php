@@ -63,7 +63,7 @@
 					
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">
-							<a id="tasks" class="ss-check todo-feed-title" href="#">Your Tasks <span class="todo-num">NUM</span><span class="down-arrow ss-down"></span></a>
+							<a id="tasks" class="ss-check todo-feed-title active" href="#">Your Tasks <span class="todo-num">NUM</span><span class="down-arrow ss-down"></span></a>
 							<ul id="tasks-feed" class="todo-feed">
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>

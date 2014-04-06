@@ -1,8 +1,4 @@
 jQuery(document).ready(function($){
-		
-	$('#projects-feed').hide();
-	$('#leads-feed').hide();
-
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
@@ -21,14 +17,19 @@ jQuery(document).ready(function($){
 	});
 
 	//Show/hide task items in sidebar
+	$('#projects-feed').hide();
+	$('#leads-feed').hide();
 	$('#show-tasks-list').click(function() {
 		$('#tasks-feed').toggle();
+		$(this).find('a.todo-feed-title').toggleClass('active');
 	});
 	$('#show-leads-list').click(function() {
 		$('#leads-feed').toggle();
+		$(this).find('a.todo-feed-title').toggleClass('active');
 	});
 	$('#show-projects-list').click(function() {
 		$('#projects-feed').toggle();
+		$(this).find('a.todo-feed-title').toggleClass('active');
 	});
 	
 	/* Admin Page */

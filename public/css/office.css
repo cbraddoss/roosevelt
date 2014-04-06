@@ -39,10 +39,6 @@ ul {
 	clear:both;
 }
 
-#body_content {
-	height:100%;
-}
-
 /* Login Form */
 #login-box {
 	position: absolute;
@@ -145,6 +141,9 @@ ul {
 #login .submit:hover {
 	background-color: rgba(75,131,180,0.9);
 }
+#login #login-submit.field-div{
+	margin-bottom:0;
+}
 #login-subtext {
 	padding: 10px 10px 10px 20px;
 }
@@ -164,7 +163,6 @@ ul {
 	left:0;
 	width:100%;
 	height:95px;
-	/*background: #222;*/
 	z-index:57;
 	clear:both;
 	box-shadow: 0px 1px 5px #333;
@@ -175,8 +173,7 @@ ul {
 	margin:0 auto;
 }
 #header .section {
-	/*background: rgba(32,32,32,0.4);*/
-	/*background: rgba(32,32,32,0.4);*/
+	background: rgba(32,32,32,0.4);
 }
 /* Top Menu */
 #user-menu {
@@ -207,7 +204,8 @@ ul {
 #user-menu ul li {
 	float:left;
 	width:65px;
-	margin:0px 0px 0px 30px;
+	padding-left:30px;
+	margin:0px 0px 0px 0px;
 	height:30px;
 	font-size:1.4em;
 }
@@ -544,14 +542,12 @@ input.search {
 	text-align:left;
 }
 #todo-box .todo-sub-box {
-	border-top-right-radius:5px;
-	border-top-left-radius:5px;
-	background:#fff;
+	margin-bottom:5px;
 }
 #todo-box .todo-feed-title {
 	text-decoration:none;
 	margin: 0 0 10px;
-	padding: 5px 0;
+	padding: 5px 0 5px;
 	display:block;
 	width:100%;
 	color: #fff;
@@ -561,9 +557,19 @@ input.search {
 	background: rgba(75,131,180,0.9);
 	border-radius: 5px;
 }
+#todo-box .todo-feed-title.active {
+	padding: 5px 0 15px;
+}
 #todo-box .todo-feed-title:before {
 	padding-right:10px;
 	margin-left:50px;
+}
+#todo-box .todo-feed {
+	background:#fff;
+	padding:15px;
+	margin-top:-20px;
+	border-radius: 5px;
+	border: 1px solid #ddd;
 }
 #todo-box span.down-arrow {
 	margin:3px 15px 0 0;
@@ -585,7 +591,6 @@ input.search {
 }
 #todo-box ul {
 	list-style:none;
-	margin:5px 15px 0px;
 	font-size: 0.8em;
 }
 #todo-box ul li {
