@@ -64,11 +64,7 @@ class UsersController extends \BaseController {
 	 */
 	public function update()
 	{
-		if ( Session::token() !== Input::get( '_token' ) ) {
-            return Response::json( array(
-                'errorMsg' => 'Request not valid.'
-            ) );
-        }
+		
         if(Input::get('confirm-profile-update') == 'yes') {
 			
 			$validator = Validator::make(Input::all(), array(

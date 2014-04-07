@@ -28,7 +28,7 @@ Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ) )->before
 
 
 Route::get('/profile/',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
-Route::post('/profile/',array('uses' => 'UsersController@update'))->before('auth');
+Route::post('/profile/',array('uses' => 'UsersController@update'))->before(array('csrf','auth'));
 
 Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
 Route::get('/news/article/{article}',array('uses' => 'ArticlesController@show'))->before('auth');

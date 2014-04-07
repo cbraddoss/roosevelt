@@ -55,12 +55,29 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password');
 
 	/**
+	* Load Model Event Listen
+	*/
+	public static function boot() {
+		parent::boot();
+
+		static::saving(function($model){
+			return $model->validate();
+		});
+	}
+
+	/**
 	* Validate users on updating and creating
 	*
 	* @return boolean
 	*/
 	public function validate() {
+		$validation = Validator::make($this->getAttributes(), static::$rules);
 
+		if($validation->fails()) {
+			$this->errors = $validation->messages();
+			return false;
+		}
+		return true;
 	}
 
 	/**
