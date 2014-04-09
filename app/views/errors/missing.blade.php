@@ -9,6 +9,6 @@
 	<p class="alert-icon"><span class="ss-alert"></span></p>
 	<p>Oops, Page Not Found!</p>
 	<p>Error: 404</p>
-	<span>If you are expecting a page to be here, please let a devteam member know.</span>
+	<span>Check the Routes file or Controller file for the specific resource you are trying to access.</span>
 </div>
 @stop

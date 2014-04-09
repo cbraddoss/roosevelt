@@ -310,87 +310,87 @@ jQuery(document).ready(function($){
 
 	/* Profile Page */
 	// Update your profile
-	$(document).on('click','#profile-details button.edit-profile',function(){
-		// Get current user ID
-		var ProfileID = $(this).attr('id');
+	// $(document).on('click','#profile-details button.edit-profile',function(){
+	// 	// Get current user ID
+	// 	var ProfileID = $(this).attr('id');
 
-		$('.success-notice').hide();
-		$('.error-notice').hide();
+	// 	$('.success-notice').hide();
+	// 	$('.error-notice').hide();
 
-		// Replace list with form for this user by ID
-		var profileDetailsOriginal = $('#profile-page #profile-details').find('table');
-		var profileFirstNameVal = $(this).parent().parent().parent().parent().find('.profile-first-name').attr('fieldval');
-		var profileFirstNameValLowercase = profileFirstNameVal.toLowerCase();
-		var profileLastNameVal = $(this).parent().parent().parent().parent().find('.profile-last-name').attr('fieldval');
-		var profileLastNameValLowercase = profileLastNameVal.toLowerCase();
-		var profileEmailVal = $(this).parent().parent().parent().parent().find('.profile-email').attr('fieldval');
-		var profileExtensionVal = $(this).parent().parent().parent().parent().find('.profile-extension').attr('fieldval');
-		var profileCellPhoneVal = $(this).parent().parent().parent().parent().find('.profile-cell-phone').attr('fieldval');
-		$(this).parent().parent().parent().parent().parent().load('/profile', function() {
-			// Set form ID
-			$(this).find('form').attr('id',ProfileID);
+	// 	// Replace list with form for this user by ID
+	// 	var profileDetailsOriginal = $('#profile-page #profile-details').find('table');
+	// 	var profileFirstNameVal = $(this).parent().parent().parent().parent().find('.profile-first-name').attr('fieldval');
+	// 	var profileFirstNameValLowercase = profileFirstNameVal.toLowerCase();
+	// 	var profileLastNameVal = $(this).parent().parent().parent().parent().find('.profile-last-name').attr('fieldval');
+	// 	var profileLastNameValLowercase = profileLastNameVal.toLowerCase();
+	// 	var profileEmailVal = $(this).parent().parent().parent().parent().find('.profile-email').attr('fieldval');
+	// 	var profileExtensionVal = $(this).parent().parent().parent().parent().find('.profile-extension').attr('fieldval');
+	// 	var profileCellPhoneVal = $(this).parent().parent().parent().parent().find('.profile-cell-phone').attr('fieldval');
+	// 	$(this).parent().parent().parent().parent().parent().load('/profile', function() {
+	// 		// Set form ID
+	// 		$(this).find('form').attr('id',ProfileID);
 
-			$(this).find('form#' + ProfileID + ' input[name="id"]').val(ProfileID);
-			$(this).find('form#' + ProfileID + ' input.first-name').val(profileFirstNameVal).focus();
-			$(this).find('form#' + ProfileID + ' input.last-name').val(profileLastNameVal);
-			$(this).find('form#' + ProfileID + ' input.email').val(profileEmailVal);
-			$(this).find('form#' + ProfileID + ' input.extension').val(profileExtensionVal);
-			$(this).find('form#' + ProfileID + ' input.cell-phone').val(profileCellPhoneVal);
+	// 		$(this).find('form#' + ProfileID + ' input[name="id"]').val(ProfileID);
+	// 		$(this).find('form#' + ProfileID + ' input.first-name').val(profileFirstNameVal).focus();
+	// 		$(this).find('form#' + ProfileID + ' input.last-name').val(profileLastNameVal);
+	// 		$(this).find('form#' + ProfileID + ' input.email').val(profileEmailVal);
+	// 		$(this).find('form#' + ProfileID + ' input.extension').val(profileExtensionVal);
+	// 		$(this).find('form#' + ProfileID + ' input.cell-phone').val(profileCellPhoneVal);
 
-			// Cancel form: hide form, display original profile details
-			$(document).on('click','form#' + ProfileID + ' span.cancel',function(){
-				$('.success-notice').hide();
-				$('.error-notice').hide();
-				$('#profile-page').find('#profile-details').html(profileDetailsOriginal);
-			});
+	// 		// Cancel form: hide form, display original profile details
+	// 		$(document).on('click','form#' + ProfileID + ' span.cancel',function(){
+	// 			$('.success-notice').hide();
+	// 			$('.error-notice').hide();
+	// 			$('#profile-page').find('#profile-details').html(profileDetailsOriginal);
+	// 		});
 
-			// Update Profile Ajax style
-			$('#profile-details form.update-profile').on('submit', function(){
-				var formID = $(this).attr('id');
-				$('.success-notice').hide();
-				$('.error-notice').hide();
-				$.post(
-					$(this).prop('action'),
-					{
-						"_token" : $( this ).find( 'input[name=_token]' ).val(),
-						"id" : formID,
-						"confirm-profile-update" : $( this ).find( 'input[name=confirm-profile-update]' ).val(),
-						"first_name" : $(this).find('input.first-name').val(),
-						"last_name" : $(this).find('input.last-name').val(),
-						"password" : $(this).find('input.password').val(),
-						"password_again" : $(this).find('input.password_again').val(),
-						"extension" : $(this).find('input.extension').val(),
-						"cell_phone" : $(this).find('input.cell-phone').val()
-					}, function (data) {
-						if(data.errorMsg) {
-							if(data.errorMsg == 'The email format is invalid.') $('.error-notice p').html('Only @insideout.com accounts are allowed.');
-							else $('.error-notice p').html(data.errorMsg);
-							$('.error-notice').show().delay(5000).fadeOut();
-						}
-						else {
-							$('#profile-page').find('#profile-details').html(profileDetailsOriginal);
-							$('.success-notice p').html(data.msg);
-							$('.success-notice').show().delay(5000).fadeOut();
+	// 		// Update Profile Ajax style
+	// 		$('#profile-details form.update-profile').on('submit', function(){
+	// 			var formID = $(this).attr('id');
+	// 			$('.success-notice').hide();
+	// 			$('.error-notice').hide();
+	// 			$.post(
+	// 				$(this).prop('action'),
+	// 				{
+	// 					"_token" : $( this ).find( 'input[name=_token]' ).val(),
+	// 					"id" : formID,
+	// 					"confirm-profile-update" : $( this ).find( 'input[name=confirm-profile-update]' ).val(),
+	// 					"first_name" : $(this).find('input.first-name').val(),
+	// 					"last_name" : $(this).find('input.last-name').val(),
+	// 					"password" : $(this).find('input.password').val(),
+	// 					"password_again" : $(this).find('input.password_again').val(),
+	// 					"extension" : $(this).find('input.extension').val(),
+	// 					"cell_phone" : $(this).find('input.cell-phone').val()
+	// 				}, function (data) {
+	// 					if(data.errorMsg) {
+	// 						if(data.errorMsg == 'The email format is invalid.') $('.error-notice p').html('Only @insideout.com accounts are allowed.');
+	// 						else $('.error-notice p').html(data.errorMsg);
+	// 						$('.error-notice').show().delay(5000).fadeOut();
+	// 					}
+	// 					else {
+	// 						$('#profile-page').find('#profile-details').html(profileDetailsOriginal);
+	// 						$('.success-notice p').html(data.msg);
+	// 						$('.success-notice').show().delay(5000).fadeOut();
 
-							$('#profile-details .profile-first-name').html(data.first_name);
-							$('#profile-details .profile-last-name').html(data.last_name);
-							$('#profile-details .profile-extension').html(data.extension);
-							$('#profile-details .profile-cell-phone').html(data.cell_phone);
+	// 						$('#profile-details .profile-first-name').html(data.first_name);
+	// 						$('#profile-details .profile-last-name').html(data.last_name);
+	// 						$('#profile-details .profile-extension').html(data.extension);
+	// 						$('#profile-details .profile-cell-phone').html(data.cell_phone);
 
-							$('.success-notice p').html('Profile ' + data.msg);
-							$('#profile-details .profile-first-name').attr('fieldval',data.first_name);
-							$('#profile-details .profile-last-name').attr('fieldval',data.last_name);
-							$('#profile-details .profile-extension').attr('fieldval',data.extension);
-							$('#profile-details .profile-cell-phone').attr('fieldval',data.cell_phone);
-						}
-					},'json'
-				);
-				$('.success-notice p').empty();
+	// 						$('.success-notice p').html('Profile ' + data.msg);
+	// 						$('#profile-details .profile-first-name').attr('fieldval',data.first_name);
+	// 						$('#profile-details .profile-last-name').attr('fieldval',data.last_name);
+	// 						$('#profile-details .profile-extension').attr('fieldval',data.extension);
+	// 						$('#profile-details .profile-cell-phone').attr('fieldval',data.cell_phone);
+	// 					}
+	// 				},'json'
+	// 			);
+	// 			$('.success-notice p').empty();
 				
-				return false;
-			});
-		});
-	});
+	// 			return false;
+	// 		});
+	// 	});
+	// });
 	
 	/* News Page */
 	$(document).on('change','#news-page .filter-author', function(){

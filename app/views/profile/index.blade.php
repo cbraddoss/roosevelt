@@ -39,7 +39,7 @@
 					<th></th><td class="profile-password-again"></td>
 				</tr>
 				<tr class="profile-update-button">
-					<th><button id="{{ Auth::user()->id }}" class="edit-profile">Edit Profile</button></th><tr></tr>
+					<th><a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile">Edit Profile</a></th><tr></tr>
 				</tr>
 			</tbody>
 		</table>

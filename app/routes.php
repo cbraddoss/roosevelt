@@ -14,24 +14,25 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
-Route::get('/',array('as' => 'dashboard', 'uses' => 'DashboardController@index'))->before('auth');
+Route::get('/', array('as' => 'dashboard', 'uses' => 'DashboardController@index'));
 
-Route::get('login',array('as' => 'login', 'uses' => 'SessionsController@create'));
+Route::get('login', array('as' => 'login', 'uses' => 'SessionsController@create'));
 Route::get('logout','SessionsController@destroy');
-Route::resource('sessions','SessionsController',array('only' => array('create','store','destroy') ));
+Route::resource('sessions','SessionsController', array('only' => array('create','store','destroy')));
 
 Route::controller('password', 'RemindersController');
 
-Route::get('/admin',array('as' => 'admin', 'uses' => 'AdminController@index'))->before('auth');
-Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ) )->before('auth');
-Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ) )->before('auth');
+Route::resource('/admin','AdminController');
+//Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
+//Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ));
+//Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ));
 
+Route::resource('/profile','UsersController');
+//Route::get('/profile/',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
+//Route::post('/profile/',array('uses' => 'UsersController@update'))->before(array('csrf','auth'));
 
-Route::get('/profile/',array('as' => 'user.profile', 'uses' => 'UsersController@show'))->before('auth');
-Route::post('/profile/',array('uses' => 'UsersController@update'))->before(array('csrf','auth'));
-
-Route::get('/news',array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
-Route::get('/news/article/{article}',array('uses' => 'ArticlesController@show'))->before('auth');
+Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
+Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'))->before('auth');
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'))->before('auth');
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
 Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'))->before('auth');

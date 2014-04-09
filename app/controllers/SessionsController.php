@@ -3,6 +3,15 @@
 class SessionsController extends \BaseController {
 
 	/**
+     * Instantiate a new AdminController instance.
+     */
+	public function __construct()
+    {
+
+        $this->beforeFilter('csrf', array('on' => 'post'));
+    }
+
+	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
@@ -33,12 +42,10 @@ class SessionsController extends \BaseController {
 			$user = Auth::user();
 			$user->last_login = new \DateTime;
 			$user->save();
-			return Redirect::route('dashboard');
+			return Redirect::intended('/');
 		}
-		else
-		{
-			return Redirect::back()->withInput()->with('flash_message','Password incorrect or email not registered.');
-		}
+		
+		return Redirect::back()->withInput()->with('flash_message','Password incorrect or email not registered.');
 	}
 
 	/**

@@ -3,29 +3,45 @@
 class AdminController extends \BaseController {
 
 	/**
+     * Instantiate a new AdminController instance.
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('admin');
+
+        $this->beforeFilter('admin', array('only' => 'index'));
+
+        $this->beforeFilter('csrf', array('on' => 'post'));
+    }
+
+    public function missingMethod($parameters = array())
+	{
+	    return $parameters;
+	}
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response
 	 */
 	public function index()
 	{
-		$user = Auth::user();
-		if($user->userrole == 'admin') {
+		//if(Auth::user()->userrole == 'admin') {
 			$users = User::all();
 			if(Request::ajax()) return View::make('admin.partials.user-list-form', compact('users'));
 			else return View::make('admin.index', compact('users'));
-		}
-		else return Redirect::route('dashboard');
+		//}
+		//else return Redirect::route('dashboard');
 	}
 
 	public function check() {
-		$user = Auth::user();
-		if($user->userrole == 'admin') {
+		//$user = Auth::user();
+		//if($user->userrole == 'admin') {
 			$users = User::all();
 			if(Request::ajax()) return View::make('admin.partials.user-list', compact('users'));
 			else return View::make('admin.index', compact('users'));
-		}
-		else return Redirect::route('dashboard');
+		//}
+		//else return Redirect::route('dashboard');
 	}
 
 	public function userToUpdate() {
