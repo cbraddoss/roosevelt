@@ -564,6 +564,10 @@ input.search {
 	padding-right:10px;
 	margin-left:50px;
 }
+#todo-box #projects-feed,
+#todo-box #leads-feed {
+	display:none;
+}
 #todo-box .todo-feed {
 	background:#fff;
 	padding:15px;
@@ -629,7 +633,7 @@ input.search {
 .error-notice {
 	display: none;
 	position:fixed;
-	top:200px;
+	top:0px;
 	left: -webkit-calc( 50% + 100px );
 	left: -moz-calc( 50% + 100px );
 	left: calc( 50% + 100px );
@@ -1020,6 +1024,27 @@ input.search {
 	color: rgba(204,0,0,0.9);
 }
 /* Proile Page */
+#profile-page {
+	font-size: 1em;
+}
+#profile-page .user-image {
+	float: right;
+	background: #eee;
+	border-radius: 5px;
+	border:1px solid #ddd;
+}
+#profile-page .profile-field {
+	padding:10px;
+	height:25px;
+	border-bottom: 1px solid #ddd;
+}
+#profile-page .profile-title {
+	width: 200px;
+	display: inline-block;
+}
+#profile-page .password-value {
+	color: #ccc;
+}
 #profile-page .profile-update-button {
 	
 }
@@ -1027,6 +1052,17 @@ input.search {
 	height:25px;
 	font-size:1em;
 	margin: 0;
+}
+#profile-page .profile-field.message {
+	background: #eee;
+}
+#profile-page #profile-details .ss-alert,
+#profile-page #profile-details .flash-message-error {
+	color: rgba(204,0,0,1);
+}
+#profile-page #profile-details .ss-check,
+#profile-page #profile-details .flash-message-success {
+	color: rgba(0,179,0,1);
 }
 /* Projects Page */
 .create-new {

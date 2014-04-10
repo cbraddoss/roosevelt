@@ -7,7 +7,6 @@ class SessionsController extends \BaseController {
      */
 	public function __construct()
     {
-
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
@@ -23,7 +22,7 @@ class SessionsController extends \BaseController {
 		
 		// Redirect to Dashboard.
 		//Todo: redirect to intended() url
-		else return Redirect::route('dashboard');
+		else return Redirect::intended('/');
 	}
 
 	/**

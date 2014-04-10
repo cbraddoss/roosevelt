@@ -9,15 +9,8 @@ class AdminController extends \BaseController {
     {
         $this->beforeFilter('admin');
 
-        $this->beforeFilter('admin', array('only' => 'index'));
-
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
-
-    public function missingMethod($parameters = array())
-	{
-	    return $parameters;
-	}
 
 	/**
 	 * Display a listing of the resource.
@@ -249,9 +242,11 @@ class AdminController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show()
 	{
-		//
+		$users = User::all();
+		if(Request::ajax()) return View::make('admin.partials.user-list', compact('users'));
+		else return Redirect::to('/admin');
 	}
 
 	/**
