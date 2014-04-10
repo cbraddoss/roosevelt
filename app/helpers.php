@@ -49,7 +49,7 @@ function find_unread_count($resource) {
 	if($resource == 'articles') {
 		$articles = Article::where('created_at','>=',$lastMonth)
 					->where('been_read','not like','%'.$currentUser.'%')->get()->count();
-		if($articles != 0) return '<span class="ss-chat"></span><span class="linked-to">'.$articles.'</span>';
+		if($articles != 0) return '<span class="linked-to">'.$articles.'</span>';
 	}
 	else return;
 }
@@ -58,19 +58,19 @@ function find_assigned_count($resource) {
 	$currentUser = current_user_path();
 	if($resource == 'projects') {
 		$projects = '2';
-		return '<span class="ss-chat"></span><span class="linked-to">'.$projects.'</span>';
+		return '<span class="linked-to">'.$projects.'</span>';
 	}
 	elseif($resource == 'billables') {
 		$billables = '5';
-		return '<span class="ss-chat"></span><span class="linked-to">'.$billables.'</span>';
+		return '<span class="linked-to">'.$billables.'</span>';
 	}
 	elseif($resource == 'calendar') {
 		$calendar = '10';
-		return '<span class="ss-chat"></span><span class="linked-to">'.$calendar.'</span>';
+		return '<span class="linked-to">'.$calendar.'</span>';
 	}
 	elseif($resource == 'help') {
 		$help = '8';
-		return '<span class="ss-chat"></span><span class="linked-to">'.$help.'</span>';
+		return '<span class="linked-to">'.$help.'</span>';
 	}
 	else return;
 }

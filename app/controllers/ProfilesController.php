@@ -72,7 +72,7 @@ class ProfilesController extends \BaseController {
 				$user->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-					return Redirect::to('/profile/edit')->withInput()->with('flash_message_error','Uh Oh!');
+					return Redirect::to('/profile/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 			return Redirect::to('/profile')->with('flash_message_success','Profile successfully updated!');
 		}

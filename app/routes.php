@@ -27,11 +27,9 @@ Route::resource('/admin','AdminController', array('only' => array('index') ) );
 // //Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ));
 // //Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ));
 
-//Route::resource('/profile','ProfilesController', array('only' => array('index','store','edit') ) );
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));
 Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'ProfilesController@update'));
-//Route::post('/profile/',array('uses' => 'UsersController@update'))->before(array('csrf','auth'));
 
 // Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
 // Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'))->before('auth');

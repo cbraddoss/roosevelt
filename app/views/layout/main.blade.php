@@ -15,21 +15,10 @@
 <body>
 	<div id="header">
 		<div class="section">
-			<div id="user-menu">
-				<div class="section">
-					<div class="user-menu-name"><img src="{{ gravatar_url(Auth::user()->email,30) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"> {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</div>
-					<ul>
-						<li id="link-profile" class="link"><a href="/profile/"><span class="ss-user"></span>Profile</a></li>
-						@if(Auth::user()->userrole == 'admin')
-						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
-						@endif
-						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
-					</ul>
-				</div>
-			</div>
 			<div id="company-header">
 				<a class="logo" href="/"><img src="/images/ios-logo-remote-office.png" alt="InsideOut Solutions Logo" /></a>
-			</div>
+			</div>			
+			
 			<div id="nav_menu">
 				<div id="menu_header">
 					<div class="menu_nav">
@@ -44,15 +33,58 @@
 							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
 							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask">Tools</a></li>
-							<li alt="Search" id="link-search" class="link"><span class="ss-search">Search</span></li>
+							<li alt="Profile" id="link-profile" class="link"><a href="/profile/"><img src="{{ gravatar_url(Auth::user()->email,40) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a></li>
+							
 						</ul>
 					</div> <!-- .menu_nav -->
 				</div> <!-- #menu_header -->
-				<div id="search-box">
-					<p>Search for a Project, Account, Contact, Due Date (Aug 21, 2014), or Wiki entry!</p>
-					<input type="text" class="search" name="s" id="s" placeholder="Search" /><input class="search-submit" type="submit" value="Search" />
-				</div>
 			</div> <!-- #nav_menu -->
+
+			<div id="user-menu">
+				<div class="section">
+					<ul>
+						@if(Auth::user()->userrole == 'admin')
+						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
+						@endif
+						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
+						<li alt="Search" id="link-search" class="link"><a><span class="ss-search"></span>Search</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="search-box">
+				<div class="section">
+					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+					<input type="text" class="search" name="s" id="s" placeholder="Search..." /><!-- <span class="ss-search"></span> --><span class="ss-delete"></span>
+					{{ Form::close() }}
+				</div>
+			</div>
+			
+			@if(Session::get('flash_message_error'))
+				<div id="message-box">
+					<div class="section">
+						<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span> {{ Session::get('flash_message_error') }}</span></div>
+					</div>
+				</div>
+			@endif
+			@if(!$errors->isEmpty())
+				<div id="message-box">
+					<div class="section">
+						<div class="action-message">
+						@foreach ($errors->all() as $error)
+							<span class="flash-message flash-message-error"><span class="ss-alert"></span>{{ $error }}</span>
+						@endforeach
+						</div>
+					</div>
+				</div>
+			@endif
+			@if(Session::get('flash_message_success'))
+				<div id="message-box">
+					<div class="section">
+						<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span> {{ Session::get('flash_message_success') }}</span></div>
+					</div>
+				</div>
+			@endif
+
 		</div> <!-- .section -->
 	</div> <!-- #header -->
 
@@ -63,7 +95,7 @@
 					
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">
-							<a id="tasks" class="ss-check todo-feed-title active" href="#">Your Tasks <span class="todo-num">NUM</span><span class="down-arrow ss-down"></span></a>
+							<a id="tasks" class="ss-check todo-feed-title active" href="#">Your Tasks <span class="todo-num">115</span><span class="arrow ss-dropdown"></span></a>
 							<ul id="tasks-feed" class="todo-feed">
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
@@ -73,7 +105,7 @@
 							</ul>
 						</div>
 						<div id="show-leads-list" class="todo-sub-box">
-							<a id="leads" class="ss-briefcase todo-feed-title" href="#">Current Leads <span class="todo-num">NUM</span><span class="down-arrow ss-down"></span></a>
+							<a id="leads" class="ss-briefcase todo-feed-title" href="#">Current Leads <span class="todo-num">10</span><span class="arrow ss-directleft"></span></a>
 							<ul id="leads-feed" class="todo-feed">
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
@@ -84,7 +116,7 @@
 							</ul>
 						</div>
 						<div id="show-projects-list" class="todo-sub-box">
-							<a id="projects" class="ss-list todo-feed-title" href="#">Projects <span class="todo-num">NUM</span><span class="down-arrow ss-down"></span></a>
+							<a id="projects" class="ss-list todo-feed-title" href="#">Projects <span class="todo-num">2</span><span class="arrow ss-directleft"></span></a>
 							<ul id="projects-feed" class="todo-feed">
 								<li><a href="#" class="projects-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="projects-item">TITLE</a> <span>DUEDATE</span></li>
