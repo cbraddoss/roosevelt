@@ -78,8 +78,8 @@ function find_assigned_count($resource) {
 function user_last_login($login) {
 	$login = new DateTime($login);
 	$login = $login->format('F j, Y');
-	if($login != 'November 30, -0001') return 'Last Login: '.$login;
-	else return 'Last Login: null';
+	if($login != 'November 30, -0001') return 'Last Login:<br/> '.$login;
+	else return 'Login: null';
 }
 // Save for later
 // function link_to_task(Task $task) {

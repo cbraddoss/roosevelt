@@ -25,10 +25,10 @@ Route::controller('password', 'RemindersController');
 //Route::resource('/admin','AdminController', array('only' => array('index') ) );
 Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
 Route::get('/admin/users', array('as' => 'admin.users', 'uses' => 'AdminController@users'));
+Route::post('/admin/users', array('as' => 'admin.userNew', 'uses' => 'AdminController@userNew'));
+Route::get('/admin/users/{userpath}', array('as' => 'admin.userEdit', 'uses' => 'AdminController@userEdit'));
+Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' => 'AdminController@userUpdate'));
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
-
-//Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ));
-//Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ));
 
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));

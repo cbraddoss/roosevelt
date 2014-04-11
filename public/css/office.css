@@ -925,32 +925,57 @@ ul {
 	display:block;
 	clear: both;
 }
+#admin-page .admin-button {
+	padding: 5px;
+	margin-top:10px;
+	text-align:left;
+	cursor:default;
+	display:block;
+	clear: both;
+}
 #admin-page .admin-span a {
 	cursor: default;
 }
 #admin-page .admin-span a:hover {
 	background: none;
 }
-#admin-page #users-list-title ul {
-	list-style:none;
-	border-bottom: 1px solid rgba(32,32,32,0.1);
+#admin-page .admin-p .admin-link img {
+	display:block;
+	margin:0 auto;
 }
-#admin-page #users-list-title ul li {
-	border:none;
-	float:left;
-}
-#users-table .user-list,
-#users-table .user-list td,
-#users-table .user-list td div {
-	position:relative;
-}
-#users-table .user-list .last-login {
-	color:#888;
-	position:absolute;
-	left:0;
-	bottom:-14px;
+#admin-page small {
+	color: #aaa;
 	font-size: 0.7em;
+	display: block;
 }
+#admin-page a.userrole-admin {
+	background: rgba(75,131,180,0.1);
+}
+#admin-page a.status-inactive {
+	opacity: 0.6;
+	background: #eee;
+}
+#admin-page .user-field {
+	padding:10px;
+	height:25px;
+	border-bottom: 1px solid #ddd;
+}
+#admin-page .user-title {
+	width: 200px;
+	display: inline-block;
+}
+#admin-page .password-value {
+	color: #ccc;
+}
+#admin-page .user-update-button {
+	
+}
+#admin-page input {
+	height:25px;
+	font-size:1em;
+	margin: 0;
+}
+
 #users-table .user-update-form,
 #users-table .user-add-form {
 	background:rgba(75,131,180,0.2);
@@ -1027,14 +1052,6 @@ ul {
 }
 #admin-page .button-add-new {
 	border-bottom:none;
-}
-#users-table .ss-check,
-.success-notice .ss-check {
-	color: rgba(0,179,0,0.9);
-}
-#users-table .ss-delete,
-.error-notice .ss-delete {
-	color: rgba(204,0,0,0.9);
 }
 /* Proile Page */
 #profile-page {
