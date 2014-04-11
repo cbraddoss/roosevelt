@@ -22,10 +22,13 @@ Route::resource('sessions','SessionsController', array('only' => array('create',
 
 Route::controller('password', 'RemindersController');
 
-Route::resource('/admin','AdminController', array('only' => array('index') ) );
-// //Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
-// //Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ));
-// //Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ));
+//Route::resource('/admin','AdminController', array('only' => array('index') ) );
+Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
+Route::get('/admin/users', array('as' => 'admin.users', 'uses' => 'AdminController@users'));
+Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
+
+//Route::post( '/admin', array( 'uses' => 'AdminController@userToUpdate' ));
+//Route::get( '/admin/check', array( 'uses' => 'AdminController@check' ));
 
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));

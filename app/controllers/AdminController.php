@@ -19,12 +19,30 @@ class AdminController extends \BaseController {
 	 */
 	public function index()
 	{
-		//if(Auth::user()->userrole == 'admin') {
-			$users = User::all();
-			if(Request::ajax()) return View::make('admin.partials.user-list-form', compact('users'));
-			else return View::make('admin.index', compact('users'));
-		//}
-		//else return Redirect::route('dashboard');
+		return View::make('admin.index');
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function users()
+	{
+		$users = User::all();
+		if(Request::ajax()) return View::make('admin.partials.user-list-form', compact('users'));
+		else return View::make('admin.users', compact('users'));
+	}
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function templates()
+	{
+		$users = User::all();
+		if(Request::ajax()) return View::make('admin.partials.templates-form', compact('users'));
+		else return View::make('admin.templates', compact('users'));
 	}
 
 	public function check() {

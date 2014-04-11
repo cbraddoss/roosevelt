@@ -16,6 +16,22 @@ jQuery(document).ready(function($){
 		if(currentPage.indexOf(linkActiveUser) >= 0 ) $(this).addClass('active');
 	});
 
+	var welcomes = new Array('Welcome','Willkommen','स्वागत','Bienvenue','歡迎光臨','Wëllkomm','Bienvenido','ようこそ','Welcome');
+	var i = 1;
+	if(currentPage == '') {
+		function welcomeLoop () {
+		   setTimeout(function () {
+			console.log(welcomes[i]);
+		      $('#user-menu #welcome-name .welcome').html(welcomes[i]);
+		      i++;
+		      if (i < 9) {
+		         welcomeLoop();
+		      }
+		   }, 10000)
+		}
+		welcomeLoop();
+	}
+
 	//Show/hide task items in sidebar
 	$('#projects-feed').hide();
 	$('#leads-feed').hide();
@@ -38,7 +54,9 @@ jQuery(document).ready(function($){
 		$(this).find('span.arrow').toggleClass('ss-directleft');
 	});
 	
-	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(5000).fadeOut();
+	$('#message-box').hide();
+	$('#message-box').fadeIn();	
+	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).fadeOut();
 
 	/* Admin Page */
 	/* Add/Update/Delete Users */

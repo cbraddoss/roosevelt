@@ -16,7 +16,7 @@
 	<p class=""><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a></p>
 	<p class=""><a href="#" class="ss-globe ql-hosted">Website List</a></p>
 	<p class=""><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
-	<span><a href="/tools">View Tools page for more...</a></span>
+	<span><a></a></span>
 </div>
 <div class="clear"></div>
 <div id="page-second-title">
