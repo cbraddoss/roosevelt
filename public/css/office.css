@@ -325,10 +325,10 @@ ul {
 	float:right;
 }
 #user-menu ul li {
-	float:left;
+	display: inline-block;
 	text-align:right;
 	width:100px;
-	padding-left:0px;
+	padding:0px;
 	margin:0px 0px 0px 0px;
 	height:30px;
 	font-size:1.4em;
@@ -355,8 +355,8 @@ ul {
 	border-bottom:2px solid #000;	
 }
 #user-menu ul li a {
-	height: 25px;
-	margin-top: 5px;
+	height: 20px;
+	padding:5px;
 	vertical-align: bottom;
 	display: inline-block;
 	text-decoration: none;
@@ -371,8 +371,9 @@ ul {
 	font-size: 1em;
 	margin-top: 0px;
 	position: absolute;
-	left: -17px;
+	left: -14px;
 	top: 1px;
+	padding:5px 0;
 }
 /* Search Bar */
 #search-box {
@@ -848,6 +849,8 @@ ul {
 	clear:both;
 	border:1px solid #ddd;
 	background: #fff;
+	padding:10px 10px;
+	margin-bottom:10px;
 	box-shadow: 0px 0px 15px 0px #ccc;
 }
 #news-feed li {
