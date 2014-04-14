@@ -118,15 +118,21 @@ class AdminController extends \BaseController {
 				//return Redirect::to('/admin/users/')->withInput()->with('flash_message_error','Oops, something went wrong (possible name match exception).');
 			}
 			$response = array(
-				'msg' => 'saved.'
+				'msg' => 'User saved.'
 			);
 			return Response::json( $response );
 			//return Redirect::to('/admin/users/')->with('flash_message_success','<i>' . $newUser->first_name . ' ' . $newUser->last_name .'</i> successfully updated!');
 		}
+		$response = array(
+			'errorMsg' => 'Something went wrong. :('
+		);
+		return Response::json( $response );
+	}
 
-		return Redirect::to('/admin/users/')->with('flash_message_error','Something went wrong. :(');
-	
-
+	public function userDelete() {
+		$userToDelete = User::find(Input::get('id'));
+		$userToDelete->delete();
+		return Redirect::to('/admin/users/')->with('flash_message_success','User deleted successfully.');
 	}
 
 	/**
@@ -139,252 +145,6 @@ class AdminController extends \BaseController {
 		$users = User::all();
 		if(Request::ajax()) return View::make('admin.partials.templates-form', compact('users'));
 		else return View::make('admin.templates', compact('users'));
-	}
-
-	// public function userToUpdate() {
-	// 	if ( Session::token() !== Input::get( '_token' ) ) {
- //            return Response::json( array(
- //                'msg' => 'Request not valid.'
- //            ) );
- //        }
- //        if(Input::get('confirm-update') == 'yes') {
-			
-	// 		$validator = Validator::make(Input::all(), array(
-	// 			'id' => 'same:id',
-	// 			'password' => 'between:8,30',
-	// 			'email' => array('required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
-	// 			'first_name' => 'required|max:40|alpha',
-	// 			'last_name' => 'required|max:40|alpha',
-	// 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
-	// 			'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
-	// 		));
-			
-	// 		if($validator->fails()) {
-	// 			$messages = $validator->messages();
-	// 			$response = array(
-	// 				'errorMsg' => $messages->first()
-	// 			);
-	// 		} 
-	// 		else {
-	// 			$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name'));
-	// 			$usersCheck = User::where('user_path','like','%'.$userPath.'%')->get();
-	// 			$error = '';
-	// 			if(!$usersCheck->isEmpty()) {
-	// 				foreach($usersCheck as $userCheck) {
-	// 					$pathCheck[] = $userCheck->user_path;
-	// 				}
-	// 				rsort($pathCheck);
-	// 				//dd($pathCheck);
-	// 				$pathCheck = $pathCheck[0];
-
-	// 				if(preg_match('/(?<fName>\w+)-(?<lName>\w+)-(?<digit>\d+)/', $pathCheck, $pathMatch)) {
-	// 					if($pathMatch['digit'] >= 9) {
-	// 						$error = 'Too many users with that name. Please use another name.';
-	// 						$pathBump = '';
-	// 					}
-	// 					else {
-	// 						$newPathNum = $pathMatch['digit']+1;
-	// 						$pathBump = '-'.$newPathNum;
-	// 					}
-	// 				}
-	// 				else $pathBump = '-2';
-					
-	// 				$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name')) . $pathBump;
-	// 			}
-	// 			if($error) {
-	// 				$response = array(
-	// 	                'errorMsg' => $error
-	// 	            );
-	// 			}
-	// 			else {
-	// 				$userToUpdate = User::find(Input::get('id'));
-	// 				$userToUpdate->first_name =  ucwords(Input::get('first_name'));
-	// 				$userToUpdate->last_name =  ucwords(Input::get('last_name'));
-	// 				$userToUpdate->user_path = $userPath;
-	// 				$userToUpdate->email =  Input::get('email');
-	// 				if(Input::get('password') != '') $userToUpdate->password =  Hash::make(Input::get('password'));
-	// 				$userToUpdate->userrole =  Input::get('userrole');
-	// 				$userToUpdate->extension =  Input::get('extension');
-	// 				$userToUpdate->cell_phone =  Input::get('cell_phone');
-	// 				$userToUpdate->status =  Input::get('status');
-					
-	// 				$userToUpdate->save();		
-					
-	// 				$response = array(
-	// 					'id' => Input::get('id'),
-	// 					'first_name' => ucwords(Input::get('first_name')),
-	// 					'last_name' => ucwords(Input::get('last_name')),
-	// 					'email' => Input::get('email'),
-	// 					'userrole' => Input::get('userrole'),
-	// 					'extension' => Input::get('extension'),
-	// 					'cell_phone' => Input::get('cell_phone'),
-	// 					'status' => Input::get('status'),
-	// 		            'msg' => 'successfully updated.',
-	// 		        );
-	// 			}
-	// 		}
-	// 	}
-	// 	elseif(Input::get('confirm-delete') == 'yes') {
-
-	// 		$response = array(
-	// 			'first_name' => Input::get('first_name'),
-	// 			'last_name' => Input::get('last_name'),
-	// 			'msg' => 'successfully deleted.'
-	// 		);
-
-	// 		$userToDelete = User::find(Input::get('id'));
-	// 		$userToDelete->delete();
-	// 	}
-	// 	elseif(Input::get('confirm-add') == 'yes') {
-	// 		$validator = Validator::make(Input::all(), array(
-	// 			'first_name' => 'required|max:40|alpha',
-	// 			'last_name' => 'required|max:40|alpha',
-	// 			'email' => array('unique:users', 'required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
-	// 			'password' => 'required|between:8,30',
-	// 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i'
-	// 		));
-			
-	// 		if($validator->fails()) {
-	// 			$messages = $validator->messages();
-	// 			$response = array(
-	// 				'errorMsg' => $messages->first()
-	// 			);
-	// 		}
-	// 		else {
-	// 			$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name'));
-	// 			$usersCheck = User::where('user_path','like','%'.$userPath.'%')->get();
-	// 			$error = '';
-	// 			if(!$usersCheck->isEmpty()) {
-	// 				foreach($usersCheck as $userCheck) {
-	// 					$pathCheck[] = $userCheck->user_path;
-	// 				}
-	// 				rsort($pathCheck);
-	// 				$pathCheck = $pathCheck[0];
-
-	// 				if(preg_match('/(?<fName>\w+)-(?<lName>\w+)-(?<digit>\d+)/', $pathCheck, $pathMatch)) {
-	// 					if($pathMatch['digit'] >= 9) {
-	// 						$error = 'Too many users with that name. Please use another name.';
-	// 						$pathBump = '';
-	// 					}
-	// 					else {
-	// 						$newPathNum = $pathMatch['digit']+1;
-	// 						$pathBump = '-'.$newPathNum;
-	// 					}
-	// 				}
-	// 				else $pathBump = '-2';
-					
-	// 				$userPath = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name')) . $pathBump;
-	// 			}
-	// 			if($error) {
-	// 				$response = array(
-	// 	                'errorMsg' => $error
-	// 	            );
-	// 			}
-	// 			else {
-
-	// 				$newUser = new User;
-					
-	// 				$newUser->first_name = ucwords(Input::get('first_name'));
-	// 				$newUser->last_name = ucwords(Input::get('last_name'));
-	// 				$newUser->email = Input::get('email');
-	// 				$newUser->user_path = $userPath;
-	// 				$newUser->password = Hash::make(Input::get('password'));
-	// 				$newUser->userrole = Input::get('userrole');
-	// 				$newUser->extension = Input::get('extension');
-	// 				$newUser->status = 'active';
-
-	// 				$newUser->save();
-
-	// 				$newUserSend = User::where('email', '=', Input::get('email'))->first();
-
-
-	// 				$response = array(
-	// 					'id' => $newUserSend->id,
-	// 					'first_name' => $newUserSend->first_name,
-	// 					'last_name' => $newUserSend->last_name,
-	// 					'email' => $newUserSend->email,
-	// 					'userrole' => $newUserSend->userrole,
-	// 					'extension' => $newUserSend->extension,
-	// 					'cell_phone' => $newUserSend->cell_phone,
-	// 					'status' => $newUserSend->status,
-	// 					'msg' => 'successfully added.'
-	// 				);
-	// 			}
-	// 		}
-	// 	}
-	// 	else {
-	// 		$response = array(
-	// 			'errorMsg' => 'Something went wrong. Please contact a devteam member.'
-	// 		);
-	// 	}
- 
- //        return Response::json( $response );
-	// }
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show()
-	{
-		$users = User::all();
-		if(Request::ajax()) return View::make('admin.partials.user-list', compact('users'));
-		else return Redirect::to('/admin');
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
 	}
 
 }
