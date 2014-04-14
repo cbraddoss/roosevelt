@@ -87,6 +87,11 @@
 					</div>
 				</div>
 			@endif
+			<div id="message-box-json">
+				<div class="section">
+					<div class="action-message"><span class="flash-message flash-message-error"></span></div>
+				</div>
+			</div>
 
 		</div> <!-- .section -->
 	</div> <!-- #header -->

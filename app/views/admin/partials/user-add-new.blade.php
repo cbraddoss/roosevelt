@@ -1,8 +1,8 @@
 <div class="user-add-form">
 
-{{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => 'admin', 'method' => 'post') ) }}
+<p>Add New User: </p>
 
-{{ Form::hidden('confirm-add', 'yes') }}
+{{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => '/admin/users', 'method' => 'post') ) }}
 
 {{ Form::text('first_name', null, array('placeholder' => 'First Name', 'class' => 'first-name field')) }}
 
