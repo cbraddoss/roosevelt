@@ -2,7 +2,7 @@
 
 @section('admin-user-content')
 
-<div id="admin-new-user-form">
+<div id="admin-new-user-form" class="create-something-new">
 	<span class="admin-button"><button class="add-new">Add New User</button></span>
 </div>
 

@@ -9,7 +9,7 @@ class ProfilesController extends \BaseController {
     {
         $this->beforeFilter('auth');
 
-        //$this->beforeFilter('csrf', array('on' => 'post'));
+        $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
 	/**
@@ -55,7 +55,7 @@ class ProfilesController extends \BaseController {
 		));
 		
 		if($validator->fails()) {
-			$messages = $validator->messages();
+			$messages = $validator->messages()->first();
 			return Redirect::to('/profile/edit')->withInput()->withErrors($messages);
 		}
 		else {

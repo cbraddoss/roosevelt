@@ -53,18 +53,16 @@
 {{ Form::close() }}
 
 
-{{ Form::open( array('class' => 'delete-user', 'url' => '/admin/users', 'method' => 'post') ) }}
-					
-{{ Form::hidden('id') }}
+{{ Form::open( array('class' => 'delete-user', 'url' => '/admin/users', 'method' => 'delete') ) }}
 
-{{ Form::hidden('confirm-delete', 'yes') }}
+{{ Form::hidden('id', $user->id) }}
 
-{{ Form::hidden('first_name', null, array('class' => 'first-name field')) }}
+{{ Form::hidden('first_name', $user->first_name, array('class' => 'first-name field')) }}
 
-{{ Form::hidden('last_name', null, array('class' => 'last-name field')) }}
-
+{{ Form::hidden('last_name', $user->last_name, array('class' => 'last-name field')) }}
+<div class="user-field">
 {{ Form::submit('Delete User', array('class' => 'delete') ) }}
-
+</div>
 {{ Form::close() }}
 
 @stop

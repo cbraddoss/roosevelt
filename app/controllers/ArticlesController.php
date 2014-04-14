@@ -3,6 +3,16 @@
 class ArticlesController extends \BaseController {
 
 	/**
+     * Instantiate a new UsersController instance.
+     */
+    public function __construct()
+    {
+        $this->beforeFilter('auth');
+
+        $this->beforeFilter('csrf', array('on' => 'post'));
+    }
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return Response

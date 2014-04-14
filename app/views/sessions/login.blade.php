@@ -21,15 +21,15 @@
 		{{ Form::open(array('route' => 'sessions.store')) }}
 
 			<div id="login-username" class="field-div">
-				{{ Form::label('email','Email Address') }}
+				{{ Form::label('email','Email:') }}
 				{{ Form::text('email', null, array('placeholder' => 'email address', 'class' => 'field', 'autofocus' => 'autofocus')) }}<span class="ss-user"></span>
 			</div>
 			<div id="login-password" class="field-div">
-				{{ Form::label('password','Password') }}
+				{{ Form::label('password','Password:') }}
 				{{ Form::password('password', array('placeholder' => 'password', 'class' => 'field')) }}<span class="ss-lock"></span>
 			</div>
 			<div id="login-submit" class="field-div">
-				{{ Form::submit('Login', array('class' => 'submit')) }}
+				{{ Form::submit('Log In', array('class' => 'submit')) }}
 			</div>		
 		{{ Form::close() }}
 		</div>

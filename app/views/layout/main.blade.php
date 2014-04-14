@@ -87,9 +87,16 @@
 					</div>
 				</div>
 			@endif
+			@if(Input::get('user') == 'new')
+			<div id="message-box">
+				<div class="section">
+					<div class="action-message"><span class="flash-message flash-message-success">User added successfully.</span></div>
+				</div>
+			</div>
+			@endif
 			<div id="message-box-json">
 				<div class="section">
-					<div class="action-message"><span class="flash-message flash-message-error"></span></div>
+					<!-- ajax json responses -->
 				</div>
 			</div>
 
@@ -152,8 +159,6 @@
 			<div class="clear"></div>
 		</div> <!-- .section -->
 	</div> <!-- #page -->
-	<div class="success-notice"><span class="ss-check"></span><p></p></div>
-	<div class="error-notice"><span class="ss-delete"></span><p></p></div>
 
 @include('layout.js')
 

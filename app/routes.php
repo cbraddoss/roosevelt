@@ -22,10 +22,10 @@ Route::resource('sessions','SessionsController', array('only' => array('create',
 
 Route::controller('password', 'RemindersController');
 
-//Route::resource('/admin','AdminController', array('only' => array('index') ) );
 Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
 Route::get('/admin/users', array('as' => 'admin.users', 'uses' => 'AdminController@users'));
 Route::post('/admin/users', array('as' => 'admin.userNew', 'uses' => 'AdminController@userNew'));
+Route::delete('/admin/users', array('as' => 'admin.userDelete', 'uses' => 'AdminController@userDelete'));
 Route::get('/admin/users/{userpath}', array('as' => 'admin.userEdit', 'uses' => 'AdminController@userEdit'));
 Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' => 'AdminController@userUpdate'));
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
@@ -34,11 +34,11 @@ Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@s
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));
 Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'ProfilesController@update'));
 
-// Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'))->before('auth');
-// Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'))->before('auth');
-// Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'))->before('auth');
-// Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'))->before('auth');
-// Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'))->before('auth');
+Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
+Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'));
+Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
+Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));
+Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'));
 
 // Route::get('/tools', function(){
 // 	return View::make('tools.index');

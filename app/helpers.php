@@ -1,7 +1,7 @@
 <?php
 
 function gravatar_url($email,$size = '40') {
-	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size;
+	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&d=http%3A%2F%2Fassets.insideout.com%2Fimages%2Fuser-image.png';
 }
 
 function current_user_path() {

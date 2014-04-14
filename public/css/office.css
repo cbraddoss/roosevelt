@@ -72,7 +72,6 @@ ul {
 #login {
 	width:320px;
 	border: 1px solid #ddd;
-	border-radius: 5px;
 	padding: 20px 20px;
 	margin: 0 auto;
 	background:#fff;
@@ -101,7 +100,7 @@ ul {
 	font-size:1.5em;
 	font-weight: 100;
 	height:40px;
-	width:300px;
+	width:308px;
 	margin:0;
 	padding-left:10px;
 	background: #fbfbfb;
@@ -129,14 +128,16 @@ ul {
 	color: #fff;
 	background-color: rgba(75,131,180,1);
 	display: inline-block;
-	margin-bottom: 0;
-	font-weight: 400;
+	font-size:1.3em;
+	font-weight: 100;
 	text-align: center;
 	vertical-align: middle;
 	border: 1px solid rgba(75,131,180,1);
 	white-space: nowrap;
+	width:320px;
+	height:42px;
 	padding: 6px 12px;
-	font-size:1.1em;
+	margin: 15px 0 0;
 	border-radius: 5px;
 }
 #login .submit:hover {
@@ -282,9 +283,13 @@ ul {
 	z-index: 58;
 	border-bottom: none;
 	border-radius: 10px;
+	border: 1px solid #000;
+	box-shadow: inset 0px 1px 0px 0px rgba(192,93,7, 1),
+	inset 0px -1px 0px 0px rgba(192,93,7, 1);
 }
 #menu_header ul li#link-profile img {
 	display: block;
+	width: 35px;
 	border-radius: 20px;
 	margin:0px auto 1px;
 }
@@ -451,7 +456,7 @@ ul {
 #todo-box {
 	clear:both;
 	width:250px;
-	margin-top:105px;
+	margin-top:143px;
 	position:relative;
 	font-size:1.2em;
 	letter-spacing: 0.0625em;
@@ -638,25 +643,36 @@ ul {
 #content input[type=submit] {
 	cursor: pointer;
 	color: #fff;
-	background-color: rgba(75,131,180,1);
 	display: inline-block;
 	margin-bottom: 0;
 	font-weight: 500;
 	text-align: center;
 	vertical-align: middle;
-	border: 1px solid rgba(75,131,180,1);
 	white-space: nowrap;
 	padding: 3px 6px;
 	font-size:0.9em;
 	border-radius: 5px;
 	text-decoration:none;
+	background-color: rgba(75,131,180,1);
+	border: 1px solid rgba(75,131,180,1);
+	box-shadow: inset 0px 1px 0px 0px rgba(93,143,187,1),
+	inset 0px -1px 0px 0px rgba(93,143,187,1);
 }
 #content button:hover,
 #content .button:hover,
 #content span.cancel:hover,
 #content input[type=submit]:hover {
-	background-color: rgba(75,131,180,0.6);
+	background-color: rgba(75,131,180,0.8);
 	text-decoration:none;
+}
+#content input.delete {
+	background-color: rgba(204,0,0,0.9);
+	border: 1px solid rgba(204,0,0,0.9);
+	box-shadow: inset 0px 1px 0px 0px rgba(230,0,0,1),
+	inset 0px -1px 0px 0px rgba(230,0,0,1);
+}
+#admin-page input.delete:hover {
+	background-color: rgba(204,0,0,0.7);
 }
 #content ul {
 	list-style:none;
@@ -747,6 +763,13 @@ ul {
 	cursor:pointer;
 	margin-left:50px;
 	border: 1px solid #555;
+}
+.create-something-new {
+	position: absolute;
+	top: 10px;
+	right: 1px;
+	padding:5px;
+	background: #fff;
 }
 .dropdown-menu {
 	font-size:1.4em;
@@ -903,14 +926,6 @@ ul {
 	display:block;
 	clear: both;
 }
-#admin-page .admin-button {
-	padding: 5px;
-	margin-top:10px;
-	text-align:left;
-	cursor:default;
-	display:block;
-	clear: both;
-}
 #admin-page .admin-span a {
 	cursor: default;
 }
@@ -945,91 +960,10 @@ ul {
 #admin-page .password-value {
 	color: #ccc;
 }
-#admin-page .user-update-button {
-	
-}
 #admin-page input {
 	height:25px;
 	font-size:1em;
 	margin: 0;
-}
-
-#users-table .user-update-form,
-#users-table .user-add-form {
-	background:rgba(75,131,180,0.2);
-	/*box-shadow: 0px 0px 5px rgba(32,32,32,0.8);*/
-	/*border: 1px solid rgba(75,131,180,0.2);*/
-	border-top:none;
-	padding:10px 5px 5px;
-	position:relative;
-}
-#users-table td.user-update {
-	padding:0;
-	border-top:none;
-	border-spacing: 0;
-}
-#users-table .user-update-form label,
-#users-table .user-add-form label  {
-	display: block;
-}
-#users-table .user-update-form input,
-#users-table .user-add-form input {
-	height:25px;
-	font-size:1em;
-	margin: 0;
-	border:none;
-	border-spacing: 0;
-}
-#admin-page .user-password {
-	color:#bbb;
-}
-#admin-page button,
-#admin-page span.cancel,
-#admin-page input[type=submit] {
-	cursor: pointer;
-	color: #fff;
-	background-color: rgba(75,131,180,1);
-	display: inline-block;
-	margin-bottom: 0;
-	font-weight: 100;
-	text-align: center;
-	vertical-align: middle;
-	border: 1px solid rgba(75,131,180,1);
-	white-space: nowrap;
-	padding: 3px 6px;
-	font-size:0.9em;
-	border-radius: 5px;
-}
-#admin-page button:hover,
-#admin-page span.cancel:hover,
-#admin-page input[type=submit]:hover {
-	background-color: rgba(75,131,180,0.6);
-}
-#admin-page input.delete {
-	background-color: rgba(204,0,0,0.9);
-	border: 1px solid rgba(204,0,0,0.6);
-	margin:5px;
-	display: inline-block;
-	position:absolute;
-	bottom:5px;
-	right:50px;
-}
-#admin-page input.delete:hover {
-	background-color: rgba(204,0,0,0.6);
-}
-#admin-page span.cancel {
-	margin:5px;
-	display: inline-block;
-}
-#admin-page input.save {
-	margin:5px;
-	display: inline-block;
-}
-#admin-page button.add-new {
-	margin-bottom: 10px;
-}
-#admin-page .button-add-new {
-	border-bottom:none;
 }
 /* Proile Page */
 #profile-page {
@@ -1052,9 +986,6 @@ ul {
 }
 #profile-page .password-value {
 	color: #ccc;
-}
-#profile-page .profile-update-button {
-	
 }
 #profile-page input {
 	height:25px;

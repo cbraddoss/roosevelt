@@ -258,6 +258,7 @@ jQuery(document).ready(function($){
 	$(document).on('click','#admin-page #admin-new-user-form button.add-new',function(){
 		$.get( "/admin/users", function( data ) {
 			$('#admin-new-user-form').html(data);
+			$('form.add-user .first-name').focus();
 		});
 	});
 	$(document).on('click','#admin-page .user-add-form span.cancel',function(){
@@ -276,34 +277,17 @@ jQuery(document).ready(function($){
 			}, function (data) {
 				if(data.errorMsg) {
 					$('#message-box-json').fadeIn();
-					if(data.errorMsg == 'The email format is invalid.') $('#message-box-json').find('span.flash-message-error').html('Only @insideout.com accounts are allowed.');
-					else $('#message-box-json').find('span.flash-message-error').html(data.errorMsg);
-					
+					if(data.errorMsg == 'The email format is invalid.') $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Only @insideout.com accounts are allowed.</span></div>');
+					else $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
 				}
 				else {
-					$('#message-box-json').fadeIn();
-					$('#message-box-json').find('span.flash-message-success').html(data.msg);
-					$('#message-box-json').delay(7000).fadeOut();
-					$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New User</button></span>');
-				// 	$('.success-notice p').html(data.first_name + ' ' + data.last_name + ' ' + data.msg);
-				// 	$('#users-table #user-new').hide();
-				// 	$('#users-table button.add-new').parent().parent().fadeTo("slow",1);
-				// 	$('#users-table .user-list').last().after("<tr class='user-list user-list-"+data.id+"'>"+
-				// 			"<td class='user-name'  fieldvalfirst='"+data.first_name+"' fieldvallast='"+data.last_name+"'>"+data.first_name+" "+data.last_name+"</td>"+
-				// 			"<td class='user-email' fieldval='"+data.email+"'>"+data.email+"</td>"+
-				// 			"<td class='user-password'>********</td>"+
-				// 			"<td class='user-userrole' fieldval='"+data.userrole+"'>"+data.userrole+"</td>"+
-				// 			"<td class='user-extension' fieldval='"+data.extension+"'>"+data.extension+"</td>"+
-				// 			"<td class='user-cell-phone' fieldval='"+data.cell_phone+"'>"+data.cell_phone+"</td>"+
-				// 			"<td class='user-status' fieldval='"+data.status+"'><span class='ss-check'></span></td>"+
-				// 			"<td class='user-edit'>"+
-				// 				"<button id='" + data.id + "' class='edit ss-write'></button>" +
-				// 			"</td>"+
-				// 		"</tr>");
-				// 	$('#users-table .user-add-form #add-new').find('input.field').each(function(){
-				// 		$(this).val('');
-				// 	});
-				// 	$('.success-notice').show().delay(5000).fadeOut();
+					$('#message-box-json').find('.section').empty();
+					$('#message-box-json').fadeOut();
+					//$('#message-box-json').fadeIn();
+					//$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
+					//$('#message-box-json').delay(2000).fadeOut();
+					//$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New User</button></span>');
+					window.location.href = '/admin/users?user=new';
 				}
 			},'json'
 		);
