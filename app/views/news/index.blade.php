@@ -4,15 +4,11 @@
 {{ 'Company News' }}
 @stop
 
-@include('news.partials.sub-menu')
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
 
-<div class="create-something-new-bg"></div>
-<div id="news-new-article-form" class="create-something-new">
-	<span class="news-button"><button class="add-new">Add New</button></span>
-</div>
+@include('news.partials.sub-menu')
 
 	<div class="news-filter">
 		<ul>

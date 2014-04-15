@@ -120,7 +120,9 @@ class ArticlesController extends \BaseController {
 		if(!empty($author)) {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
-				$articles = Article::where('author_id','=',$userAuthor->id)->paginate(5);
+				$articles = Article::where('author_id','=',$userAuthor->id)
+							->orderBy('created_at','DESC')
+							->paginate(5);
 				return View::make('news.filters.author', compact('articles','userAuthor'));
 			}
 			else return Redirect::route('news');
@@ -140,6 +142,7 @@ class ArticlesController extends \BaseController {
 		$dateMax->modify('+1 month');		
 		$articles = Article::where('created_at','>=', $date)
 					->where('created_at','<', $dateMax)
+					->orderBy('created_at','DESC')
 					->paginate(5);
 		$date = $date->format('F, Y');
 		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
@@ -155,6 +158,7 @@ class ArticlesController extends \BaseController {
 		$lastMonth = new DateTime('-1 month');
 		$articles = Article::where('created_at','>=',$lastMonth)
 					->where('been_read','not like','%'.$currentUser.'%')
+					->orderBy('created_at','DESC')
 					->paginate(5);
 		return View::make('news.filters.unread', compact('articles'));
 	}
@@ -167,6 +171,7 @@ class ArticlesController extends \BaseController {
 	public function favoritesFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('favorited','like','%'.$currentUser.'%')
+					->orderBy('created_at','DESC')
 					->paginate(5);
 		return View::make('news.filters.favorites', compact('articles'));
 	}
@@ -179,6 +184,7 @@ class ArticlesController extends \BaseController {
 	public function mentionsFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('mentions','like','%'.$currentUser.'%')
+					->orderBy('created_at','DESC')
 					->paginate(5);
 		return View::make('news.filters.mentions', compact('articles'));
 	}
@@ -191,6 +197,7 @@ class ArticlesController extends \BaseController {
 	public function scheduledFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('scheduled','like','%'.$currentUser.'%')
+					->orderBy('created_at','DESC')
 					->paginate(5);
 		return View::make('news.filters.scheduled', compact('articles'));
 	}

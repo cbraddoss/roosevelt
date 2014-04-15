@@ -4,10 +4,10 @@
 {{ 'Company News - Unread Articles'  }}
 @stop
 
-@include('news.partials.sub-menu')
-
 @section('page-content')
 <div id="news-page"  class="inner-page">
+
+@include('news.partials.sub-menu')
 	
 	@if($articles->isEmpty())
 			<div class="news-article">

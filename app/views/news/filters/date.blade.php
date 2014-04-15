@@ -4,10 +4,10 @@
 {{ 'Company News - Articles for '. $date  }}
 @stop
 
-@include('news.partials.sub-menu')
-
 @section('page-content')
 <div id="news-page"  class="inner-page">
+
+@include('news.partials.sub-menu')
 	
 	<div class="news-filter">
 		<ul>
