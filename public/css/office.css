@@ -294,8 +294,8 @@ ul {
 	margin:0px auto 1px;
 }
 
-/* User/Notification Menu */
-#user-menu {
+/* Sub/Notification Menu */
+#sub-menu {
 	position: fixed;
 	top:60px;
 	left:0px;
@@ -309,29 +309,28 @@ ul {
 	box-shadow: inset 0px 1px 0px 0px rgba(93,143,187,1),
 	inset 0px -1px 0px 0px rgba(93,143,187,1);
 }
-.user-menu-name {
-	float:right;
-	color:#fff;
-	font-size:1.8em;
-	height:25px;
-	padding:5px 0px 5px 50px;
-	position: relative;
+#sub-menu ul.search-menu {
+	float:left;
+	width: 252px;
 }
-.user-menu-name img {
-	position:absolute;
-	top:0px;
-	left:0px;
-	border-radius: 25px;
-	border: 1px solid rgba(68,118,162,1);
-	box-shadow: inset -1px -1px 0px rgba(93,143,187,1),
-	inset 1px 1px 0px rgba(93,143,187,1);
-}
-#user-menu ul {
-	float:right;
-}
-#user-menu ul li {
+#sub-menu ul.search-menu li {
 	display: inline-block;
-	text-align:right;
+	float:left;
+	text-align: center;
+	width:55px;
+	padding:0px 0px 0px 25px;
+	margin:0 auto;
+	height:30px;
+	font-size:1.4em;
+	cursor: pointer;
+}
+#sub-menu ul.extra-menu {
+	float:right;
+}
+#sub-menu ul.extra-menu li {
+	display: inline-block;
+	float:left;
+	text-align: right;
 	width:100px;
 	padding:0px;
 	margin:0px 0px 0px 0px;
@@ -339,27 +338,15 @@ ul {
 	font-size:1.4em;
 	cursor: pointer;
 }
-#user-menu ul#welcome-name {
-	float:left;
-}
-#user-menu ul#welcome-name li {
-	text-align:center;
-	width:252px;
-	font-size:1.6em;
-	cursor: default;
-}
-#user-menu ul#welcome-name li a:hover {
-	color:#fff;
-	cursor: default;
-}
-#user-menu ul li.active,
-#user-menu ul li.active a {
+
+#sub-menu ul li.active,
+#sub-menu ul li.active a {
 	color: #000;
 }
-#user-menu ul li.active a {
+#sub-menu ul li.active a {
 	border-bottom:2px solid #000;	
 }
-#user-menu ul li a {
+#sub-menu ul li a {
 	height: 20px;
 	padding:5px;
 	vertical-align: bottom;
@@ -368,10 +355,10 @@ ul {
 	color: #fff;
 	position: relative;
 }
-#user-menu ul li a:hover {
+#sub-menu ul li a:hover {
 	color: #000;
 }
-#user-menu span:before {
+#sub-menu span:before {
 	text-decoration: none;
 	font-size: 1em;
 	margin-top: 0px;
@@ -385,16 +372,18 @@ ul {
 	display: none;
 	position: fixed;
 	top:63px;
-	right:0px;
-	width:100%;
+	width:252px;
 	height: 25px;
 	z-index:58;
 	background: rgba(75,131,180,1);
 }
+#search-box .search-input {
+	width:252px;
+}
 #search-box input.search {
 	position: absolute;
-	right:0px;
-	width: 300px;
+	left:0px;
+	width: 240px;
 	padding: 5px;
 	border-radius: 5px;
 	border: 1px solid rgba(68,118,162,1);
@@ -410,7 +399,7 @@ ul {
 }*/
 #search-box .ss-delete {
 	position: absolute;
-	right:315px;
+	left:255px;
 	padding-top:3px;
 	font-size:2em;
 	color:#fff;
@@ -452,11 +441,37 @@ ul {
 	inset -1px 0px 0px 0px #555;
 	/*0px 0px 10px 0px #333;*/
 }
+#welcome-user {
+	width:250px;
+	margin-top:103px;
+}
+#welcome-user .section {
+	width:250px;
+}
+#welcome-user a {
+	color: #fff;
+}
+#welcome-user ul#welcome-name {
+	width:250px;
+	display: inline-block;
+}
+#welcome-user ul#welcome-name li {
+	color: #fff;
+	text-align:center;
+	width:252px;
+	font-size:1.2em;
+	cursor: default;
+}
+#welcome-user ul#welcome-name li a {
+	text-decoration: none;
+	font-size: 0.8em;
+	padding: 0 5px;
+}
 /* ToDo */
 #todo-box {
 	clear:both;
 	width:250px;
-	margin-top:143px;
+	margin-top:17px;
 	position:relative;
 	font-size:1.2em;
 	letter-spacing: 0.0625em;
@@ -771,6 +786,7 @@ ul {
 }
 .create-something-title {
 	color: #fff;
+	padding: 0 5px;
 }
 .create-something-new-bg {
 	position: absolute;
@@ -834,7 +850,19 @@ ul {
 	-moz-background-clip: padding;
 	background-clip: padding-box;
 }
-
+.pagination-footer {
+	background: rgba(75,131,180,0.2);
+	border: 1px solid #ddd;
+}
+.pagination-footer ul {
+	display: inline-block !important;
+}
+.pagination-footer li {
+	margin: 5px 5px 0 !important;
+	background: none !important;
+	border-bottom: none !important;
+	float:left !important;
+}
 #quicklinks {
 	font-size: 1.1em;
 	display:block;
@@ -897,7 +925,7 @@ ul {
 	background: rgba(75,131,180,0.2);
 }
 #news-page .news-article {
-	border-bottom:1px solid rgba(32,32,32,0.4);;
+	border-bottom:1px solid rgba(32,32,32,0.4);
 	padding:5px;
 	margin-bottom:5px;
 }
@@ -911,6 +939,9 @@ ul {
 	margin-bottom:5px;
 }
 #content .news-filter ul {
+}
+#content .news-filter ul.user-specific {
+	text-align:right;
 }
 #content .news-filter ul li {
 	display:inline-block;
@@ -927,6 +958,14 @@ ul {
 	position:absolute;
 	right:20px;
 	color: rgba(204,0,0, 0.9);
+}
+#news-page input {
+	height:25px;
+	font-size:1em;
+	padding: 0px;
+}
+#news-page textarea {
+	font-size:1em;	
 }
 /* Admin Page */
 #admin-page .admin-p {

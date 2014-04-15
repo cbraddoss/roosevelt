@@ -43,6 +43,11 @@ function convert_link_to_title($link) {
 	return $title;
 }
 
+function display_content($content) {
+	$content =  nl2br($content);
+	return $content;
+}
+
 function find_unread_count($resource) {
 	$currentUser = current_user_path();
 	$lastMonth = new DateTime('-1 month');

@@ -35,6 +35,7 @@ Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesCon
 Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'ProfilesController@update'));
 
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
+Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
 Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'));
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));

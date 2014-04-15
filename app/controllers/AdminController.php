@@ -95,7 +95,7 @@ class AdminController extends \BaseController {
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
-		} 
+		}
 		else {
 			$newUser = new User;
 			$newUser->first_name =  ucwords(Input::get('first_name'));

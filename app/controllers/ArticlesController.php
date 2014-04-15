@@ -19,8 +19,9 @@ class ArticlesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$articles = Article::orderBy('created_at','DESC')->get();
-		return View::make('news.index', compact('articles'));
+		$articles = Article::orderBy('created_at','DESC')->paginate(5);
+		if(Request::ajax()) return View::make('news.partials.new');
+		else return View::make('news.index', compact('articles'));
 	}
 
 	/**
@@ -40,7 +41,48 @@ class ArticlesController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/users/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		$validator = Validator::make(Input::all(), array(
+			'title' => 'required|max:60',
+			'content' => 'required'
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			$response = array(
+				'errorMsg' => $messages->first()
+			);
+			return Response::json( $response );
+		}
+		else {
+			$newArticle = new Article;
+			$newArticle->title =  Input::get('title');
+			$newArticle->content =  Input::get('content');
+			$newArticle->link = e(str_replace(' ', '-', strtolower(Input::get('title'))));
+			$newArticle->author_id = Auth::user()->id;
+
+
+
+			try
+			{
+				$newArticle->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				$response = array(
+					'errorMsg' => 'Oops, there might be an article with this title already. Try a different title.'
+				);
+				return Response::json( $response );
+			}
+			$response = array(
+				'msg' => 'Article saved.'
+			);
+			return Response::json( $response );
+		}
+		$response = array(
+			'errorMsg' => 'Something went wrong. :('
+		);
+		return Response::json( $response );
 	}
 
 	/**
@@ -78,7 +120,7 @@ class ArticlesController extends \BaseController {
 		if(!empty($author)) {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
-				$articles = Article::where('author_id','=',$userAuthor->id)->get();
+				$articles = Article::where('author_id','=',$userAuthor->id)->paginate(5);
 				return View::make('news.filters.author', compact('articles','userAuthor'));
 			}
 			else return Redirect::route('news');
@@ -97,7 +139,8 @@ class ArticlesController extends \BaseController {
 		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax->modify('+1 month');		
 		$articles = Article::where('created_at','>=', $date)
-					->where('created_at','<', $dateMax)->get();
+					->where('created_at','<', $dateMax)
+					->paginate(5);
 		$date = $date->format('F, Y');
 		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
 	}
@@ -112,7 +155,8 @@ class ArticlesController extends \BaseController {
 		$currentUser = current_user_path();
 		$lastMonth = new DateTime('-1 month');
 		$articles = Article::where('created_at','>=',$lastMonth)
-					->where('been_read','not like','%'.$currentUser.'%')->get();
+					->where('been_read','not like','%'.$currentUser.'%')
+					->paginate(5);
 		return View::make('news.filters.unread', compact('articles'));
 	}
 

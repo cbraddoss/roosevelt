@@ -23,7 +23,7 @@
 				<div id="menu_header">
 					<div class="menu_nav">
 						<ul id="menu_links">
-							<li alt="Dashboard" id="link-dashboard" class="link active"><a class="ss-home" href="/">Dashboard</a></li>
+							<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home" href="/">Dashboard</a></li>
 							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a>{{ find_assigned_count('projects') }}</li>
 							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a>{{ find_assigned_count('billables') }}</li>
 							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign">Invoices</a></li>
@@ -40,25 +40,27 @@
 				</div> <!-- #menu_header -->
 			</div> <!-- #nav_menu -->
 
-			<div id="user-menu">
+			<div id="sub-menu">
 				<div class="section">
-					<ul id="welcome-name">
-						<li id="link-name" class="link"><a><span class="welcome">Welcome</span>, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a></li>
-					</ul>
-					<ul>
+					<ul class="search-menu">
+						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
 						@if(Auth::user()->userrole == 'admin')
 						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
 						@endif
-						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
 						<li alt="Search" id="link-search" class="link"><a><span class="ss-search"></span>Search</a></li>
+					</ul>
+					<ul class="extra-menu">
+						@yield('extra-menu')
 					</ul>
 				</div>
 			</div>
 			<div id="search-box">
 				<div class="section">
-					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-					<input type="text" class="search" name="s" id="s" placeholder="Search..." /><!-- <span class="ss-search"></span> --><span class="ss-delete"></span>
-					{{ Form::close() }}
+					<div class="search-details">
+						{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+						<input type="text" class="search" name="s" id="s" placeholder="Search..." /><!-- <span class="ss-search"></span> --><span class="ss-delete"></span>
+						{{ Form::close() }}
+					</div>
 				</div>
 			</div>
 			
@@ -106,8 +108,14 @@
 	<div id="side">
 		<div class="section">
 			<div id="sidebar">
+			<div id="welcome-user">
+				<div class="section">
+					<ul id="welcome-name">
+						<li id="link-name" class="link"><span class="welcome">Welcome</span>, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
+					</ul>
+				</div>
+			</div>
 				<div id="todo-box">
-					
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">
 							<a id="tasks" class="todo-feed-title active" href="#"><span class="ss-check"></span>Your Tasks<span class="todo-num">115</span><span class="arrow ss-dropdown"></span></a>
