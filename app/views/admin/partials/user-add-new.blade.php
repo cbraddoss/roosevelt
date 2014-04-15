@@ -1,6 +1,5 @@
-<div class="user-add-form">
-
-<p>Add New User: </p>
+<span class="create-something-title">Add New</span>
+<div class="user-add-form create-something-form">
 
 {{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => '/admin/users', 'method' => 'post') ) }}
 

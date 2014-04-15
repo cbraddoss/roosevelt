@@ -2,8 +2,9 @@
 
 @section('admin-user-content')
 
+<div class="create-something-new-bg"></div>
 <div id="admin-new-user-form" class="create-something-new">
-	<span class="admin-button"><button class="add-new">Add New User</button></span>
+	<span class="admin-button"><button class="add-new">Add New</button></span>
 </div>
 
 <h3>Admin Users</h3>

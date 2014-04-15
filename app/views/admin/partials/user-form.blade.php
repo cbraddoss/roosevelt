@@ -1,5 +1,9 @@
 @extends('admin.users')
 
+@section('page-title')
+{{ 'Admin - ' . $user->first_name . ' ' . $user->last_name }}
+@stop
+
 @section('admin-user-content')
 
 {{ Form::open( array('class' => 'update-user', 'url' => '/admin/users/'.$user->user_path, 'method' => 'post', 'id' => $user->id) ) }}

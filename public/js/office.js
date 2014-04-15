@@ -262,7 +262,7 @@ jQuery(document).ready(function($){
 		});
 	});
 	$(document).on('click','#admin-page .user-add-form span.cancel',function(){
-		$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New User</button></span>');
+		$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New</button></span>');
 	});
 	$(document).on('submit', '#admin-page .user-add-form form.add-user', function(){
 		$.post(

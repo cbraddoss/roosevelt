@@ -5,6 +5,11 @@
 @stop
 
 @section('page-content')
+<div class="create-something-new-bg"></div>
+<div id="news-new-article-form" class="create-something-new">
+	<span class="news-button"><button class="add-new">Add New</button></span>
+</div>
+
 <div id="news-page"  class="inner-page">
 
 	<div class="news-filter">
