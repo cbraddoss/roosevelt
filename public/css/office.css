@@ -959,13 +959,21 @@ ul {
 	right:20px;
 	color: rgba(204,0,0, 0.9);
 }
-#news-page input {
+#news-page .article-add-form {
+	width: 700px;
+
+}
+#news-page .article-add-form input,
+#news-page .article-add-form .cancel {
 	height:25px;
+	width:100%;
 	font-size:1em;
 	padding: 0px;
 }
-#news-page textarea {
-	font-size:1em;	
+#news-page .article-add-form textarea {
+	font-size:1em;
+	width:100%;
+	height:200px;
 }
 /* Admin Page */
 #admin-page .admin-p {

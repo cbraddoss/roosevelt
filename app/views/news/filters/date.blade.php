@@ -4,12 +4,7 @@
 {{ 'Company News - Articles for '. $date  }}
 @stop
 
-@section('extra-menu')
-	<li><a href="/news/unread/" class="button filter-unread">Unread</a></li>
-	<li><a href="/news/favorites/" class="button filter-unread">Favorites</a></li>
-	<li><a href="/news/scheduled/" class="button filter-unread">Scheduled</a></li>
-	<li><a href="/news/mentioned/" class="button filter-unread">Mentioned</a></li>
-@stop
+@include('news.partials.sub-menu')
 
 @section('page-content')
 <div id="news-page"  class="inner-page">

@@ -1,14 +1,14 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Company News - Unread Articles'  }}
+{{ 'Company News - Scheduled Articles'  }}
 @stop
 
 @include('news.partials.sub-menu')
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
-	
+		
 	@if($articles->isEmpty())
 			<div class="news-article">
 				<h3>No unread articles found.</h3>

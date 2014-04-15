@@ -39,6 +39,9 @@ Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesControll
 Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'));
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));
+Route::get('/news/mentions/', array('as' => 'news.mentionsFilter', 'uses' => 'ArticlesController@mentionsFilter'));
+Route::get('/news/favorites/', array('as' => 'news.favoritesFilter', 'uses' => 'ArticlesController@favoritesFilter'));
+Route::get('/news/scheduled/', array('as' => 'news.scheduledFilter', 'uses' => 'ArticlesController@scheduledFilter'));
 Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'));
 
 // Route::get('/tools', function(){

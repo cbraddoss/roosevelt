@@ -146,9 +146,8 @@ class ArticlesController extends \BaseController {
 	}
 
 	/**
-	 * Return search for date
+	 * Return search for unread articles
 	 *
-	 * @param  int  $date
 	 * @return Response
 	 */
 	public function unreadFilter() {
@@ -158,6 +157,42 @@ class ArticlesController extends \BaseController {
 					->where('been_read','not like','%'.$currentUser.'%')
 					->paginate(5);
 		return View::make('news.filters.unread', compact('articles'));
+	}
+	
+	/**
+	 * Return search for favorite articles
+	 *
+	 * @return Response
+	 */
+	public function favoritesFilter() {
+		$currentUser = current_user_path();
+		$articles = Article::where('favorited','like','%'.$currentUser.'%')
+					->paginate(5);
+		return View::make('news.filters.favorites', compact('articles'));
+	}
+
+	/**
+	 * Return search for mentioned articles
+	 *
+	 * @return Response
+	 */
+	public function mentionsFilter() {
+		$currentUser = current_user_path();
+		$articles = Article::where('mentions','like','%'.$currentUser.'%')
+					->paginate(5);
+		return View::make('news.filters.mentions', compact('articles'));
+	}
+
+	/**
+	 * Return search for scheduled articles
+	 *
+	 * @return Response
+	 */
+	public function scheduledFilter() {
+		$currentUser = current_user_path();
+		$articles = Article::where('scheduled','like','%'.$currentUser.'%')
+					->paginate(5);
+		return View::make('news.filters.scheduled', compact('articles'));
 	}
 
 	/**

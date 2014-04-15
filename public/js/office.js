@@ -158,6 +158,7 @@ jQuery(document).ready(function($){
 		return false;
 	});
 
+
 	/* Projects Page */
 	//Change color of high priority project items
 	$(document).on('change','.priority',function(){

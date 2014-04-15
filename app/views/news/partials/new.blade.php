@@ -7,6 +7,8 @@
 
 {{ Form::textarea('content', null, array('placeholder' => 'What\'s happening?', 'class' => 'article-content field')) }}
 
+{{ Form::file('attachment') }}
+
 {{ Form::submit('Add Article', array('class' => 'save', 'id' => 'add-new-submit') ) }}
 
 <span id="add-new" class="cancel">Cancel</span>
