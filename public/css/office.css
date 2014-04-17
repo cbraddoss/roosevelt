@@ -961,6 +961,7 @@ ul {
 }
 #news-feed li {
 	padding:5px;
+	background: #eee;
 }
 #news-feed li.unread {
 	background: rgba(75,131,180,0.2);
@@ -968,7 +969,8 @@ ul {
 #news-page .news-article {
 	border-bottom:1px solid rgba(32,32,32,0.4);
 	padding:5px 10px 10px;
-	margin-bottom:15px;
+	margin-bottom:0px;
+	background: #eee;
 }
 #news-page .unread {
 	background: rgba(75,131,180,0.1);	
