@@ -17,10 +17,9 @@ function any_user_path($id) {
 	return $user->user_path;
 }
 
-function find_user_from_path($user) {
-	$user = explode('-',$user);
-	$user = User::where('first_name','=', ucwords($user[0]))
-			->where('last_name','=', ucwords($user[1]))
+function find_user_from_path($userpath) {
+	//$user = explode('-',$user);
+	$user = User::where('user_path','=', $userpath)
 			->first();
 	return $user;
 }
@@ -36,17 +35,25 @@ function get_user_list_select($selected = null) {
 }
 
 function convert_title_to_path($title) {
-	$title = strip_tags(trim(strtolower($title)));
+	$title = htmlspecialchars(strip_tags(trim(strtolower($title))),ENT_QUOTES);
 	$title = str_replace(" ","-",$title);
-	$title = str_replace("'","-",$title);
 	return $title;
 }
 
-function convert_title_to_link($base_url, $title, $class = null) {
-	$link = str_replace(" ","-",$title);
-	$link = str_replace("'","",$link);
-	$link = strtolower($link);
-	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
+// function convert_title_to_link($base_url, $title, $class = null) {
+// 	$link = str_replace(" ","-",$title);
+// 	$link = str_replace("'","",$link);
+// 	$link = strtolower($link);
+// 	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
+// }
+
+function clean_article_title($title) {
+	$title = strip_tags(trim($title));
+	return $title;
+}
+
+function clean_article_content($content) {
+	return $content;
 }
 
 function display_content($content) {

@@ -59,5 +59,17 @@ class UsersTableSeeder extends Seeder {
 			'status' => 'inactive',
 			'user_path' => 'user-two'
 		));
+
+
+
+		User::create(array(
+			'email' => 'servers@insideout.com',
+			'password' => Hash::make('1234'),
+			'userrole' => 'non-standard',
+			'first_name' => 'User',
+			'last_name' => 'Three',
+			'status' => 'active',
+			'user_path' => 'user-three'
+		));
 	}
 }

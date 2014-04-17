@@ -59,8 +59,8 @@ class ArticlesController extends \BaseController {
 		}
 		else {
 			$newArticle = new Article;
-			$newArticle->title = Purifier::clean(Input::get('title'));
-			$newArticle->content =  e(Input::get('content'));
+			$newArticle->title = clean_article_title(Input::get('title'));
+			$newArticle->content =  clean_article_content(Input::get('content'));
 			$newArticle->link = convert_title_to_path(Input::get('title'));
 			$newArticle->author_id = Auth::user()->id;
 			$newArticle->status = 'published';
@@ -193,9 +193,9 @@ class ArticlesController extends \BaseController {
 	public function show($article)
 	{
 		
-		$article = convert_link_to_title($article);
-		dd($article);
-		$article = Article::where('title', $article)->first();
+		// $article = convert_link_to_title($article);
+		// dd($article);
+		$article = Article::where('link', $article)->first();
 		$userRead = current_user_path();
 		if(empty($article)) return Redirect::route('news');
 		else $oldRead = $article->been_read;
@@ -248,6 +248,8 @@ class ArticlesController extends \BaseController {
 			$article->title =  Input::get('title');
 			$article->content =  e(Input::get('content'));
 			$article->link = e(str_replace(' ', '-', strtolower(Input::get('title'))));
+			//$article->updated_at = new DateTime();
+
 			try
 			{
 				$article->save();

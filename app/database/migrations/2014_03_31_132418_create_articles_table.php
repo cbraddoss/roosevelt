@@ -17,13 +17,13 @@ class CreateArticlesTable extends Migration {
 			$table->increments('id');
 			$table->string('title', 120)->unique();
 			$table->text('content');
-			$table->string('link');
-			$table->string('status');
+			$table->string('link')->unique();
+			$table->enum('status', array('published', 'draft'));
 			$table->integer('author_id');
-			$table->string('been_read');
-			$table->string('favorited');
-			$table->string('mentions');
-			$table->string('attachment');
+			$table->string('been_read')->nullable();
+			$table->string('favorited')->nullable();
+			$table->string('mentions')->nullable();
+			$table->string('attachment')->nullable();
 			$table->timestamps();
 		});
 	}
