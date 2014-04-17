@@ -9,6 +9,7 @@ class AccountsTableSeeder extends Seeder {
 		Account::create(array(
 			'name' => 'Sample Inn',
 			'status' => 'active',
+			'link' => 'sample-inn',
 			'email' => 'sample@sampleinn.com',
 			'website' => 'sampleinn.com',
 			'author_id' => '3',
@@ -27,6 +28,7 @@ class AccountsTableSeeder extends Seeder {
 		Account::create(array(
 			'name' => 'Another B&B',
 			'status' => 'active',
+			'link' => 'another-b-b',
 			'email' => 'another@anotherbb.com',
 			'website' => 'anotherbb.com',
 			'author_id' => '2',
@@ -45,6 +47,7 @@ class AccountsTableSeeder extends Seeder {
 		Account::create(array(
 			'name' => 'The Best BnB',
 			'status' => 'active',
+			'link' => 'the-best-bnb',
 			'email' => 'thebest@thebestbb.com',
 			'website' => 'thebestbb.com',
 			'author_id' => '1',
@@ -63,6 +66,7 @@ class AccountsTableSeeder extends Seeder {
 		Account::create(array(
 			'name' => 'The Worst Inn',
 			'status' => 'inactive',
+			'link' => 'the-worst-inn',
 			'email' => 'worst@worstinn.com',
 			'website' => 'worstinn.com',
 			'author_id' => '4',

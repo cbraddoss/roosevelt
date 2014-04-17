@@ -5,6 +5,8 @@
 
 {{ Form::text('title', null, array('placeholder' => 'Title', 'class' => 'article-title field')) }}
 
+<div class="form-textarea-buttons"><span class="ss-link textarea-button make-link"></span><span class="textarea-button make-bold">Bold</span><span class="textarea-button make-italic">Italic</span></div>
+
 {{ Form::textarea('content', null, array('placeholder' => 'What\'s happening?', 'class' => 'article-content field', 'id' => 'article-content')) }}
 
 {{ Form::label('attachment', 'Attachment:' ) }}

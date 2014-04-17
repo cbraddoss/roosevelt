@@ -10,7 +10,7 @@
 
 @include('news.partials.sub-menu')
 
-{{ Form::open( array('id' => 'update-article', 'class' => 'update-article', 'url' => '/news/article/'.convert_link_to_title($article->title), 'method' => 'post') ) }}
+{{ Form::open( array('id' => 'update-article', 'class' => 'update-article', 'url' => '/news/article/'.$article->link, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $article->id) }}
 

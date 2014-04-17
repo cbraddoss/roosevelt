@@ -8,7 +8,7 @@
 
 <div class="create-something-new-bg"></div>
 <div id="news-new-article-form" class="create-something-new">
-	@if(strpos(current_page(), 'news/article' ))
+	@if(strpos(current_page(), 'news/article' ) && (Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin'))
 	<span class="news-button"><a class="button edit-article" href="/news/article/{{ $article->link }}/edit">Edit Post</a></span>
 	@else
 	<span class="news-button"><button class="add-new">Add New</button></span>

@@ -16,7 +16,8 @@ class CreateAccountsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name',128)->unique();
-			$table->string('status',10);
+			$table->enum('status', array('active', 'inactive'));
+			$table->string('link')->unique();
 			$table->string('email',50);
 			$table->string('website',128);
 			$table->integer('author_id');

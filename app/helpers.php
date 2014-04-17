@@ -35,8 +35,11 @@ function get_user_list_select($selected = null) {
 }
 
 function convert_title_to_path($title) {
-	$title = htmlspecialchars(strip_tags(trim(strtolower($title))),ENT_QUOTES);
+	$title = trim($title);
 	$title = str_replace(" ","-",$title);
+	$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
+	$title = strip_tags($title);
+	$title = strtolower($title);
 	return $title;
 }
 
@@ -47,16 +50,17 @@ function convert_title_to_path($title) {
 // 	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
 // }
 
-function clean_article_title($title) {
-	$title = strip_tags(trim($title));
+function clean_title($title) {
+	$title = htmlspecialchars(strip_tags(trim($title)));
 	return $title;
 }
 
-function clean_article_content($content) {
-	return $content;
+function clean_content($content) {
+	return htmlentities($content);
 }
 
-function display_content($content) {
+function display_content($content, $length = null) {
+	if($length != null) return nl2br(substr(strip_tags(html_entity_decode($content)),0,$length)) . '......';
 	$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 	if(preg_match_all($reg_exUrl, $content, $url)) {
 		//dd($url);

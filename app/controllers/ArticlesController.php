@@ -59,8 +59,8 @@ class ArticlesController extends \BaseController {
 		}
 		else {
 			$newArticle = new Article;
-			$newArticle->title = clean_article_title(Input::get('title'));
-			$newArticle->content =  clean_article_content(Input::get('content'));
+			$newArticle->title = clean_title(Input::get('title'));
+			$newArticle->content =  clean_content(Input::get('content'));
 			$newArticle->link = convert_title_to_path(Input::get('title'));
 			$newArticle->author_id = Auth::user()->id;
 			$newArticle->status = 'published';
@@ -192,9 +192,6 @@ class ArticlesController extends \BaseController {
 	 */
 	public function show($article)
 	{
-		
-		// $article = convert_link_to_title($article);
-		// dd($article);
 		$article = Article::where('link', $article)->first();
 		$userRead = current_user_path();
 		if(empty($article)) return Redirect::route('news');
@@ -218,10 +215,12 @@ class ArticlesController extends \BaseController {
 	 */
 	public function edit($article)
 	{
-		$article = convert_link_to_title($article);
-		$article = Article::where('title', $article)->first();
-		if(empty($article)) return Redirect::route('news');
-		return View::make('news.partials.edit', compact('article'));
+		$article = Article::where('link', $article)->first();
+		if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin') {
+			if(empty($article)) return Redirect::route('news');
+			return View::make('news.partials.edit', compact('article'));
+		}
+		else return Redirect::to('/news/article/'.$article->link);
 	}
 
 	/**
@@ -245,10 +244,9 @@ class ArticlesController extends \BaseController {
 		}
 		else {
 			$article = Article::find(Input::get('id'));
-			$article->title =  Input::get('title');
-			$article->content =  e(Input::get('content'));
-			$article->link = e(str_replace(' ', '-', strtolower(Input::get('title'))));
-			//$article->updated_at = new DateTime();
+			$article->title =  clean_title(Input::get('title'));
+			$article->content =  clean_content(Input::get('content'));
+			$article->link = convert_title_to_path(Input::get('title'));
 
 			try
 			{

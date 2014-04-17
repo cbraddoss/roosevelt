@@ -46,6 +46,8 @@
 						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
 						@if(Auth::user()->userrole == 'admin')
 						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
+						@else
+						<li id="link-profile" class="link"><a href="/profile/"><span class="ss-user"></span>Profile</a></li>
 						@endif
 						<li alt="Search" id="link-search" class="link"><a><span class="ss-search"></span>Search</a></li>
 					</ul>

@@ -14,7 +14,7 @@
 <div class="inner-page">
     <ul>
         @foreach($accounts as $a)
-			<li>{{ convert_title_to_link("accounts", $a->name) }}</li>
+			<li>{{ $a->link) }}</li>
         @endforeach
     </ul>
 </div>

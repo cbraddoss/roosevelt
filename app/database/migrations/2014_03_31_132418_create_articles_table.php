@@ -20,10 +20,10 @@ class CreateArticlesTable extends Migration {
 			$table->string('link')->unique();
 			$table->enum('status', array('published', 'draft'));
 			$table->integer('author_id');
-			$table->string('been_read')->nullable();
-			$table->string('favorited')->nullable();
-			$table->string('mentions')->nullable();
-			$table->string('attachment')->nullable();
+			$table->string('been_read');
+			$table->string('favorited');
+			$table->string('mentions');
+			$table->string('attachment');
 			$table->timestamps();
 		});
 	}
