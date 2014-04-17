@@ -110,6 +110,26 @@ jQuery(document).ready(function($){
 	/************/
 	
 	/* News Page */
+	var getSelected = function(){
+	    var t = '';
+	    if(window.getSelection) {
+	        t = window.getSelection();
+	    } else if(document.getSelection) {
+	        t = document.getSelection();
+	    } else if(document.selection) {
+	        t = document.selection.createRange().text;
+	    }
+	    return '<span>'+t+'</span>';
+	}
+
+	$(document).on('select','#article-content', function(eventObject) {
+	    console.log(getSelected().toString());
+	    // var textChange = getSelected().toString();
+	    // console.log(eventObject);
+	    // $(document).on('click', '.make-bold', function(textChange) {
+	    // 	console.log(textChange);
+	    // });
+	});
 	// Filter by author
 	$(document).on('change','#news-page .filter-author', function(){
 		var authorLink = $(this).val();

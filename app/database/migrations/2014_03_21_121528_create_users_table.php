@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration {
 			$table->string('user_path', 128)->unique();
 			$table->dateTime('last_login');
 			$table->string('status', 8);
+			$table->string('remember_token',100)->nullable();
 			$table->timestamps();
 		});
 	}

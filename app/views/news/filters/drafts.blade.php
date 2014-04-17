@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Company News - Scheduled Articles'  }}
+{{ 'Company News - Drafts'  }}
 @stop
 
 @section('page-content')

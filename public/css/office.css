@@ -825,6 +825,24 @@ ul {
 .create-something-form .cancel {
 	margin:5px 0;
 }
+.form-textarea-buttons {
+	display: block;
+	margin:0px 0 0px;
+	width:50%;
+	border-top:1px solid #888;
+	border-right:1px solid #888;
+	border-left:1px solid #888;
+}
+.form-textarea-buttons .textarea-button {
+	display: inline-block;
+	margin: 5px 5px;
+	padding: 0px 3px;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	box-shadow: inset 1px 1px 0px 0px #fff,
+	inset -1px -1px 0px 0px #fff;
+	cursor: pointer;
+}
 .dropdown-menu {
 	font-size:1.4em;
 	position: absolute;
@@ -975,6 +993,27 @@ ul {
 	width:100%;
 	height:200px;
 }
+#news-page form.update-article input{
+	height: 25px;
+	width: 400px;
+	margin-bottom:10px;
+	font-size:1em;
+}
+#news-page form.update-article a.button {
+	height: 20px;
+	padding:0px;
+	width: 397px;
+	margin-bottom:10px;
+	font-size:1em;
+	clear:left;
+	display: block;
+}
+#news-page form.update-article textarea {
+	height: 400px;
+	width: 600px;
+	font-size:1em;
+}
+
 /* Admin Page */
 #admin-page .admin-p {
 	font-size: 1.2em;

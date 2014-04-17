@@ -1,4 +1,8 @@
 <?php
+function current_page() {
+	$currentPage = $_SERVER['REQUEST_URI'];
+	return $currentPage;
+}
 
 function gravatar_url($email,$size = '40') {
 	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&d=http%3A%2F%2Fassets.insideout.com%2Fimages%2Fuser-image.png';
@@ -31,21 +35,30 @@ function get_user_list_select($selected = null) {
 	return $options;
 }
 
+function convert_title_to_path($title) {
+	$title = strip_tags(trim(strtolower($title)));
+	$title = str_replace(" ","-",$title);
+	$title = str_replace("'","-",$title);
+	return $title;
+}
+
 function convert_title_to_link($base_url, $title, $class = null) {
-	$link = str_replace(' ','-',$title);
+	$link = str_replace(" ","-",$title);
+	$link = str_replace("'","",$link);
 	$link = strtolower($link);
 	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
 }
 
-function convert_link_to_title($link) {
-	$title = str_replace('-',' ',$link);
-	$title = ucwords($title);
-	return $title;
-}
-
 function display_content($content) {
-	$content =  nl2br($content);
-	return $content;
+	$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+	if(preg_match_all($reg_exUrl, $content, $url)) {
+		//dd($url);
+		foreach($url[0] as $href) {
+			$replacement = "<a href=".$href." target='_blank'>{$href}</a>";
+            $content = str_replace($href,$replacement,$content);
+		}
+	}
+	return nl2br(html_entity_decode($content));
 }
 
 function find_unread_count($resource) {
@@ -53,7 +66,9 @@ function find_unread_count($resource) {
 	$lastMonth = new DateTime('-1 month');
 	if($resource == 'articles') {
 		$articles = Article::where('created_at','>=',$lastMonth)
-					->where('been_read','not like','%'.$currentUser.'%')->get()->count();
+					->where('been_read','not like','%'.$currentUser.'%')
+					->where('status','=','published')
+					->get()->count();
 		if($articles != 0) return '<span class="linked-to">'.$articles.'</span>';
 	}
 	else return;

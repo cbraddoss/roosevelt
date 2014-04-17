@@ -5,8 +5,9 @@
 
 {{ Form::text('title', null, array('placeholder' => 'Title', 'class' => 'article-title field')) }}
 
-{{ Form::textarea('content', null, array('placeholder' => 'What\'s happening?', 'class' => 'article-content field')) }}
+{{ Form::textarea('content', null, array('placeholder' => 'What\'s happening?', 'class' => 'article-content field', 'id' => 'article-content')) }}
 
+{{ Form::label('attachment', 'Attachment:' ) }}
 {{ Form::file('attachment') }}
 
 {{ Form::submit('Add Article', array('class' => 'save', 'id' => 'add-new-submit') ) }}

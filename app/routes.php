@@ -36,12 +36,14 @@ Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'Profil
 
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
-Route::get('/news/article/{article}', array('uses' => 'ArticlesController@show'));
+Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));
+Route::get('/news/article/{article}/edit', array('uses' => 'ArticlesController@edit'));
+Route::post('/news/article/{article}', array('uses' => 'ArticlesController@update'));
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));
 Route::get('/news/mentions/', array('as' => 'news.mentionsFilter', 'uses' => 'ArticlesController@mentionsFilter'));
 Route::get('/news/favorites/', array('as' => 'news.favoritesFilter', 'uses' => 'ArticlesController@favoritesFilter'));
-Route::get('/news/scheduled/', array('as' => 'news.scheduledFilter', 'uses' => 'ArticlesController@scheduledFilter'));
+Route::get('/news/drafts/', array('as' => 'news.draftsFilter', 'uses' => 'ArticlesController@draftsFilter'));
 Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'));
 
 // Route::get('/tools', function(){
