@@ -10,7 +10,7 @@
 
 @include('news.partials.sub-menu')
 
-	<div class="news-article">
+	<div id="article-{{ $article->id }}" class="news-article">
 		<p>{{ display_content($article->content) }}</p>
 		<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
 		<small>on {{ link_to('/news/date/'.$article->created_at->format('Y').'/'.$article->created_at->format('F'), $article->created_at->format('F')) }}</small>
