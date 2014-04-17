@@ -130,6 +130,25 @@ jQuery(document).ready(function($){
 	    // 	console.log(textChange);
 	    // });
 	});
+	$('#news-page span.ss-heart').hover(function(){
+		$(this).find('span.favorite-this').removeClass('none');
+	}, function(){
+		$(this).find('span.favorite-this').addClass('none');
+	});
+	$(document).on('click', '#news-page span.ss-heart', function(){
+		var articleId = $(this).find('.favorite-this').attr('favoriteval');
+		$.post(
+			$('#news-page #article-'+articleId+' form.favorite-article').prop('action'),
+			{
+				"_token" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=_token]').val(),
+				"favorite" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=favorite]').val(),
+			}, function (data) {
+				if(data.nofav) $('#news-page #article-'+articleId+' span.ss-heart').removeClass('favorited');
+				else $('#news-page #article-'+articleId+' span.ss-heart').addClass('favorited');
+			},'json'
+		);
+		return false;
+	});
 	// Filter by author
 	$(document).on('change','#news-page .filter-author', function(){
 		var authorLink = $(this).val();

@@ -43,7 +43,7 @@ class ArticlesController extends \BaseController {
 	 */
 	public function store()
 	{
-		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/users/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/news')->with('flash_message_error','Form submission error. Please don\'t do that.');
  		
  		$validator = Validator::make(Input::all(), array(
 			'title' => 'required|max:120',
@@ -151,10 +151,42 @@ class ArticlesController extends \BaseController {
 	public function favoritesFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('favorited','like','%'.$currentUser.'%')
-					->where('status','=','published')
-					->orderBy('created_at','DESC')
-					->paginate(5);
+				->where('status','=','published')
+				->orderBy('created_at','DESC')
+				->paginate(5);
 		return View::make('news.filters.favorites', compact('articles'));
+	}
+
+	/**
+	 * Return search for favorite articles
+	 *
+	 * @return Response
+	 */
+	public function favoriteArticle($id) {
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/news')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$article = Article::where('id','=',$id)->first();
+			if(empty($article)) return Redirect::to('/news');
+			else $oldFavorite = $article->favorited;
+			if(strpos($oldFavorite, current_user_path() ) !== false) {
+				$removeFavorite = str_replace(current_user_path(), '', $oldFavorite);
+				$article->favorited = $removeFavorite;
+				$article->save();
+				$response = array(
+					'nofav' => 'Favorite removed!'
+				);
+			}
+			else {
+				$article->favorited = $oldFavorite.' '.current_user_path().' ';
+				$article->save();
+				$response = array(
+					'fav' => 'Favorited!'
+				);
+			}
+			
+			return Response::json( $response );
+		}
 	}
 
 	/**
