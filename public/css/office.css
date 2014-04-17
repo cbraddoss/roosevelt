@@ -967,11 +967,14 @@ ul {
 }
 #news-page .news-article {
 	border-bottom:1px solid rgba(32,32,32,0.4);
-	padding:5px;
+	padding:5px 10px 10px;
 	margin-bottom:15px;
 }
 #news-page .unread {
-	background: rgba(75,131,180,0.2);	
+	background: rgba(75,131,180,0.1);	
+}
+#news-page .unread a {
+	color: rgba(75,131,180,0.9);
 }
 #content .news-filter {
 	border: 1px solid #ddd;
