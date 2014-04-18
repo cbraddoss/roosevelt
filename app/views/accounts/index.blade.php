@@ -5,16 +5,16 @@
 @stop
 
 @section('page-content')
-<div class="inner-page">
-    Search Accounts: <input type="text" />
-    
-    <div><a href="/account-new/">Create a New Account</a></div>
-    
+<div id="accounts-page" class="inner-page">
+
+<div class="create-something-new-bg"></div>
+<div id="accounts-new-account-form" class="create-something-new">
+	<span class="accounts-button"><button class="add-new">Add New</button></span>
 </div>
-<div class="inner-page">
+
     <ul>
         @foreach($accounts as $a)
-			<li>{{ $a->link) }}</li>
+			<li>{{ link_to('/accounts/'.$a->link, $a->name) }}</li>
         @endforeach
     </ul>
 </div>

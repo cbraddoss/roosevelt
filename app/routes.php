@@ -47,39 +47,39 @@ Route::post('/news/favorites/{id}', array('as' => 'news.favoriteArticle', 'uses'
 Route::get('/news/drafts/', array('as' => 'news.draftsFilter', 'uses' => 'ArticlesController@draftsFilter'));
 Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'));
 
-// Route::get('/tools', function(){
-// 	return View::make('tools.index');
-// })->before('auth');
+Route::get('/tools', function(){
+	return View::make('tools.index');
+})->before('auth');
 
-// // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
-// Route::get('/projects', function(){
-// 	return View::make('projects.index');
-// })->before('auth');
+// This section is just for dummy pages. Will need to convert Routes to point to Controllers.
+Route::get('/projects', function(){
+	return View::make('projects.index');
+})->before('auth');
 
-// Route::get('/billables', function(){
-// 	return View::make('billables.index');
-// })->before('auth');
+Route::get('/billables', function(){
+	return View::make('billables.index');
+})->before('auth');
 
-// Route::get('/invoices', function(){
-// 	return View::make('invoices.index');
-// })->before('auth');
+Route::get('/invoices', function(){
+	return View::make('invoices.index');
+})->before('auth');
 
-// Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'))->before('auth');
-// Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'))->before('auth');
-// Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'))->before('auth');
+Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'))->before('auth');
+Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'))->before('auth');
+Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'))->before('auth');
 
-// Route::get('/calendar', function(){
-// 	return View::make('calendar.index');
-// })->before('auth');
+Route::get('/calendar', function(){
+	return View::make('calendar.index');
+})->before('auth');
 
-// Route::get('/help', function(){
-// 	return View::make('help.index');
-// })->before('auth');
+Route::get('/help', function(){
+	return View::make('help.index');
+})->before('auth');
 
-// Route::get('/wiki', function(){
-// 	return View::make('wiki.index');
-// })->before('auth');
-// // End dummy pages section
+Route::get('/wiki', function(){
+	return View::make('wiki.index');
+})->before('auth');
+// End dummy pages section
 
 
 App::missing(function($exception)

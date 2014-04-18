@@ -12,10 +12,6 @@ New Account
     #content .row span { display:inline-block; width: 200px; font-weight:bold; }
 </style>
 
-<div id="page-title">
-	<h2>New Account</h2>
-</div>
-
 <div class="inner-page">
     <div class="row">
         <span>Name</span><input type="text" value="" required />

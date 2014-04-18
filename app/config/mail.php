@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'office@insideout.com', 'name' => 'InsideOut Remote Office'),
+	'from' => array('address' => 'office@insideout.com', 'name' => 'InsideOut Employee Remote Office'),
 
 	/*
 	|--------------------------------------------------------------------------

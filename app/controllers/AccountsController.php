@@ -40,7 +40,7 @@ class AccountsController extends \BaseController {
 	 */
 	public function show($accountname)
 	{
-        $a = Account::where('name', '=', convert_link_to_title($accountname))->get()->first();
+        $a = Account::where('link', '=', $accountname)->get()->first();
 		return View::make('accounts.profile')->withAccount($a);
 	}
 

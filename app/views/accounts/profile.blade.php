@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Account - $account' }}
+{{ 'Account - ' . $account->name }}
 @stop
 
 @section('page-content')
@@ -12,11 +12,13 @@
     #content .row span { display:inline-block; width: 200px; font-weight:bold; }
 </style>
 
-<div id="page-title">
-	<h2>Account - {{ $account->name }}</h2>
-</div>
-
 <div class="inner-page">
+
+    <div class="create-something-new-bg"></div>
+    <div id="accounts-new-account-form" class="create-something-new">
+        <span class="accounts-button"><button class="add-new">Edit Account</button></span>
+    </div>
+
     <div class="row">
         <span>Status</span>{{ $account->status }}
     </div>
