@@ -37,8 +37,9 @@
 		</div>
 
 		<div class="days-of-month">
-		{{ Carbon::now()->daysInMonth }}
-			<span class="day">{{ Carbon::parse('first day of April 2014')->format('d') }}</span>		
+			{{ Carbon::parse('first day of April 2014')->format('w'); }}
+			{{ display_calendar() }}		
+			
 		</div>
 
 	</div>

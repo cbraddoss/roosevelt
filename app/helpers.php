@@ -107,6 +107,20 @@ function display_pingable() {
 	}
 }
 
+function display_calendar() {
+	$daysThisMonth = Carbon::now()->daysInMonth;
+	$calendar = '';
+	$monthFirstDay = Carbon::parse('first day of April 2014')->format('w');
+	for($m=0; $m<$monthFirstDay; $m++) {
+		$calendar .= '<span class="day last-month">' . '-' . '</span>';
+	}
+	for($i=1; $i<=$daysThisMonth; $i++) {
+
+		$calendar .= '<span class="day this-month">' . $i . '</span>';
+	}
+	return $calendar;
+}
+
 function find_unread_count($resource) {
 	$currentUser = current_user_path();
 	$lastMonth = new DateTime('-1 month');

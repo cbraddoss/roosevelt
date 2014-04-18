@@ -1334,14 +1334,22 @@ ul {
 	height: 100%;
 }
 .calendar-days .days-of-month .day {
-	width: 150px;
-	height: 110px;
+	width: 140px;
+	height: 100px;
 	padding-top:40px;
+	margin: 5px 5px 0;
 	background: #fafafa;
-	display: block;
+	display: inline-block;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);	
 	font-size: 3em;
 	text-align: center;
 	vertical-align: middle;
+}
+.calendar-days .days-of-month .last-month {
+	opacity: 0.6;
 }
 
 /* 404 Page */
