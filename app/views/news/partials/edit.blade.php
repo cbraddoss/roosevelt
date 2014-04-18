@@ -18,6 +18,15 @@
 	<span class="article-value title-value">{{ Form::text('title', $article->title, array('class' => 'article-title field')) }}</span>
 </div>
 
+<div class="form-textarea-buttons">
+	<!-- <span class="ss-link textarea-button make-link"></span>
+	<span class="textarea-button make-bold">Bold</span>
+	<span class="textarea-button make-italic">Italic</span>
+	<span class="textarea-button-divider"></span> -->
+	<span class="textarea-button-text">Ping a user:</span>
+	{{ display_pingable() }}
+</div>
+
 <div class="user-field">
 	<span class="article-value title-value">{{ Form::textarea('content', $article->content, array('class' => 'article-content field', 'id' => 'article-content')) }}</span>
 </div>

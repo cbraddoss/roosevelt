@@ -43,16 +43,9 @@ function convert_title_to_path($title) {
 	return $title;
 }
 
-// function convert_title_to_link($base_url, $title, $class = null) {
-// 	$link = str_replace(" ","-",$title);
-// 	$link = str_replace("'","",$link);
-// 	$link = strtolower($link);
-// 	return '<a href="'.$base_url.'/'.$link.'" alt="'.$title.'" class="'.$class.'">'.$title.'</a>';
-// }
-
 function clean_title($title) {
 	$title = htmlspecialchars(strip_tags(trim($title)));
-	return $title;
+	return ucwords($title);
 }
 
 function clean_content($content) {
@@ -60,7 +53,7 @@ function clean_content($content) {
 }
 
 function display_content($content, $length = null) {
-	if($length != null) return nl2br(substr(strip_tags(html_entity_decode($content)),0,$length)) . '......';
+	if($length != null && strlen($content) >= 100 ) return nl2br(substr(strip_tags(html_entity_decode($content)),0,$length)) . '......';
 	$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
 	if(preg_match_all($reg_exUrl, $content, $url)) {
 		//dd($url);
@@ -77,10 +70,41 @@ function find_mentions($content) {
 	$mention = '';
 	if(preg_match_all($mentionSearch, $content, $mentionFound)) {
 		foreach($mentionFound[0] as $mentionAdd) {
-			$mention .= $mentionAdd;
+			$mentionAdd = str_replace('@', '', $mentionAdd);
+			$mention .= $mentionAdd . ' ';
 		}
 	}
 	return $mention;
+}
+
+function send_ping_email($newArticle) {
+	$parseUsers = $newArticle->mentions;
+	$parseUsers = explode(' ',$parseUsers);
+	$users = array();
+	foreach($parseUsers as $user) {
+		if($user == '') unset($user);
+		else {
+			$users[] = $user;
+		}
+	}
+	foreach($users as $user) {
+		$userSend = User::where('user_path','=',$user)->first();
+		//dd($userSend);
+		$author = User::where('id', '=', $newArticle->author_id)->first();
+		$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->link, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
+		Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
+			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+			$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
+		});
+	}
+}
+
+function display_pingable() {
+	$users = User::all();
+	$pingable = array();
+	foreach($users as $user) {
+		echo '<span class="textarea-button ping" id="@' . $user->user_path . '">' . $user->first_name . ' ' . $user->last_name . '</span>';
+	}
 }
 
 function find_unread_count($resource) {

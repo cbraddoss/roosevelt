@@ -76,6 +76,9 @@ class ArticlesController extends \BaseController {
 				);
 				return Response::json( $response );
 			}
+
+			send_ping_email($newArticle);
+
 			$response = array(
 				'msg' => 'Article saved.'
 			);
@@ -279,6 +282,7 @@ class ArticlesController extends \BaseController {
 			$article->title =  clean_title(Input::get('title'));
 			$article->content =  clean_content(Input::get('content'));
 			$article->link = convert_title_to_path(Input::get('title'));
+			$article->mentions = find_mentions(Input::get('content'));
 
 			try
 			{

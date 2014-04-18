@@ -670,7 +670,7 @@ ul {
 }
 #content h3 {
 	padding-top:0px;
-	margin:5px 0;
+	margin:0 0 5px;
 }
 #content p {
 	margin:10px 0;
@@ -851,20 +851,29 @@ ul {
 .form-textarea-buttons {
 	display: block;
 	margin:0px 0 0px;
-	width:50%;
-	border-top:1px solid #888;
-	border-right:1px solid #888;
-	border-left:1px solid #888;
+	width:100%;
+	border: 1px solid #888;
 }
 .form-textarea-buttons .textarea-button {
 	display: inline-block;
 	margin: 5px 5px;
 	padding: 0px 3px;
 	border: 1px solid #ddd;
+	background:#fafafa;
 	border-radius: 4px;
 	box-shadow: inset 1px 1px 0px 0px #fff,
 	inset -1px -1px 0px 0px #fff;
 	cursor: pointer;
+	border-bottom: 1px solid #555;
+	border-right: 1px solid #555;
+}
+.form-textarea-buttons .textarea-button-text {
+	padding: 0 3px;
+}
+.form-textarea-buttons .textarea-button-divider {
+	width: 2px;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #bbb;
 }
 .dropdown-menu {
 	font-size:1.4em;
@@ -971,7 +980,7 @@ ul {
 	border-right:1px solid rgba(32,32,32,0.2);
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
-	padding:5px 10px 10px;
+	padding:10px;
 	margin:5px 0;
 	background: #FAFAFA;
 }
