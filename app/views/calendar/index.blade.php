@@ -37,7 +37,7 @@
 		</div>
 
 		<div class="days-of-month">
-			{{ Carbon::parse('first day of April 2014')->format('w'); }}
+			
 			{{ display_calendar() }}		
 			
 		</div>
