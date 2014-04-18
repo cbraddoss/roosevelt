@@ -72,6 +72,17 @@ function display_content($content, $length = null) {
 	return nl2br(html_entity_decode($content));
 }
 
+function find_mentions($content) {
+	$mentionSearch = "/(@)((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))/is";
+	$mention = '';
+	if(preg_match_all($mentionSearch, $content, $mentionFound)) {
+		foreach($mentionFound[0] as $mentionAdd) {
+			$mention .= $mentionAdd;
+		}
+	}
+	return $mention;
+}
+
 function find_unread_count($resource) {
 	$currentUser = current_user_path();
 	$lastMonth = new DateTime('-1 month');

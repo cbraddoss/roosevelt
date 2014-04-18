@@ -135,6 +135,7 @@ jQuery(document).ready(function($){
 	}, function(){
 		$(this).find('span.favorite-this').addClass('none');
 	});
+	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
 	$(document).on('click', '#news-page span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		$.post(
@@ -143,8 +144,14 @@ jQuery(document).ready(function($){
 				"_token" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=_token]').val(),
 				"favorite" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=favorite]').val(),
 			}, function (data) {
-				if(data.nofav) $('#news-page #article-'+articleId+' span.ss-heart').removeClass('favorited');
-				else $('#news-page #article-'+articleId+' span.ss-heart').addClass('favorited');
+				if(data.nofav) {
+					$('#news-page #article-'+articleId+' span.ss-heart').removeClass('favorited');
+					$('#news-page span.ss-heart').find('.favorite-this').html('Favorite This Article');
+				}
+				else {
+					$('#news-page #article-'+articleId+' span.ss-heart').addClass('favorited');
+					$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
+				}
 			},'json'
 		);
 		return false;

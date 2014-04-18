@@ -64,7 +64,7 @@ class ArticlesController extends \BaseController {
 			$newArticle->link = convert_title_to_path(Input::get('title'));
 			$newArticle->author_id = Auth::user()->id;
 			$newArticle->status = 'published';
-
+			$newArticle->mentions = find_mentions(Input::get('content'));
 
 			try
 			{
