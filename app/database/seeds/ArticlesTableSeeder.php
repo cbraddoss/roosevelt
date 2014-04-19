@@ -141,6 +141,7 @@ stuck on shorecrest in raven",
 			'link' => 'meeting-notes-4-15-14',
 			'author_id' => '2',
 			'status' => 'published',
+			'show_on_calendar' => '2014-04-25 12:42:48',
 			'created_at' => '2014-04-15 12:42:48'
 		));
 
@@ -152,7 +153,7 @@ I’ll be getting inndx and directory updated here in a few minutes.",
 			'link' => 'video-user-manuals',
 			'author_id' => '1',
 			'status' => 'published',
-			'created_at' => '2014-04-04 14:22:48'
+			'created_at' => '2014-04-25 14:22:48'
 		));
 	}
 }

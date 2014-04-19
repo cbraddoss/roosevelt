@@ -1277,6 +1277,9 @@ ul {
 }
 
 /* Calendar */
+#calendar-page {
+	padding:10px 20px;
+}
 .calendar-header {
 	height: 80px;
 	width: 100%;
@@ -1290,12 +1293,12 @@ ul {
 	font-weight: 100;
 	padding:5px 0 0 5px;
 	border: 1px solid #aaa;
-	/*border-right: 1px solid #aaa;
+	border-right: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
 	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;*/
-	border-radius: 20px;
-	box-shadow: 1px 1px 0px 0px #333;
+	border-left: 1px solid #ddd;
+	/*border-radius: 20px;
+	box-shadow: 1px 1px 0px 0px #333;*/
 }
 .calendar-header .month-arrow:hover {
 	background: #eee;
@@ -1324,7 +1327,7 @@ ul {
 	border-bottom: 1px solid #ddd;
 }
 .calendar-days .days-of-week .day {
-	width: 150px;
+	width: 152px;
 	float:left;
 	display: block;
 	text-align: center;
@@ -1347,13 +1350,61 @@ ul {
 	font-size: 3em;
 	text-align: center;
 	vertical-align: middle;
+	cursor: context-menu;
 }
 .calendar-days .days-of-month .day:hover {
 	color: #eee;
 	background:#333;
 }
-.calendar-days .days-of-month .last-month {
+.calendar-days .days-of-month .today {
+	border: 1px solid #333;
+	background: #ccc;
+}
+.calendar-days .days-of-month .this-month {
+	position: relative;
+}
+.calendar-days .days-of-month .this-month a.calendar-post-title,
+.calendar-days .days-of-month .next-month a.calendar-post-title {
+	font-size: 0.3em;
+	color: #fff;
+	text-align:center;
+	text-decoration: none;
+	position: absolute;
+	top:0px;
+	left:0px;
+	background: rgba(75,131,180,1);
+	width: 100%;
+}
+.calendar-days .days-of-month .this-month a.calendar-post-title-again,
+.calendar-days .days-of-month .next-month a.calendar-post-title-again {
+	font-size: 0.3em;
+	color: #fff;
+	text-align:center;
+	text-decoration: none;
+	position: absolute;
+	top:19px;
+	left:0px;
+	background: rgba(75,131,180,1);
+	width: 100%;
+}
+.calendar-days .days-of-month .this-month a.calendar-post-title:hover,
+.calendar-days .days-of-month .next-month a.calendar-post-title:hover,
+.calendar-days .days-of-month .this-month a.calendar-post-title-again:hover,
+.calendar-days .days-of-month .next-month a.calendar-post-title-again:hover {
+	text-decoration: underline;
+	background: rgba(75,131,180,0.9);	
+}
+.calendar-days .days-of-month .last-month,
+.calendar-days .days-of-month .next-month {
 	opacity: 0.6;
+	position:relative;
+}
+.calendar-days .days-of-month .last-month small,
+.calendar-days .days-of-month .next-month small {
+	font-size:0.4em;
+	position: absolute;
+	top:0px;
+	left:5px;
 }
 
 /* 404 Page */
