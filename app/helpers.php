@@ -109,14 +109,21 @@ function display_pingable() {
 
 function display_calendar() {
 	$daysThisMonth = Carbon::now()->daysInMonth;
+	$daysLastMonth = Carbon::now()->addMonth(-1)->daysInMonth;
 	$calendar = '';
-	$monthFirstDay = Carbon::parse('first day of April 2014')->format('w');
-	for($m=0; $m<$monthFirstDay; $m++) {
-		$calendar .= '<span class="day last-month">' . '-' . '</span>';
+	$monthFirstDay = Carbon::parse('first day of this month this year')->format('w');
+	$p = $daysLastMonth;
+	for($m=1; $m<=$monthFirstDay; $m++) {
+		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('last month this year')->format('F') . '</small>' . Carbon::parse('first day of this month this year')->addDays($m-$p)->format('d') . '</span>';
 	}
 	for($i=1; $i<=$daysThisMonth; $i++) {
 
 		$calendar .= '<span class="day this-month">' . $i . '</span>';
+	}
+	$monthLastWeek = Carbon::parse('last day of this month this year')->format('w');
+	$n=0;
+	for($w=6; $w>$monthLastWeek; $w--) {
+		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('next month this year')->format('F') . '</small>' . Carbon::parse('first day of next month this year')->addDays($n++)->format('d') . '</span>';
 	}
 	return $calendar;
 }

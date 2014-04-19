@@ -1348,6 +1348,10 @@ ul {
 	text-align: center;
 	vertical-align: middle;
 }
+.calendar-days .days-of-month .day:hover {
+	color: #eee;
+	background:#333;
+}
 .calendar-days .days-of-month .last-month {
 	opacity: 0.6;
 }
