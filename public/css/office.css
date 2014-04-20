@@ -1348,13 +1348,25 @@ ul {
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);	
 	font-size: 3em;
+font-size: 2em;
+line-height: 1em;
 	text-align: center;
 	vertical-align: middle;
 	cursor: context-menu;
+	overflow: hidden;
 }
 .calendar-days .days-of-month .day:hover {
 	color: #eee;
 	background:#333;
+}
+.calendar-days .days-of-month .day .day-num {
+	position: absolute;
+	top: calc(50% - 31px);
+top: 1px;
+	left: -webkit-calc( 50% - 28px );
+	left: -moz-calc( 50% - 28px );
+	left: calc( 50% - 28px );
+left: 1px;
 }
 .calendar-days .days-of-month .today {
 	border: 1px solid #333;
@@ -1365,15 +1377,16 @@ ul {
 }
 .calendar-days .days-of-month .this-month a.calendar-post-title,
 .calendar-days .days-of-month .next-month a.calendar-post-title {
-	font-size: 0.3em;
+	font-size: 0.45em;
+	line-height: 1.5em;
 	color: #fff;
 	text-align:center;
 	text-decoration: none;
-	position: absolute;
-	top:0px;
-	left:0px;
+	float:left;
 	background: rgba(75,131,180,1);
 	width: 100%;
+	height:18px;
+	margin: 1px 0 0;
 }
 .calendar-days .days-of-month .this-month a.calendar-post-title-again,
 .calendar-days .days-of-month .next-month a.calendar-post-title-again {
@@ -1404,7 +1417,7 @@ ul {
 	font-size:0.4em;
 	position: absolute;
 	top:0px;
-	left:5px;
+	right:5px;
 }
 
 /* 404 Page */
@@ -1445,4 +1458,13 @@ ul {
 		.section { width:1250px; }
 		#content { width: 965px; box-shadow: none; }
 		#nav_menu { margin-right: 0px; }
+
+		.calendar-days .days-of-week .day {
+			width: 130px;
+		}
+		.calendar-days .days-of-month .day {
+			width: 118px;
+			height: 88px;
+			padding-top:30px;
+		}
 }

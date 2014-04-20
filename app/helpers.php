@@ -118,7 +118,7 @@ function display_calendar() {
 	$monthFirstDay = Carbon::parse('first day of this month this year')->format('w');
 	$p = $daysLastMonth;
 	for($m=1; $m<=$monthFirstDay; $m++) {
-		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('last month this year')->format('F') . '</small>' . Carbon::parse('last day of last month this year')->addDays($m-2)->format('j') . '</span>';
+		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('last month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('last day of last month this year')->addDays($m-2)->format('j') . '</span></span>';
 	}
 	
 	// Populate current month calendar view
@@ -137,7 +137,7 @@ function display_calendar() {
 		//dd($aMonth);
 		$aShow->title = ( (strlen($aShow->title) >= '10') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
 		if($aMonth == Carbon::now()->format('m')) {
-			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title-again">' . $aShow->title . '</a>';
+			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
 			else $articleThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
 			//$articleTitleThisMonth[$aNum] = $aShow->title;
 			//$articleLinkThisMonth[$aNum] = $aShow->link;
@@ -152,8 +152,8 @@ function display_calendar() {
 	//dd($articleTitle);
 	for($i=1; $i<=$daysThisMonth; $i++) {
 		$today = ( (Carbon::today()->format('j') == $i) ? $today = 'today' : $today = '');
-		if(!empty($articleThisMonth[$i])) $calendar .= '<span class="day ' . $today . ' this-month">' . $articleThisMonth[$i] . $i . '</span>';
-		else $calendar .= '<span class="day ' . $today . ' this-month">' . $i . '</span>';
+		if(!empty($articleThisMonth[$i])) $calendar .= '<span class="day ' . $today . ' this-month">' . $articleThisMonth[$i] . '<span class="day-num">' . $i . '</span></span>';
+		else $calendar .= '<span class="day ' . $today . ' this-month"><span class="day-num">' . $i . '</span></span>';
 	
 	}
 	
@@ -162,8 +162,8 @@ function display_calendar() {
 	$monthLastWeek = Carbon::parse('last day of this month this year')->format('w');
 	$n=0;
 	for($w=6; $w>$monthLastWeek; $w--) {
-		if(!empty($articleNextMonth[$n+1])) $calendar .= '<span class="day next-month">' . $articleNextMonth[$n+1] . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span>';
-		else $calendar .= '<span class="day next-month"><small>' . Carbon::parse('next month this year')->format('F') . '</small>' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span>';
+		if(!empty($articleNextMonth[$n+1])) $calendar .= '<span class="day next-month">' . $articleNextMonth[$n+1] . '<span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
+		else $calendar .= '<span class="day next-month"><small>' . Carbon::parse('next month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
 		//else $calendar .= '<span class="day next-month">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span>';
 	}
 	
