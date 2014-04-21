@@ -1289,9 +1289,9 @@ ul {
 .calendar-header .month-arrow {
 	position: absolute;
 	top:5px;
-	font-size:2em;
+	font-size:1.8em;
 	font-weight: 100;
-	padding:5px 0 0 5px;
+	height:42px;
 	border: 1px solid #aaa;
 	border-right: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
@@ -1306,11 +1306,38 @@ ul {
 }
 .calendar-header .arrow-previous-month {
 	left:0px;
-	padding:5px 5px 0 0;
 }
 .calendar-header .arrow-next-month {
 	right:0px;
-	padding:5px 0 0 5px;
+}
+.calendar-header .arrow-next-month .ss-navigateright {
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+.calendar-header .arrow-previous-month .ss-navigateleft {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	z-index: 44;
+}
+.calendar-header a.show-next-month {
+	color: #333;
+	text-decoration: none;
+	font-size:0.8em;
+	padding: 5px 40px 5px 5px;
+	float:left;
+	z-index: 45;
+	position: relative;
+}
+.calendar-header a.show-previous-month {
+	color: #333;
+	text-decoration: none;
+	font-size:0.8em;
+	padding: 5px 5px 5px 40px;
+	float:right;
+	z-index: 45;
+	position: relative;
 }
 .calendar-header .month-year h2 {
 	text-align:center;

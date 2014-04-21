@@ -8,16 +8,16 @@
 <div id="calendar-page"  class="inner-page">
 
 	<div class="calendar-header">
-		<div class="arrow-previous-month month-arrow">
-			<span class="ss-navigateleft"></span>
+		<div class="month-arrow arrow-previous-month">
+			<span class="ss-navigateleft"></span><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month">{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a>
 		</div>
 
 		<div class="month-year">
-		<h2>{{ Carbon::now()->format('F - Y') }}</h2>
+		<h2>{{ $selectedMonth }} - {{ $selectedYear }}</h2>
 		</div>
 
-		<div class="arrow-next-month month-arrow">
-			<span class="ss-navigateright"></span>
+		<div class="month-arrow arrow-next-month">
+			<a href="/calendar/{{ $nextMonthYear }}" class="show-next-month">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}</a><span class="ss-navigateright"></span>
 		</div>
 
 
@@ -38,7 +38,7 @@
 
 		<div class="days-of-month">
 			
-			{{ display_calendar() }}		
+			{{ $calendarShow }}	
 			
 		</div>
 

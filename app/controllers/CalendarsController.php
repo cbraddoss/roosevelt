@@ -1,15 +1,21 @@
 <?php
 
+use \Calendar;
+
 class CalendarsController extends \BaseController {
+
+	protected $calendar;
 
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct()
+    public function __construct(Calendar $calendar)
     {
         $this->beforeFilter('auth');
 
         $this->beforeFilter('csrf', array('on' => 'post'));
+
+        $this->calendar = $calendar;
     }
 
 	/**
@@ -19,7 +25,12 @@ class CalendarsController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('calendar.index');
+		$calendarShow = $this->calendar->show_current_month();
+		$selectedMonth = Carbon::now()->format('F');
+		$selectedYear = Carbon::now()->format('Y');
+		$nextMonthYear = Carbon::now()->addMonths(1)->format('Y/F');
+		$previousMonthYear = Carbon::now()->subMonths(1)->format('Y/F');
+		return View::make('calendar.index', compact('calendarShow','nextMonthYear','previousMonthYear','selectedYear', 'selectedMonth'));
 	}
 
 
@@ -51,9 +62,14 @@ class CalendarsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($year, $month)
 	{
-		//
+		$calendarShow = $this->calendar->show_selected_month($year, $month);
+		$selectedMonth = Carbon::parse($month.$year)->format('F');
+		$selectedYear = Carbon::parse($month.$year)->format('Y');
+		$nextMonthYear = Carbon::parse($month.$year)->addMonths(1)->format('Y/F');
+		$previousMonthYear = Carbon::parse($month.$year)->subMonths(1)->format('Y/F');
+		return View::make('calendar.index', compact('calendarShow','nextMonthYear','previousMonthYear','selectedYear', 'selectedMonth'));
 	}
 
 
