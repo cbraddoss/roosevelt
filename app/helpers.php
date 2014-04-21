@@ -135,16 +135,16 @@ function display_calendar() {
 		$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->created_at)->format('j');
 		$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->created_at)->format('m');
 		//dd($aMonth);
-		$aShow->title = ( (strlen($aShow->title) >= '10') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
+		$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
 		if($aMonth == Carbon::now()->format('m')) {
-			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
-			else $articleThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
+			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+			else $articleThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
 			//$articleTitleThisMonth[$aNum] = $aShow->title;
 			//$articleLinkThisMonth[$aNum] = $aShow->link;
 		}
 		if($aMonth == Carbon::now()->addMonth(1)->format('m')) {
-			if(array_key_exists($aNum, $articleNextMonth)) $articleNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
-			else $articleNextMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title">' . $aShow->title . '</a>';
+			if(array_key_exists($aNum, $articleNextMonth)) $articleNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+			else $articleNextMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
 			// $articleTitleNextMonth[$aNum] = $aShow->title;
 			// $articleLinkNextMonth[$aNum] = $aShow->link;
 		}

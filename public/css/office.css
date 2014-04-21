@@ -1366,7 +1366,7 @@ top: 1px;
 	left: -webkit-calc( 50% - 28px );
 	left: -moz-calc( 50% - 28px );
 	left: calc( 50% - 28px );
-left: 1px;
+left: 2px;
 }
 .calendar-days .days-of-month .today {
 	border-top:1px solid rgba(32,32,32,0.2);
@@ -1385,28 +1385,18 @@ left: 1px;
 	color: #fff;
 	text-align:center;
 	text-decoration: none;
-	float:left;
 	background: rgba(75,131,180,1);
+	float:left;
 	width: 100%;
 	height:18px;
 	margin: 1px 0 0;
 }
-.calendar-days .days-of-month .this-month a.calendar-post-title-again,
-.calendar-days .days-of-month .next-month a.calendar-post-title-again {
-	font-size: 0.3em;
-	color: #fff;
-	text-align:center;
-	text-decoration: none;
-	position: absolute;
-	top:19px;
-	left:0px;
+.calendar-days .days-of-month .this-month a.calendar-post-title.news-article-link,
+.calendar-days .days-of-month .next-month a.calendar-post-title.news-article-link {
 	background: rgba(75,131,180,1);
-	width: 100%;
 }
 .calendar-days .days-of-month .this-month a.calendar-post-title:hover,
-.calendar-days .days-of-month .next-month a.calendar-post-title:hover,
-.calendar-days .days-of-month .this-month a.calendar-post-title-again:hover,
-.calendar-days .days-of-month .next-month a.calendar-post-title-again:hover {
+.calendar-days .days-of-month .next-month a.calendar-post-title:hover {
 	text-decoration: underline;
 	background: rgba(75,131,180,0.9);	
 }
