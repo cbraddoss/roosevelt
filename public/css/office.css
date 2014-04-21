@@ -1369,7 +1369,10 @@ top: 1px;
 left: 1px;
 }
 .calendar-days .days-of-month .today {
-	border: 1px solid #333;
+	border-top:1px solid rgba(32,32,32,0.2);
+	border-right:1px solid rgba(32,32,32,0.7);
+	border-bottom:1px solid rgba(32,32,32,0.7);
+	border-left:1px solid rgba(32,32,32,0.2);
 	background: #ccc;
 }
 .calendar-days .days-of-month .this-month {
