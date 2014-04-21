@@ -19,9 +19,12 @@
 {{ Form::label('attachment', 'Attachment:' ) }}
 {{ Form::file('attachment') }}
 
-{{ Form::submit('Add Article', array('class' => 'save', 'id' => 'add-new-submit') ) }}
+{{ Form::label('show_on_calendar', 'Post to Calendar:') }}
+{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 
-<span id="add-new" class="cancel">Cancel</span>
+{{ Form::submit('Add Article', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}
+
+<span id="add-new" class="cancel form-button">Cancel</span>
 
 {{ Form::close() }}
 

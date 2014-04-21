@@ -174,6 +174,7 @@ jQuery(document).ready(function($){
 	$(document).on('click','#news-page #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
 			$('#news-new-article-form').html(data);
+			$('#news-page form.add-article .article-calendar-date').datepicker();
 			$('form.add-article .article-title').focus();
 		});
 	});
@@ -189,6 +190,7 @@ jQuery(document).ready(function($){
 				"_token" : $( this ).find( 'input[name=_token]' ).val(),
 				"title" : $(this).find('input.article-title').val(),
 				"content" : $(this).find('textarea.article-content').val(),
+				"show_on_calendar" : $(this).find('input[name=show_on_calendar]').val(),
 			}, function (data) {
 				if(data.errorMsg) {
 					$('#message-box-json').fadeIn();

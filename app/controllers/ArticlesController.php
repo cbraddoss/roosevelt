@@ -65,6 +65,7 @@ class ArticlesController extends \BaseController {
 			$newArticle->author_id = Auth::user()->id;
 			$newArticle->status = 'published';
 			$newArticle->mentions = find_mentions(Input::get('content'));
+			$newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
 
 			try
 			{

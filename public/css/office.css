@@ -1356,8 +1356,7 @@ line-height: 1em;
 	overflow: hidden;
 }
 .calendar-days .days-of-month .day:hover {
-	color: #eee;
-	background:#333;
+	background:#ccc;
 }
 .calendar-days .days-of-month .day .day-num {
 	position: absolute;

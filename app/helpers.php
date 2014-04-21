@@ -125,15 +125,15 @@ function display_calendar() {
 	// get number of days in current month
 	$daysThisMonth = Carbon::now()->daysInMonth;
 	// get Articles with show_on_calendar
-	$articleShow = Article::where('created_at', '>=', Carbon::parse('first day of this month this year'))
+	$articleShow = Article::where('show_on_calendar', '!=', '0000-00-00 00:00:00')
 					->where('status','published')
 					->get();
 	//dd($articleShow);
 	$articleThisMonth = array();
 	$articleNextMonth = array();
 	foreach($articleShow as $aShow) {
-		$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->created_at)->format('j');
-		$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->created_at)->format('m');
+		$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('j');
+		$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('m');
 		//dd($aMonth);
 		$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
 		if($aMonth == Carbon::now()->format('m')) {

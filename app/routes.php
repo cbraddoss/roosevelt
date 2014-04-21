@@ -47,6 +47,11 @@ Route::post('/news/favorites/{id}', array('as' => 'news.favoriteArticle', 'uses'
 Route::get('/news/drafts/', array('as' => 'news.draftsFilter', 'uses' => 'ArticlesController@draftsFilter'));
 Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' => 'ArticlesController@dateFilter'));
 
+Route::get('/calendar', array('as' => 'calendar', 'uses' => 'CalendarsController@index'));
+// Route::get('/calendar', function(){
+// 	return View::make('calendar.index');
+// })->before('auth');
+
 Route::get('/tools', function(){
 	return View::make('tools.index');
 })->before('auth');
@@ -68,9 +73,7 @@ Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@i
 Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'))->before('auth');
 Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'))->before('auth');
 
-Route::get('/calendar', function(){
-	return View::make('calendar.index');
-})->before('auth');
+
 
 Route::get('/help', function(){
 	return View::make('help.index');
