@@ -61,6 +61,7 @@ jQuery(document).ready(function($){
 
 	/* Admin Page */
 	// Add New User
+	$('#admin-page form.update-user input.anniversary').datepicker();
 	$(document).on('click','#admin-page #admin-new-user-form button.add-new',function(){
 		$.get( "/admin/users", function( data ) {
 			$('#admin-new-user-form').html(data);
@@ -239,6 +240,15 @@ $(document).on('click', '.form-textarea-buttons .ping', function(){
     $('textarea.article-content').insertAtCaret(ping);
 })
 
+	/* Calendar Page */
+	$('#sub-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
+		$('.dropdown-menu').hide();
+		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dateLink = new Date(ev.date.valueOf());
+		var yearLink = dateLink.getFullYear();
+		var monthLink = months[dateLink.getMonth()];
+		window.location.href='/calendar/'+yearLink+'/'+monthLink;
+	});
 
 	/* Projects Page */
 	//Change color of high priority project items

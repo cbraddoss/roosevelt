@@ -6,6 +6,10 @@
 
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
+	@section('extra-menu')
+	<li><a href="/calendar/" class="button calendar-today">Today</a></li>
+	<li><span class="button calendar-jump-to">Jump to: </span><input type="text" class="datepicker calendar-jump-to-date" value="" placeholder="Month/Year" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
+	@stop
 
 	<div class="calendar-header">
 		<div class="month-arrow arrow-previous-month">
@@ -13,7 +17,15 @@
 		</div>
 
 		<div class="month-year">
-		<h2>{{ $selectedMonth }} - {{ $selectedYear }}</h2>
+			<h2>{{ $selectedMonth }} - {{ $selectedYear }}</h2>
+
+			<div class="calendar-key">
+				<div class="key-desc"><span class="key-color key-blue"></span><span class="key-title">News Article</span></div>
+				<div class="key-desc"><span class="key-color key-orange"></span><span class="key-title">Projects</span></div>
+				<div class="key-desc"><span class="key-color key-red"></span><span class="key-title">Tasks</span></div>
+				<div class="key-desc"><span class="key-color key-green"></span><span class="key-title">Employee Vacations</span></div>
+				<div class="key-desc"><span class="key-color key-purple"></span><span class="key-title">Employee Anniversary</span></div>
+			</div>
 		</div>
 
 		<div class="month-arrow arrow-next-month">

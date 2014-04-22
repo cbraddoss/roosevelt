@@ -47,7 +47,8 @@ class ArticlesController extends \BaseController {
  		
  		$validator = Validator::make(Input::all(), array(
 			'title' => 'required|max:120',
-			'content' => 'required'
+			'content' => 'required',
+			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 		));
 
 		if($validator->fails()) {
@@ -65,7 +66,8 @@ class ArticlesController extends \BaseController {
 			$newArticle->author_id = Auth::user()->id;
 			$newArticle->status = 'published';
 			$newArticle->mentions = find_mentions(Input::get('content'));
-			$newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			$newArticle->edit_id = Auth::user()->id;
+			if(Input::get('show_on_calendar') != '') $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
 
 			try
 			{
@@ -284,6 +286,7 @@ class ArticlesController extends \BaseController {
 			$article->content =  clean_content(Input::get('content'));
 			$article->link = convert_title_to_path(Input::get('title'));
 			$article->mentions = find_mentions(Input::get('content'));
+			$article->edit_id = Auth::user()->id;
 
 			try
 			{
@@ -292,6 +295,10 @@ class ArticlesController extends \BaseController {
 			{
 				return Redirect::to('/news/article/'.$article->link)->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
+
+			// Fix pinging to only ping newly added users when an article is edited. 04-22-2014 CBD
+			send_ping_email($article);
+
 			return Redirect::to('/news/article/'.$article->link)->with('flash_message_success', '<i>' . $article->title . '</i> successfully updated!');
 		}
 

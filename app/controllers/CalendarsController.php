@@ -25,11 +25,11 @@ class CalendarsController extends \BaseController {
 	 */
 	public function index()
 	{
-		$calendarShow = $this->calendar->show_current_month();
 		$selectedMonth = Carbon::now()->format('F');
 		$selectedYear = Carbon::now()->format('Y');
 		$nextMonthYear = Carbon::now()->addMonths(1)->format('Y/F');
 		$previousMonthYear = Carbon::now()->subMonths(1)->format('Y/F');
+		$calendarShow = $this->calendar->show_selected_month($selectedYear, $selectedMonth);
 		return View::make('calendar.index', compact('calendarShow','nextMonthYear','previousMonthYear','selectedYear', 'selectedMonth'));
 	}
 

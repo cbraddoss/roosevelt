@@ -27,7 +27,7 @@
 </div>
 <div class="profile-field">
 	<span class="profile-title user-stats">User Stats:</span>
-	<span class="profile-value user-stats-value">Interesting user stats for {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}.</span>
+	<span class="profile-value user-stats-value">You started working for InsideOut Solutions on <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', Auth::user()->anniversary)->format('M d, Y') }}</b>!</span>
 </div>
 <div class="profile-field">
 	<a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile">Edit Profile</a>

@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration {
 			$table->string('link')->unique();
 			$table->enum('status', array('published', 'draft'));
 			$table->integer('author_id');
+			$table->integer('edit_id');
 			$table->string('been_read');
 			$table->string('favorited');
 			$table->string('mentions');

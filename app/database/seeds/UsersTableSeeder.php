@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'admin',
 			'first_name' => 'Brad',
 			'last_name' => 'Doss',
+			'anniversary' => '2009-10-09 00:00:00',
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
 			'status' => 'active',
@@ -24,6 +25,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'admin',
 			'first_name' => 'Jack',
 			'last_name' => 'Waknitz',
+			'anniversary' => '2006-09-05 00:00:00',
 			'extension' => '308',
 			'status' => 'active',
 			'user_path' => 'jack-waknitz'
@@ -35,6 +37,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'admin',
 			'first_name' => 'Taylor',
 			'last_name' => 'Hasenpflug',
+			'anniversary' => '0000-00-00 00:00:00',
 			'extension' => '313,315',
 			'status' => 'active',
 			'user_path' => 'taylor-hasenpflug'
@@ -46,6 +49,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'One',
+			'anniversary' => '2013-04-15 00:00:00',
 			'status' => 'active',
 			'user_path' => 'user-one'
 		));
@@ -56,6 +60,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'Two',
+			'anniversary' => '2013-05-01 00:00:00',
 			'status' => 'inactive',
 			'user_path' => 'user-two'
 		));
@@ -68,6 +73,7 @@ class UsersTableSeeder extends Seeder {
 			'userrole' => 'non-standard',
 			'first_name' => 'User',
 			'last_name' => 'Three',
+			'anniversary' => '2013-05-15 00:00:00',
 			'status' => 'active',
 			'user_path' => 'user-three'
 		));

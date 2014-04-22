@@ -326,14 +326,25 @@ ul {
 	display: inline-block;
 	float:left;
 	text-align: center;
-	width:55px;
-	padding:0px 0px 0px 25px;
+	width:60px;
+	padding:0px 0px 0px 20px;
 	margin:0 auto;
 	height:30px;
 	font-size:1.4em;
 	cursor: pointer;
 	border-right: 1px solid rgba(93,143,187,1);
 	border-left: 1px solid rgba(60,105,144,1);
+}
+#sub-menu ul.search-menu li a {
+	height:30px;
+	padding: 0 5px 0 5px;
+	vertical-align:	middle;
+	display: block;
+}
+#sub-menu ul.search-menu li span {
+	padding:0;
+	height:30px;
+	vertical-align:	middle;
 }
 #sub-menu ul.search-menu li:first-child {
 	border-left:none;
@@ -363,13 +374,15 @@ ul {
 	border-right:none;
 }
 #sub-menu ul li.active,
-#sub-menu ul li.active a {
+#sub-menu ul li.active a,
+#sub-menu ul li.active span {
 	color: #000;
 }
 #sub-menu ul li.active a {
 	border-bottom:2px solid #000;	
 }
-#sub-menu ul li a {
+#sub-menu ul li a,
+#sub-menu ul li span {
 	height: 20px;
 	padding:5px;
 	vertical-align: bottom;
@@ -377,6 +390,9 @@ ul {
 	text-decoration: none;
 	color: #fff;
 	position: relative;
+}
+#sub-menu ul li input {
+	margin-bottom:3px;
 }
 #sub-menu ul li a:hover {
 	color: #000;
@@ -386,7 +402,7 @@ ul {
 	font-size: 1em;
 	margin-top: 0px;
 	position: absolute;
-	left: -14px;
+	left: -16px;
 	top: 1px;
 	padding:5px 0;
 }
@@ -1136,6 +1152,7 @@ ul {
 #admin-page input {
 	height:25px;
 	font-size:1em;
+	padding: 0 4px;
 }
 /* Proile Page */
 #profile-page {
@@ -1346,6 +1363,51 @@ ul {
 	padding-top: 5px !important;
 	display: block;
 }
+.calendar-header .month-year h4 {
+	text-align:center;
+	display: block;
+}
+.calendar-header .month-year h4 a {
+	color: rgba(75,131,180,1);
+}
+.calendar-header .calendar-key {
+	width:450px;
+	margin:0 auto;
+}
+.calendar-header .key-desc {
+	padding: 1px 2px 0;
+	display:inline-block;
+	text-align:center;
+}
+.calendar-header .key-color {
+	display:inline-block;
+	height:10px;
+	width:10px;
+}
+.calendar-header .key-blue {
+	background: rgba(75,131,180,1);
+	margin-right:2px;
+}
+.calendar-header .key-orange {
+	background: #A95306;
+	margin-right:2px;
+}
+.calendar-header .key-red {
+	background: rgba(204,0,0,1);
+	margin-right:2px;
+}
+.calendar-header .key-green {
+	background: rgba(77,153,0,1);
+	margin-right:2px;
+}
+.calendar-header .key-purple {
+	background: rgba(116,39,155,1);
+	margin-right:2px;
+}
+.calendar-header .key-title {
+	font-size:0.75em;
+	display: inline-block;
+}
 .calendar-days .days-of-week {
 	padding: 5px 0;
 	width: 100%;
@@ -1373,7 +1435,7 @@ ul {
 	border-top:1px solid rgba(32,32,32,0.1);
 	border-right:1px solid rgba(32,32,32,0.2);
 	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);	
+	border-left:1px solid rgba(32,32,32,0.1);
 	font-size: 3em;
 font-size: 2em;
 line-height: 1em;
@@ -1404,8 +1466,7 @@ left: 2px;
 .calendar-days .days-of-month .this-month {
 	position: relative;
 }
-.calendar-days .days-of-month .this-month a.calendar-post-title,
-.calendar-days .days-of-month .next-month a.calendar-post-title {
+.calendar-days .days-of-month a.calendar-post-title {
 	font-size: 0.45em;
 	line-height: 1.5em;
 	color: #fff;
@@ -1417,14 +1478,23 @@ left: 2px;
 	height:18px;
 	margin: 1px 0 0;
 }
-.calendar-days .days-of-month .this-month a.calendar-post-title.news-article-link,
-.calendar-days .days-of-month .next-month a.calendar-post-title.news-article-link {
+.calendar-days .days-of-month a.calendar-post-title.news-article-link {
 	background: rgba(75,131,180,1);
 }
-.calendar-days .days-of-month .this-month a.calendar-post-title:hover,
-.calendar-days .days-of-month .next-month a.calendar-post-title:hover {
+.calendar-days .days-of-month a.calendar-post-title.user-anniversary-link {
+	background: rgba(116,39,155,1);
+}
+.calendar-days .days-of-month a.calendar-post-title.projects-link {
+	background: #A95306;
+}
+.calendar-days .days-of-month a.calendar-post-title.user-tasks-link {
+	background: rgba(204,0,0,1);
+}
+.calendar-days .days-of-month a.calendar-post-title.user-vacation-link {
+	background: rgba(77,153,0,1);
+}
+.calendar-days .days-of-month a.calendar-post-title:hover {
 	text-decoration: underline;
-	background: rgba(75,131,180,0.9);	
 }
 .calendar-days .days-of-month .last-month,
 .calendar-days .days-of-month .next-month {

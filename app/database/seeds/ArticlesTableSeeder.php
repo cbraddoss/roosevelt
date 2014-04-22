@@ -11,6 +11,7 @@ class ArticlesTableSeeder extends Seeder {
 			'content' => 'Hello world. This is our first news article!',
 			'link' => 'new-post',
 			'author_id' => '1',
+			'edit_id' => '1',
 			'status' => 'published',
 			'created_at' => '2014-02-25 21:22:48'
 		));
@@ -24,6 +25,7 @@ class ArticlesTableSeeder extends Seeder {
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'link' => 'test-post',
 			'author_id' => '2',
+			'edit_id' => '2',
 			'status' => 'published',
 			'created_at' => '2014-03-31 21:22:48'
 		));
@@ -36,6 +38,7 @@ class ArticlesTableSeeder extends Seeder {
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'link' => 'another-post',
 			'author_id' => '3',
+			'edit_id' => '3',
 			'status' => 'published',
 			'created_at' => '2014-04-01 21:22:48'
 		));
@@ -51,6 +54,7 @@ class ArticlesTableSeeder extends Seeder {
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
 			'link' => 'post-again',
 			'author_id' => '4',
+			'edit_id' => '4',
 			'status' => 'published',
 			'created_at' => '2014-01-31 21:22:48'
 		));
@@ -101,6 +105,7 @@ Total: $880
 ",
 			'link' => 'jacks-computer-for-corey',
 			'author_id' => '2',
+			'edit_id' => '2',
 			'status' => 'published',
 			'created_at' => '2014-04-16 11:22:48'
 		));
@@ -140,6 +145,7 @@ logo for olympic peninsula
 stuck on shorecrest in raven",
 			'link' => 'meeting-notes-4-15-14',
 			'author_id' => '2',
+			'edit_id' => '2',
 			'status' => 'published',
 			'show_on_calendar' => '2014-04-25 12:42:48',
 			'created_at' => '2014-04-15 12:42:48'
@@ -152,6 +158,7 @@ We’ll have to update the serial number on all of the sites using it. If you fi
 I’ll be getting inndx and directory updated here in a few minutes.",
 			'link' => 'video-user-manuals',
 			'author_id' => '1',
+			'edit_id' => '1',
 			'status' => 'published',
 			'created_at' => '2014-04-25 14:22:48'
 		));

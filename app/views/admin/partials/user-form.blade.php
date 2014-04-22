@@ -23,6 +23,12 @@
 	<span class="user-value email-value">{{ Form::text('email', $user->email, array('placeholder' => 'Email', 'class' => 'email field')) }}</span>
 </div>
 <div class="user-field">
+	<span class="user-title anniversary">{{ Form::label('anniversary','Anniversary:') }}</span>
+	@if($user->anniversary == '0000-00-00 00:00:00') <span class="user-value anniversary-value">{{ Form::text('anniversary', null, array('placeholder' => Carbon::now()->format('m/d/Y'), 'class' => 'datepicker anniversary field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}</span>
+	@else <span class="user-value anniversary-value">{{ Form::text('anniversary', Carbon::createFromFormat('Y-m-d H:i:s', $user->anniversary)->format('m/d/Y'), array('placeholder' => Carbon::now()->format('m/d/Y'), 'class' => 'datepicker anniversary field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}</span>
+	@endif
+</div>
+<div class="user-field">
 	<span class="user-title extension">{{ Form::label('extension','Extension:') }}</span>
 	<span class="user-value extension-value">{{ Form::text('extension', $user->extension, array('placeholder' => '555', 'class' => 'extension field')) }}</span>
 </div>

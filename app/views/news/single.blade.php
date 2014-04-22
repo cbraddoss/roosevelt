@@ -19,7 +19,7 @@
 			@if(strpos($article->favorited, current_user_path()) !== false) <span class="ss-heart favorited"> @else <span class="ss-heart"> @endif
 			<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span>
 		</small>
-		<small class="right">Last edit: {{ $article->updated_at->format('F j, Y h:m:s A') }}</small>
+		<small class="right">Last edit: {{ $article->updated_at->format('F j, Y h:m:s A') }} by {{ User::find($article->edit_id)->first_name }} {{ User::find($article->edit_id)->last_name }}</small>
 		{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 			{{ Form::hidden('favorite', $article->id) }}
 		{{ Form::close() }}
