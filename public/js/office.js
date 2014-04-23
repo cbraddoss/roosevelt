@@ -249,7 +249,7 @@ $(document).on('click', '.form-textarea-buttons .ping', function(){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	});
-
+	
 	/* Projects Page */
 	//Change color of high priority project items
 	$(document).on('change','.priority',function(){

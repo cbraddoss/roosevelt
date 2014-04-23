@@ -194,7 +194,7 @@ function find_assigned_count($resource) {
 		return '<span class="linked-to">'.$billables.'</span>';
 	}
 	elseif($resource == 'calendar') {
-		$calendar = '10';
+		$calendar = '3';
 		return '<span class="linked-to">'.$calendar.'</span>';
 	}
 	elseif($resource == 'help') {

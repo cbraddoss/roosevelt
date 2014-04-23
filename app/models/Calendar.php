@@ -2,69 +2,6 @@
 
 class Calendar {
 
-	// public function show_current_month() {
-	// 	// Start a clean calendar variable
-	// 	$calendar = '';
-		
-	// 	// Get last days of previous month to start calendar view (if needed)
-	// 	// get number of days in previous month
-	// 	$daysLastMonth = Carbon::now()->addMonth(-1)->daysInMonth;
-	// 	// get Sunday-Saturday numeric value of first day in this month
-	// 	$monthFirstDay = Carbon::parse('first day of this month this year')->format('w');
-	// 	$p = $daysLastMonth;
-	// 	for($m=1; $m<=$monthFirstDay; $m++) {
-	// 		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('last month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('last day of last month this year')->addDays($m-2)->format('j') . '</span></span>';
-	// 	}
-		
-	// 	// Populate current month calendar view
-	// 	// get number of days in current month
-	// 	$daysThisMonth = Carbon::now()->daysInMonth;
-	// 	// get Articles with show_on_calendar
-	// 	$articleShow = Article::where('show_on_calendar', '!=', '0000-00-00 00:00:00')
-	// 					->where('status','published')
-	// 					->get();
-	// 	//dd($articleShow);
-	// 	$articleThisMonth = array();
-	// 	$articleNextMonth = array();
-	// 	foreach($articleShow as $aShow) {
-	// 		$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('j');
-	// 		$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('m');
-	// 		//dd($aMonth);
-	// 		$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
-	// 		if($aMonth == Carbon::now()->format('m')) {
-	// 			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-	// 			else $articleThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-	// 			//$articleTitleThisMonth[$aNum] = $aShow->title;
-	// 			//$articleLinkThisMonth[$aNum] = $aShow->link;
-	// 		}
-	// 		if($aMonth == Carbon::now()->addMonth(1)->format('m')) {
-	// 			if(array_key_exists($aNum, $articleNextMonth)) $articleNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-	// 			else $articleNextMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-	// 			// $articleTitleNextMonth[$aNum] = $aShow->title;
-	// 			// $articleLinkNextMonth[$aNum] = $aShow->link;
-	// 		}
-	// 	}
-	// 	//dd($articleTitle);
-	// 	for($i=1; $i<=$daysThisMonth; $i++) {
-	// 		$today = ( (Carbon::today()->format('j') == $i) ? $today = 'today' : $today = '');
-	// 		if(!empty($articleThisMonth[$i])) $calendar .= '<span class="day ' . $today . ' this-month">' . $articleThisMonth[$i] . '<span class="day-num">' . $i . '</span></span>';
-	// 		else $calendar .= '<span class="day ' . $today . ' this-month"><span class="day-num">' . $i . '</span></span>';
-		
-	// 	}
-		
-	// 	// Get first days of next month to fill out calendar view (if needed)
-	// 	// get Sunday-Saturday numeric value of last day in this month
-	// 	$monthLastWeek = Carbon::parse('last day of this month this year')->format('w');
-	// 	$n=0;
-	// 	for($w=6; $w>$monthLastWeek; $w--) {
-	// 		if(!empty($articleNextMonth[$n+1])) $calendar .= '<span class="day next-month">' . $articleNextMonth[$n+1] . '<span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
-	// 		else $calendar .= '<span class="day next-month"><small>' . Carbon::parse('next month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
-	// 		//else $calendar .= '<span class="day next-month">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span>';
-	// 	}
-		
-	// 	return $calendar;
-	// }
-
 	public function show_selected_month($year, $month) {
 		// Start a clean calendar variable
 		$calendar = '';
@@ -81,22 +18,78 @@ class Calendar {
 		$nextMonth = Carbon::parse($month.$year)->addMonths(1)->format('F');
 		$nextMonthYear = Carbon::parse($month.$year)->addMonths(1)->format('Y/F');
 
+		$postPreviousMonth = array();
+		$postThisMonth = array();
+		$postNextMonth = array();
+
+		// get Employee vacations
+		$userVacations = Vacation::whereBetween('start_date', array(Carbon::parse('first day of '.$month.$year)->subWeeks(2),Carbon::parse('last day of '.$month.$year)->addWeeks(2)))
+						 // ->where('end_date', '>=', Carbon::parse('last day of '.$month.$year)->addWeeks(4))
+						 ->get();
+		//dd($userVacations);
+		foreach($userVacations as $uVaca) {
+			// get user vacation title
+			$vUser = User::find($uVaca->user_id);
+			$uVacaTitle = $vUser->first_name . ' Vacation';
+			$uVacaTitle = ( (strlen($uVacaTitle) >= '20') ? $uVacaTitle = substr($uVacaTitle, 0, 20).'...' : $uVacaTitle);
+			$vMonth = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('m');
+			
+			// parse previous month article
+			$endPreviousMonth = Carbon::parse('last day of '.$previousMonth.$year)->format('j');
+			$vPreviousNum = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('j');
+			$vPreviousNumEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('j');
+			if($vPreviousNumEnd <= $endPreviousMonth) $vPreviousNumMid = $endPreviousMonth - $vPreviousNumEnd;
+			else $vPreviousNumMid = 0;
+			if($vMonth == Carbon::parse($previousMonth.$year)->format('m')) {
+				if(array_key_exists($vPreviousNum, $postPreviousMonth)) $postPreviousMonth[$vPreviousNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				else $postPreviousMonth[$vPreviousNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				for($v=1; $v<=$vPreviousNumMid; $v++) {
+					if(array_key_exists($vPreviousNum+$v, $postThisMonth)) $postThisMonth[$vPreviousNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postPreviousMonth[$vPreviousNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				}
+			}
+
+			// // create vacation month and vacation year values
+			// $vNum = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('j');
+			// $vNumEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('j');
+			
+			// // if($vNum <= $vNumEnd) $vNumMid = $vNumEnd - $vNum;
+			// // elseif($vNum < Carbon::parse('last day of '.$month.$year)->format('j')) $vNumMid = Carbon::parse('last day of '.$month.$year)->format('j') - $vNum;
+			// // elseif(Carbon::parse('first day of '.$month.$year)->format('j') < $vNumEnd) $vNumMid = $vNumEnd - Carbon::parse('first day of '.$month.$year)->format('j');
+			// // else $vNumMid = 0;
+			// //dd($vNumMid);
+			// //dd($vMonth);
+			
+			// // parse selected month articles
+			// if($vMonth == Carbon::parse($month.$year)->format('m')) {
+			// 	if(array_key_exists($vNum, $postThisMonth)) $postThisMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// 	else $postThisMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// 	// for($v=1; $v<=$vNumMid; $v++) {
+			// 	// 	if(array_key_exists($vNum+$v, $postThisMonth)) $postThisMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// 	// 	else $postThisMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// 	// }
+			// }
+
+			// // parse next month article
+			// if($vMonth == Carbon::parse($nextMonth.$year)->format('m')) {
+			// 	if(array_key_exists($vNum, $postNextMonth)) $postNextMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// 	else $postNextMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			// }
+		}
+
 		// get Articles with show_on_calendar
 		$articleShow = Article::where('show_on_calendar', '>=', Carbon::parse('first day of '.$month.$year)->subWeeks(1))
 						->where('show_on_calendar', '<=', Carbon::parse('last day of '.$month.$year)->addWeeks(1))
 						->where('status','published')
 						->get();
 		//dd($articleShow);
-		$postPreviousMonth = array();
-		$postThisMonth = array();
-		$postNextMonth = array();
 		foreach($articleShow as $aShow) {
 			// create article month and article year values
 			$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('j');
 			$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('m');
 			//dd($aMonth);
 			// get article title and shorten to 15 characters (if needed)
-			$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
+			$aShow->title = ( (strlen($aShow->title) >= '20') ? $aShow->title = substr($aShow->title, 0, 20).'...' : $aShow->title);
 
 			// parse previous month article
 			if($aMonth == Carbon::parse($previousMonth.$year)->format('m')) {
@@ -124,27 +117,28 @@ class Calendar {
 			$uMonth = Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('m');
 			$uYears = Carbon::now()->format('Y')-Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('Y');
 			//dd($uYears);
-			// get article title and shorten to 15 characters (if needed)
+			// get user first and last name
 			$uAnn->title = $uAnn->first_name . ' ' . $uAnn->last_name;
 
-			// parse previous month article
+			// parse previous month anniversary
 			if($uMonth == Carbon::parse($previousMonth.$year)->format('m')) {
 				if(array_key_exists($uNum, $postPreviousMonth)) $postPreviousMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 				else $postPreviousMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 			}
 
-			// parse selected month articles
+			// parse selected month anniversary
 			if($uMonth == Carbon::parse($month.$year)->format('m')) {
 				if(array_key_exists($uNum, $postThisMonth)) $postThisMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 				else $postThisMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 			}
 
-			// parse next month article
+			// parse next month anniversary
 			if($uMonth == Carbon::parse($nextMonth.$year)->format('m')) {
 				if(array_key_exists($uNum, $postNextMonth)) $postNextMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 				else $postNextMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
 			}
 		}
+		
 		//dd($postPreviousMonth);
 
 		// Get last days of previous month to start calendar view (if needed)

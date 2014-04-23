@@ -16,7 +16,9 @@ class CreateVacationsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->dateTime('dates');
+			$table->dateTime('start_date');
+			$table->dateTime('end_date');
+			$table->integer('total_hours');
 			$table->timestamps();
 		});
 	}

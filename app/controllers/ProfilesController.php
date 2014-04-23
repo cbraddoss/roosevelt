@@ -1,15 +1,21 @@
 <?php
 
+use \Vacation;
+
 class ProfilesController extends \BaseController {
+
+	protected $vacations;
 
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct()
+    public function __construct(Vacation $vacations)
     {
         $this->beforeFilter('auth');
 
         $this->beforeFilter('csrf', array('on' => 'post'));
+
+        $this->vacations = $vacations;
     }
 
 	/**
@@ -20,7 +26,10 @@ class ProfilesController extends \BaseController {
 	 */
 	public function show()
 	{
-		return View::make('profile.partials.details');
+		$user = Auth::user()->id;
+		$vacationsUpcoming = $this->vacations->get_upcoming($user);
+		$vacationsPrevious = $this->vacations->get_previous($user);
+		return View::make('profile.partials.details', compact('vacationsUpcoming','vacationsPrevious'));
 	}
 
 	/**

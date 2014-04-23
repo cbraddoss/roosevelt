@@ -1164,6 +1164,9 @@ ul {
 	border-radius: 5px;
 	border:1px solid #ddd;
 }
+#profile-page #profile-details {
+	margin-bottom: 10px;
+}
 #profile-page .profile-field {
 	padding:10px;
 	height:25px;
@@ -1442,7 +1445,6 @@ line-height: 1em;
 	text-align: center;
 	vertical-align: middle;
 	cursor: context-menu;
-	overflow: hidden;
 }
 .calendar-days .days-of-month .day:hover {
 	background:#ccc;
@@ -1484,6 +1486,10 @@ left: 2px;
 .calendar-days .days-of-month a.calendar-post-title.user-anniversary-link {
 	background: rgba(116,39,155,1);
 }
+.calendar-days .days-of-month a.calendar-post-title.user-anniversary-link:hover {
+	text-decoration: none;
+	cursor: context-menu;
+}
 .calendar-days .days-of-month a.calendar-post-title.projects-link {
 	background: #A95306;
 }
@@ -1492,6 +1498,14 @@ left: 2px;
 }
 .calendar-days .days-of-month a.calendar-post-title.user-vacation-link {
 	background: rgba(77,153,0,1);
+	
+}
+.calendar-days .days-of-month a.calendar-post-title.user-vacation-link-end {
+	padding-right:0px;
+}
+.calendar-days .days-of-month a.calendar-post-title.user-vacation-link:hover {
+	text-decoration: none;
+	cursor: context-menu;
 }
 .calendar-days .days-of-month a.calendar-post-title:hover {
 	text-decoration: underline;
