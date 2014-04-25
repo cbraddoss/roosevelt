@@ -12,7 +12,7 @@
 
 	@yield('page-head')
 </head>
-<body>
+<body class="{{ body_class() }}">
 	<div id="header">
 		<div class="section">
 			<div id="company-header">

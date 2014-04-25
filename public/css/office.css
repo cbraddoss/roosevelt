@@ -1297,6 +1297,13 @@ ul {
 }
 
 /* Calendar */
+.page-calendar .datepicker {
+	left: 1068px !important;
+}
+.page-calendar .datepicker:before,
+.page-calendar .datepicker:after {
+	left: 90px !important;
+}
 #calendar-page {
 	padding:10px 20px;
 }
@@ -1345,7 +1352,7 @@ ul {
 	color: #333;
 	text-decoration: none;
 	font-size:0.8em;
-	padding: 5px 40px 5px 5px;
+	padding: 8px 40px 5px 5px;
 	float:left;
 	z-index: 45;
 	position: relative;
@@ -1354,7 +1361,7 @@ ul {
 	color: #333;
 	text-decoration: none;
 	font-size:0.8em;
-	padding: 5px 5px 5px 40px;
+	padding: 8px 5px 5px 40px;
 	float:right;
 	z-index: 45;
 	position: relative;
@@ -1558,7 +1565,7 @@ left: 2px;
 /* Responsive Tweaks */
 @media
 	only screen and (max-width: 1420px) {
-		.section { width:1250px; }
+		.section { width:1280px; }
 		#content { width: 965px; box-shadow: none; }
 		#nav_menu { margin-right: 0px; }
 

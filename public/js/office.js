@@ -236,7 +236,7 @@ insertAtCaret: function(myValue){
 
 $(document).on('click', '.form-textarea-buttons .ping', function(){
 	var ping = $(this).attr('id');
-	console.log(ping);
+	//console.log(ping);
     $('textarea.article-content').insertAtCaret(ping);
 })
 

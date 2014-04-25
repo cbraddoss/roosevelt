@@ -24,7 +24,6 @@ class Calendar {
 
 		// get Employee vacations
 		$userVacations = Vacation::whereBetween('start_date', array(Carbon::parse('first day of '.$month.$year)->subWeeks(2),Carbon::parse('last day of '.$month.$year)->addWeeks(2)))
-						 // ->where('end_date', '>=', Carbon::parse('last day of '.$month.$year)->addWeeks(4))
 						 ->get();
 		//dd($userVacations);
 		foreach($userVacations as $uVaca) {
@@ -33,48 +32,113 @@ class Calendar {
 			$uVacaTitle = $vUser->first_name . ' Vacation';
 			$uVacaTitle = ( (strlen($uVacaTitle) >= '20') ? $uVacaTitle = substr($uVacaTitle, 0, 20).'...' : $uVacaTitle);
 			$vMonth = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('m');
-			
+			$vMonthEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('m');
+			// create vacation month and vacation year values
+			$vNum = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('j');
+			$vNumEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('j');
+
 			// parse previous month article
-			$endPreviousMonth = Carbon::parse('last day of '.$previousMonth.$year)->format('j');
-			$vPreviousNum = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('j');
-			$vPreviousNumEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('j');
-			if($vPreviousNumEnd <= $endPreviousMonth) $vPreviousNumMid = $endPreviousMonth - $vPreviousNumEnd;
-			else $vPreviousNumMid = 0;
-			if($vMonth == Carbon::parse($previousMonth.$year)->format('m')) {
-				if(array_key_exists($vPreviousNum, $postPreviousMonth)) $postPreviousMonth[$vPreviousNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-				else $postPreviousMonth[$vPreviousNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-				for($v=1; $v<=$vPreviousNumMid; $v++) {
-					if(array_key_exists($vPreviousNum+$v, $postThisMonth)) $postThisMonth[$vPreviousNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-					else $postPreviousMonth[$vPreviousNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+			if($vMonth == Carbon::parse($previousMonth.$year)->format('m') && $vMonthEnd == Carbon::parse($previousMonth.$year)->format('m')) {
+				if($vNum <= $vNumEnd) $vNumMid = $vNumEnd - $vNum;
+				else $vNumMid = 0;
+				
+				// parse selected month articles
+				if($vMonth == Carbon::parse($previousMonth.$year)->format('m')) {
+					if(array_key_exists($vNum, $postPreviousMonth)) $postPreviousMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postPreviousMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					for($v=1; $v<=$vNumMid; $v++) {
+						if(array_key_exists($vNum+$v, $postPreviousMonth)) $postPreviousMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+						else $postPreviousMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					}
 				}
 			}
 
-			// // create vacation month and vacation year values
-			// $vNum = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('j');
-			// $vNumEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('j');
+			if($vMonth == Carbon::parse($previousMonth.$year)->format('m') && $vMonthEnd == Carbon::parse($month.$year)->format('m')) {
+				// parse previous month dates
+				$vNumEndNew = Carbon::parse('last day of '.$previousMonth.$year)->format('j');
+				
+				if($vNum <= $vNumEndNew) $vNumMid = $vNumEndNew - $vNum;
+				else $vNumMid = 0;
+				
+				if(array_key_exists($vNum, $postPreviousMonth)) $postPreviousMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				else $postPreviousMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				for($v=1; $v<=$vNumMid; $v++) {
+					if(array_key_exists($vNum+$v, $postPreviousMonth)) $postPreviousMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postPreviousMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				}
+
+				// parse selected month dates
+				$vNumNew = Carbon::parse('first day of '.$month.$year)->format('j');
+				
+				if($vNumNew <= $vNumEnd) $vNumMid = $vNumEnd - $vNumNew;
+				else $vNumMid = 0;
+				
+				if(array_key_exists($vNumNew, $postThisMonth)) $postThisMonth[$vNumNew] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				else $postThisMonth[$vNumNew] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				for($v=1; $v<=$vNumMid; $v++) {
+					if(array_key_exists($vNumNew+$v, $postThisMonth)) $postThisMonth[$vNumNew+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postThisMonth[$vNumNew+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				}
+			}
 			
-			// // if($vNum <= $vNumEnd) $vNumMid = $vNumEnd - $vNum;
-			// // elseif($vNum < Carbon::parse('last day of '.$month.$year)->format('j')) $vNumMid = Carbon::parse('last day of '.$month.$year)->format('j') - $vNum;
-			// // elseif(Carbon::parse('first day of '.$month.$year)->format('j') < $vNumEnd) $vNumMid = $vNumEnd - Carbon::parse('first day of '.$month.$year)->format('j');
-			// // else $vNumMid = 0;
-			// //dd($vNumMid);
-			// //dd($vMonth);
-			
-			// // parse selected month articles
-			// if($vMonth == Carbon::parse($month.$year)->format('m')) {
-			// 	if(array_key_exists($vNum, $postThisMonth)) $postThisMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// 	else $postThisMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// 	// for($v=1; $v<=$vNumMid; $v++) {
-			// 	// 	if(array_key_exists($vNum+$v, $postThisMonth)) $postThisMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// 	// 	else $postThisMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// 	// }
-			// }
+			if($vMonth == Carbon::parse($month.$year)->format('m') && $vMonthEnd == Carbon::parse($month.$year)->format('m')) {
+				if($vNum <= $vNumEnd) $vNumMid = $vNumEnd - $vNum;
+				else $vNumMid = 0;
+				
+				// parse selected month articles
+				if($vMonth == Carbon::parse($month.$year)->format('m')) {
+					if(array_key_exists($vNum, $postThisMonth)) $postThisMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postThisMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					for($v=1; $v<=$vNumMid; $v++) {
+						if(array_key_exists($vNum+$v, $postThisMonth)) $postThisMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+						else $postThisMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					}
+				}
+			}
 
 			// // parse next month article
-			// if($vMonth == Carbon::parse($nextMonth.$year)->format('m')) {
-			// 	if(array_key_exists($vNum, $postNextMonth)) $postNextMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// 	else $postNextMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
-			// }
+			if($vMonth == Carbon::parse($month.$year)->format('m') && $vMonthEnd == Carbon::parse($nextMonth.$year)->format('m')) {
+				// parse previous month dates
+				$vNumEndNew = Carbon::parse('last day of '.$month.$year)->format('j');
+				
+				if($vNum <= $vNumEndNew) $vNumMid = $vNumEndNew - $vNum;
+				else $vNumMid = 0;
+				
+				if(array_key_exists($vNum, $postThisMonth)) $postThisMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				else $postThisMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				for($v=1; $v<=$vNumMid; $v++) {
+					if(array_key_exists($vNum+$v, $postThisMonth)) $postThisMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postThisMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				}
+
+				// parse selected month dates
+				$vNumNew = Carbon::parse('first day of '.$nextMonth.$year)->format('j');
+				
+				if($vNumNew <= $vNumEnd) $vNumMid = $vNumEnd - $vNumNew;
+				else $vNumMid = 0;
+				
+				if(array_key_exists($vNumNew, $postNextMonth)) $postNextMonth[$vNumNew] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				else $postNextMonth[$vNumNew] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				for($v=1; $v<=$vNumMid; $v++) {
+					if(array_key_exists($vNumNew+$v, $postNextMonth)) $postNextMonth[$vNumNew+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postNextMonth[$vNumNew+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+				}
+			}
+
+			if($vMonth == Carbon::parse($nextMonth.$year)->format('m') && $vMonthEnd == Carbon::parse($nextMonth.$year)->format('m')) {
+				if($vNum <= $vNumEnd) $vNumMid = $vNumEnd - $vNum;
+				else $vNumMid = 0;
+				
+				// parse selected month articles
+				if($vMonth == Carbon::parse($nextMonth.$year)->format('m')) {
+					if(array_key_exists($vNum, $postNextMonth)) $postNextMonth[$vNum] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					else $postNextMonth[$vNum] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					for($v=1; $v<=$vNumMid; $v++) {
+						if(array_key_exists($vNum+$v, $postNextMonth)) $postNextMonth[$vNum+$v] .= '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+						else $postNextMonth[$vNum+$v] = '<a href="#" class="calendar-post-title user-vacation-link">' . $uVacaTitle . '</a>';
+					}
+				}
+			}
 		}
 
 		// get Articles with show_on_calendar
@@ -89,7 +153,7 @@ class Calendar {
 			$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('m');
 			//dd($aMonth);
 			// get article title and shorten to 15 characters (if needed)
-			$aShow->title = ( (strlen($aShow->title) >= '20') ? $aShow->title = substr($aShow->title, 0, 20).'...' : $aShow->title);
+			$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
 
 			// parse previous month article
 			if($aMonth == Carbon::parse($previousMonth.$year)->format('m')) {

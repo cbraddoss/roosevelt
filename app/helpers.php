@@ -1,4 +1,26 @@
 <?php
+function body_class() {
+	$currentPage = $_SERVER['REQUEST_URI'];
+	$page = '';
+	$currentPageArray = explode('/', $currentPage);
+	//dd($currentPageArray);
+	//if(!is_array($currentPageArray)) $page = 'page-'.$currentPageArray;
+	//else {
+		foreach($currentPageArray as $cPage) {
+			$page .= '-'.$cPage;
+		}
+		if(count($currentPageArray) > 2) {
+			$mainPage = 'page-'.$currentPageArray[1];
+			$mainPage = str_replace('--', '-', $mainPage);
+		}
+		else $mainPage = '';
+		$page = 'page'.$page;
+		$page = str_replace('--', '-', $page);
+	//}
+	$bodyClass = $page . ' ' . $mainPage;
+	return $bodyClass;
+}
+
 function current_page() {
 	$currentPage = $_SERVER['REQUEST_URI'];
 	return $currentPage;
