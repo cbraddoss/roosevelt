@@ -3,20 +3,16 @@ function body_class() {
 	$currentPage = $_SERVER['REQUEST_URI'];
 	$page = '';
 	$currentPageArray = explode('/', $currentPage);
-	//dd($currentPageArray);
-	//if(!is_array($currentPageArray)) $page = 'page-'.$currentPageArray;
-	//else {
-		foreach($currentPageArray as $cPage) {
-			$page .= '-'.$cPage;
-		}
-		if(count($currentPageArray) > 2) {
-			$mainPage = 'page-'.$currentPageArray[1];
-			$mainPage = str_replace('--', '-', $mainPage);
-		}
-		else $mainPage = '';
-		$page = 'page'.$page;
-		$page = str_replace('--', '-', $page);
-	//}
+	foreach($currentPageArray as $cPage) {
+		$page .= '-'.$cPage;
+	}
+	if(count($currentPageArray) > 2) {
+		$mainPage = 'page-'.$currentPageArray[1];
+		$mainPage = str_replace('--', '-', $mainPage);
+	}
+	else $mainPage = '';
+	$page = 'page'.$page;
+	$page = str_replace('--', '-', $page);
 	$bodyClass = $page . ' ' . $mainPage;
 	return $bodyClass;
 }
@@ -40,7 +36,6 @@ function any_user_path($id) {
 }
 
 function find_user_from_path($userpath) {
-	//$user = explode('-',$user);
 	$user = User::where('user_path','=', $userpath)
 			->first();
 	return $user;
@@ -129,69 +124,6 @@ function display_pingable() {
 	}
 }
 
-// function display_calendar() {
-// 	// Start a clean calendar variable
-// 	$calendar = '';
-	
-// 	// Get last days of previous month to start calendar view (if needed)
-// 	// get number of days in previous month
-// 	$daysLastMonth = Carbon::now()->addMonth(-1)->daysInMonth;
-// 	// get Sunday-Saturday numeric value of first day in this month
-// 	$monthFirstDay = Carbon::parse('first day of this month this year')->format('w');
-// 	$p = $daysLastMonth;
-// 	for($m=1; $m<=$monthFirstDay; $m++) {
-// 		$calendar .= '<span class="day last-month"><small>' . Carbon::parse('last month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('last day of last month this year')->addDays($m-2)->format('j') . '</span></span>';
-// 	}
-	
-// 	// Populate current month calendar view
-// 	// get number of days in current month
-// 	$daysThisMonth = Carbon::now()->daysInMonth;
-// 	// get Articles with show_on_calendar
-// 	$articleShow = Article::where('show_on_calendar', '!=', '0000-00-00 00:00:00')
-// 					->where('status','published')
-// 					->get();
-// 	//dd($articleShow);
-// 	$articleThisMonth = array();
-// 	$articleNextMonth = array();
-// 	foreach($articleShow as $aShow) {
-// 		$aNum = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('j');
-// 		$aMonth = Carbon::createFromFormat('Y-m-d H:i:s', $aShow->show_on_calendar)->format('m');
-// 		//dd($aMonth);
-// 		$aShow->title = ( (strlen($aShow->title) >= '15') ? $aShow->title = substr($aShow->title, 0, 15).'...' : $aShow->title);
-// 		if($aMonth == Carbon::now()->format('m')) {
-// 			if(array_key_exists($aNum, $articleThisMonth)) $articleThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-// 			else $articleThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-// 			//$articleTitleThisMonth[$aNum] = $aShow->title;
-// 			//$articleLinkThisMonth[$aNum] = $aShow->link;
-// 		}
-// 		if($aMonth == Carbon::now()->addMonth(1)->format('m')) {
-// 			if(array_key_exists($aNum, $articleNextMonth)) $articleNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-// 			else $articleNextMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-// 			// $articleTitleNextMonth[$aNum] = $aShow->title;
-// 			// $articleLinkNextMonth[$aNum] = $aShow->link;
-// 		}
-// 	}
-// 	//dd($articleTitle);
-// 	for($i=1; $i<=$daysThisMonth; $i++) {
-// 		$today = ( (Carbon::today()->format('j') == $i) ? $today = 'today' : $today = '');
-// 		if(!empty($articleThisMonth[$i])) $calendar .= '<span class="day ' . $today . ' this-month">' . $articleThisMonth[$i] . '<span class="day-num">' . $i . '</span></span>';
-// 		else $calendar .= '<span class="day ' . $today . ' this-month"><span class="day-num">' . $i . '</span></span>';
-	
-// 	}
-	
-// 	// Get first days of next month to fill out calendar view (if needed)
-// 	// get Sunday-Saturday numeric value of last day in this month
-// 	$monthLastWeek = Carbon::parse('last day of this month this year')->format('w');
-// 	$n=0;
-// 	for($w=6; $w>$monthLastWeek; $w--) {
-// 		if(!empty($articleNextMonth[$n+1])) $calendar .= '<span class="day next-month">' . $articleNextMonth[$n+1] . '<span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
-// 		else $calendar .= '<span class="day next-month"><small>' . Carbon::parse('next month this year')->format('F') . '</small><span class="day-num">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span></span>';
-// 		//else $calendar .= '<span class="day next-month">' . Carbon::parse('first day of next month this year')->addDays($n++)->format('j') . '</span>';
-// 	}
-	
-// 	return $calendar;
-// }
-
 function find_unread_count($resource) {
 	$currentUser = current_user_path();
 	$lastMonth = new DateTime('-1 month');
@@ -207,18 +139,22 @@ function find_unread_count($resource) {
 
 function find_assigned_count($resource) {
 	$currentUser = current_user_path();
+	// display projects assigned or part of per user not completed yet
 	if($resource == 'projects') {
 		$projects = '2';
 		return '<span class="linked-to">'.$projects.'</span>';
 	}
+	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
 		$billables = '5';
 		return '<span class="linked-to">'.$billables.'</span>';
 	}
+	// display upcoming due dates per user for projects and tasks
 	elseif($resource == 'calendar') {
 		$calendar = '3';
 		return '<span class="linked-to">'.$calendar.'</span>';
 	}
+	// display help assigned per user not completed yet
 	elseif($resource == 'help') {
 		$help = '8';
 		return '<span class="linked-to">'.$help.'</span>';

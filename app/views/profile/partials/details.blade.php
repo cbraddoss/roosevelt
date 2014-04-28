@@ -38,6 +38,12 @@
 
 <h3>Vacations</h3>
 <div id="user-vacations">
+	<div class="profile-field">
+		<span class="profile-title vacation-add-dates">Add Dates:</span>
+		<span id="add-vacation-title" class=""><select id="vacation-date-title"><option>Full Day</option><option>Half Day (am)</option><option>Half Day (pm)</option></select></span>
+		<span id="add-vacation-dates" class="">From: </span><input type="text" class="vacation-date-add" value="" id="vacation-date-start" >
+		<span id="add-vacation-dates" class="">To: </span><input type="text" class="vacation-date-add" value="" id="vacation-date-end" >
+	</div>
 	@if($vacationsUpcoming->isEmpty())
 		<h4>Upcoming</h4>
 		<div class="profile-field">
@@ -53,6 +59,7 @@
 		</div>
 		@endforeach
 	@endif
+	
 	@if($vacationsPrevious->isEmpty())
 		<h4>Previous</h4>
 		<div class="profile-field">
