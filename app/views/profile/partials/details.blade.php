@@ -38,11 +38,18 @@
 
 <h3>Vacations</h3>
 <div id="user-vacations">
-	<div class="profile-field">
+	<div class="profile-field field-add-vacation-dates">
 		<span class="profile-title vacation-add-dates">Add Dates:</span>
-		<span id="add-vacation-title" class=""><select id="vacation-date-title"><option>Full Day</option><option>Half Day (am)</option><option>Half Day (pm)</option></select></span>
-		<span id="add-vacation-dates" class="">From: </span><input type="text" class="vacation-date-add" value="" id="vacation-date-start" >
-		<span id="add-vacation-dates" class="">To: </span><input type="text" class="vacation-date-add" value="" id="vacation-date-end" >
+		{{ Form::open( array('class' => 'add-vacation-profile', 'route' => 'profile.vacation', 'method' => 'post', 'id' => Auth::user()->id) ) }}
+		{{ Form::hidden('user_id', Auth::user()->id) }}
+		{{ Form::select('period', array('full-day' => 'Full Day', 'half-day-am' => 'Half Day AM', 'half-day-pm' => 'Half Day PM') , 'standard') }}
+		{{ Form::label('start_date', 'From:') }}
+		{{ Form::text('start_date', null, array('placeholder' => 'Start Date', 'class' => 'datepicker vacation-date-add', 'id' => 'vacation-date-start')) }}
+		{{ Form::label('end_date', 'To:') }}
+		{{ Form::text('end_date', null, array('placeholder' => 'End Date', 'class' => 'datepicker vacation-date-add', 'id' => 'vacation-date-end')) }}
+		{{ Form::submit('Add Vacation', array('class' => 'save-vacation-profile') ) }}
+		{{ Form::close() }}
+
 	</div>
 	@if($vacationsUpcoming->isEmpty())
 		<h4>Upcoming</h4>
@@ -55,7 +62,20 @@
 		@foreach($vacationsUpcoming as $vaca)
 		<div class="profile-field">
 			<span class="profile-title vacation-dates">Dates:</span>
+			@if($vaca->period == 'half-day-am')
+			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> (Half Day - AM)
+			@elseif($vaca->period == 'half-day-pm')
+			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> (Half Day - PM)
+			@elseif($vaca->start_date == $vaca->end_date)
+			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b>
+			@else
 			<span class="profile-value vacation-dates-value">From <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> to <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->end_date)->format('M d, Y') }}</b></span>
+			@endif
+			{{ Form::open( array('class' => 'remove-vacation-profile', 'route' => 'profile.vacation', 'method' => 'post', 'id' => $vaca->id) ) }}
+			{{ Form::hidden('id', $vaca->id)}}
+			{{ Form::hidden('delete-vacation', 'yes') }}
+			{{ Form::submit('Delete', array('class' => 'delete-vacation-profile delete')) }}
+			{{ Form::close() }}
 		</div>
 		@endforeach
 	@endif

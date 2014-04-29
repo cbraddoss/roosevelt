@@ -20,11 +20,11 @@
 			<h2>{{ $selectedMonth }} - {{ $selectedYear }}</h2>
 
 			<div class="calendar-key">
-				<div class="key-desc"><span class="key-color key-blue"></span><span class="key-title">News Article</span></div>
-				<div class="key-desc"><span class="key-color key-orange"></span><span class="key-title">Projects</span></div>
-				<div class="key-desc"><span class="key-color key-red"></span><span class="key-title">Tasks</span></div>
-				<div class="key-desc"><span class="key-color key-green"></span><span class="key-title">Employee Vacations</span></div>
-				<div class="key-desc"><span class="key-color key-purple"></span><span class="key-title">Employee Anniversary</span></div>
+				<div id="key-news-article" class="key-desc" toggleval="news-article-link"><span class="key-color key-blue"></span><span class="key-title">News Article</span></div>
+				<div id="key-projects" class="key-desc" toggleval="project-link"><span class="key-color key-orange"></span><span class="key-title">Projects</span></div>
+				<div id="key-tasks" class="key-desc" toggleval="tasks-link"><span class="key-color key-red"></span><span class="key-title">Tasks</span></div>
+				<div id="key-employee-vacations" class="key-desc" toggleval="user-vacation-link"><span class="key-color key-green"></span><span class="key-title">Employee Vacations</span></div>
+				<div id="key-employee-anniversary" class="key-desc" toggleval="user-anniversary-link"><span class="key-color key-purple"></span><span class="key-title">Employee Anniversary</span></div>
 			</div>
 		</div>
 

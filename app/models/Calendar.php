@@ -29,7 +29,10 @@ class Calendar {
 		foreach($userVacations as $uVaca) {
 			// get user vacation title
 			$vUser = User::find($uVaca->user_id);
-			$uVacaTitle = $vUser->first_name . ' Vacation';
+			$uPeriod = $uVaca->period;
+			if($uPeriod == 'half-day-am') $uVacaTitle = $vUser->first_name . ' ' . substr($vUser->last_name, 0, 1) . '. Half Day AM';
+			elseif($uPeriod == 'half-day-pm') $uVacaTitle = $vUser->first_name . ' ' . substr($vUser->last_name, 0, 1) . '. Half Day PM';
+			else $uVacaTitle = $vUser->first_name . ' ' . substr($vUser->last_name, 0, 1) . '. Vacation';
 			$uVacaTitle = ( (strlen($uVacaTitle) >= '20') ? $uVacaTitle = substr($uVacaTitle, 0, 20).'...' : $uVacaTitle);
 			$vMonth = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->start_date)->format('m');
 			$vMonthEnd = Carbon::createFromFormat('Y-m-d H:i:s', $uVaca->end_date)->format('m');
@@ -174,32 +177,38 @@ class Calendar {
 			}
 		}
 		// get Employee Anniversaries
-		$userAnniversary = User::all();
+		$userAnniversary = User::where('anniversary', '<=', Carbon::parse('last day of '.$month.$year)->addWeeks(2))
+						   ->where('anniversary', '!=', '0000-00-00 00:00:00')
+						   ->get();		
 		foreach($userAnniversary as $uAnn) {
 			// create anniversary month and anniversary year values
 			$uNum = Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('j');
 			$uMonth = Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('m');
-			$uYears = Carbon::now()->format('Y')-Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('Y');
+			$uYearNow = Carbon::parse($month.$year)->format('Y');
+			$uYearStart = Carbon::createFromFormat('Y-m-d H:i:s', $uAnn->anniversary)->format('Y');
+			$uYears = $uYearNow - $uYearStart;
+			if($uYears == '0') $uYears = 'Start date.';
+			else $uYears = $uYears.' yr.';
 			//dd($uYears);
 			// get user first and last name
-			$uAnn->title = $uAnn->first_name . ' ' . $uAnn->last_name;
+			$uAnn->title = $uAnn->first_name . ' ' . substr($uAnn->last_name, 0, 1) . '.';
 
 			// parse previous month anniversary
 			if($uMonth == Carbon::parse($previousMonth.$year)->format('m')) {
-				if(array_key_exists($uNum, $postPreviousMonth)) $postPreviousMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
-				else $postPreviousMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
+				if(array_key_exists($uNum, $postPreviousMonth)) $postPreviousMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
+				else $postPreviousMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
 			}
 
 			// parse selected month anniversary
 			if($uMonth == Carbon::parse($month.$year)->format('m')) {
-				if(array_key_exists($uNum, $postThisMonth)) $postThisMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
-				else $postThisMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
+				if(array_key_exists($uNum, $postThisMonth)) $postThisMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
+				else $postThisMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
 			}
 
 			// parse next month anniversary
 			if($uMonth == Carbon::parse($nextMonth.$year)->format('m')) {
-				if(array_key_exists($uNum, $postNextMonth)) $postNextMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
-				else $postNextMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . ' ['.$uYears.']</a>';
+				if(array_key_exists($uNum, $postNextMonth)) $postNextMonth[$uNum] .= '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
+				else $postNextMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
 			}
 		}
 		

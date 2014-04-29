@@ -16,6 +16,7 @@ class CreateVacationsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id');
+			$table->enum('period', array('full-day', 'half-day-am','half-day-pm'));
 			$table->dateTime('start_date');
 			$table->dateTime('end_date');
 			$table->integer('total_hours');

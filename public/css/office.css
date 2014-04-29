@@ -1184,6 +1184,24 @@ ul {
 	font-size:1em;
 	margin: 0;
 }
+#profile-page #user-vacations .field-add-vacation-dates {
+	background: #ddd;
+}
+#profile-page #user-vacations form.add-vacation-profile {
+	display: inline-block;
+}
+#profile-page #user-vacations form.add-vacation-profile input.datepicker {
+	padding: 0px 4px;
+	height:20px;
+	font-size: 0.8em;
+}
+#profile-page #user-vacations form.add-vacation-profile input.save-vacation-profile {
+	margin-left: 5px;
+}
+#profile-page #user-vacations form.remove-vacation-profile {
+	display: inline-block;
+	margin-left:10px;
+}
 /* Projects Page */
 .create-new {
 	margin: 0;
@@ -1297,13 +1315,7 @@ ul {
 }
 
 /* Calendar */
-.page-calendar .datepicker {
-	left: 1068px !important;
-}
-.page-calendar .datepicker:before,
-.page-calendar .datepicker:after {
-	left: 90px !important;
-}
+
 #calendar-page {
 	padding:10px 20px;
 }
@@ -1388,6 +1400,10 @@ ul {
 	padding: 1px 2px 0;
 	display:inline-block;
 	text-align:center;
+	cursor: pointer;
+}
+.calendar-header .key-desc .key-color.disabled {
+	background: #ddd !important;
 }
 .calendar-header .key-color {
 	display:inline-block;
@@ -1407,7 +1423,7 @@ ul {
 	margin-right:2px;
 }
 .calendar-header .key-green {
-	background: rgba(77,153,0,1);
+	background: rgb(255, 117, 55);
 	margin-right:2px;
 }
 .calendar-header .key-purple {
@@ -1504,7 +1520,7 @@ left: 2px;
 	background: rgba(204,0,0,1);
 }
 .calendar-days .days-of-month a.calendar-post-title.user-vacation-link {
-	background: rgba(77,153,0,1);
+	background: rgb(255, 117, 55);
 	
 }
 .calendar-days .days-of-month a.calendar-post-title.user-vacation-link-end {
@@ -1568,6 +1584,14 @@ left: 2px;
 		.section { width:1280px; }
 		#content { width: 965px; box-shadow: none; }
 		#nav_menu { margin-right: 0px; }
+
+		.page-calendar .datepicker {
+			left: 1068px !important;
+		}
+		.page-calendar .datepicker:before,
+		.page-calendar .datepicker:after {
+			left: 90px !important;
+		}
 
 		.calendar-days .days-of-week .day {
 			width: 130px;

@@ -31,6 +31,7 @@ Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' 
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
 
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
+Route::post('/profile/vacation', array('as' => 'profile.vacation', 'uses' => 'ProfilesController@vacation'));
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));
 Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'ProfilesController@update'));
 
@@ -49,9 +50,6 @@ Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' 
 
 Route::get('/calendar', array('as' => 'calendar', 'uses' => 'CalendarsController@index'));
 Route::get('/calendar/{year}/{month}', array('as' => 'calendar.month', 'uses' => 'CalendarsController@show'));
-// Route::get('/calendar', function(){
-// 	return View::make('calendar.index');
-// })->before('auth');
 
 Route::get('/tools', function(){
 	return View::make('tools.index');

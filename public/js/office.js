@@ -120,9 +120,9 @@ jQuery(document).ready(function($){
         return date.valueOf() < now.valueOf() ? 'disabled' : '';
       }
     }).on('changeDate', function(ev) {
-      if (ev.date.valueOf() > checkout.date.valueOf()) {
+      if (ev.date.valueOf() >= checkout.date.valueOf()) {
         var newDate = new Date(ev.date)
-        newDate.setDate(newDate.getDate() + 1);
+        newDate.setDate(newDate.getDate());
         checkout.setValue(newDate);
       }
       checkin.hide();
@@ -137,26 +137,28 @@ jQuery(document).ready(function($){
     }).data('datepicker');
 	
 	/* News Page */
-	var getSelected = function(){
-	    var t = '';
-	    if(window.getSelection) {
-	        t = window.getSelection();
-	    } else if(document.getSelection) {
-	        t = document.getSelection();
-	    } else if(document.selection) {
-	        t = document.selection.createRange().text;
-	    }
-	    return '<span>'+t+'</span>';
-	}
+	// target selected text (save for later)
+	// var getSelected = function(){
+	//     var t = '';
+	//     if(window.getSelection) {
+	//         t = window.getSelection();
+	//     } else if(document.getSelection) {
+	//         t = document.getSelection();
+	//     } else if(document.selection) {
+	//         t = document.selection.createRange().text;
+	//     }
+	//     return '<span>'+t+'</span>';
+	// }
 
-	$(document).on('select','#article-content', function(eventObject) {
-	    console.log(getSelected().toString());
-	    // var textChange = getSelected().toString();
-	    // console.log(eventObject);
-	    // $(document).on('click', '.make-bold', function(textChange) {
-	    // 	console.log(textChange);
-	    // });
-	});
+	// $(document).on('select','#article-content', function(eventObject) {
+	//     console.log(getSelected().toString());
+	//     // var textChange = getSelected().toString();
+	//     // console.log(eventObject);
+	//     // $(document).on('click', '.make-bold', function(textChange) {
+	//     // 	console.log(textChange);
+	//     // });
+	// });
+	// favorite articles
 	$('#news-page span.ss-heart').hover(function(){
 		$(this).find('span.favorite-this').removeClass('none');
 	}, function(){
@@ -201,7 +203,17 @@ jQuery(document).ready(function($){
 	$(document).on('click','#news-page #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
 			$('#news-new-article-form').html(data);
-			$('#news-page form.add-article .article-calendar-date').datepicker();
+
+			var calTemp = new Date();
+		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
+		    var calPost = $('#news-page form.add-article .article-calendar-date').datepicker({
+		      onRender: function(date) {
+		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		      }
+		    }).on('changeDate', function(ev) {
+		    	calPost.hide();
+		    }).data('datepicker');
+		    
 			$('form.add-article .article-title').focus();
 		});
 	});
@@ -233,38 +245,37 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	$.fn.extend({
-insertAtCaret: function(myValue){
-  return this.each(function(i) {
-    if (document.selection) {
-      //For browsers like Internet Explorer
-      this.focus();
-      var sel = document.selection.createRange();
-      sel.text = myValue;
-      this.focus();
-    }
-    else if (this.selectionStart || this.selectionStart == '0') {
-      //For browsers like Firefox and Webkit based
-      var startPos = this.selectionStart;
-      var endPos = this.selectionEnd;
-      var scrollTop = this.scrollTop;
-      this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
-      this.focus();
-      this.selectionStart = startPos + myValue.length;
-      this.selectionEnd = startPos + myValue.length;
-      this.scrollTop = scrollTop;
-    } else {
-      this.value += myValue;
-      this.focus();
-    }
-  });
-}
-});
-
-$(document).on('click', '.form-textarea-buttons .ping', function(){
-	var ping = $(this).attr('id');
-	//console.log(ping);
-    $('textarea.article-content').insertAtCaret(ping);
-})
+		insertAtCaret: function(myValue){
+		  return this.each(function(i) {
+		    if (document.selection) {
+		      //For browsers like Internet Explorer
+		      this.focus();
+		      var sel = document.selection.createRange();
+		      sel.text = myValue;
+		      this.focus();
+		    }
+		    else if (this.selectionStart || this.selectionStart == '0') {
+		      //For browsers like Firefox and Webkit based
+		      var startPos = this.selectionStart;
+		      var endPos = this.selectionEnd;
+		      var scrollTop = this.scrollTop;
+		      this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+		      this.focus();
+		      this.selectionStart = startPos + myValue.length;
+		      this.selectionEnd = startPos + myValue.length;
+		      this.scrollTop = scrollTop;
+		    } else {
+		      this.value += myValue;
+		      this.focus();
+		    }
+		  });
+		}
+	});
+	$(document).on('click', '.form-textarea-buttons .ping', function(){
+		var ping = $(this).attr('id');
+		//console.log(ping);
+	    $('textarea.article-content').insertAtCaret(ping);
+	})
 
 	/* Calendar Page */
 	$('#sub-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
@@ -275,7 +286,12 @@ $(document).on('click', '.form-textarea-buttons .ping', function(){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	});
-	
+	$(document).on('click', '#calendar-page .key-desc', function() {
+		var toggleThis = $(this).attr('toggleval');
+		$(this).find('.key-color').toggleClass('disabled');
+		$('#calendar-page').find('.'+toggleThis).toggle();
+	});
+
 	/* Projects Page */
 	//Change color of high priority project items
 	$(document).on('change','.priority',function(){
