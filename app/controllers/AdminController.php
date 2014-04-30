@@ -46,6 +46,8 @@ class AdminController extends \BaseController {
 			'id' => 'same:id',
 			'first_name' => 'required|max:40|alpha',
 			'last_name' => 'required|max:40|alpha',
+			'userrole' => 'required|in:standard,admin',
+			'status' => 'required|in:active,inactive',
 			'anniversary' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
 			'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
@@ -67,7 +69,7 @@ class AdminController extends \BaseController {
 			$user->cell_phone =  Input::get('cell_phone');
 			$user->status =  Input::get('status');
 			$user->userrole =  Input::get('userrole');
-			$user->anniversary = Carbon::createFromFormat('m/d/Y', Input::get('anniversary'));
+			if(Input::get('anniversary') != '') $user->anniversary = Carbon::createFromFormat('m/d/Y', Input::get('anniversary'));
 			try
 			{
 				$user->save();
@@ -89,6 +91,7 @@ class AdminController extends \BaseController {
 			'last_name' => 'required|max:40|alpha',
 			'email' => array('unique:users', 'required', 'max:40', 'email', 'regex:/^(.*?)+(@)+(insideout.com)/i'),
 			'password' => 'required|between:8,30',
+			'userrole' => 'required|in:standard,admin',
 		));
 
 		if($validator->fails()) {

@@ -147,7 +147,7 @@ class Calendar {
 		// get Articles with show_on_calendar
 		$articleShow = Article::where('show_on_calendar', '>=', Carbon::parse('first day of '.$month.$year)->subWeeks(1))
 						->where('show_on_calendar', '<=', Carbon::parse('last day of '.$month.$year)->addWeeks(1))
-						->where('status','published')
+						->where('status','!=','draft')
 						->get();
 		//dd($articleShow);
 		foreach($articleShow as $aShow) {
@@ -160,20 +160,20 @@ class Calendar {
 
 			// parse previous month article
 			if($aMonth == Carbon::parse($previousMonth.$year)->format('m')) {
-				if(array_key_exists($aNum, $postPreviousMonth)) $postPreviousMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-				else $postPreviousMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				if(array_key_exists($aNum, $postPreviousMonth)) $postPreviousMonth[$aNum] .= '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				else $postPreviousMonth[$aNum] = '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
 			}
 
 			// parse selected month articles
 			if($aMonth == Carbon::parse($month.$year)->format('m')) {
-				if(array_key_exists($aNum, $postThisMonth)) $postThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-				else $postThisMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				if(array_key_exists($aNum, $postThisMonth)) $postThisMonth[$aNum] .= '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				else $postThisMonth[$aNum] = '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
 			}
 
 			// parse next month article
 			if($aMonth == Carbon::parse($nextMonth.$year)->format('m')) {
-				if(array_key_exists($aNum, $postNextMonth)) $postNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
-				else $postNextMonth[$aNum] = '<a href="/news/article/' . $aShow->link . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				if(array_key_exists($aNum, $postNextMonth)) $postNextMonth[$aNum] .= '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
+				else $postNextMonth[$aNum] = '<a href="/news/article/' . $aShow->slug . '" class="calendar-post-title news-article-link">' . $aShow->title . '</a>';
 			}
 		}
 		// get Employee Anniversaries

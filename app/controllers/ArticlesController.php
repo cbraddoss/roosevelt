@@ -1,15 +1,19 @@
 <?php
 
+use \Mailer;
+
 class ArticlesController extends \BaseController {
 
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct()
+    public function __construct(Mailer $mailer)
     {
         $this->beforeFilter('auth');
 
         $this->beforeFilter('csrf', array('on' => 'post'));
+
+        $this->mailer = $mailer;
     }
 
 	/**
@@ -21,9 +25,11 @@ class ArticlesController extends \BaseController {
 	{
 		$articles = Article::orderBy('created_at','DESC')
 					->where('status','=','published')
-					->paginate(5);
+					->paginate(10);
+		$sticky = Article::orderBy('created_at','DESC')
+					->where('status','=','sticky')->get();
 		if(Request::ajax()) return View::make('news.partials.new');
-		else return View::make('news.index', compact('articles'));
+		else return View::make('news.index', compact('sticky','articles'));
 	}
 
 	/**
@@ -49,6 +55,7 @@ class ArticlesController extends \BaseController {
 			'title' => 'required|max:120',
 			'content' => 'required',
 			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'status' => 'required|in:published,sticky,draft'
 		));
 
 		if($validator->fails()) {
@@ -62,9 +69,9 @@ class ArticlesController extends \BaseController {
 			$newArticle = new Article;
 			$newArticle->title = clean_title(Input::get('title'));
 			$newArticle->content =  clean_content(Input::get('content'));
-			$newArticle->link = convert_title_to_path(Input::get('title'));
+			$newArticle->slug = convert_title_to_path(Input::get('title'));
 			$newArticle->author_id = Auth::user()->id;
-			$newArticle->status = 'published';
+			$newArticle->status = Input::get('status');
 			$newArticle->mentions = find_mentions(Input::get('content'));
 			$newArticle->edit_id = Auth::user()->id;
 			if(Input::get('show_on_calendar') != '') $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
@@ -80,9 +87,10 @@ class ArticlesController extends \BaseController {
 				return Response::json( $response );
 			}
 
-			send_ping_email($newArticle);
+			article_ping_email($newArticle);
 
 			$response = array(
+				'slug' => $newArticle->slug,
 				'msg' => 'Article saved.'
 			);
 			return Response::json( $response );
@@ -104,9 +112,9 @@ class ArticlesController extends \BaseController {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
 				$articles = Article::where('author_id','=',$userAuthor->id)
-							->where('status','=','published')
+							->where('status','!=','draft')
 							->orderBy('created_at','DESC')
-							->paginate(5);
+							->paginate(10);
 				return View::make('news.filters.author', compact('articles','userAuthor'));
 			}
 			else return Redirect::route('news');
@@ -125,10 +133,10 @@ class ArticlesController extends \BaseController {
 		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax->modify('+1 month');		
 		$articles = Article::where('created_at','>=', $date)
-					->where('status','=','published')
+					->where('status','!=','draft')
 					->where('created_at','<', $dateMax)
 					->orderBy('created_at','DESC')
-					->paginate(5);
+					->paginate(10);
 		$date = $date->format('F, Y');
 		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
 	}
@@ -143,9 +151,9 @@ class ArticlesController extends \BaseController {
 		$lastMonth = new DateTime('-1 month');
 		$articles = Article::where('created_at','>=',$lastMonth)
 					->where('been_read','not like','%'.$currentUser.'%')
-					->where('status','=','published')
+					->where('status','!=','draft')
 					->orderBy('created_at','DESC')
-					->paginate(5);
+					->paginate(10);
 		return View::make('news.filters.unread', compact('articles'));
 	}
 	
@@ -157,9 +165,9 @@ class ArticlesController extends \BaseController {
 	public function favoritesFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('favorited','like','%'.$currentUser.'%')
-				->where('status','=','published')
+				->where('status','!=','draft')
 				->orderBy('created_at','DESC')
-				->paginate(5);
+				->paginate(10);
 		return View::make('news.filters.favorites', compact('articles'));
 	}
 
@@ -203,9 +211,9 @@ class ArticlesController extends \BaseController {
 	public function mentionsFilter() {
 		$currentUser = current_user_path();
 		$articles = Article::where('mentions','like','%'.$currentUser.'%')
-					->where('status','=','published')
+					->where('status','!=','draft')
 					->orderBy('created_at','DESC')
-					->paginate(5);
+					->paginate(10);
 		return View::make('news.filters.mentions', compact('articles'));
 	}
 
@@ -215,11 +223,20 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function draftsFilter() {
-		$currentUser = current_user_path();
-		$articles = Article::where('status','=','draft')
-					->orderBy('created_at','DESC')
-					->paginate(5);
-		return View::make('news.filters.drafts', compact('articles'));
+		$currentUser = Auth::user();
+		if($currentUser->userrole == 'admin') {
+			$articles = Article::where('status','=','draft')
+						->orderBy('created_at','DESC')
+						->paginate(10);
+			return View::make('news.filters.drafts', compact('articles'));
+		}
+		else {
+			$articles = Article::where('status','=','draft')
+						->where('author_id', '=', $currentUser->id)
+						->orderBy('created_at','DESC')
+						->paginate(10);
+			return View::make('news.filters.drafts', compact('articles'));
+		}
 	}
 
 	/**
@@ -230,7 +247,12 @@ class ArticlesController extends \BaseController {
 	 */
 	public function show($article)
 	{
-		$article = Article::where('link', $article)->first();
+		$currentUser = Auth::user();
+		$article = Article::where('slug', $article)->first();
+		if($article->status == 'draft') {
+			if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
+			else return Redirect::route('news');
+		}
 		$userRead = current_user_path();
 		if(empty($article)) return Redirect::route('news');
 		else $oldRead = $article->been_read;
@@ -253,12 +275,12 @@ class ArticlesController extends \BaseController {
 	 */
 	public function edit($article)
 	{
-		$article = Article::where('link', $article)->first();
+		$article = Article::where('slug', $article)->first();
 		if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin') {
 			if(empty($article)) return Redirect::route('news');
 			return View::make('news.partials.edit', compact('article'));
 		}
-		else return Redirect::to('/news/article/'.$article->link);
+		else return Redirect::to('/news/article/'.$article->slug);
 	}
 
 	/**
@@ -273,36 +295,41 @@ class ArticlesController extends \BaseController {
         
 		$validator = Validator::make(Input::all(), array(
 			'title' => 'required|max:120',
-			'content' => 'required'
+			'content' => 'required',
+			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'status' => 'required|in:published,sticky,draft'
 		));
 		
 		if($validator->fails()) {
 			$messages = $validator->messages();
-			return Redirect::to('/news/article/'.$article)->withInput()->withErrors($messages->first());
+			return Redirect::to('/news/article/'.$article.'/edit')->withInput()->withErrors($messages->first());
 		}
 		else {
 			$article = Article::find(Input::get('id'));
 			$article->title =  clean_title(Input::get('title'));
 			$article->content =  clean_content(Input::get('content'));
-			$article->link = convert_title_to_path(Input::get('title'));
+			$article->slug = convert_title_to_path(Input::get('title'));
+			$previousMentions = $article->mentions;
 			$article->mentions = find_mentions(Input::get('content'));
+			$newMentions = $article->mentions;
 			$article->edit_id = Auth::user()->id;
+			$article->status = Input::get('status');
+			if(Input::get('show_on_calendar') != '') $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
 
 			try
 			{
 				$article->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/news/article/'.$article->link)->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+				return Redirect::to('/news/article/'.$article->slug.'/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 
-			// Fix pinging to only ping newly added users when an article is edited. 04-22-2014 CBD
-			send_ping_email($article);
+			if($previousMentions != $newMentions) article_ping_email($article,$previousMentions);
 
-			return Redirect::to('/news/article/'.$article->link)->with('flash_message_success', '<i>' . $article->title . '</i> successfully updated!');
+			return Redirect::to('/news/article/'.$article->slug)->with('flash_message_success', '<i>' . $article->title . '</i> successfully updated!');
 		}
 
-		return Redirect::to('/news/article/'.$article->link)->with('flash_message_error','Something went wrong. :(');
+		return Redirect::to('/news/article/'.$article->slug.'/edit')->with('flash_message_error','Something went wrong. :(');
 	}
 
 	/**
@@ -313,7 +340,12 @@ class ArticlesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$article = Article::find($id);
+		if(Auth::user()->userrole == 'admin' || Auth::user()->id == $article->author_id) {
+			$articleTitle = $article->title;
+			$article->delete();
+			return Redirect::to('/news/')->with('flash_message_error', '<i>' . $articleTitle . '</i> successfully deleted');
+		}
 	}
 
 }

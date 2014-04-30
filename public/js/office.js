@@ -230,6 +230,7 @@ jQuery(document).ready(function($){
 				"title" : $(this).find('input.article-title').val(),
 				"content" : $(this).find('textarea.article-content').val(),
 				"show_on_calendar" : $(this).find('input[name=show_on_calendar]').val(),
+				"status" : $(this).find('select[name=status]').val(),
 			}, function (data) {
 				if(data.errorMsg) {
 					$('#message-box-json').fadeIn();
@@ -238,7 +239,7 @@ jQuery(document).ready(function($){
 				else {
 					$('#message-box-json').find('.section').empty();
 					$('#message-box-json').fadeOut();
-					window.location.href = '/news';
+					window.location.href = '/news/article/'+data.slug;
 				}
 			},'json'
 		);
@@ -276,6 +277,15 @@ jQuery(document).ready(function($){
 		//console.log(ping);
 	    $('textarea.article-content').insertAtCaret(ping);
 	})
+	var calTemp = new Date();
+	var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
+	var calPost = $('#news-page form.update-article .article-calendar-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calPost.hide();
+	}).data('datepicker');
 
 	/* Calendar Page */
 	$('#sub-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {

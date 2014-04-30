@@ -11,7 +11,7 @@
 		
 	@if($articles->isEmpty())
 			<div class="news-article">
-				<h3>No unread articles found.</h3>
+				<h3>No drafts found.</h3>
 				<p></p>
 			</div>
 	@endif

@@ -86,29 +86,37 @@ function find_mentions($content) {
 	$mentionSearch = "/(@)((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))/is";
 	$mention = '';
 	if(preg_match_all($mentionSearch, $content, $mentionFound)) {
-		foreach($mentionFound[0] as $mentionAdd) {
+		$mentionFound = array_unique($mentionFound[0]);
+		foreach($mentionFound as $mentionAdd) {
 			$mentionAdd = str_replace('@', '', $mentionAdd);
 			$mention .= $mentionAdd . ' ';
 		}
 	}
+	
 	return $mention;
 }
 
-function send_ping_email($newArticle) {
+function article_ping_email($newArticle, $previousMentions = '') {
 	$parseUsers = $newArticle->mentions;
 	$parseUsers = explode(' ',$parseUsers);
+
+	$parseOldUsers = $previousMentions;
+	$parseOldUsers = explode(' ', $parseOldUsers);
+
 	$users = array();
 	foreach($parseUsers as $user) {
 		if($user == '') unset($user);
+		elseif(in_array($user, $parseOldUsers)) unset($user);
 		else {
 			$users[] = $user;
 		}
 	}
+
 	foreach($users as $user) {
 		$userSend = User::where('user_path','=',$user)->first();
 		//dd($userSend);
 		$author = User::where('id', '=', $newArticle->author_id)->first();
-		$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->link, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
+		$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
 		Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
 			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
 			$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
@@ -120,7 +128,7 @@ function display_pingable() {
 	$users = User::all();
 	$pingable = array();
 	foreach($users as $user) {
-		echo '<span class="textarea-button ping" id="@' . $user->user_path . '">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		echo '<span class="textarea-button ping" id="@' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 }
 
@@ -130,7 +138,7 @@ function find_unread_count($resource) {
 	if($resource == 'articles') {
 		$articles = Article::where('created_at','>=',$lastMonth)
 					->where('been_read','not like','%'.$currentUser.'%')
-					->where('status','=','published')
+					->where('status','!=','draft')
 					->get()->count();
 		if($articles != 0) return '<span class="linked-to">'.$articles.'</span>';
 	}
@@ -141,22 +149,22 @@ function find_assigned_count($resource) {
 	$currentUser = current_user_path();
 	// display projects assigned or part of per user not completed yet
 	if($resource == 'projects') {
-		$projects = '2';
+		$projects = '?!';
 		return '<span class="linked-to">'.$projects.'</span>';
 	}
 	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
-		$billables = '5';
+		$billables = '?!';
 		return '<span class="linked-to">'.$billables.'</span>';
 	}
 	// display upcoming due dates per user for projects and tasks
 	elseif($resource == 'calendar') {
-		$calendar = '3';
+		$calendar = '?!';
 		return '<span class="linked-to">'.$calendar.'</span>';
 	}
 	// display help assigned per user not completed yet
 	elseif($resource == 'help') {
-		$help = '8';
+		$help = '?!';
 		return '<span class="linked-to">'.$help.'</span>';
 	}
 	else return;

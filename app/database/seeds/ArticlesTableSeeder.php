@@ -9,7 +9,7 @@ class ArticlesTableSeeder extends Seeder {
 		Article::create(array(
 			'title' => 'New Post',
 			'content' => 'Hello world. This is our first news article!',
-			'link' => 'new-post',
+			'slug' => 'new-post',
 			'author_id' => '1',
 			'edit_id' => '1',
 			'status' => 'published',
@@ -23,7 +23,7 @@ class ArticlesTableSeeder extends Seeder {
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			'link' => 'test-post',
+			'slug' => 'test-post',
 			'author_id' => '2',
 			'edit_id' => '2',
 			'status' => 'published',
@@ -36,7 +36,7 @@ class ArticlesTableSeeder extends Seeder {
 
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			'link' => 'another-post',
+			'slug' => 'another-post',
 			'author_id' => '3',
 			'edit_id' => '3',
 			'status' => 'published',
@@ -52,7 +52,7 @@ class ArticlesTableSeeder extends Seeder {
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
 
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			'link' => 'post-again',
+			'slug' => 'post-again',
 			'author_id' => '4',
 			'edit_id' => '4',
 			'status' => 'published',
@@ -62,8 +62,9 @@ class ArticlesTableSeeder extends Seeder {
 		Article::create(array(
 			'title' => 'Post Draft',
 			'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-			'link' => 'post-draft',
-			'author_id' => '4',
+			'slug' => 'post-draft',
+			'author_id' => '1',
+			'edit_id' => '1',
 			'status' => 'draft',
 			'created_at' => '2014-04-16 21:22:48'
 		));
@@ -103,7 +104,7 @@ $20
 Total: $880
 
 ",
-			'link' => 'jacks-computer-for-corey',
+			'slug' => 'jacks-computer-for-corey',
 			'author_id' => '2',
 			'edit_id' => '2',
 			'status' => 'published',
@@ -143,10 +144,10 @@ jenn:
 logo for stay in hudson
 logo for olympic peninsula
 stuck on shorecrest in raven",
-			'link' => 'meeting-notes-4-15-14',
+			'slug' => 'meeting-notes-4-15-14',
 			'author_id' => '2',
 			'edit_id' => '2',
-			'status' => 'published',
+			'status' => 'sticky',
 			'show_on_calendar' => '2014-04-25 12:42:48',
 			'created_at' => '2014-04-15 12:42:48'
 		));
@@ -156,7 +157,7 @@ stuck on shorecrest in raven",
 			'content' => "The video user manuals plugin has been reactivated.
 We’ll have to update the serial number on all of the sites using it. If you find one that hasn’t been updated, please find the serial number here https://wiki.insideout.co/2011/08/31/security/ and update!
 I’ll be getting inndx and directory updated here in a few minutes.",
-			'link' => 'video-user-manuals',
+			'slug' => 'video-user-manuals',
 			'author_id' => '1',
 			'edit_id' => '1',
 			'status' => 'published',
