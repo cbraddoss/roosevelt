@@ -250,9 +250,12 @@ class ArticlesController extends \BaseController {
 		$currentUser = Auth::user();
 		$article = Article::where('slug', $article)->first();
 		$articleImage = $article->attachment;
+		$thumbnails = array();
 		if(!empty($articleImage)) {
 			foreach(unserialize($articleImage) as $attachment) {
-				$thumbnail = Image::make(storage_path().'/uploads/2014/05/'.$attachment);
+				//dd($attachment);
+				$thumbnails[] = $attachment;
+				//$thumbnail = Image::make(storage_path().$attachment);
 				//dd($thumbnail);
 				//$thumbnail = Response::make($thumbnail);
 				//$thumbnail->header('Content-Type', 'image/jpg');
@@ -274,7 +277,7 @@ class ArticlesController extends \BaseController {
 			$article->been_read = $oldRead.' '.$userRead.' ';
 			$article->save();
 		}
-		if($article) return View::make('news.single', compact('article','thumbnail'));
+		if($article) return View::make('news.single', compact('article','thumbnails'));
 		else return Redirect::route('news');
 	}
 
@@ -329,7 +332,7 @@ class ArticlesController extends \BaseController {
 
 					$attach = $attach->move(upload_path(), $fileName);
 					$attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$fileName);
-					$fileNames[] = $fileName;
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$fileName;
 				}
 				// return array(
 				// 	'path' => $file->getRealPath(),
@@ -349,8 +352,13 @@ class ArticlesController extends \BaseController {
 			$article->edit_id = Auth::user()->id;
 			$article->status = Input::get('status');
 			if(Input::has('show_on_calendar')) $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
-			$article->attachment = serialize($fileNames);
-
+			if(!empty($article->attachment)) {
+				$extractAttachment = unserialize($article->attachment);
+				$allFiles = array_merge($extractAttachment, $fileNames);
+				//dd($allFiles);
+				$article->attachment = serialize($allFiles);
+			}
+			else $article->attachment = serialize($fileNames);
 
 			try
 			{

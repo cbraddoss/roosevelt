@@ -2,10 +2,10 @@
 	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article"> @else <div id="article-{{ $article->id }}" class="news-article unread"> @endif
 		@if(is_array(unserialize($article->attachment)))
 			@foreach(unserialize($article->attachment) as $attach)
-				<span class="right article-all-attachment"><a href="{{ '/uploads/'.$attach }}"><img src="{{ '/uploads/'.$attach }}" class="article-attachment"></a></span>
+				<span class="right article-all-attachment"><a href="{{ $attach }}"><img src="{{ $attach }}" class="article-attachment"></a></span>
 			@endforeach
 		@elseif (!empty($article->attachment))
-			<span class="right article-all-attachment"><a href="{{ '/uploads/'.$article->attachment }}"><img src="{{ '/uploads/'.$article->attachment }}" class="article-attachment"></a></span>
+			<span class="right article-all-attachment"><a href="{{ $article->attachment }}"><img src="{{ $article->attachment }}" class="article-attachment"></a></span>
 		@endif
 
 		<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>

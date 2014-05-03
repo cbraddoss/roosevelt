@@ -11,8 +11,10 @@
 @include('news.partials.sub-menu')
 
 	<div id="article-{{ $article->id }}" class="news-article">
-		@if (!empty($thumbnail))
-			<span class="right article-single-attachment"><a href="/uploads/2014/05/{{ $thumbnail->basename }}">{{ HTML::image('/uploads/2014/05/thumbnail-'.$thumbnail->basename,$thumbnail->basename,array('class' => 'article-attachment')) }}</a></span>
+		@if (!empty($thumbnails))
+			@foreach($thumbnails as $thumbnail)
+			<span class="right article-single-attachment"><a href="{{ $thumbnail }}">{{ HTML::image($thumbnail, $thumbnail, array('class' => 'article-attachment')) }}</a></span>
+			@endforeach
 		@endif
 
 		<p>{{ display_content($article->content) }}</p>
