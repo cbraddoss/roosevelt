@@ -35,6 +35,8 @@ Route::post('/profile/vacation', array('as' => 'profile.vacation', 'uses' => 'Pr
 Route::get('/profile/edit', array('as' => 'profile.edit', 'uses' => 'ProfilesController@edit'));
 Route::post('/profile/update', array('as' => 'profile.update', 'uses' => 'ProfilesController@update'));
 
+Route::get('/uploads/{year}/{month}/{name}',array('as' => 'uploads', 'uses' => 'UploadsController@show'));
+
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
 Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));

@@ -1033,6 +1033,41 @@ ul {
 	top:-15px;
 	left:-15px;
 }
+#news-page .article-single-attachment {
+	display: inline-block;
+	float: right;
+	margin-left:20px;
+	overflow: hidden;
+}
+#news-page .article-single-attachment img {
+	width: 100px;
+	height:auto;
+	padding:5px;
+	display: block;
+	clear:right;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
+#news-page .article-all-attachment {
+	display: inline-block;
+	width: 10%;
+	height: 50%;
+	float: right;
+	margin-left:20px;
+	overflow: hidden;
+}
+#news-page .article-all-attachment img {
+	padding:5px;
+	display: block;
+	float:right;
+	clear:right;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
 #content .news-filter {
 	border: 1px solid #ddd;
 	background: rgba(75,131,180,0.2);
@@ -1091,6 +1126,7 @@ ul {
 	width:145px;
 	display: block;
 	margin:15px 0;
+	float:left;
 }
 #news-page .article-add-form label[for=attachment] {
 	
@@ -1099,9 +1135,10 @@ ul {
 	width:300px;
 	display: block;
 	margin:15px 0;
+	float:right;
 }
 #news-page .article-add-form select[name=status] {
-	clear:right;
+	clear:both;
 	display:block;
 }
 #news-page .article-add-form .attachment {
@@ -1165,6 +1202,10 @@ ul {
 #news-page .update-article select[name=status] {
 	clear:right;
 	display:block;
+}
+#news-page .article-attachment {
+	width: 100%;
+	height: auto;
 }
 #news-page .ss-heart {
 	color: #333;

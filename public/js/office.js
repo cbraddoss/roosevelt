@@ -1,4 +1,6 @@
 jQuery(document).ready(function($){
+	$("a[href $= 'jpg'],a[href $= 'png'],a[href $= 'pdf']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
+	
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");

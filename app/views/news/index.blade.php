@@ -28,6 +28,15 @@
 			
 			<h3>{{ link_to('/news/article/'. $stick->slug, $stick->title, array('class' => 'news-link')) }}</h3>
 			<span class="sticky-icon ss-pinboard ss-social"></span>
+			
+			@if(is_array(unserialize($stick->attachment)))
+				@foreach(unserialize($stick->attachment) as $attach)
+					<span class="right article-all-attachment"><a href="{{ '/uploads/'.$attach }}"><img src="{{ '/uploads/'.$attach }}" class="article-attachment"></a></span>
+				@endforeach
+			@elseif (!empty($stick->attachment))
+				<span class="right article-all-attachment"><a href="{{ '/uploads/'.$stick->attachment }}"><img src="{{ '/uploads/'.$stick->attachment }}" class="article-attachment"></a></span>
+			@endif
+
 			<p>{{ display_content($stick->content, '100') }}</p>
 			<small>Posted by {{ link_to('/news/author/'.any_user_path($stick->author_id), User::find($stick->author_id)->first_name) }}</small>
 			<small>on {{ link_to('/news/date/'.$stick->created_at->format('Y').'/'.$stick->created_at->format('F'), $stick->created_at->format('F')) }}</small>

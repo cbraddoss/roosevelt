@@ -249,6 +249,17 @@ class ArticlesController extends \BaseController {
 	{
 		$currentUser = Auth::user();
 		$article = Article::where('slug', $article)->first();
+		$articleImage = $article->attachment;
+		if(!empty($articleImage)) {
+			foreach(unserialize($articleImage) as $attachment) {
+				$thumbnail = Image::make(storage_path().'/uploads/2014/05/'.$attachment);
+				//dd($thumbnail);
+				//$thumbnail = Response::make($thumbnail);
+				//$thumbnail->header('Content-Type', 'image/jpg');
+				//return $thumbnail;
+				//dd($thumbnail);
+			}
+		}
 		if($article->status == 'draft') {
 			if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
 			else return Redirect::route('news');
@@ -263,7 +274,7 @@ class ArticlesController extends \BaseController {
 			$article->been_read = $oldRead.' '.$userRead.' ';
 			$article->save();
 		}
-		if($article) return View::make('news.single', compact('article'));
+		if($article) return View::make('news.single', compact('article','thumbnail'));
 		else return Redirect::route('news');
 	}
 
@@ -297,7 +308,8 @@ class ArticlesController extends \BaseController {
 			'title' => 'required|max:120',
 			'content' => 'required',
 			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'status' => 'required|in:published,sticky,draft'
+			'status' => 'required|in:published,sticky,draft',
+			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 		
 		if($validator->fails()) {
@@ -305,6 +317,28 @@ class ArticlesController extends \BaseController {
 			return Redirect::to('/news/article/'.$article.'/edit')->withInput()->withErrors($messages->first());
 		}
 		else {
+			//dd(Input::file('attachment'));
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$attachments = array();
+				$fileNames = array();
+				// dd($file);
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
+
+					$attach = $attach->move(upload_path(), $fileName);
+					$attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$fileName);
+					$fileNames[] = $fileName;
+				}
+				// return array(
+				// 	'path' => $file->getRealPath(),
+				// 	'size' => $file->getClientSize(),
+				// 	'mime' => $file->getMimeType(),
+				// 	'name' => $file->getClientOriginalName(),
+				// 	'extension' => $file->getClientOriginalExtension()
+				// 	);
+			}
 			$article = Article::find(Input::get('id'));
 			$article->title =  clean_title(Input::get('title'));
 			$article->content =  clean_content(Input::get('content'));
@@ -314,7 +348,9 @@ class ArticlesController extends \BaseController {
 			$newMentions = $article->mentions;
 			$article->edit_id = Auth::user()->id;
 			$article->status = Input::get('status');
-			if(Input::get('show_on_calendar') != '') $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			if(Input::has('show_on_calendar')) $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			$article->attachment = serialize($fileNames);
+
 
 			try
 			{

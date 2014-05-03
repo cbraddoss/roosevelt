@@ -155,8 +155,8 @@ stuck on shorecrest in raven",
 		Article::create(array(
 			'title' => 'Video User Manuals',
 			'content' => "The video user manuals plugin has been reactivated.
-We’ll have to update the serial number on all of the sites using it. If you find one that hasn’t been updated, please find the serial number here https://wiki.insideout.co/2011/08/31/security/ and update!
-I’ll be getting inndx and directory updated here in a few minutes.",
+We'll have to update the serial number on all of the sites using it. If you find one that hasn't been updated, please find the serial number here https://wiki.insideout.co/2011/08/31/security/ and update!
+I'll be getting inndx and directory updated here in a few minutes.",
 			'slug' => 'video-user-manuals',
 			'author_id' => '1',
 			'edit_id' => '1',

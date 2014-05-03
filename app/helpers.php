@@ -82,6 +82,20 @@ function display_content($content, $length = null) {
 	return nl2br(html_entity_decode($content));
 }
 
+function upload_path() {
+	$attachYear = Carbon::now()->format('Y');
+	$yearPath = storage_path().'/uploads/'.$attachYear;
+	File::isDirectory($yearPath) or File::makeDirectory($yearPath);
+
+	$attachMonth = Carbon::now()->format('m');
+	$monthPath = storage_path().'/uploads/'.$attachYear.'/'.$attachMonth;
+	File::isDirectory($monthPath) or File::makeDirectory($monthPath);
+
+	$uploadPath = storage_path().'/uploads/'.$attachYear.'/'.$attachMonth.'/';
+
+	return $uploadPath;
+}
+
 function find_mentions($content) {
 	$mentionSearch = "/(@)((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))/is";
 	$mention = '';

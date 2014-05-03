@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/office.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/css/colorbox3.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/datepicker.css" media="screen">
 <link rel="stylesheet" href="/fonts/genericons/genericons.css">
 <link rel="stylesheet" href="/fonts/Symbolset/ss-social.css">

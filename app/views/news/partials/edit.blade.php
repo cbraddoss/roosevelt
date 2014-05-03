@@ -10,7 +10,7 @@
 
 @include('news.partials.sub-menu')
 
-{{ Form::open( array('id' => 'update-article', 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
+{{ Form::open( array('id' => 'update-article', 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $article->id) }}
 
@@ -34,7 +34,7 @@
 	<span class="article-value show-on-calendar-value">{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}</span>
 </div>
 <div class="user-field">
-	<span class="article-value attachment-value">{{ Form::file('attachment') }}</span>
+	<span class="article-value attachment-value">{{ Form::file('attachment[]',array('multiple')) }}</span>
 </div>
 <div class="user-field">
 	<span class="article-value status-value">{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , $article->status) }}</span>
@@ -45,6 +45,8 @@
 <a href="/news/article/{{ $article->slug }}" class="button cancel">Cancel</a>
 
 {{ Form::close() }}
+
+
 
 @if(Auth::user()->userrole == 'admin' || Auth::user()->id == $article->author_id)
 {{ Form::open( array('class' => 'delete-article', 'url' => '/news/article/'.$article->id, 'method' => 'delete', 'id' => $article->id) ) }}
