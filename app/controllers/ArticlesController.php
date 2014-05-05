@@ -325,10 +325,11 @@ class ArticlesController extends \BaseController {
 				
 				foreach($attachment as $attach) {
 					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
 					$currentTime = Carbon::now()->timestamp;
-					//dd($currentTime);
+					// dd($fileExtension);
 					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
-					$attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
 					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
 				}
 				// return array(

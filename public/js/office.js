@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	$("a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png'],a[href $= 'PDF'],a[href $= 'pdf']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
+	$("a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
 	
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;

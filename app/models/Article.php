@@ -39,8 +39,9 @@ class Article extends Eloquent {
 		$thumbnailsSend = '';
 		if(!empty($thumbnails)) {
 			foreach($thumbnails as $thumbnail) {
-				$attachmentTitle = preg_replace('/(\\/)(uploads)(\\/)(\\d+)(\\/)(\\d+)(\\/)(thumbnail)(-)/is', '', $thumbnail);
-				$thumbnailsSend .= '<span class="right '.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'article-attachment')).'</a></span>';
+				$attachmentTitle = preg_replace('/(\\/)(uploads)(\\/)(\\d+)(\\/)(\\d+)(\\/)(thumbnail)(-)(\\d+)(-)/is', '', $thumbnail);
+				if(strpos($thumbnail, '.pdf')) $thumbnailsSend .= '<span class="right '.$class.'"><a href="' .public_path(). str_replace('thumbnail-','',$thumbnail) .'" target="_blank"><img src="/images/pdficon.png" alt="'.$attachmentTitle.'"></a></span>';
+				else $thumbnailsSend .= '<span class="right '.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'article-attachment')).'</a></span>';
 			}
 		}
 
