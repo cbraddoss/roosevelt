@@ -39,7 +39,7 @@ class ClearArticleUnreadCommand extends Command {
 	{
 		$lastMonth = new DateTime('-1 month');
 		$beenRead = '';
-		$lastThreeMonths = new DateTime('-3 months');
+		$lastThreeMonths = new DateTime('-1 year');
 		$articles = Article::where('created_at','<=',$lastMonth)
 					->where('created_at','>=',$lastThreeMonths)->get();
 		$usersAll = User::all();

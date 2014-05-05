@@ -11,10 +11,39 @@ class Article extends Eloquent {
 	 */
 	protected $table = 'articles';
 
-	public function getAllPublished() {
+	public function getOnlyPublished() {
 		$articles = Article::where('status','=','published')
 					->orderBy('created_at','DESC')
-					->paginate(5);
+					->paginate(10);
+
 		return $articles;
+	}
+
+	public function getOnlySticky() {
+		$articles = Article::orderBy('created_at','DESC')
+					->where('status','=','sticky')->get();
+
+		return $articles;
+	}
+
+	public function getAttachments($id,$class = 'article-single-attachment') {
+		$article = Article::find($id);
+		$articleImage = $article->attachment;
+		$thumbnails = array();
+		if(!empty($articleImage)) {
+			foreach(unserialize($articleImage) as $attachment) {
+				$getThumbnail = substr_replace($attachment, 'thumbnail-',17,0);
+				$thumbnails[] = $getThumbnail;
+			}
+		}
+		$thumbnailsSend = '';
+		if(!empty($thumbnails)) {
+			foreach($thumbnails as $thumbnail) {
+				$attachmentTitle = preg_replace('/(\\/)(uploads)(\\/)(\\d+)(\\/)(\\d+)(\\/)(thumbnail)(-)/is', '', $thumbnail);
+				$thumbnailsSend .= '<span class="right '.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'article-attachment')).'</a></span>';
+			}
+		}
+
+		return $thumbnailsSend;
 	}
 }

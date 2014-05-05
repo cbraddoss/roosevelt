@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-	$("a[href $= 'jpg'],a[href $= 'png'],a[href $= 'pdf']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
+	$("a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png'],a[href $= 'PDF'],a[href $= 'pdf']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
 	
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
@@ -288,6 +288,36 @@ jQuery(document).ready(function($){
 	}).on('changeDate', function(ev) {
 	   	calPost.hide();
 	}).data('datepicker');
+	$('#news-page .article-edit-attachment').hover(function(){
+		$(this).append('<span class="ss-delete"></span>');
+	}, function(){
+		$(this).find('.ss-delete').remove();
+	});
+	$(document).on('click', '#news-page .article-edit-attachment', function() {
+		var imageName = $(this).find('a img').attr('alt');
+		var imagePath = $(this).find('a').attr('href');
+		var imageId = $(this).parent().parent().find('form.update-article').attr('id');
+		var imageToken = $(this).parent().parent().find('form.update-article input[name=_token]').val();
+		$.post(
+			'/news/article/'+imageId+'/remove/'+imageName,
+			{
+				"_token": imageToken,
+				"imageName" : imageName,
+				"imagePath" : imagePath,
+				"id" : imageId,
+			}, function (data) {
+				if(data.errorMsg) {
+					$('#message-box-json').fadeIn();
+					$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+				}
+				else {
+					$('#message-box-json').find('.section').empty();
+					$('#message-box-json').fadeOut();
+					window.location.href = data.path;
+				}
+			},'json'
+		);
+	});
 
 	/* Calendar Page */
 	$('#sub-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {

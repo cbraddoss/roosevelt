@@ -1004,6 +1004,15 @@ ul {
 	background: #FAFAFA;
 	position: relative;
 }
+#news-page .news-article .news-article-sub {
+	display: block;
+	clear: both;
+	height: 100%;
+	border-top: 1px solid #ddd;
+	margin-top: 5px;
+	padding-top: 5px;
+	vertical-align: bottom;
+}
 #news-page .unread {
 	background: rgba(75,131,180,0.1);
 	border-top:1px solid rgba(75,131,180,0.1);
@@ -1033,13 +1042,15 @@ ul {
 	top:-15px;
 	left:-15px;
 }
-#news-page .article-single-attachment {
+#news-page .article-single-attachment,
+#news-page .article-all-attachment {
 	display: inline-block;
 	float: right;
-	margin-left:20px;
+	margin: 0 0 10px 20px;
 	overflow: hidden;
 }
-#news-page .article-single-attachment img {
+#news-page .article-single-attachment img,
+#news-page .article-all-attachment img {
 	width: 100px;
 	height:auto;
 	padding:5px;
@@ -1050,23 +1061,32 @@ ul {
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
 }
-#news-page .article-all-attachment {
+#news-page .article-edit-attachment {
 	display: inline-block;
-	width: 10%;
-	height: 50%;
-	float: right;
-	margin-left:20px;
-	overflow: hidden;
+	float:none;
+	margin: 0 20px 0 0;
+	position: relative;
+	cursor: help;
 }
-#news-page .article-all-attachment img {
+#news-page .article-edit-attachment img {
+	width: 100px;
+	height:auto;
 	padding:5px;
 	display: block;
-	float:right;
 	clear:right;
 	border-top:1px solid rgba(32,32,32,0.1);
 	border-right:1px solid rgba(32,32,32,0.2);
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
+}
+#news-page .article-edit-attachment .ss-delete {
+	color: red;
+	background: #333;
+	border: 1px solid #ddd;
+	padding: 2px 3px 1px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
 }
 #content .news-filter {
 	border: 1px solid #ddd;

@@ -10,7 +10,7 @@
 
 @include('news.partials.sub-menu')
 
-{{ Form::open( array('id' => 'update-article', 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
+{{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $article->id) }}
 
@@ -46,7 +46,12 @@
 
 {{ Form::close() }}
 
-
+@if(!empty($article->attachment))
+<div class="user-field">
+	<p>Current Attachments:</p>
+	{{ $article->getAttachments($article->id,'article-edit-attachment'); }}
+</div>
+@endif
 
 @if(Auth::user()->userrole == 'admin' || Auth::user()->id == $article->author_id)
 {{ Form::open( array('class' => 'delete-article', 'url' => '/news/article/'.$article->id, 'method' => 'delete', 'id' => $article->id) ) }}

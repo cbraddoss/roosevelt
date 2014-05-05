@@ -1,19 +1,22 @@
 <?php
 
 use \Mailer;
+use \Article;
 
 class ArticlesController extends \BaseController {
 
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct(Mailer $mailer)
+    public function __construct(Mailer $mailer, Article $article)
     {
         $this->beforeFilter('auth');
 
         $this->beforeFilter('csrf', array('on' => 'post'));
 
         $this->mailer = $mailer;
+
+        $this->article = $article;
     }
 
 	/**
@@ -23,11 +26,8 @@ class ArticlesController extends \BaseController {
 	 */
 	public function index()
 	{
-		$articles = Article::orderBy('created_at','DESC')
-					->where('status','=','published')
-					->paginate(10);
-		$sticky = Article::orderBy('created_at','DESC')
-					->where('status','=','sticky')->get();
+		$articles = $this->article->getOnlyPublished();
+		$sticky = $this->article->getOnlySticky();
 		if(Request::ajax()) return View::make('news.partials.new');
 		else return View::make('news.index', compact('sticky','articles'));
 	}
@@ -249,20 +249,7 @@ class ArticlesController extends \BaseController {
 	{
 		$currentUser = Auth::user();
 		$article = Article::where('slug', $article)->first();
-		$articleImage = $article->attachment;
-		$thumbnails = array();
-		if(!empty($articleImage)) {
-			foreach(unserialize($articleImage) as $attachment) {
-				//dd($attachment);
-				$thumbnails[] = $attachment;
-				//$thumbnail = Image::make(storage_path().$attachment);
-				//dd($thumbnail);
-				//$thumbnail = Response::make($thumbnail);
-				//$thumbnail->header('Content-Type', 'image/jpg');
-				//return $thumbnail;
-				//dd($thumbnail);
-			}
-		}
+		
 		if($article->status == 'draft') {
 			if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
 			else return Redirect::route('news');
@@ -277,7 +264,7 @@ class ArticlesController extends \BaseController {
 			$article->been_read = $oldRead.' '.$userRead.' ';
 			$article->save();
 		}
-		if($article) return View::make('news.single', compact('article','thumbnails'));
+		if($article) return View::make('news.single', compact('article'));
 		else return Redirect::route('news');
 	}
 
@@ -292,7 +279,7 @@ class ArticlesController extends \BaseController {
 		$article = Article::where('slug', $article)->first();
 		if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin') {
 			if(empty($article)) return Redirect::route('news');
-			return View::make('news.partials.edit', compact('article'));
+			else return View::make('news.partials.edit', compact('article'));
 		}
 		else return Redirect::to('/news/article/'.$article->slug);
 	}
@@ -320,29 +307,8 @@ class ArticlesController extends \BaseController {
 			return Redirect::to('/news/article/'.$article.'/edit')->withInput()->withErrors($messages->first());
 		}
 		else {
-			//dd(Input::file('attachment'));
-			if(Input::hasFile('attachment')) {
-				$attachment = Input::file('attachment');
-				$attachments = array();
-				$fileNames = array();
-				// dd($file);
-				foreach($attachment as $attach) {
-					$fileName = $attach->getClientOriginalName();
-					$fileExtension = $attach->getClientOriginalExtension();
-
-					$attach = $attach->move(upload_path(), $fileName);
-					$attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$fileName);
-					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$fileName;
-				}
-				// return array(
-				// 	'path' => $file->getRealPath(),
-				// 	'size' => $file->getClientSize(),
-				// 	'mime' => $file->getMimeType(),
-				// 	'name' => $file->getClientOriginalName(),
-				// 	'extension' => $file->getClientOriginalExtension()
-				// 	);
-			}
 			$article = Article::find(Input::get('id'));
+			
 			$article->title =  clean_title(Input::get('title'));
 			$article->content =  clean_content(Input::get('content'));
 			$article->slug = convert_title_to_path(Input::get('title'));
@@ -352,13 +318,34 @@ class ArticlesController extends \BaseController {
 			$article->edit_id = Auth::user()->id;
 			$article->status = Input::get('status');
 			if(Input::has('show_on_calendar')) $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
-			if(!empty($article->attachment)) {
-				$extractAttachment = unserialize($article->attachment);
-				$allFiles = array_merge($extractAttachment, $fileNames);
-				//dd($allFiles);
-				$article->attachment = serialize($allFiles);
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$attachments = array();
+				$fileNames = array();
+				
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$currentTime = Carbon::now()->timestamp;
+					//dd($currentTime);
+					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
+					$attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
+				}
+				// return array(
+				// 	'path' => $file->getRealPath(),
+				// 	'size' => $file->getClientSize(),
+				// 	'mime' => $file->getMimeType(),
+				// 	'name' => $file->getClientOriginalName(),
+				// 	'extension' => $file->getClientOriginalExtension()
+				// 	);
+				if(!empty($article->attachment)) {
+					$extractAttachment = unserialize($article->attachment);
+					$allFiles = array_merge($extractAttachment, $fileNames);
+					//dd($allFiles);
+					$article->attachment = serialize($allFiles);
+				}
+				else $article->attachment = serialize($fileNames);
 			}
-			else $article->attachment = serialize($fileNames);
 
 			try
 			{
@@ -374,6 +361,39 @@ class ArticlesController extends \BaseController {
 		}
 
 		return Redirect::to('/news/article/'.$article->slug.'/edit')->with('flash_message_error','Something went wrong. :(');
+	}
+
+	public function removeImage($id,$imageName) {
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/news')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$article = Article::find($id);
+			$attachments = $article->attachment;
+			$attachments = unserialize($attachments);
+			$imagePath = Input::get('imagePath');
+			$imageName = $imagePath;
+			$name = array_search($imageName, $attachments);
+			if($name !== false) unset($attachments[$name]);
+			if(empty($attachments)) $article->attachment = '';
+			else $article->attachment = serialize($attachments);
+			try
+				{
+					$article->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'errorMsg' => 'Oops, something went wrong. Please try again.',
+					);
+					return Response::json( $response );
+				}
+
+			$response = array(
+				'image' => $imageName.' deleted.',
+				'path' => '/news/article/'.$article->slug.'/edit',
+			);
+				
+			return Response::json( $response );
+		}
 	}
 
 	/**

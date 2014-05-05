@@ -43,6 +43,7 @@ Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'A
 Route::get('/news/article/{article}/edit', array('uses' => 'ArticlesController@edit'));
 Route::post('/news/article/{article}', array('uses' => 'ArticlesController@update'));
 Route::delete('/news/article/{id}', array('uses' => 'ArticlesController@destroy'));
+Route::post('/news/article/{id}/remove/{imageName}', array('uses' => 'ArticlesController@removeImage'));
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));
 Route::get('/news/mentions/', array('as' => 'news.mentionsFilter', 'uses' => 'ArticlesController@mentionsFilter'));
