@@ -1061,6 +1061,17 @@ ul {
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
 }
+#news-page .article-pdf-attachment img {
+	width: 32px;
+	height:auto;
+	padding:5px;
+	display: block;
+	clear:right;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
 #news-page .article-edit-attachment {
 	display: inline-block;
 	float:none;
