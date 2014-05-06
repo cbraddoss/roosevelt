@@ -390,6 +390,10 @@ jQuery(document).ready(function($){
 		if($(this).parent().attr('class') == 'add-vacation-profile') return;
 		if($(this).attr('class') == 'filter-author') return;
 		if($(this).attr('class') == 'filter-date') return;
+		if($(this).parent().parent().attr('class') == 'login-form') return;
+		if($(this).parent().parent().attr('class') == 'login-remind') return;
+		if($(this).parent().parent().attr('class') == 'login-reset') return;
+		if($(this).parent().attr('class') == 'office-search') return;
 		$(this).addClass('changed-input');
 	});
 	$(window).on('beforeunload', function() {

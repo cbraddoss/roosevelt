@@ -18,7 +18,7 @@
 
 		<div id="login">
 		<div class="login-image"><a href="http://insideout.com/about-us/contact-us/" target="_blank"><img src="/images/ios-logo2-clear.png" alt="InsideOut Solutions"></a></div>
-		{{ Form::open() }}
+		{{ Form::open(array('class' => 'login-reset')) }}
 
 			<input type="hidden" name="token" value="{{ $token }}">
 

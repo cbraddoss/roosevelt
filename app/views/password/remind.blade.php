@@ -22,7 +22,7 @@
 
 		<div id="login">
 		<div class="login-image"><a href="/" target="_blank"><img src="/images/ios-logo2-clear.png" alt="InsideOut Solutions"></a></div>
-		{{ Form::open() }}
+		{{ Form::open(array('class' => 'login-remind')) }}
 
 			<div id="login-email" class="field-div">
 				{{ Form::label('email','Email') }}
