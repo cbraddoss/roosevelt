@@ -106,6 +106,7 @@ function find_mentions($content) {
 			$mention .= $mentionAdd . ' ';
 		}
 	}
+	if(strpos($content, '@insideout')) $mention .= 'insideout';
 	
 	return $mention;
 }
@@ -118,32 +119,44 @@ function article_ping_email($newArticle, $previousMentions = '') {
 	$parseOldUsers = explode(' ', $parseOldUsers);
 
 	$users = array();
-	foreach($parseUsers as $user) {
-		if($user == '') unset($user);
-		elseif(in_array($user, $parseOldUsers)) unset($user);
+	foreach($parseUsers as $pUser) {
+		if($pUser == '') unset($pUser);
+		elseif(in_array($pUser, $parseOldUsers)) unset($pUser);
 		else {
-			$users[] = $user;
+			$users[] = $pUser;
 		}
 	}
 
 	foreach($users as $user) {
-		$userSend = User::where('user_path','=',$user)->first();
-		//dd($userSend);
-		$author = User::where('id', '=', $newArticle->author_id)->first();
-		$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
-		Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
-			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-			$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
-		});
+		if($user == 'insideout') {
+			$userSend = '';
+			$author = User::where('id', '=', $newArticle->author_id)->first();
+			$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
+			Mail::send('emails.ping', $pingDetails, function($message) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged!');
+			});
+		}
+		else {
+			$userSend = User::where('user_path','=',$user)->first();
+			$author = User::where('id', '=', $newArticle->author_id)->first();
+			$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
+			Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
+			});
+		}
 	}
 }
 
 function display_pingable() {
 	$users = User::all();
-	$pingable = array();
+	$pingable = '';
+	$pingable .= '<span class="textarea-button ping" id="@insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		echo '<span class="textarea-button ping" id="@' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		$pingable .= '<span class="textarea-button ping" id="@' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
+	return $pingable;
 }
 
 function find_unread_count($resource) {

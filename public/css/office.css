@@ -288,11 +288,15 @@ ul {
 	padding: 0px 5px;
 	background: rgba(169,83,6,1);
 	color: #fff;
+	font-weight: 100;
 	text-shadow: 1px 1px 1px #333;
 	z-index: 58;
 	border-bottom: none;
 	border-radius: 10px;
-	border: 1px solid #000;
+	border-top: 1px solid rgba(0,0,0,0.5);
+	border-left: 1px solid rgba(0,0,0,0.5);
+	border-right: 1px solid rgba(0,0,0,1);
+	border-bottom: 1px solid rgba(0,0,0,1);
 	box-shadow: inset 0px 1px 0px 0px rgba(192,93,7, 1),
 	inset 0px -1px 0px 0px rgba(192,93,7, 1);
 }
@@ -580,7 +584,10 @@ ul {
 	right:25px;
 	top:0px;
 	border-radius: 20px;
-	border: 1px solid #000;
+	border-top: 1px solid rgba(0,0,0,0.7);
+	border-left: 1px solid rgba(0,0,0,0.7);
+	border-right: 1px solid rgba(0,0,0,1);
+	border-bottom: 1px solid rgba(0,0,0,1);
 	box-shadow: inset 0px 1px 0px 0px rgba(192,93,7, 1),
 	inset 0px -1px 0px 0px rgba(192,93,7, 1);
 }
@@ -1061,16 +1068,27 @@ ul {
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
 }
-#news-page .article-pdf-attachment img {
-	width: 32px;
-	height:auto;
-	padding:5px;
-	display: block;
-	clear:right;
+#news-page .article-pdf-attachment {
+	display: inline-block;
+	float: right;
+	margin: 0 0 10px 20px;
+	padding: 5px;
 	border-top:1px solid rgba(32,32,32,0.1);
 	border-right:1px solid rgba(32,32,32,0.2);
 	border-bottom:1px solid rgba(32,32,32,0.2);
 	border-left:1px solid rgba(32,32,32,0.1);
+}
+#news-page .article-pdf-attachment img {
+	width: 32px;
+	height:auto;
+	padding:5px;
+	margin: 0 auto;
+	display: block;
+	clear:right;
+}
+#news-page .edit-attachments .article-pdf-attachment {
+	float:none !important;
+	margin: 0 20px 0 0 !important;
 }
 #news-page .article-edit-attachment {
 	display: inline-block;

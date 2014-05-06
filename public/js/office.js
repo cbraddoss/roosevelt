@@ -4,6 +4,7 @@ jQuery(document).ready(function($){
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
+	currentPage = currentPage.split('/');
 	$('#menu_links').find('li').each(function(){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
@@ -214,10 +215,16 @@ jQuery(document).ready(function($){
 		      }
 		    }).on('changeDate', function(ev) {
 		    	calPost.hide();
+		    	$(this).addClass('changed-input');
 		    }).data('datepicker');
 		    
 			$('form.add-article .article-title').focus();
 		});
+	});
+	$(document).on('change', 'form.add-article select[name=status]', function(){
+		var selectVal = $(this).val();
+		var submitText = $(this).find('option[value='+selectVal+']').text();
+		$('form.add-article').find('input#add-new-submit').val(submitText);
 	});
 	$(document).on('click','#news-page .article-add-form span.cancel',function(){
 		$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
@@ -225,6 +232,10 @@ jQuery(document).ready(function($){
 		$('#message-box-json').fadeOut();
 	});
 	$(document).on('submit', '#news-page .article-add-form form.add-article', function(){
+		var formAttachments = $('.new-article-attachment')[0].files[0];
+
+		//console.log(formAttachments);
+		
 		$.post(
 			$(this).prop('action'),
 			{
@@ -233,6 +244,7 @@ jQuery(document).ready(function($){
 				"content" : $(this).find('textarea.article-content').val(),
 				"show_on_calendar" : $(this).find('input[name=show_on_calendar]').val(),
 				"status" : $(this).find('select[name=status]').val(),
+				"attachment" : formAttachments,
 			}, function (data) {
 				if(data.errorMsg) {
 					$('#message-box-json').fadeIn();
@@ -287,6 +299,7 @@ jQuery(document).ready(function($){
 		}
 	}).on('changeDate', function(ev) {
 	   	calPost.hide();
+	   	$(this).addClass('changed-input');
 	}).data('datepicker');
 	$('#news-page .article-edit-attachment').hover(function(){
 		$(this).append('<span class="ss-delete"></span>');
@@ -370,6 +383,18 @@ jQuery(document).ready(function($){
 				$('#search-box').fadeIn();
 				$('#search-box input.search').focus();
 			}
+		}
+	});
+
+	$(document).on('change keyup keydown', 'input, textarea, select', function(e){
+		if($(this).parent().attr('class') == 'add-vacation-profile') return;
+		if($(this).attr('class') == 'filter-author') return;
+		if($(this).attr('class') == 'filter-date') return;
+		$(this).addClass('changed-input');
+	});
+	$(window).on('beforeunload', function() {
+		if($('.changed-input').length) {
+			return 'There are unsaved changes. Continue?';
 		}
 	});
 });

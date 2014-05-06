@@ -55,7 +55,8 @@ class ArticlesController extends \BaseController {
 			'title' => 'required|max:120',
 			'content' => 'required',
 			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'status' => 'required|in:published,sticky,draft'
+			'status' => 'required|in:published,sticky,draft',
+			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',			
 		));
 
 		if($validator->fails()) {
@@ -74,7 +75,28 @@ class ArticlesController extends \BaseController {
 			$newArticle->status = Input::get('status');
 			$newArticle->mentions = find_mentions(Input::get('content'));
 			$newArticle->edit_id = Auth::user()->id;
-			if(Input::get('show_on_calendar') != '') $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			if(Input::has('show_on_calendar')) $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$attachments = array();
+				$fileNames = array();
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
+					$currentTime = Carbon::now()->timestamp;
+					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
+					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
+				}
+				// return array(
+				// 	'path' => $file->getRealPath(),
+				// 	'size' => $file->getClientSize(),
+				// 	'mime' => $file->getMimeType(),
+				// 	'name' => $file->getClientOriginalName(),
+				// 	'extension' => $file->getClientOriginalExtension()
+				// 	);
+				$newArticle->attachment = serialize($fileNames);
+			}
 
 			try
 			{
@@ -89,11 +111,12 @@ class ArticlesController extends \BaseController {
 
 			article_ping_email($newArticle);
 
-			$response = array(
-				'slug' => $newArticle->slug,
-				'msg' => 'Article saved.'
-			);
-			return Response::json( $response );
+			// $response = array(
+			// 	'slug' => $newArticle->slug,
+			// 	'msg' => 'Article saved.'
+			// );
+			//return Response::json( $response );
+			return Redirect::to('/news/article/'.$newArticle->slug)->with('flash_message_success','<i>'.$newArticle->title.'</i> addedd successfully!');
 		}
 		$response = array(
 			'errorMsg' => 'Something went wrong. :('
@@ -249,6 +272,8 @@ class ArticlesController extends \BaseController {
 	{
 		$currentUser = Auth::user();
 		$article = Article::where('slug', $article)->first();
+
+		if(empty($article)) return Redirect::route('news');
 		
 		if($article->status == 'draft') {
 			if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
