@@ -19,6 +19,7 @@ class CreateArticleCommentsTable extends Migration {
 			$table->integer('author_id');
 			$table->integer('edit_id');
 			$table->string('mentions');
+			$table->string('attachment');
 			$table->timestamps();
 		});
 	}
