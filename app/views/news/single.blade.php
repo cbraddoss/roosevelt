@@ -30,5 +30,8 @@
 		</div>
 	</div>
 	<div id="comments" class="post-comment"><span class="button">Reply</span></div>
+	<div id="article-comment-{{ $article->id }}" class="news-article-comment">
+
+	</div>
 </div>
 @stop

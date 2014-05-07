@@ -161,7 +161,6 @@ jQuery(document).ready(function($){
 	//     // 	console.log(textChange);
 	//     // });
 	// });
-
 	// favorite articles
 	$('#news-page span.ss-heart').hover(function(){
 		$(this).find('span.favorite-this').removeClass('none');
@@ -219,61 +218,47 @@ jQuery(document).ready(function($){
 		    	$(this).addClass('changed-input');
 		    }).data('datepicker');
 		    
-			//$('form.add-article .article-title').focus();
+			$('form.add-article .article-title').focus();
 		});
 	});
-	// detect Status change and update submit button text
 	$(document).on('change', 'form.add-article select[name=status]', function(){
 		var selectVal = $(this).val();
 		var submitText = $(this).find('option[value='+selectVal+']').text();
 		$('form.add-article').find('input#add-new-submit').val(submitText);
 	});
-	// cancel adding new form
 	$(document).on('click','#news-page .article-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
+		$('#message-box-json').find('.section').empty();
+		$('#message-box-json').fadeOut();
+	});
+	$(document).on('submit', '#news-page .article-add-form form.add-article', function(){
+		var formAttachments = $('.new-article-attachment')[0].files[0];
+
+		//console.log(formAttachments);
 		
-			if(confirmCancel == true) {
-				$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
+		$.post(
+			$(this).prop('action'),
+			{
+				"_token" : $( this ).find( 'input[name=_token]' ).val(),
+				"title" : $(this).find('input.article-title').val(),
+				"content" : $(this).find('textarea.article-content').val(),
+				"show_on_calendar" : $(this).find('input[name=show_on_calendar]').val(),
+				"status" : $(this).find('select[name=status]').val(),
+				"attachment" : formAttachments,
+			}, function (data) {
+				if(data.errorMsg) {
+					$('#message-box-json').fadeIn();
+					$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+				}
+				else {
+					$('#message-box-json').find('.section').empty();
+					$('#message-box-json').fadeOut();
+					window.location.href = '/news/article/'+data.slug;
+				}
+			},'json'
+		);
+		return false;
 	});
-	// submit new article
-	var addArticleOptions = { 
-		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       afterSuccess,  // post-submit callback 
-		resetForm: false        // reset the form after successful submit 
-	};	        
-	$(document).on('submit','#news-page .article-add-form form.add-article', function() {
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(addArticleOptions);
-	    console.log('submit');
-	    return false; 
-	});
-	function afterSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    console.log('success');
-			window.location.href = '/news/article/'+data.slug;
-		}
-	}
-	// add pingable names to content textarea of new aritcle
 	$.fn.extend({
 		insertAtCaret: function(myValue){
 		  return this.each(function(i) {
@@ -305,8 +290,7 @@ jQuery(document).ready(function($){
 		var ping = $(this).attr('id');
 		//console.log(ping);
 	    $('textarea.article-content').insertAtCaret(ping);
-	});
-	// add post to calendar functionality to Edit article page
+	})
 	var calTemp = new Date();
 	var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
 	var calPost = $('#news-page form.update-article .article-calendar-date').datepicker({
@@ -317,72 +301,35 @@ jQuery(document).ready(function($){
 	   	calPost.hide();
 	   	$(this).addClass('changed-input');
 	}).data('datepicker');
-	// add Delete option to attachments on Edit article page
 	$('#news-page .article-edit-attachment').hover(function(){
 		$(this).append('<span class="ss-delete"></span>');
 	}, function(){
 		$(this).find('.ss-delete').remove();
 	});
-	// delete attachment with ajax and reload Edit article page
 	$(document).on('click', '#news-page .article-edit-attachment', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
-		
-		if(confirmCancel == true) {
-			var imageName = $(this).find('a img').attr('alt');
-			var imagePath = $(this).find('a').attr('href');
-			var imageId = $(this).parent().parent().find('form.update-article').attr('id');
-			var imageToken = $(this).parent().parent().find('form.update-article input[name=_token]').val();
-			$.post(
-				'/news/article/'+imageId+'/remove/'+imageName,
-				{
-					"_token": imageToken,
-					"imageName" : imageName,
-					"imagePath" : imagePath,
-					"id" : imageId,
-				}, function (data) {
-					if(data.errorMsg) {
-						$('#message-box-json').fadeIn();
-						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-					}
-					else {
-						$('#message-box-json').find('.section').empty();
-						$('#message-box-json').fadeOut();
-						window.location.href = data.path;
-					}
-				},'json'
-			);
-		}
-	});
-	// on Submit of Edit article page, remove any changed-input classes.
-	$(document).on('submit', '#news-page form.update-article', function(){
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	});
-	
-	// load comment form on article single view page.
-	$(document).on('click', '#news-page .post-comment .button', function(){
-		
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-news-article-','');
-		//console.log(pageName);
-		$.get( "/news/article/"+pageName+"/comment", function( data ) {
-			$(data).insertAfter('#news-page .post-comment .button').slideDown();
-
-			// var calTemp = new Date();
-		 //    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-		 //    var calPost = $('#news-page form.add-article .article-calendar-date').datepicker({
-		 //      onRender: function(date) {
-		 //        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		 //      }
-		 //    }).on('changeDate', function(ev) {
-		 //    	calPost.hide();
-		 //    	$(this).addClass('changed-input');
-		 //    }).data('datepicker');
-		    
-			// $('form.add-article .article-title').focus();
-		});
+		var imageName = $(this).find('a img').attr('alt');
+		var imagePath = $(this).find('a').attr('href');
+		var imageId = $(this).parent().parent().find('form.update-article').attr('id');
+		var imageToken = $(this).parent().parent().find('form.update-article input[name=_token]').val();
+		$.post(
+			'/news/article/'+imageId+'/remove/'+imageName,
+			{
+				"_token": imageToken,
+				"imageName" : imageName,
+				"imagePath" : imagePath,
+				"id" : imageId,
+			}, function (data) {
+				if(data.errorMsg) {
+					$('#message-box-json').fadeIn();
+					$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+				}
+				else {
+					$('#message-box-json').find('.section').empty();
+					$('#message-box-json').fadeOut();
+					window.location.href = data.path;
+				}
+			},'json'
+		);
 	});
 
 	/* Calendar Page */
@@ -450,7 +397,7 @@ jQuery(document).ready(function($){
 		$(this).addClass('changed-input');
 	});
 	$(window).on('beforeunload', function() {
-		if($('.changed-input').length) {			
+		if($('.changed-input').length) {
 			return 'There are unsaved changes. Continue?';
 		}
 	});
