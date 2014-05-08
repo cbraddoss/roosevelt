@@ -24,7 +24,7 @@ class CreateArticlesTable extends Migration {
 			$table->string('been_read');
 			$table->string('favorited');
 			$table->string('mentions');
-			$table->string('attachment');
+			$table->text('attachment');
 			$table->dateTime('show_on_calendar');
 			$table->timestamps();
 		});
