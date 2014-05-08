@@ -118,6 +118,11 @@ function article_ping_email($newArticle, $previousMentions = '') {
 	$parseOldUsers = $previousMentions;
 	$parseOldUsers = explode(' ', $parseOldUsers);
 
+	$findTasks = find_assigned_count('tasks');
+	$findProjects = find_assigned_count('projects');
+	$findBillables = find_assigned_count('billables');
+	$findHelp = find_assigned_count('help');
+
 	$users = array();
 	foreach($parseUsers as $pUser) {
 		if($pUser == '') unset($pUser);
@@ -140,7 +145,16 @@ function article_ping_email($newArticle, $previousMentions = '') {
 		else {
 			$userSend = User::where('user_path','=',$user)->first();
 			$author = User::where('id', '=', $newArticle->author_id)->first();
-			$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
+			$pingDetails = array(
+				'title' => $newArticle->title,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug,
+				'author' => $author->first_name . ' ' . $author->last_name,
+				'created_at' => $newArticle->created_at,
+				'tasks' => $findTasks,
+				'projects' => $findProjects,
+				'billables' => $findBillables,
+				'help' => $findHelp,
+				);
 			Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
 				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
@@ -193,6 +207,11 @@ function find_assigned_count($resource) {
 	elseif($resource == 'help') {
 		$help = '?!';
 		return '<span class="linked-to">'.$help.'</span>';
+	}
+	// display taks assigned per user not completed yet
+	elseif($resource == 'tasks') {
+		$tasks = '?!';
+		return '<span class="linked-to">'.$tasks.'</span>';
 	}
 	else return;
 }
