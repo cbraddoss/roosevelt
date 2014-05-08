@@ -178,6 +178,15 @@ ul {
 	z-index:57;
 	clear:both;
 	box-shadow: 0px 0px 15px 0px #000;
+	background: #4d4d4d; /* Old browsers */
+background: -moz-linear-gradient(top,  #4d4d4d 0%, #333333 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4d4d4d), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #4d4d4d 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #4d4d4d 0%,#333333 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #4d4d4d 0%,#333333 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #4d4d4d 0%,#333333 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d4d4d', endColorstr='#333333',GradientType=0 ); /* IE6-9 */
+
 }
 .section {
 	width: 1400px;
@@ -235,8 +244,8 @@ ul {
 	width: 80px;
 	padding:5px 0 0;
 	margin:0px 0px;
-	border-left: 1px solid #333;
-	border-right: 1px solid #333;
+	/*border-left: 1px solid #333;*/
+	/*border-right: 1px solid #333;*/
 	position:relative;
 	text-align:center;
 	cursor:pointer;
@@ -258,19 +267,37 @@ ul {
 	background: rgba(75,131,180,1);
 	padding:5px 0;
 	margin-top:0px;
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
+	/*border-left: 1px solid #000;*/
+	/*border-right: 1px solid #000;*/
 	box-shadow: inset 1px 0px 0px 0px rgba(93,143,187,1),
 	inset -1px 0px 0px 0px rgba(93,143,187,1);
+	background: #3c698c; /* Old browsers */
+background: -moz-linear-gradient(top,  #3c698c 0%, #4b83b4 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3c698c), color-stop(100%,#4b83b4)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #3c698c 0%,#4b83b4 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c698c', endColorstr='#4b83b4',GradientType=0 ); /* IE6-9 */
+
 }
 #menu_header ul li:hover {
 	background: rgba(75,131,180,1);
 	padding:5px 0;
 	margin-top:0px;
-	border-left: 1px solid #000;
-	border-right: 1px solid #000;
+	/*border-left: 1px solid #000;*/
+	/*border-right: 1px solid #000;*/
 	box-shadow: inset 1px 0px 0px 0px rgba(93,143,187,1),
 	inset -1px 0px 0px 0px rgba(93,143,187,1);
+	background: #3c698c; /* Old browsers */
+background: -moz-linear-gradient(top,  #3c698c 0%, #4b83b4 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3c698c), color-stop(100%,#4b83b4)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #3c698c 0%,#4b83b4 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #3c698c 0%,#4b83b4 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3c698c', endColorstr='#4b83b4',GradientType=0 ); /* IE6-9 */
+
 }
 #menu_header ul li span:hover,
 #menu_header ul li a:hover {
@@ -321,6 +348,14 @@ ul {
 	/*border-bottom: 1px solid #fff;*/
 	box-shadow: inset 0px 1px 0px 0px rgba(93,143,187,1),
 	inset 0px -1px 0px 0px rgba(93,143,187,1);
+	background: #4b83b4; /* Old browsers */
+	background: -moz-linear-gradient(top,  #4b83b4 0%, #3c698c 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4b83b4), color-stop(100%,#3c698c)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b83b4', endColorstr='#3c698c',GradientType=0 ); /* IE6-9 */
 }
 #sub-menu ul.search-menu {
 	float:left;
@@ -477,8 +512,8 @@ ul {
 	margin:0px 0;
 	padding:0;
 	z-index:55;
-	background: #333;
-	background: #333 url('../images/black-Linen.png') top left;
+	background: rgba(0,0,0,0.9);
+	/*background: rgba(0,0,0,0.8) url('../images/black-Linen.png') top left;*/
 	height: 100%;
 	box-shadow: inset 1px 0px 0px 0px #555,
 	inset -1px 0px 0px 0px #555;
@@ -1029,6 +1064,18 @@ ul {
 #news-page .unread a {
 	color: rgba(75,131,180,0.9);
 }
+#news-page .new-icon {
+	color: rgba(75,131,180,1);
+	font-size: 1.2em;
+	text-shadow:
+   -1px -1px 0 rgba(32,32,32,0.3),  
+    1px -1px 0 rgba(32,32,32,0.3),
+    -1px 1px 0 rgba(32,32,32,0.3),
+     1px 1px 0 rgba(32,32,32,0.3);
+	position:absolute;
+	top:-5px;
+	left:-5px;
+}
 #news-page .sticky {
 	border-top:1px solid rgba(235,235,0,1);
 	border-right:1px solid rgba(209,209,0,1);
@@ -1038,15 +1085,15 @@ ul {
 }
 #news-page .sticky-icon {
 	color: #333;
-	font-size: 1.6em;
+	font-size: 1.2em;
 	text-shadow:
    -1px -1px 0 rgba(235,235,0,1),  
     1px -1px 0 rgba(235,235,0,1),
     -1px 1px 0 rgba(235,235,0,1),
      1px 1px 0 rgba(235,235,0,1);
 	position:absolute;
-	top:-15px;
-	left:-15px;
+	top:-5px;
+	left:-10px;
 }
 #news-page .article-single-attachment,
 #news-page .article-all-attachment {
@@ -1519,7 +1566,7 @@ ul {
 	height: 80px;
 	width: 100%;
 	position: relative;
-	border-bottom: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 }
 .calendar-header .month-arrow {
 	position: absolute;
@@ -1527,6 +1574,7 @@ ul {
 	font-size:1.8em;
 	font-weight: 100;
 	height:42px;
+	background: #fafafa;
 	border: 1px solid #aaa;
 	border-right: 1px solid #aaa;
 	border-bottom: 1px solid #aaa;
@@ -1540,10 +1588,10 @@ ul {
 	cursor: pointer;
 }
 .calendar-header .arrow-previous-month {
-	left:0px;
+	left:5px;
 }
 .calendar-header .arrow-next-month {
-	right:0px;
+	right:16px;
 }
 .calendar-header .arrow-next-month .ss-navigateright {
 	position: absolute;
@@ -1560,7 +1608,7 @@ ul {
 	color: #333;
 	text-decoration: none;
 	font-size:0.8em;
-	padding: 8px 40px 5px 5px;
+	padding: 5px 40px 5px 10px;
 	float:left;
 	z-index: 45;
 	position: relative;
@@ -1569,7 +1617,7 @@ ul {
 	color: #333;
 	text-decoration: none;
 	font-size:0.8em;
-	padding: 8px 5px 5px 40px;
+	padding: 5px 10px 5px 40px;
 	float:right;
 	z-index: 45;
 	position: relative;
@@ -1632,16 +1680,23 @@ ul {
 }
 .calendar-days .days-of-week {
 	padding: 5px 0;
-	width: 100%;
+	margin: 0px;
+	/*width: 100%;*/
 	font-size: 1.2em;
 	height: 28px;
-	border-bottom: 1px solid #ddd;
 }
 .calendar-days .days-of-week .day {
-	width: 152px;
+	width: 140px;
+	margin: 0px 5px;
+	padding: 5px 0;
+	background: #fafafa;
 	float:left;
 	display: block;
 	text-align: center;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);
 }
 .calendar-days .days-of-month {
 	width: 100%;
@@ -1788,13 +1843,18 @@ left: 2px;
 		.page-calendar .datepicker:after {
 			left: 90px !important;
 		}
-
+		.calendar-header .arrow-next-month {
+			right: 40px;
+		}
 		.calendar-days .days-of-week .day {
-			width: 130px;
+			width: 118px;
 		}
 		.calendar-days .days-of-month .day {
 			width: 118px;
 			height: 88px;
 			padding-top:30px;
+		}
+		.calendar-days .days-of-month .day .day-num {
+			font-size: 0.8em;
 		}
 }

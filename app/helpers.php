@@ -75,7 +75,7 @@ function display_content($content, $length = null) {
 	if(preg_match_all($reg_exUrl, $content, $url)) {
 		//dd($url);
 		foreach($url[0] as $href) {
-			$replacement = "<a href=".$href." target='_blank'>{$href}</a>";
+			$replacement = "<a href=".$href.">{$href}</a>";
             $content = str_replace($href,$replacement,$content);
 		}
 	}
