@@ -26,6 +26,11 @@ class Article extends Eloquent {
 		return $articles;
 	}
 
+	public function getCommentsCount($id) {
+		$commentsCount = ArticleComment::where('article_id','=',$id)->count();
+		return $commentsCount;
+	}
+
 	public function getAttachments($id,$class = 'article-single-attachment') {
 		$article = Article::find($id);
 		$articleImage = $article->attachment;

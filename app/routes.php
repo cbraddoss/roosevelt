@@ -41,6 +41,7 @@ Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
 Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));
 Route::get('/news/article/{article}/comment', array('as' => 'news.articleComment', 'uses' => 'ArticlesController@articleComment'));
+Route::post('/news/article/{article}/comment', array('uses' => 'ArticleCommentsController@store'));
 Route::get('/news/article/{article}/edit', array('uses' => 'ArticlesController@edit'));
 Route::post('/news/article/{article}', array('uses' => 'ArticlesController@update'));
 Route::delete('/news/article/{id}', array('uses' => 'ArticlesController@destroy'));

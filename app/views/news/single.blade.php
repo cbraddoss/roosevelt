@@ -13,7 +13,6 @@
 	<div id="article-{{ $article->id }}" class="news-article">
 		
 		{{ $article->getAttachments($article->id); }}
-
 		<p>{{ display_content($article->content) }}</p>
 		<div class="news-article-sub">
 			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
@@ -29,6 +28,17 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-	<div id="comments" class="post-comment"><span class="button">Reply</span></div>
+	<div class="post-comment"><span class="button">Reply</span></div>
+	@foreach($comments as $comment)
+	@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
+		<div id="comment-{{ $comment->id }}" class="news-article-comment current-user-comment">
+		<img src="{{ gravatar_url(User::find($comment->author_id)->email) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+	@else <div id="comment-{{ $comment->id }}" class="news-article-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+	@endif
+		<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }} said:</span>
+		<span class="comment-details">{{ $comment->created_at->format('F j, Y h:m:s A') }}</span>
+		<p class="comment-contents">{{ display_content($comment->content) }}</p>
+	</div>
+	@endforeach
 </div>
 @stop

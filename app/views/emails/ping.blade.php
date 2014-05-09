@@ -111,7 +111,7 @@
 	<p>You have been pinged by {{ $author }} in <b>{{ $title }}</b></p>
 	<p>View the post here: <a href="{{ $link }}">{{ $title }}</a></p>
 	
-	<h4>Your Current Activity List:</h4>
+	<h4>Your Current Activity:</h4>
 	<ul>
 	<li><a href="http://roosevelt.insideout.com/tasks/">{{ $tasks }} Tasks</a></li>
 	<li><a href="http://roosevelt.insideout.com/projects/">{{ $projects }} Projects</a></li>

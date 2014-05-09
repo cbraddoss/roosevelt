@@ -2,13 +2,14 @@
 
 use \Mailer;
 use \Article;
+use \ArticleComment;
 
 class ArticlesController extends \BaseController {
 
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct(Mailer $mailer, Article $article)
+    public function __construct(Mailer $mailer, Article $article, ArticleComment $articleComment)
     {
         $this->beforeFilter('auth');
 
@@ -17,6 +18,8 @@ class ArticlesController extends \BaseController {
         $this->mailer = $mailer;
 
         $this->article = $article;
+
+        $this->articleComment = $articleComment;
     }
 
 	/**
@@ -281,8 +284,8 @@ class ArticlesController extends \BaseController {
 			$article->been_read = $oldRead.' '.$userRead.' ';
 			$article->save();
 		}
-
-		if($article) return View::make('news.single', compact('article'));
+		$comments = $this->articleComment->getComments($article->id);
+		if($article) return View::make('news.single', compact('article','comments'));
 		else return Redirect::route('news');
 	}
 

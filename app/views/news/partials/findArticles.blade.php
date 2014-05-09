@@ -15,7 +15,7 @@
 				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span></span>
 			</small>
 			<small class="right">
-				{{ link_to('/news/article/'.$article->slug.'/#comments', 'Comments [?]', array('class' => 'comment-link')) }}
+				{{ link_to('/news/article/'.$article->slug.'/#comments', 'Comments [' . $article->getCommentsCount($article->id) . ']', array('class' => 'comment-link')) }}
 			</small>
 			{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 				{{ Form::hidden('favorite', $article->id) }}
