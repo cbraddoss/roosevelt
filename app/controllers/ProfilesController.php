@@ -137,7 +137,7 @@ class ProfilesController extends \BaseController {
 				{
 					return Redirect::to('/profile')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 				}
-				return Redirect::to('/profile')->with('flash_message_success','Vacation successfully updated!');
+				return Redirect::to('/profile')->with('flash_message_success','Vacation successfully added!');
 			}
 		}
 		return Redirect::to('/profile')->with('flash_message_error','Something went wrong. :(');

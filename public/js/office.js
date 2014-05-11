@@ -449,6 +449,11 @@ jQuery(document).ready(function($){
 		if($(this).parent().attr('class') == 'office-search') return;
 		$(this).addClass('changed-input');
 	});
+	$(document).on('submit', 'form', function() {
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	})
 	$(window).on('beforeunload', function() {
 		if($('.changed-input').length) {			
 			return 'There are unsaved changes. Continue?';
