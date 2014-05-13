@@ -369,7 +369,7 @@ jQuery(document).ready(function($){
 		//console.log(pageName);
 		$.get( "/news/article/"+pageName+"/comment", function( data ) {
 			$('#news-post-comment-form').html(data);
-			$('#news-post-comment-form input[name=article-slug').val(pageName);
+			$('#news-post-comment-form input[name=article-slug]').val(pageName);
 		});
 	});
 	// cancel news article reply
