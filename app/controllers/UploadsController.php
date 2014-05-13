@@ -4,7 +4,7 @@ class UploadsController extends \BaseController {
 
 	public function __construct()
     {
-        $this->beforeFilter('admin');
+        $this->beforeFilter('auth');
 
         $this->beforeFilter('csrf', array('on' => 'post'));
     }

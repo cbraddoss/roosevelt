@@ -9,6 +9,11 @@
 <div id="news-page"  class="inner-page">
 
 @include('news.partials.sub-menu')
+	
+	<div class="create-something-new-bg"></div>
+	<div id="news-new-article-form" class="create-something-new">
+		<span class="news-button"><button class="add-new">New Post</button></span>
+	</div>
 
 	<div class="news-filter">
 		<ul>

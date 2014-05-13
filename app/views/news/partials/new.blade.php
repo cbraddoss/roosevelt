@@ -1,4 +1,4 @@
-<span class="create-something-title">Add New</span>
+<span class="create-something-title">New Post</span>
 <div class="page-cover">
 </div>
 <div class="article-add-form create-something-form">

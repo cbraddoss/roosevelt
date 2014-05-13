@@ -1,7 +1,7 @@
 @foreach($articles as $article)
-	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article"> @else <div id="article-{{ $article->id }}" class="news-article unread"><span class="new-icon ss-record"></span> @endif
+	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article"> @else <div id="article-{{ $article->id }}" class="news-article unread"> @endif
 		
-		{{ $article->getAttachments($article->id); }}
+		{{ $article->getAttachments($article->id) }}
 		
 		<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
 		<p>{{ display_content($article->content, '200') }}</p>

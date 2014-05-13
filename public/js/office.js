@@ -235,13 +235,13 @@ jQuery(document).ready(function($){
 			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
-				$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
+				$('#news-new-article-form').html('<span class="news-button"><button class="add-new">New Post</button></span>');
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
 			}
 		}
 		else {
-			$('#news-new-article-form').html('<span class="news-button"><button class="add-new">Add New</button></span>');
+			$('#news-new-article-form').html('<span class="news-button"><button class="add-new">New Post</button></span>');
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
 		}
@@ -249,7 +249,7 @@ jQuery(document).ready(function($){
 	// submit new article
 	var addArticleOptions = { 
 		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       afterSuccess,  // post-submit callback 
+		success:       afterAddArticleSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
 	$(document).on('submit','#news-page .article-add-form form.add-article', function() {
@@ -260,7 +260,7 @@ jQuery(document).ready(function($){
 	    console.log('submit');
 	    return false; 
 	});
-	function afterSuccess(data)
+	function afterAddArticleSuccess(data)
 	{
 		if(data.errorMsg) {
 			$('#message-box-json').fadeIn();
@@ -361,28 +361,67 @@ jQuery(document).ready(function($){
 	});
 	
 	// load comment form on article single view page.
-	$(document).on('click', '#news-page .post-comment .button', function(){
+	$(document).on('click', '#news-page #news-post-comment-form button.post-comment', function(){
 		
 		var pageName = $('body').attr('class');
 		pageName = pageName.split(' ');
 		pageName = pageName[0].replace('page-news-article-','');
 		//console.log(pageName);
 		$.get( "/news/article/"+pageName+"/comment", function( data ) {
-			$(data).insertAfter('#news-page .post-comment .button').slideDown();
-
-			// var calTemp = new Date();
-		 //    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-		 //    var calPost = $('#news-page form.add-article .article-calendar-date').datepicker({
-		 //      onRender: function(date) {
-		 //        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		 //      }
-		 //    }).on('changeDate', function(ev) {
-		 //    	calPost.hide();
-		 //    	$(this).addClass('changed-input');
-		 //    }).data('datepicker');
-		    
-			// $('form.add-article .article-title').focus();
+			$('#news-post-comment-form').html(data);
+			$('#news-post-comment-form input[name=article-slug').val(pageName);
 		});
+	});
+	// cancel news article reply
+	$(document).on('click','#news-page .news-article-new-comment span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$('#news-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$('#news-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	// submit reply to article
+	var articleCommentOptions = { 
+		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+		success:       afterPostCommentSuccess,  // post-submit callback 
+		resetForm: false        // reset the form after successful submit 
+	};	        
+	$(document).on('submit','#news-page .news-article-new-comment form.add-comment', function() {
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(articleCommentOptions);
+	    console.log('submit');
+	    return false; 
+	});
+	function afterPostCommentSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		    console.log('success');
+			window.location.href = '/news/article/'+data.slug;
+		}
+	}
+	// add pingable names to content textarea of new comment
+	$(document).on('click', '.form-textarea-buttons .ping', function(){
+		var ping = $(this).attr('id');
+		//console.log(ping);
+	    $('textarea.comment-content').insertAtCaret(ping);
 	});
 
 	/* Calendar Page */
@@ -414,30 +453,30 @@ jQuery(document).ready(function($){
 	});
 	
 	//for search icon popup
-	$('#link-search').click( function() {
-		$('#search-box').fadeIn();
-		$('#search-box input.search').focus();
-	});
-	$(document).on('click','#search-box .ss-delete',function(){
-		$('#search-box input.search').blur();
-		$('#search-box').fadeOut();
-	});
-	$('#search-box input').keyup( function(ev) {
-		// hide if press esc
-		if ( ev.keyCode == 27 ) {
-			$(this).blur();
-			$('#search-box').fadeOut();
-		}
-	});
-	$('body').keydown( function( event ) {
-		if ( event.which == 191 ) { // '/' really. slash.
-			if ( $('input, textarea').is(":focus") ) {} else {
-			event.preventDefault();
-				$('#search-box').fadeIn();
-				$('#search-box input.search').focus();
-			}
-		}
-	});
+	// $('#link-search').click( function() {
+	// 	$('#search-box').fadeIn();
+	// 	$('#search-box input.search').focus();
+	// });
+	// $(document).on('click','#search-box .ss-delete',function(){
+	// 	$('#search-box input.search').blur();
+	// 	$('#search-box').fadeOut();
+	// });
+	// $('#search-box input').keyup( function(ev) {
+	// 	// hide if press esc
+	// 	if ( ev.keyCode == 27 ) {
+	// 		$(this).blur();
+	// 		$('#search-box').fadeOut();
+	// 	}
+	// });
+	// $('body').keydown( function( event ) {
+	// 	if ( event.which == 191 ) { // '/' really. slash.
+	// 		if ( $('input, textarea').is(":focus") ) {} else {
+	// 		event.preventDefault();
+	// 			$('#search-box').fadeIn();
+	// 			$('#search-box input.search').focus();
+	// 		}
+	// 	}
+	// });
 
 	$(document).on('change keyup keydown', 'input, textarea, select', function(e){
 		if($(this).parent().attr('class') == 'add-vacation-profile') return;

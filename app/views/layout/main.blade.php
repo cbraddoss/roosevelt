@@ -25,15 +25,15 @@
 						<ul id="menu_links">
 							<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home" href="/">Dashboard</a></li>
 							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list">Projects</a>{{ find_assigned_count('projects') }}</li>
-							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-flag">Billables</a>{{ find_assigned_count('billables') }}</li>
+							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-cart">Billables</a>{{ find_assigned_count('billables') }}</li>
 							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign">Invoices</a></li>
 							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings">Accounts</a></li>
 							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</li>
 							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a>{{ find_assigned_count('help') }}</li>
 							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
-							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask">Tools</a></li>
-							<li alt="Profile" id="link-profile" class="link"><a href="/profile/"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">Profile</a></li>
+							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-signpost">Tools</a></li>
+							<li alt="Profile" id="link-profile" class="link"><a href="/profile/"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a></li>
 							
 						</ul>
 					</div> <!-- .menu_nav -->
@@ -42,27 +42,12 @@
 
 			<div id="sub-menu">
 				<div class="section">
-					<ul class="search-menu">
-						<li id="link-logout" class="link"><a href="/logout"><span class="ss-logout"></span>Logout</a></li>
-						@if(Auth::user()->userrole == 'admin')
-						<li id="link-admin" class="link"><a href="/admin/"><span class="ss-settings"></span>Admin</a></li>
-						@else
-						<li id="link-profile" class="link"><a href="/profile/"><span class="ss-user"></span>Profile</a></li>
-						@endif
-						<li alt="Search" id="link-search" class="link"><a><span class="ss-search"></span>Search</a></li>
+					<ul id="welcome-name">
+						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
 					</ul>
 					<ul class="extra-menu">
 						@yield('extra-menu')
 					</ul>
-				</div>
-			</div>
-			<div id="search-box">
-				<div class="section">
-					<div class="search-details">
-						{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-						<input type="text" class="search" name="s" id="s" placeholder="Search..." /><!-- <span class="ss-search"></span> --><span class="ss-delete"></span>
-						{{ Form::close() }}
-					</div>
 				</div>
 			</div>
 			
@@ -110,13 +95,17 @@
 	<div id="side">
 		<div class="section">
 			<div id="sidebar">
-			<div id="welcome-user">
-				<div class="section">
-					<ul id="welcome-name">
-						<li id="link-name" class="link"><span class="welcome">Welcome</span>, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-					</ul>
+				
+				<div id="search-box">
+					<div class="section">
+						<div class="search-details">
+							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+							<input type="text" class="search" name="s" id="s" placeholder="Search Remote Office..." />
+							{{ Form::close() }}
+						</div>
+					</div>
 				</div>
-			</div>
+				
 				<div id="todo-box">
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">
@@ -170,6 +159,15 @@
 		</div> <!-- .section -->
 	</div> <!-- #page -->
 
+	<div id="footer">
+		<div class="section">
+			<div class="footer-text">
+				<p>Designed and Developed by the <a href="mailto:devteam@insideout.com?subject=Remote Office">IOS DevTeam</a> |
+				&copy; 2010-{{ Carbon::now()->format('Y') }} <a href="http://insideout.com">InsideOut Solutions</a> |
+				<a href="/logout">Logout</a></p>
+			</div>
+		</div>
+	</div>
 @include('layout.js')
 
 @yield('page-js')
