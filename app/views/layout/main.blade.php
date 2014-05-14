@@ -40,16 +40,7 @@
 				</div> <!-- #menu_header -->
 			</div> <!-- #nav_menu -->
 
-			<div id="sub-menu">
-				<div class="section">
-					<ul id="welcome-name">
-						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-					</ul>
-					<ul class="extra-menu">
-						@yield('extra-menu')
-					</ul>
-				</div>
-			</div>
+			
 			
 			@if(Session::get('flash_message_error'))
 				<div id="message-box">
@@ -95,15 +86,19 @@
 	<div id="side">
 		<div class="section">
 			<div id="sidebar">
-				
+					
+				<div id="welcome-box">
+					<ul id="welcome-name">
+						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
+					</ul>
+				</div>
+
 				<div id="search-box">
-					<div class="section">
 						<div class="search-details">
 							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
 							<input type="text" class="search" name="s" id="s" placeholder="Search Remote Office..." />
 							{{ Form::close() }}
 						</div>
-					</div>
 				</div>
 				
 				<div id="todo-box">

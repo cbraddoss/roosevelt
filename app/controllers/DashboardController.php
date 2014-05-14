@@ -21,7 +21,7 @@ class DashboardController extends \BaseController {
 	{
 		$articles = Article::where('status','=','published')
 					->orderBy('created_at','DESC')
-					->take(3)
+					->take(5)
 					->get();
 		return View::make('dashboard.index', compact('articles'));
 	}

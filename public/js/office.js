@@ -12,6 +12,11 @@ jQuery(document).ready(function($){
 		if(currentPage.indexOf(linkActiveMain) >= 0 ) $(this).addClass('active');
 		if(currentPage == '' && linkActiveMain == 'dashboard') $(this).addClass('active');
 	});
+	var zIndex = 80;
+	$('#menu_links .link').each(function(){
+		$(this).css('z-index',zIndex);
+		zIndex = zIndex-1;
+	})
 	// $('#user-menu ul').find('li').each(function(){
 	// 	var linkActiveUser = $(this).attr('id');
 	// 	linkActiveUser = linkActiveUser.replace("link-", "");
@@ -422,6 +427,9 @@ jQuery(document).ready(function($){
 		var ping = $(this).attr('id');
 		//console.log(ping);
 	    $('textarea.comment-content').insertAtCaret(ping);
+	});
+	$('#news-page .news-article-comment .comment-contents').each(function() {
+		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','115px');
 	});
 
 	/* Calendar Page */

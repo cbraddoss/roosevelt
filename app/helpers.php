@@ -106,7 +106,7 @@ function find_mentions($content) {
 			$mention .= $mentionAdd . ' ';
 		}
 	}
-	if(strpos($content, '@insideout')) $mention .= 'insideout';
+	if(strpos($content, '@insideout') !== false) $mention .= 'insideout';
 	
 	return $mention;
 }
@@ -161,6 +161,91 @@ function article_ping_email($newArticle, $previousMentions = '') {
 			});
 		}
 	}
+}
+
+function article_comment_ping_email($newArticleComment, $previousMentions = '') {
+	$parseUsers = $newArticleComment->mentions;
+	$parseUsers = explode(' ',$parseUsers);
+
+	$parseOldUsers = $previousMentions;
+	$parseOldUsers = explode(' ', $parseOldUsers);
+
+	// $findTasks = find_assigned_count('tasks');
+	// $findProjects = find_assigned_count('projects');
+	// $findBillables = find_assigned_count('billables');
+	// $findHelp = find_assigned_count('help');
+	$findTask = '<span>??</span>';
+	$findProjects = '<span>??</span>';
+	$findBillables = '<span>??</span>';
+	$findHelp = '<span>??</span>';
+
+	$users = array();
+	foreach($parseUsers as $pUser) {
+		if($pUser == '') unset($pUser);
+		elseif(in_array($pUser, $parseOldUsers)) unset($pUser);
+		else {
+			$users[] = $pUser;
+		}
+	}
+
+	$articleWithComment = Article::find($newArticleComment->article_id)->first();
+	$authorComment = User::find($newArticleComment->author_id)->first();
+	$authorArticle = User::find($articleWithComment->author_id)->first();
+
+	// send email to article author
+	$pingAuthorDetails = array(
+		'title' => $articleWithComment->title,
+		'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+		'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+		'created_at' => $newArticleComment->created_at,
+		'tasks' => $findTasks,
+		'projects' => $findProjects,
+		'billables' => $findBillables,
+		'help' => $findHelp,
+	);
+	Mail::send('emails.ping', $pingAuthorDetails, function($message) use($authorArticle) {
+		$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+		$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article has a new reply.');
+	});
+
+	// send email(s) to pinged users
+	foreach($users as $user) {
+		if($user == 'insideout') {
+			$userSend = '';
+			$pingDetails = array(
+				'title' => $articleWithComment->title,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+				'created_at' => $newArticleComment->created_at,
+				'tasks' => $findTasks,
+				'projects' => $findProjects,
+				'billables' => $findBillables,
+				'help' => $findHelp,
+			);
+			Mail::send('emails.ping', $pingDetails, function($message) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged!');
+			});
+		}
+		else {
+			$userSend = User::where('user_path','=',$user)->first();
+			$pingDetails = array(
+				'title' => $articleWithComment->title,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+				'created_at' => $newArticleComment->created_at,
+				'tasks' => $findTasks,
+				'projects' => $findProjects,
+				'billables' => $findBillables,
+				'help' => $findHelp,
+			);
+			Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
+			});
+		}
+	}
+
 }
 
 function display_pingable() {

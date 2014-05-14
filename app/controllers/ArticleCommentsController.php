@@ -92,7 +92,7 @@ class ArticleCommentsController extends \BaseController {
 				return Response::json( $response );
 			}
 
-			// article_comment_ping_email($newArticleComment);
+			article_comment_ping_email($newArticleComment);
 
 			$response = array(
 				'slug' => Input::get('article-slug'),

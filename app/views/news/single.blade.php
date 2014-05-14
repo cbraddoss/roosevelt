@@ -37,7 +37,7 @@
 			{{ Form::close() }}
 		</div>
 	</div>
-	
+	<div id="comments"></div>
 	@foreach($comments as $comment)
 	@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 		<div id="comment-{{ $comment->id }}" class="news-article-comment current-user-comment">
@@ -46,10 +46,10 @@
 	@endif
 		<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }} said:</span>
 		<span class="comment-details">{{ $comment->created_at->format('F j, Y h:m:s A') }}</span>
-		<p class="comment-contents">
+		<div class="comment-contents">
 			{{ $comment->getCommentAttachments($comment->id) }}
-			{{ display_content($comment->content) }}
-		</p>
+			<p>{{ display_content($comment->content) }}</p>
+		</div>
 	</div>
 	@endforeach
 </div>
