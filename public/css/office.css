@@ -400,6 +400,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	border-width: 10px;
 	margin-left: -10px;
 }
+#menu_header ul.sub_menu_links li:hover {
+	text-decoration: underline;
+}
 
 
 /* Sub/Notification Menu */
