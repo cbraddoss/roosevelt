@@ -96,7 +96,7 @@
 				<div id="search-box">
 						<div class="search-details">
 							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-							<input type="text" class="search" name="s" id="s" placeholder="Search Remote Office..." />
+							<input type="text" class="search" name="s" id="s" placeholder="Search Remote Office..." /><span class="ss-search"></span>
 							{{ Form::close() }}
 						</div>
 				</div>
