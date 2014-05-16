@@ -28,6 +28,9 @@
 					<span favoriteval="{{ $stick->id }}" class="favorite-this none">Favorite This Article</span></span>
 				</small>
 				<small class="right">
+					@if(Auth::user()->id == $stick->author_id || Auth::user()->userrole == 'admin')
+					<a class="edit-article" href="/news/article/{{ $stick->slug }}/edit">Edit Post</a>
+					@endif
 					{{ link_to('/news/article/'.$stick->slug.'/#comments', 'Comments [' . $stick->getCommentsCount($stick->id) . ']', array('class' => 'comment-link')) }}
 				</small>
 				{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$stick->id, 'method' => 'post') ) }}
