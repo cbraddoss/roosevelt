@@ -174,7 +174,7 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 	// $findProjects = find_assigned_count('projects');
 	// $findBillables = find_assigned_count('billables');
 	// $findHelp = find_assigned_count('help');
-	$findTask = '<span>??</span>';
+	$findTasks = '<span>??</span>';
 	$findProjects = '<span>??</span>';
 	$findBillables = '<span>??</span>';
 	$findHelp = '<span>??</span>';
@@ -188,9 +188,9 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 		}
 	}
 
-	$articleWithComment = Article::find($newArticleComment->article_id)->first();
-	$authorComment = User::find($newArticleComment->author_id)->first();
-	$authorArticle = User::find($articleWithComment->author_id)->first();
+	$articleWithComment = Article::find($newArticleComment->article_id);
+	$authorComment = User::find($newArticleComment->author_id);
+	$authorArticle = User::find($articleWithComment->author_id);
 
 	// send email to article author
 	$pingAuthorDetails = array(

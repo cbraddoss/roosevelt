@@ -81,13 +81,14 @@ class ArticleCommentsController extends \BaseController {
 				}
 				$newArticleComment->attachment = serialize($fileNames);
 			}
+
 			try
 			{
 				$newArticleComment->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
-					'errorMsg' => 'Oops, there might be an article with this title already. Please try again.'
+					'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
 				);
 				return Response::json( $response );
 			}

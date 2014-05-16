@@ -14,9 +14,8 @@
 
 		{{ Form::textarea('content', null, array('placeholder' => 'Post a comment to: ' . $article->title, 'class' => 'comment-content field', 'id' => 'comment-content')) }}
 
-		{{ Form::label('attachment[]', 'Attach files:', array('class' => 'comment-attachment-label')) }}
 		{{ Form::file('attachment[]', array('multiple', 'class'=>'new-article-attachment')) }}
-
+		
 		{{ Form::submit('Post Comment', array('class' => 'save form-button', 'id' => 'add-new-comment') ) }}
 <span id="post-reply" class="cancel form-button">Cancel</span>
 	{{ Form::close() }}

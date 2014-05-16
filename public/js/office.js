@@ -5,7 +5,7 @@ jQuery(document).ready(function($){
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
 	currentPage = currentPage.split('/');
-	$('#menu_links').find('li').each(function(){
+	$('#menu_links').find('li.link').each(function(){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
 		$(this).removeClass('active');
@@ -16,7 +16,33 @@ jQuery(document).ready(function($){
 	$('#menu_links .link').each(function(){
 		$(this).css('z-index',zIndex);
 		zIndex = zIndex-1;
-	})
+	});
+	// show sub menu on hover
+	$('#menu_header ul#menu_links li.link').hover(function(){
+		$(this).children('ul.sub_menu_links').css({
+			'visibility': 'visible'
+		}).slideDown(200).show();
+	},function(){
+		$(this).children('ul.sub_menu_links').css({
+			'visibility': 'hidden'
+		}).hide();
+	});
+
+	$(".the_menu ul li.arrow").hover(function() { //When hovering...
+		$(this).children("ul.subnav").slideDown(0400).show(); //Slide down
+		$(this).children("ul.subnav").css('visibility', 'visible'); //bring back visibility while sliding down
+	},
+	function() {
+		$(this).children("ul.subnav").css('visibility', 'hidden'); //instantly hide on mouseout
+		$(this).children("ul.subnav").hide(); //Slide back up
+	});
+	$(".the_menu ul li").hover(function() { //When hovering...
+		$(this).addClass("hovering"); 
+	},
+	function() {
+		$(this).removeClass("hovering"); 
+	});
+
 	// $('#user-menu ul').find('li').each(function(){
 	// 	var linkActiveUser = $(this).attr('id');
 	// 	linkActiveUser = linkActiveUser.replace("link-", "");

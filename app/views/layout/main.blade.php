@@ -30,10 +30,30 @@
 							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings">Accounts</a></li>
 							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</li>
 							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help">Help</a>{{ find_assigned_count('help') }}</li>
-							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}</li>
+							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper">News</a>{{ find_unread_count('articles') }}
+							<ul class="sub_menu_links">
+								<li class="sub-link"></li>
+								<li class="sub-link"><a href="/news/">All</a></li>
+								<li class="sub-link"><a href="/news/unread">Unread</a></li>
+								<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
+								<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
+								<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
+							</ul>
+							</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose">Wiki</a></li>
 							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-signpost">Tools</a></li>
-							<li alt="Profile" id="link-profile" class="link"><a href="/profile/"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a></li>
+							<li alt="Profile" id="link-profile" class="link"><a href="/profile/"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a>
+							<ul class="sub_menu_links">
+								<li class="sub-link"></li>
+								@if(Auth::user()->userrole == 'admin')
+								<li class="sub-link"><a href="/admin/">Admin</a></li>
+								@endif
+								<li><a href="/todo/{{ Auth::user()->user_path }}" class="sub-link">Tasks</a></li>
+								<li><a href="/projects/assigned/{{ Auth::user()->user_path }}" class="sub-link">Projects</a></li>
+								<li><a href="/billables/assigned/{{ Auth::user()->user_path }}" class="sub-link">Billables</a></li>
+								<li><a href="/help/assigned/{{ Auth::user()->user_path }}" class="sub-link">Help</a></li>
+							</ul>
+							</li>
 							
 						</ul>
 					</div> <!-- .menu_nav -->

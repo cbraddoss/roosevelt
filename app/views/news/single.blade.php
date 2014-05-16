@@ -10,7 +10,7 @@
 
 	@include('news.partials.sub-menu')
 	
-	<div id="article-{{ $article->id }}" class="news-article">
+	<div id="article-{{ $article->id }}" class="news-article office-post">
 		
 		{{ $article->getAttachments($article->id); }}
 		<p>{{ display_content($article->content) }}</p>

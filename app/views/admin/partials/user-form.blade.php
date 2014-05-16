@@ -5,7 +5,14 @@
 @stop
 
 @section('admin-user-content')
-
+<div class="page-menu">
+	<ul>
+		<li><a href="/admin/" class="link">Admin</a></li>
+		<li><a href="/admin/users" class="link">User Management</a></li>
+		<li><a href="/admin/templates" class="link">Template Management</a></li>
+	</ul>
+</div>
+	
 {{ Form::open( array('class' => 'update-user', 'url' => '/admin/users/'.$user->user_path, 'method' => 'post', 'id' => $user->id) ) }}
 
 {{ Form::hidden('id', $user->id) }}

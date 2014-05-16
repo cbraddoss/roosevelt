@@ -1,5 +1,5 @@
 @foreach($articles as $article)
-	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article"> @else <div id="article-{{ $article->id }}" class="news-article unread"> @endif
+	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post"> @else <div id="article-{{ $article->id }}" class="news-article unread"> @endif
 		
 		{{ $article->getAttachments($article->id) }}
 		

@@ -1,6 +1,21 @@
 @extends('profile.index')
 
 @section('profile-details')
+<div class="page-menu">
+	<ul>
+	@if(Auth::user()->userrole == 'admin')
+		<li><a href="/admin/" class="link">Admin</a></li>
+	@endif
+		<li><a href="/todo/{{ Auth::user()->user_path }}" class="link">Tasks</a></li>
+		<li><a href="/projects/assigned/{{ Auth::user()->user_path }}" class="link">Projects</a></li>
+		<li><a href="/billables/assigned/{{ Auth::user()->user_path }}" class="link">Billables</a></li>
+		<li><a href="/help/assigned/{{ Auth::user()->user_path }}" class="link">Help</a></li>
+	</ul>
+	<div class="create-something-new">
+		<a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile">Edit Profile</a>
+	</div>
+</div>
+
 <h3>Details</h3>
 <div id="profile-details">
 	<div class="profile-field">
@@ -31,9 +46,6 @@
 		<span class="profile-title user-stats">User Stats:</span>
 		<span class="profile-value user-stats-value">You started working for InsideOut Solutions on <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', Auth::user()->anniversary)->format('M d, Y') }}</b>!</span>
 	</div>
-	<div class="profile-field">
-		<a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile">Edit Profile</a>
-	</div>
 </div>
 
 <h3>Vacations</h3>
@@ -63,13 +75,13 @@
 		<div class="profile-field">
 			<span class="profile-title vacation-dates">Dates:</span>
 			@if($vaca->period == 'half-day-am')
-			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> (Half Day - AM)
+			<span class="profile-value vacation-dates-value"><a href="/calendar/{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('Y/F') }}">{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</a> (Half Day - AM)
 			@elseif($vaca->period == 'half-day-pm')
-			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> (Half Day - PM)
+			<span class="profile-value vacation-dates-value"><a href="/calendar/{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('Y/F') }}">{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</a> (Half Day - PM)
 			@elseif($vaca->start_date == $vaca->end_date)
-			<span class="profile-value vacation-dates-value"><b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b>
+			<span class="profile-value vacation-dates-value"><a href="/calendar/{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('Y/F') }}">{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</a>
 			@else
-			<span class="profile-value vacation-dates-value">From <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</b> to <b>{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->end_date)->format('M d, Y') }}</b></span>
+			<span class="profile-value vacation-dates-value">From <a href="/calendar/{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('Y/F') }}">{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->start_date)->format('M d, Y') }}</a> to <a href="/calendar/{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->end_date)->format('Y/F') }}">{{ Carbon::createFromFormat('Y-m-d H:i:s', $vaca->end_date)->format('M d, Y') }}</a></span>
 			@endif
 			{{ Form::open( array('class' => 'remove-vacation-profile', 'route' => 'profile.vacation', 'method' => 'post', 'id' => $vaca->id) ) }}
 			{{ Form::hidden('id', $vaca->id)}}

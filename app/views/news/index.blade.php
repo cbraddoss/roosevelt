@@ -11,7 +11,7 @@
 @include('news.partials.sub-menu')
 
 	@foreach($sticky as $stick)
-		@if(strpos($stick->been_read,current_user_path()) !== false) <div id="article-{{ $stick->id }}" class="news-article sticky"> @else <div id="article-{{ $stick->id }}" class="news-article unread sticky"> @endif
+		@if(strpos($stick->been_read,current_user_path()) !== false) <div id="article-{{ $stick->id }}" class="news-article office-post sticky"> @else <div id="article-{{ $stick->id }}" class="news-article unread sticky"> @endif
 			
 			<h3>{{ link_to('/news/article/'. $stick->slug, $stick->title, array('class' => 'news-link')) }}</h3>
 			<span class="sticky-icon ss-pinboard ss-social"></span>
