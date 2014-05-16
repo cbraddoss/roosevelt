@@ -13,8 +13,13 @@
 			</li>
 			<li><input type="text" class="datepicker filter-date" value="@if(!empty($date)) {{ $date }} @endif" placeholder="Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
 		</ul>
-		<div class="create-something-new-bg"></div>
+		@if(strpos(current_page(), 'news/article'))
+		<div id="news-post-comment-form" class="create-something-new">
+			<span class="news-button"><button class="post-comment">Reply</button></span>
+		</div>
+		@else
 		<div id="news-new-article-form" class="create-something-new">
 			<span class="news-button"><button class="add-new">New Post</button></span>
 		</div>
+		@endif
 	</div>

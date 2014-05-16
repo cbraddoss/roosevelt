@@ -8,12 +8,7 @@
 @section('page-content')
 <div id="news-page"  class="inner-page">
 
-@include('news.partials.sub-menu')
-	
-	<div class="create-something-new-bg"></div>
-	<div id="news-post-comment-form" class="create-something-new">
-		<span class="news-button"><button class="post-comment">Reply</button></span>
-	</div>
+	@include('news.partials.sub-menu')
 	
 	<div id="article-{{ $article->id }}" class="news-article">
 		
