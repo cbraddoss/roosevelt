@@ -10,7 +10,7 @@
 @include('news.partials.sub-menu')
 		
 	@if($articles->isEmpty())
-			<div class="news-article">
+			<div class="news-article office-post">
 				<h3>No drafts found.</h3>
 				<p></p>
 			</div>

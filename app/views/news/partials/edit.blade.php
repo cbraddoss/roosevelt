@@ -64,4 +64,6 @@
 {{ Form::close() }}
 @endif
 
+</div>
+
 @stop

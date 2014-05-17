@@ -1,12 +1,12 @@
 @foreach($articles as $article)
-	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post"> @else <div id="article-{{ $article->id }}" class="news-article unread"> @endif
+	@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post"> @else <div id="article-{{ $article->id }}" class="news-article office-post unread"> @endif
 		
 		{{ $article->getAttachments($article->id) }}
 		
 		<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
 		<p>{{ display_content($article->content, '200') }}</p>
 	
-		<div class="news-article-sub">
+		<div class="news-article-sub office-post-sub">
 			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
 			<small>on {{ link_to('/news/date/'.$article->created_at->format('Y').'/'.$article->created_at->format('F'), $article->created_at->format('F')) }}</small>
 			<small>{{ $article->created_at->format('j, Y') }}</small>
@@ -16,7 +16,7 @@
 			</small>
 			<small class="right">
 				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-				<a class="edit-article" href="/news/article/{{ $article->slug }}/edit">Edit Post</a>
+				<a class="edit-article edit-link" href="/news/article/{{ $article->slug }}/edit">Edit Post</a>
 				@endif
 				{{ link_to('/news/article/'.$article->slug.'/#comments', 'Comments [' . $article->getCommentsCount($article->id) . ']', array('class' => 'comment-link')) }}
 			</small>
