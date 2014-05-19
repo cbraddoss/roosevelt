@@ -26,7 +26,7 @@
 			@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 			<a class="edit-article edit-link" href="/news/article/{{ $article->slug }}/edit">Edit Post</a>
 			@endif
-			Last edit: {{ $article->updated_at->format('F j, Y h:m:s A') }} by {{ User::find($article->edit_id)->first_name }} {{ User::find($article->edit_id)->last_name }}</small>
+			Last edit: {{ $article->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($article->edit_id)->first_name }} {{ User::find($article->edit_id)->last_name }}</small>
 			{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 				{{ Form::hidden('favorite', $article->id) }}
 			{{ Form::close() }}
@@ -43,7 +43,7 @@
 			<div class="comment-details">
 				<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 				
-				<span class="comment-time">{{ $comment->created_at->format('F j, Y g:m a') }}
+				<span class="comment-time">{{ $comment->created_at->format('F j, Y g:i a') }}
 				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 				<a class="edit-link edit-comment" href="/news/article/comment/{{ $comment->id }}/edit">Edit Comment</a>
 				@endif
@@ -67,7 +67,7 @@
 					<div class="comment-details">
 						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
 						
-						<span class="comment-time">{{ $subComment->created_at->format('F j, Y g:m a') }}
+						<span class="comment-time">{{ $subComment->created_at->format('F j, Y g:i a') }}
 						@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 						<a class="edit-link edit-comment" href="/news/article/comment/{{ $subComment->id }}/edit">Edit Comment</a>
 						@endif
