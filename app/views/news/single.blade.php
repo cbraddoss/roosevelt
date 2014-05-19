@@ -61,7 +61,7 @@
 			@if(Auth::user()->user_path == User::find($subComment->author_id)->user_path) 
 				<div id="comment-{{ $subComment->id }}" class="news-article-comment current-user-comment office-post-comment office-post-sub-comment">
 				<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
-			@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+			@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment office-post-sub-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
 			@endif
 				<div class="comment-contents">
 					<div class="comment-details">
