@@ -192,6 +192,11 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 	$articleWithComment = Article::find($newArticleComment->article_id);
 	$authorComment = User::find($newArticleComment->author_id);
 	$authorArticle = User::find($articleWithComment->author_id);
+	$articleCommentAuthor = ArticleComment::find($newArticleComment->reply_to_id);
+	if($articleCommentAuthor) {
+		$authorCommentOnComment = User::find($articleCommentAuthor->author_id);
+	}
+	else $authorCommentOnComment == false;
 
 	// send email to article author
 	$pingAuthorDetails = array(
@@ -206,8 +211,26 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 	);
 	Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
 		$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-		$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article: '.$articleWithComment->title.', has a new reply.');
+		$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article, '.$articleWithComment->title.', has a new reply.');
 	});
+
+	// send email to comment author
+	if($authorCommentOnComment) {
+		$pingCommentAuthorDetails = array(
+			'title' => $articleWithComment->title,
+			'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
+			'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+			'created_at' => $newArticleComment->created_at,
+			'tasks' => $findTasks,
+			'projects' => $findProjects,
+			'billables' => $findBillables,
+			'help' => $findHelp,
+		);
+		Mail::send('emails.replyreply', $pingAuthorDetails, function($message) use($authorCommentOnComment, $articleWithComment) {
+			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+			$message->to($authorCommentOnComment->email, $authorCommentOnComment->first_name . ' ' . $authorCommentOnComment->last_name)->subject('Your comment on, '.$articleWithComment->title.', has a new reply.');
+		});
+	}
 
 	// send email(s) to pinged users
 	foreach($users as $user) {
