@@ -2,6 +2,7 @@
 function body_class() {
 	$currentPage = $_SERVER['REQUEST_URI'];
 	$page = '';
+	$currentPage = strtok($currentPage, '?');
 	$currentPageArray = explode('/', $currentPage);
 	foreach($currentPageArray as $cPage) {
 		$page .= '-'.$cPage;
@@ -203,9 +204,9 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 		'billables' => $findBillables,
 		'help' => $findHelp,
 	);
-	Mail::send('emails.ping', $pingAuthorDetails, function($message) use($authorArticle) {
+	Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
 		$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-		$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article has a new reply.');
+		$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article: '.$articleWithComment->title.', has a new reply.');
 	});
 
 	// send email(s) to pinged users

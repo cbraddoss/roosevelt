@@ -3,11 +3,18 @@ jQuery(document).ready(function($){
 	
 	//Animate scroll to loaded comment id
 	var commentUrlHash = window.location.hash;
+	var commentUrlNew = window.location.search;
+	console.log(commentUrlNew);
 	var commentGoToPost = $(commentUrlHash).offset();
 	if(commentGoToPost) {
 		$('html, body').animate({
 			scrollTop: commentGoToPost.top-110
 		}, 2000);
+	}
+	if(commentUrlNew == '?comment=new') {
+		$(commentUrlHash).find('.comment-contents').css({
+			'background': 'rgba(75,131,180,0.2)'
+		});
 	}
 
 	//Update active status of a menu link (both top menu bar and user menu bar)
@@ -453,7 +460,7 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
 		    //console.log('success');
-			window.location.href = '/news/article/'+data.slug+'#comment-'+data.comment_id;
+			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
 		}
 	}
 	// add pingable names to content textarea of new comment
@@ -512,17 +519,20 @@ jQuery(document).ready(function($){
 	});
 	     
 	$(document).on('submit','#news-page .news-article-new-comment form.add-comment', function() {
+		var commentReplyToId = $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id');
+		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
+		else commentReplyToId = 0;
 		// submit reply to comment
 		var articleCommentOptions = {
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
 			success:       afterPostCommentSuccess,  // post-submit callback 
 			resetForm: false,        // reset the form after successful submit 
-			data: { reply_to_id: $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id').replace('comment-','') }
+			data: { reply_to_id: commentReplyToId }
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
-	    $(this).ajaxSubmit(articleCommentOptions);
+		$(this).ajaxSubmit(articleCommentOptions);
 	    return false; 
 	});
 	function afterPostCommentSuccess(data)
@@ -535,7 +545,7 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
 		    //console.log('success');
-			window.location.href = '/news/article/'+data.slug+'#comment-'+data.comment_id;
+			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
 			window.location.reload(true);
 		}
 	}
