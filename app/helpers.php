@@ -196,7 +196,7 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 	// send email to article author
 	$pingAuthorDetails = array(
 		'title' => $articleWithComment->title,
-		'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+		'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
 		'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
 		'created_at' => $newArticleComment->created_at,
 		'tasks' => $findTasks,

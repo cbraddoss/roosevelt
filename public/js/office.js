@@ -518,7 +518,7 @@ jQuery(document).ready(function($){
 		}
 	});
 	     
-	$(document).on('submit','#news-page .news-article-new-comment form.add-comment', function() {
+	$(document).on('submit','#news-page #comment-post-comment-form form.add-comment', function() {
 		var commentReplyToId = $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
@@ -549,12 +549,6 @@ jQuery(document).ready(function($){
 			window.location.reload(true);
 		}
 	}
-	// add pingable names to content textarea of new reply to comment
-	$(document).on('click', '.form-textarea-buttons .ping', function(){
-		var ping = $(this).attr('id');
-		//console.log(ping);
-	    $('textarea.comment-content').insertAtCaret(ping);
-	});
 	// set min height of comments with attachments
 	$('#content .office-post-comment .comment-contents').each(function() {
 		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
