@@ -1293,6 +1293,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .unread a {
 	color: rgba(75,131,180,0.9);
 }
+#content .unread a.edit-link,
+#content .unread a.comment-link {
+	color: #fff;
+}
 #content .new-icon {
 	color: rgba(75,131,180,1);
 	font-size: 1.2em;
