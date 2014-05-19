@@ -1210,6 +1210,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding:3px 0px 3px;
 	font-size: 1em;
 	float:right;
+	background-color: rgba(204,0,0,0.9);
+	background: #cc0000; /* Old browsers */
+	background: -moz-linear-gradient(top,  #cc0000 0%, #ff9389 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc0000), color-stop(100%,#ff9389)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #cc0000 0%,#ff9389 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#ff9389',GradientType=0 ); /* IE6-9 */
+	border: 1px solid rgba(204,0,0,0.9);
+	border-top: 1px solid rgba(204,0,0,0.9);
+	border-left: 1px solid rgba(204,0,0,0.9);
+	border-right: 2px solid rgba(204,0,0,0.5);
+	border-bottom: 2px solid rgba(204,0,0,0.5);
 }
 #content .form-textarea-buttons {
 	display: block;
