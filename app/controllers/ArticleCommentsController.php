@@ -68,6 +68,7 @@ class ArticleCommentsController extends \BaseController {
 			$newArticleComment->author_id = Auth::user()->id;
 			$newArticleComment->mentions = find_mentions(Input::get('content'));
 			$newArticleComment->edit_id = Auth::user()->id;
+			if(Input::has('reply_to_id')) $newArticleComment->reply_to_id = Input::get('reply_to_id');
 			if(Input::hasFile('attachment')) {
 				$attachment = Input::file('attachment');
 				$fileNames = array();
@@ -97,6 +98,7 @@ class ArticleCommentsController extends \BaseController {
 
 			$response = array(
 				'slug' => Input::get('article-slug'),
+				'comment_id' => $newArticleComment->id,
 				'msg' => 'Comment posted.'
 			);
 			return Response::json( $response );

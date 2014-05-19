@@ -7,6 +7,9 @@
 		<p>{{ display_content($article->content, '200') }}</p>
 	
 		<div class="news-article-sub office-post-sub">
+			@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
+			<small><a class="edit-article edit-link" href="/news/article/{{ $article->slug }}/edit">Edit Post</a></small>
+			@endif
 			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
 			<small>on {{ link_to('/news/date/'.$article->created_at->format('Y').'/'.$article->created_at->format('F'), $article->created_at->format('F')) }}</small>
 			<small>{{ $article->created_at->format('j, Y') }}</small>
@@ -15,9 +18,6 @@
 				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span></span>
 			</small>
 			<small class="right">
-				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-				<a class="edit-article edit-link" href="/news/article/{{ $article->slug }}/edit">Edit Post</a>
-				@endif
 				{{ link_to('/news/article/'.$article->slug.'/#comments', 'Comments [' . $article->getCommentsCount($article->id) . ']', array('class' => 'comment-link')) }}
 			</small>
 			{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}

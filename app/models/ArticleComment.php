@@ -13,9 +13,19 @@ class ArticleComment extends Eloquent {
 
 	public function getComments($id) {
 		$comments = ArticleComment::where('article_id','=',$id)
+					->where('reply_to_id','=',0)
 					->orderBy('created_at','ASC')
 					->get();
 		return $comments;
+	}
+
+	public function getSubComments($id) {
+		$comments = ArticleComment::where('article_id','=',$id)
+					->where('reply_to_id','>',0)
+					->orderBy('created_at','ASC')
+					->get();
+		return $comments;
+
 	}
 
 	public function getCommentAttachments($id,$class = 'comment-single-attachment') {

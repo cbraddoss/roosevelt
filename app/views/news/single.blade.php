@@ -36,8 +36,8 @@
 	@foreach($comments as $comment)
 	@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 		<div id="comment-{{ $comment->id }}" class="news-article-comment current-user-comment office-post-comment">
-		<img src="{{ gravatar_url(User::find($comment->author_id)->email,60) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
-	@else <div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,60) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+		<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+	@else <div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
 	@endif
 		<div class="comment-contents">
 			<div class="comment-details">
@@ -56,6 +56,29 @@
 			<p>{{ display_content($comment->content) }}</p>
 		</div>
 	</div>
+	@foreach($subComments as $subComment)
+		@if($subComment->reply_to_id == $comment->id)
+			@if(Auth::user()->user_path == User::find($subComment->author_id)->user_path) 
+				<div id="comment-{{ $subComment->id }}" class="news-article-comment current-user-comment office-post-comment office-post-sub-comment">
+				<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+			@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+			@endif
+				<div class="comment-contents">
+					<div class="comment-details">
+						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
+						
+						<span class="comment-time">{{ $subComment->created_at->format('F j, Y g:m a') }}
+						@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
+						<a class="edit-link edit-comment" href="/news/article/comment/{{ $subComment->id }}/edit">Edit Comment</a>
+						@endif
+						</span>
+					</div>
+					{{ $subComment->getCommentAttachments($subComment->id) }}
+					<p>{{ display_content($subComment->content) }}</p>
+				</div>
+			</div>
+		@endif
+	@endforeach
 	@endforeach
 </div>
 @stop

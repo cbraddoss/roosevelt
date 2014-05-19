@@ -285,7 +285,8 @@ class ArticlesController extends \BaseController {
 			$article->save();
 		}
 		$comments = $this->articleComment->getComments($article->id);
-		if($article) return View::make('news.single', compact('article','comments'));
+		$subComments = $this->articleComment->getSubComments($article->id);
+		if($article) return View::make('news.single', compact('article','comments','subComments'));
 		else return Redirect::route('news');
 	}
 
