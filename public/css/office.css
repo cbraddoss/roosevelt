@@ -1204,6 +1204,62 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	float:left;
 	clear:left;
 }
+#content .edit-something-form textarea {
+	width: 100%;
+}
+#content .edit-something-form input[type=file] {
+	clear:left;
+	display: block;
+	margin: 10px 0;
+}
+#content .edit-something-form input[type=submit] {
+	background: #4b83b4; /* Old browsers */
+	background: -moz-linear-gradient(top,  #4b83b4 0%, #3c698c 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4b83b4), color-stop(100%,#3c698c)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b83b4', endColorstr='#3c698c',GradientType=0 ); /* IE6-9 */
+}
+#content .edit-something-form span.cancel {
+	padding: 2px 5px;
+	background-color: rgba(204,0,0,0.9);
+	background: #cc0000; /* Old browsers */
+	background: -moz-linear-gradient(top,  #cc0000 0%, #ff9389 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc0000), color-stop(100%,#ff9389)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #cc0000 0%,#ff9389 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#ff9389',GradientType=0 ); /* IE6-9 */
+}
+#content .edit-something-form .edit-comment-attachments .comment-edit-attachment {
+	float:none;
+	position: relative;
+}
+#content .edit-something-form .edit-comment-attachments .comment-edit-attachment img {
+	display: inline-block;
+	float:none;
+	margin: 10px 10px 0 0;
+	width: 100px;
+	height: auto;
+	padding:5px;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.4);
+	border-bottom:1px solid rgba(32,32,32,0.4);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
+#content .edit-something-form .comment-edit-attachment .ss-delete {
+	color: red;
+	background: #333;
+	border: 1px solid #ddd;
+	padding: 2px 3px 1px;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	cursor: help;
+}
 #content .create-something-form .cancel {
 	width:147px;
 	height:19px;
@@ -1219,11 +1275,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	background: -ms-linear-gradient(top,  #cc0000 0%,#ff9389 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #cc0000 0%,#ff9389 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#ff9389',GradientType=0 ); /* IE6-9 */
-	border: 1px solid rgba(204,0,0,0.9);
-	border-top: 1px solid rgba(204,0,0,0.9);
-	border-left: 1px solid rgba(204,0,0,0.9);
-	border-right: 2px solid rgba(204,0,0,0.5);
-	border-bottom: 2px solid rgba(204,0,0,0.5);
+	
 }
 #content .form-textarea-buttons {
 	display: block;

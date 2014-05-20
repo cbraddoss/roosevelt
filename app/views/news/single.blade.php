@@ -45,7 +45,7 @@
 				
 				<span class="comment-time">{{ $comment->created_at->format('F j, Y g:i a') }}
 				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-				<a class="edit-link edit-comment" href="/news/article/comment/{{ $comment->id }}/edit">Edit Comment</a>
+					<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
 				@endif
 				<div id="comment-post-comment-form" class="create-something-new">
 					<span class="comment-reply-button"><button class="post-comment">Reply</button></span>
@@ -69,7 +69,7 @@
 						
 						<span class="comment-time">{{ $subComment->created_at->format('F j, Y g:i a') }}
 						@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-						<a class="edit-link edit-comment" href="/news/article/comment/{{ $subComment->id }}/edit">Edit Comment</a>
+						<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
 						@endif
 						</span>
 					</div>

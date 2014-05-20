@@ -40,8 +40,11 @@ Route::get('/uploads/{year}/{month}/{name}',array('as' => 'uploads', 'uses' => '
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
 Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));
-Route::get('/news/article/{article}/comment', array('as' => 'news.articleComment', 'uses' => 'ArticlesController@articleComment'));
+Route::get('/news/article/{article}/comment', array('as' => 'news.articleComment', 'uses' => 'ArticleCommentsController@show'));
 Route::post('/news/article/{article}/comment', array('uses' => 'ArticleCommentsController@store'));
+Route::get('/news/article/comment/{id}/edit', array('uses' => 'ArticleCommentsController@edit'));
+Route::post('/news/article/comment/{id}', array('uses' => 'ArticleCommentsController@update'));
+Route::post('/news/article/comment/{id}/remove/{imageName}', array('uses' => 'ArticleCommentsController@removeImage'));
 Route::get('/news/article/{article}/edit', array('uses' => 'ArticlesController@edit'));
 Route::post('/news/article/{article}', array('uses' => 'ArticlesController@update'));
 Route::delete('/news/article/{id}', array('uses' => 'ArticlesController@destroy'));

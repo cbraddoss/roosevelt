@@ -4,7 +4,7 @@ jQuery(document).ready(function($){
 	//Animate scroll to loaded comment id
 	var commentUrlHash = window.location.hash;
 	var commentUrlNew = window.location.search;
-	console.log(commentUrlNew);
+	//console.log(commentUrlNew);
 	var commentGoToPost = $(commentUrlHash).offset();
 	if(commentGoToPost) {
 		$('html, body').animate({
@@ -304,7 +304,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	    $(this).ajaxSubmit(addArticleOptions);
-	    console.log('submit');
+	    //console.log('submit');
 	    return false; 
 	});
 	function afterAddArticleSuccess(data)
@@ -316,7 +316,7 @@ jQuery(document).ready(function($){
 		else {
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    console.log('success');
+		    //console.log('success');
 			window.location.href = '/news/article/'+data.slug;
 		}
 	}
@@ -440,7 +440,7 @@ jQuery(document).ready(function($){
 	// submit reply to article
 	var articleCommentOptions = { 
 		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       afterPostCommentSuccess,  // post-submit callback 
+		success:       postCommentSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
 	$(document).on('submit','#news-page #news-post-comment-form form.add-comment', function() {
@@ -448,9 +448,9 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	    $(this).ajaxSubmit(articleCommentOptions);
-	    return false; 
+	    return false;
 	});
-	function afterPostCommentSuccess(data)
+	function postCommentSuccess(data)
 	{
 		if(data.errorMsg) {
 			$('#message-box-json').fadeIn();
@@ -459,8 +459,9 @@ jQuery(document).ready(function($){
 		else {
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log('success');
+		    //console.log(data.comment_id);
 			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
+			if(window.location.search == '?comment=new') window.location.reload(true);
 		}
 	}
 	// add pingable names to content textarea of new comment
@@ -517,25 +518,25 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeOut();
 		}
 	});
-	     
+	// submit comment on a comment
 	$(document).on('submit','#news-page #comment-post-comment-form form.add-comment', function() {
 		var commentReplyToId = $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
 		// submit reply to comment
-		var articleCommentOptions = {
+		var commentCommentOptions = {
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       afterPostCommentSuccess,  // post-submit callback 
+			success:       commentCommentSuccess,  // post-submit callback 
 			resetForm: false,        // reset the form after successful submit 
 			data: { reply_to_id: commentReplyToId }
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
-		$(this).ajaxSubmit(articleCommentOptions);
+		$(this).ajaxSubmit(commentCommentOptions);
 	    return false; 
 	});
-	function afterPostCommentSuccess(data)
+	function commentCommentSuccess(data)
 	{
 		if(data.errorMsg) {
 			$('#message-box-json').fadeIn();
@@ -544,11 +545,125 @@ jQuery(document).ready(function($){
 		else {
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log('success');
+		   	console.log(data.slug);
 			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
-			window.location.reload(true);
+			if(window.location.search == '?comment=new') window.location.reload(true);
 		}
 	}
+	// edit comment
+	$(document).on('click', '#news-page .comment-edit-button button.edit-comment', function(){
+		var pageName = $('body').attr('class');
+		pageName = pageName.split(' ');
+		pageName = pageName[0].replace('page-news-article-','');
+		
+		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
+		var commentId = commentIdBox.replace('comment-','');
+		//console.log(commentId);
+		///news/article/comment/{{ $subComment->id }}/edit
+		$.get( "/news/article/comment/"+commentId+"/edit", function( data ) {
+			$(document).find('#news-page .comment-edit-button button.edit-comment').each(function(){
+				$(this).hide();
+			});
+			$(document).find('#comment-post-comment-form .post-comment').each(function(){
+				$(this).hide();
+			});
+			$('#'+commentIdBox+' .comment-contents').html(data);
+			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(pageName);
+		});
+	});
+	// cancel editing a comment
+	$(document).on('click','#news-page form.edit-comment span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+				var pageHref = window.location.href;
+				window.location.reload(true);
+			}
+		}
+		else {
+			var pageHref = window.location.href;
+			window.location.reload(true);
+		}
+	});
+	// submit edit on comment
+	$(document).on('submit','#news-page form.edit-comment #update-comment', function() {
+		var editCommentOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       commentEditSuccess,  // post-submit callback 
+			resetForm: false        // reset the form after successful submit 
+		};	 
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(editCommentOptions);
+	    return false;
+	});
+	function commentEditSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		   	console.log(data.comment_id);
+			//window.location.href = '/news/article/'+data.slug+'?comment=edit#comment-'+data.comment_id;
+			//if(window.location.search == '?comment=edit') window.location.reload(true);
+		}
+	}
+	// add pingable names to content textarea of new comment
+	$(document).on('click', '.form-textarea-buttons .ping', function(){
+		var ping = $(this).attr('id');
+		//console.log(ping);
+	    $('textarea.update-comment-content').insertAtCaret(ping);
+	});
+	// add option to delete attachment
+	$(document).on('mouseenter', '#news-page .comment-edit-attachment', function(){
+		$(this).append('<span class="ss-delete"></span>');
+	});
+	$(document).on('mouseleave', '#news-page .comment-edit-attachment', function(){
+		$(this).find('.ss-delete').remove();
+	});
+	// delete comment attachment with ajax
+	$(document).on('click', '#news-page .comment-edit-attachment', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
+		
+		if(confirmCancel == true) {
+			var imageName = $(this).find('a img').attr('alt');
+			var imagePath = $(this).find('a').attr('href');
+			var imageId = $(this).closest('.office-post-comment').attr('id');
+			imageId = imageId.replace('comment-','');
+			var imageToken = $(this).closest('form.edit-comment').find('input[name=_token]').val();
+			$.post(
+				'/news/article/comment/'+imageId+'/remove/'+imageName,
+				{
+					"_token": imageToken,
+					"imageName" : imageName,
+					"imagePath" : imagePath,
+					"id" : imageId,
+				}, function (data) {
+					if(data.errorMsg) {
+						$('#message-box-json').fadeIn();
+						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+					}
+					else {
+						$('#message-box-json').find('.section').empty();
+						$('#message-box-json').fadeOut();
+						console.log(data.image);
+						$(document).find('a[href="'+ data.image +'"]').fadeOut();
+						//window.location.href = data.path;
+					}
+				},'json'
+			);
+		}
+	});
+	
 	// set min height of comments with attachments
 	$('#content .office-post-comment .comment-contents').each(function() {
 		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');

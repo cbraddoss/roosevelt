@@ -290,18 +290,6 @@ class ArticlesController extends \BaseController {
 		else return Redirect::route('news');
 	}
 
-	public function articleComment($article) {
-		$article = Article::where('slug', $article)->first();
-		if(empty($article)) return Redirect::route('news');
-		
-		if($article->status == 'draft') {
-			if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
-			else return Redirect::route('news');
-		}
-		
-		if(Request::ajax()) return View::make('news.partials.comment-form', compact('article'));		
-	}
-
 	/**
 	 * Show the form for editing the specified resource.
 	 *
