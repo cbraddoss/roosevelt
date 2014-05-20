@@ -67,8 +67,8 @@ function clean_title($title) {
 }
 
 function clean_content($content) {
-	$content = str_replace('<script>', '<pre><script>', $content);
-	$content = str_replace('</script>', '</script></pre>', $content);
+	$content = str_replace('<script>', '<code><script>', $content);
+	$content = str_replace('</script>', '</script></code>', $content);
 	return htmlentities($content);
 }
 
