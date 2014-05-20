@@ -400,6 +400,12 @@ jQuery(document).ready(function($){
 			);
 		}
 	});
+	$(document).on('submit','#news-page form.delete-article', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this post?');
+		
+		if(confirmCancel == true) return true;
+		else return false;
+	});
 	// on Submit of Edit article page, remove any changed-input classes.
 	$(document).on('submit', '#news-page form.update-article', function(){
 		$(this).find('.changed-input').each(function() {

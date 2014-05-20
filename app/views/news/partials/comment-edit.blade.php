@@ -12,10 +12,10 @@
 
 	{{ Form::file('attachment[]', array('multiple', 'class'=>'update-comment-attachment')) }}
 	
-	{{ Form::submit('Update', array('class' => 'save form-button', 'id' => 'update-comment') ) }}
-	
 	<span class="cancel form-button">Cancel</span>
 
+	{{ Form::submit('Update', array('class' => 'save form-button', 'id' => 'update-comment') ) }}
+	
 @if(!empty($comment->attachment))
 <div class="edit-comment-attachments">
 	{{ $comment->getCommentAttachments($comment->id,'comment-edit-attachment') }}
