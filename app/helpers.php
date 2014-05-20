@@ -67,19 +67,22 @@ function clean_title($title) {
 }
 
 function clean_content($content) {
+	$content = str_replace('<script>', '<pre><script>', $content);
+	$content = str_replace('</script>', '</script></pre>', $content);
 	return htmlentities($content);
 }
 
 function display_content($content, $length = null) {
 	if($length != null && strlen($content) >= 100 ) return nl2br(substr(strip_tags(html_entity_decode($content)),0,$length)) . '......';
-	$reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-	if(preg_match_all($reg_exUrl, $content, $url)) {
-		//dd($url);
-		foreach($url[0] as $href) {
-			$replacement = "<a href=".$href.">{$href}</a>";
-            $content = str_replace($href,$replacement,$content);
-		}
-	}
+	// $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+	// if(preg_match_all($reg_exUrl, $content, $url)) {
+	// 	//dd($url);
+	// 	foreach($url[0] as $href) {
+	// 		$replacement = "<a href=".$href.">{$href}</a>";
+ //            $content = str_replace($href,$replacement,$content);
+	// 	}
+	// }
+	// remove <script> tags entirely
 	return nl2br(html_entity_decode($content));
 }
 
@@ -259,7 +262,7 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 			$userSend = '';
 			$pingDetails = array(
 				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
 				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
 				'created_at' => $newArticleComment->created_at,
 				'tasks' => $findTasks,
@@ -276,7 +279,7 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 			$userSend = User::where('user_path','=',$user)->first();
 			$pingDetails = array(
 				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
 				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
 				'created_at' => $newArticleComment->created_at,
 				'tasks' => $findTasks,
