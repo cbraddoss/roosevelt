@@ -49,7 +49,7 @@
 @if(!empty($article->attachment))
 <div class="user-field edit-attachments">
 	<p>Current Attachments:</p>
-	{{ $article->getAttachments($article->id,'article-edit-attachment'); }}
+	{{ $article->getAttachments($article->id,'article-edit-attachment') }}
 </div>
 @endif
 

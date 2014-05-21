@@ -144,28 +144,31 @@ function article_ping_email($newArticle, $previousMentions = '') {
 		if($user == 'insideout') {
 			$userSend = '';
 			$author = User::where('id', '=', $newArticle->author_id)->first();
-			$pingDetails = array('title' => $newArticle->title, 'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug, 'author' => $author->first_name . ' ' . $author->last_name, 'created_at' => $newArticle->created_at);
-			Mail::send('emails.ping', $pingDetails, function($message) {
+			$pingDetails = array(
+				'content' => '<p>You have been pinged by ' . $author->first_name . ' ' . $author->last_name . ' in <b>' . $newArticle->title . '</b></p>
+	<p>View the post here: <a href="http://roosevelt.insideout.com/news/article/' . $newArticle->slug . '">' . $newArticle->title . '</a></p>
+	<small>This post was created on ' . $newArticle->created_at->format('F j, Y g:i a') . '</small>'
+				);
+			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $newArticle) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged!');
+				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged in ' . $newArticle->title);
 			});
 		}
 		else {
 			$userSend = User::where('user_path','=',$user)->first();
 			$author = User::where('id', '=', $newArticle->author_id)->first();
 			$pingDetails = array(
-				'title' => $newArticle->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$newArticle->slug,
-				'author' => $author->first_name . ' ' . $author->last_name,
-				'created_at' => $newArticle->created_at,
+				'content' => '<p>You have been pinged by ' . $author->first_name . ' ' . $author->last_name . ' in <b>' . $newArticle->title . '</b></p>
+	<p>View the post here: <a href="http://roosevelt.insideout.com/news/article/' . $newArticle->slug . '">' . $newArticle->title . '</a></p>
+	<small>This post was created on ' . $newArticle->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 				);
-			Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
+			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $newArticle) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
+				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged in ' . $newArticle->title);
 			});
 		}
 	}
@@ -209,19 +212,18 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 	}
 
 	if($authorCommentOnComment != false) {
-	// send email to comment author
+		// send email to comment author
 		if($authorCommentOnComment->id != $authorComment->id) {
 			$pingCommentAuthorDetails = array(
-				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-				'created_at' => $newArticleComment->created_at,
+				'content' => '<p>Your comment on <b>' . $articleWithComment->title . '</b> has a new reply by ' . $authorComment->first_name . ' ' . $authorComment->last_name . '</p>
+	<p>View the comment here: <a href="http://roosevelt.insideout.com/news/article/' . $articleWithComment->slug . '?comment=new#comment-'.$newArticleComment->id . '">' . $articleWithComment->title . '</a></p>
+	<small>This post was created on ' . $newArticleComment->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 			);
-			Mail::send('emails.replyreply', $pingCommentAuthorDetails, function($message) use($authorCommentOnComment, $articleWithComment) {
+			Mail::send('emails.notifications.main', $pingCommentAuthorDetails, function($message) use($authorCommentOnComment, $articleWithComment) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
 				$message->to($authorCommentOnComment->email, $authorCommentOnComment->first_name . ' ' . $authorCommentOnComment->last_name)->subject('Your comment on, '.$articleWithComment->title.', has a new reply.');
 			});
@@ -230,34 +232,33 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 		// send email to article author
 		if($authorCommentOnComment->id != $authorArticle->id) {
 			$pingAuthorDetails = array(
-				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-				'created_at' => $newArticleComment->created_at,
+				'content' => '<p>Your article, <b>' . $articleWithComment->title . '</b>, has a new reply by ' . $authorComment->first_name . ' ' . $authorComment->last_name . '</p>
+	<p>View the comment here: <a href="http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id . '">' . $articleWithComment->title . '</a></p>
+	<small>This post was created on ' . $newArticleComment->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 			);
-			Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
+			Mail::send('emails.notifications.main', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
 				$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article, '.$articleWithComment->title.', has a new reply.');
 			});
 		}
 	}
 	else {
+		// send email to article author
 		if($authorComment->id != $authorArticle->id) {
 			$pingAuthorDetails = array(
-				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-				'created_at' => $newArticleComment->created_at,
+				'content' => '<p>Your article, <b>' . $articleWithComment->title . '</b>, has a new reply by ' . $authorComment->first_name . ' ' . $authorComment->last_name . '</p>
+	<p>View the comment here: <a href="http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id . '">' . $articleWithComment->title . '</a></p>
+	<small>This post was created on ' . $newArticleComment->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 			);
-			Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
+			Mail::send('emails.notifications.main', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
 				$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article, '.$articleWithComment->title.', has a new reply.');
 			});
@@ -269,35 +270,33 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 		if($user == 'insideout') {
 			$userSend = '';
 			$pingDetails = array(
-				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-				'created_at' => $newArticleComment->created_at,
+				'content' => '<p>You have been pinged by ' . $authorComment->first_name . ' ' . $authorComment->last_name . ' in <b>' . $articleWithComment->title . '</b></p>
+	<p>View the comment here: <a href="http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id . '">' . $articleWithComment->title . '</a></p>
+	<small>This post was created on ' . $newArticleComment->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 			);
-			Mail::send('emails.ping', $pingDetails, function($message) {
+			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $articleWithComment){
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged!');
+				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged in ' . $articleWithComment->title);
 			});
 		}
 		else {
 			$userSend = User::where('user_path','=',$user)->first();
 			$pingDetails = array(
-				'title' => $articleWithComment->title,
-				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-				'created_at' => $newArticleComment->created_at,
+				'content' => '<p>You have been pinged by ' . $authorComment->first_name . ' ' . $authorComment->last_name . ' in <b>' . $articleWithComment->title . '</b></p>
+	<p>View the comment here: <a href="http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id . '">' . $articleWithComment->title . '</a></p>
+	<small>This post was created on ' . $newArticleComment->created_at->format('F j, Y g:i a') . '</small>',
 				'tasks' => $findTasks,
 				'projects' => $findProjects,
 				'billables' => $findBillables,
 				'help' => $findHelp,
 			);
-			Mail::send('emails.ping', $pingDetails, function($message) use($userSend) {
+			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $articleWithComment) {
 				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged!');
+				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged in ' . $articleWithComment->title);
 			});
 		}
 	}

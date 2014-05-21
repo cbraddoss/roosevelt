@@ -41,16 +41,16 @@
 	@endif
 		<div class="comment-contents">
 			<div class="comment-details">
-				<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
+				<small><span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span></small>
 				
-				<span class="comment-time">{{ $comment->created_at->format('F j, Y g:i a') }}
+				<small><span class="comment-time">{{ $comment->created_at->format('F j, Y g:i a') }}
 				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 					<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
 				@endif
 				<div id="comment-post-comment-form" class="create-something-new">
 					<span class="comment-reply-button"><button class="post-comment">Reply</button></span>
 				</div>
-				</span>
+				</span></small>
 			</div>
 			{{ $comment->getCommentAttachments($comment->id) }}
 			<p>{{ display_content($comment->content) }}</p>
@@ -65,13 +65,13 @@
 			@endif
 				<div class="comment-contents">
 					<div class="comment-details">
-						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
+						<small><span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span></small>
 						
-						<span class="comment-time">{{ $subComment->created_at->format('F j, Y g:i a') }}
+						<small><span class="comment-time">{{ $subComment->created_at->format('F j, Y g:i a') }}
 						@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 						<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
 						@endif
-						</span>
+						</span></small>
 					</div>
 					{{ $subComment->getCommentAttachments($subComment->id) }}
 					<p>{{ display_content($subComment->content) }}</p>

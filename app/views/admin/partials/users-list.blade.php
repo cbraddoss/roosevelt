@@ -42,7 +42,7 @@
 
 <br class="clear">
 
-<h3>Subcontracted Users</h3>
+<h3>Subcontracted (non-standard) Users</h3>
 @foreach($users as $u)
 	@if($u->userrole == 'non-standard' && $u->status == 'active')
 	<p class="admin-p">

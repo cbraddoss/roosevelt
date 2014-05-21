@@ -17,10 +17,10 @@ Green: 055F67
 /* General */
 body {
 	text-align:left;
-	background:#eee;
-	background: #eee url('../images/ticks.png') top left;
+	background:#ddd;
+	/*background: #eee url('../images/ticks.png') top left;*/
 	font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: #333;
+	color: #000;
 	font-size: 62.5%;
 	margin:0px;
 	padding:0px;
@@ -85,7 +85,7 @@ ul {
 	background:#fff;
 	box-shadow: 0px 0px 5px #ddd;
 	font-size:1.4em;
-	color:#333;
+	color:#000;
 }
 #login .login-image {
 	background: #A95306 url('../images/hawaiian-tile.jpg') top center;
@@ -608,7 +608,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	position:relative;
 	font-size:1.2em;
 	letter-spacing: 0.0625em;
-	color: #333;
+	color: #000;
 	font-weight: 100;
 	padding:0;
 	position:relative;
@@ -706,7 +706,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	top:7px;
 }
 #todo-box a {
-	color: #333;
+	color: #000;
 }
 #todo-box ul {
 	list-style:none;
@@ -807,7 +807,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-weight: 100;
 	padding:0 0px 10px;
 	margin:0;
-	color: #333;
+	color: #000;
 	/*border-bottom: 1px solid rgba(32,32,32,0.4);*/
 }
 #content h3 {
@@ -942,7 +942,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	display:block;
 	padding:5px;
 	text-decoration: none;
-	color:#333;
+	color:#000;
 	font-size:0.8em;
 }
 #content .edit-link,
@@ -1407,7 +1407,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	background: rgba(209,209,0,0.2);
 }
 #content .sticky-icon {
-	color: #333;
+	color: #000;
 	font-size: 1.4em;
 	text-shadow:
    -1px -1px 0 rgba(235,235,0,1),  
@@ -1445,21 +1445,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-left:1px solid rgba(32,32,32,0.1);
 	display: block;
 	width:auto;
-	padding: 10px;
+	padding: 5px 10px 10px;
 	margin: 2px 0 5px 52px;
+}
+#content .office-post-comment .comment-contents .edit-link {
+	font-size: 1.1em;
 }
 #content .office-post-comment .comment-details {
 	display: block;
-	border-bottom: 1px solid rgba(32,32,32,0.3);
 }
 #content .office-post-comment .comment-author {
 	display: inline-block;
 	padding-bottom: 5px;
+	font-weight: 700;
+	color: #000;
 }
 #content .office-post-comment .comment-time {
 	display: block;
 	float: right;
-	font-size: 0.8em;
+	font-size: 0.9em;
 }
 #content .office-post-comment .comment-contents p {
 	margin:0;
@@ -1532,7 +1536,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #quicklinks a:before {
 	font-size: 2.5em;
 	display:block;
-	color: #333;
+	color: #000;
 }
 #quicklinks a:hover {
 	background: rgba(250,250,250,0.8);
@@ -1693,7 +1697,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	height: auto;
 }
 #news-page .ss-heart {
-	color: #333;
+	color: #000;
 	cursor:pointer;
 }
 #news-page .ss-heart:before {
@@ -1726,7 +1730,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #admin-page .admin-p .admin-link:before {
 	font-size: 2.5em;
 	display:block;
-	color: #333;
+	color: #000;
 }
 #admin-page .admin-p .admin-link:hover {
 	background: rgba(250,250,250,0.8);
@@ -1986,7 +1990,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	z-index: 44;
 }
 .calendar-header a.show-next-month {
-	color: #333;
+	color: #000;
 	text-decoration: none;
 	font-size:0.8em;
 	padding: 5px 40px 5px 10px;
@@ -1995,7 +1999,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	position: relative;
 }
 .calendar-header a.show-previous-month {
-	color: #333;
+	color: #000;
 	text-decoration: none;
 	font-size:0.8em;
 	padding: 5px 10px 5px 40px;
