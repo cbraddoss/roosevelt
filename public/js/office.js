@@ -107,6 +107,7 @@ jQuery(document).ready(function($){
 	$('#message-box-json').hide();
 	$('#message-box').fadeIn();
 	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).fadeOut();
+	$('#message-box .action-message .flash-message-error').parent().parent().parent().delay(14000).fadeOut();
 	$('#message-box-json').find('.section').empty();
 
 	/* Admin Page */

@@ -67,8 +67,11 @@ function clean_title($title) {
 }
 
 function clean_content($content) {
-	$content = str_replace('<script>', '<code><script>', $content);
-	$content = str_replace('</script>', '</script></code>', $content);
+	// convert script and php tags to pre tags
+	$content = str_replace('<script>', '<pre class="script">', $content);
+	$content = str_replace('</script>', '</pre>', $content);
+	$content = str_replace('<?php', '<pre class="php">', $content);
+	$content = str_replace('?>', '</pre>', $content);
 	return htmlentities($content);
 }
 
@@ -82,7 +85,6 @@ function display_content($content, $length = null) {
  //            $content = str_replace($href,$replacement,$content);
 	// 	}
 	// }
-	// remove <script> tags entirely
 	return nl2br(html_entity_decode($content));
 }
 
@@ -206,20 +208,22 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 
 	if($authorCommentOnComment != false) {
 	// send email to comment author
-		$pingCommentAuthorDetails = array(
-			'title' => $articleWithComment->title,
-			'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-			'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-			'created_at' => $newArticleComment->created_at,
-			'tasks' => $findTasks,
-			'projects' => $findProjects,
-			'billables' => $findBillables,
-			'help' => $findHelp,
-		);
-		Mail::send('emails.replyreply', $pingCommentAuthorDetails, function($message) use($authorCommentOnComment, $articleWithComment) {
-			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-			$message->to($authorCommentOnComment->email, $authorCommentOnComment->first_name . ' ' . $authorCommentOnComment->last_name)->subject('Your comment on, '.$articleWithComment->title.', has a new reply.');
-		});
+		if($authorCommentOnComment->id != $authorComment->id) {
+			$pingCommentAuthorDetails = array(
+				'title' => $articleWithComment->title,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
+				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+				'created_at' => $newArticleComment->created_at,
+				'tasks' => $findTasks,
+				'projects' => $findProjects,
+				'billables' => $findBillables,
+				'help' => $findHelp,
+			);
+			Mail::send('emails.replyreply', $pingCommentAuthorDetails, function($message) use($authorCommentOnComment, $articleWithComment) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to($authorCommentOnComment->email, $authorCommentOnComment->first_name . ' ' . $authorCommentOnComment->last_name)->subject('Your comment on, '.$articleWithComment->title.', has a new reply.');
+			});
+		}
 
 		// send email to article author
 		if($authorCommentOnComment->id != $authorArticle->id) {
@@ -240,20 +244,22 @@ function article_comment_ping_email($newArticleComment, $previousMentions = '') 
 		}
 	}
 	else {
-		$pingAuthorDetails = array(
-			'title' => $articleWithComment->title,
-			'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
-			'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
-			'created_at' => $newArticleComment->created_at,
-			'tasks' => $findTasks,
-			'projects' => $findProjects,
-			'billables' => $findBillables,
-			'help' => $findHelp,
-		);
-		Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
-			$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-			$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article, '.$articleWithComment->title.', has a new reply.');
-		});
+		if($authorComment->id != $authorArticle->id) {
+			$pingAuthorDetails = array(
+				'title' => $articleWithComment->title,
+				'link' => 'http://roosevelt.insideout.com/news/article/'.$articleWithComment->slug.'?comment=new#comment-'.$newArticleComment->id,
+				'author' => $authorComment->first_name . ' ' . $authorComment->last_name,
+				'created_at' => $newArticleComment->created_at,
+				'tasks' => $findTasks,
+				'projects' => $findProjects,
+				'billables' => $findBillables,
+				'help' => $findHelp,
+			);
+			Mail::send('emails.reply', $pingAuthorDetails, function($message) use($authorArticle, $articleWithComment) {
+				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
+				$message->to($authorArticle->email, $authorArticle->first_name . ' ' . $authorArticle->last_name)->subject('Your article, '.$articleWithComment->title.', has a new reply.');
+			});
+		}
 	}
 
 	// send email(s) to pinged users
