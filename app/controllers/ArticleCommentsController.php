@@ -127,6 +127,7 @@ class ArticleCommentsController extends \BaseController {
 		}
 		
 		if(Request::ajax()) return View::make('news.partials.comment-form', compact('article'));
+		else return Redirect::to('/news/article/'.$article->slug);
 	}
 
 

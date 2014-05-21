@@ -68,8 +68,9 @@ function clean_title($title) {
 
 function clean_content($content) {
 	// convert script and php tags to pre tags
-	$content = str_replace('<script>', '<pre class="script">', $content);
-	$content = str_replace('</script>', '</pre>', $content);
+	//$content = str_replace('<script>', '<pre class="script">', $content);
+	$content = preg_replace('/<script(.*)>(.*\n)<\/script>/i', '<pre class="script">$2</pre>',$content);
+	//$content = str_replace('</script>', '</pre>', $content);
 	$content = str_replace('<?php', '<pre class="php">', $content);
 	$content = str_replace('?>', '</pre>', $content);
 	return htmlentities($content);
