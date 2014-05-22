@@ -6,6 +6,7 @@ use \ArticleComment;
 
 class ArticlesController extends \BaseController {
 
+	protected $mailer;
 	/**
      * Instantiate a new UsersController instance.
      */
@@ -378,7 +379,7 @@ class ArticlesController extends \BaseController {
 				return Redirect::to('/news/article/'.$article->slug.'/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 
-			if($previousMentions != $newMentions) article_ping_email($article,$previousMentions);
+			if($previousMentions != $newMentions) $this->mailer->articlePingEmail($article,$previousMentions);
 
 			return Redirect::to('/news/article/'.$article->slug)->with('flash_message_success', '<i>' . $article->title . '</i> successfully updated!');
 		}

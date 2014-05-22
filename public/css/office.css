@@ -1461,9 +1461,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #000;
 }
 #content .office-post-comment .comment-time {
+	display: inline-block;
+	font-size: 0.9em;
+}
+#content .office-post-comment .comment-options {
 	display: block;
 	float: right;
-	font-size: 0.9em;
+	font-size: 1em;
+}
+#content .office-post-comment .comment-options .post-comment {
+	padding: 2px 6px;
 }
 #content .office-post-comment .comment-contents p {
 	margin:0;

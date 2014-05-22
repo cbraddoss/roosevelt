@@ -41,16 +41,25 @@
 	@endif
 		<div class="comment-contents">
 			<div class="comment-details">
-				<small><span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span></small>
+				<small>
+					<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}</span>
+					<span class="comment-time">on 
+					@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
+						{{ $comment->created_at->format('F j g:i a') }}
+					@else
+						{{ $comment->created_at->format('F j, Y g:i a') }}
+					@endif
+					</span>
+					@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
+						<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
+					@endif
+				</small>
 				
-				<small><span class="comment-time">{{ $comment->created_at->format('F j, Y g:i a') }}
-				@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-					<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
-				@endif
-				<div id="comment-post-comment-form" class="create-something-new">
-					<span class="comment-reply-button"><button class="post-comment">Reply</button></span>
+				<div class="comment-options">
+					<div id="comment-post-comment-form" class="create-something-new">
+						<span class="comment-reply-button"><button class="post-comment">Reply</button></span>
+					</div>
 				</div>
-				</span></small>
 			</div>
 			{{ $comment->getCommentAttachments($comment->id) }}
 			<p>{{ display_content($comment->content) }}</p>
@@ -65,13 +74,19 @@
 			@endif
 				<div class="comment-contents">
 					<div class="comment-details">
-						<small><span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span></small>
-						
-						<small><span class="comment-time">{{ $subComment->created_at->format('F j, Y g:i a') }}
-						@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-						<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
-						@endif
-						</span></small>
+						<small>
+							<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}</span>
+							<span class="comment-time">on 
+							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
+								{{ $subComment->created_at->format('F j g:i a') }}
+							@else
+								{{ $subComment->created_at->format('F j, Y g:i a') }}
+							@endif
+							</span>
+							@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
+								<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
+							@endif
+						</small>
 					</div>
 					{{ $subComment->getCommentAttachments($subComment->id) }}
 					<p>{{ display_content($subComment->content) }}</p>

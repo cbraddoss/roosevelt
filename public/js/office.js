@@ -267,7 +267,7 @@ jQuery(document).ready(function($){
 		    	$(this).addClass('changed-input');
 		    }).data('datepicker');
 		    
-			//$('form.add-article .article-title').focus();
+			$('form.add-article .article-title').focus();
 		});
 	});
 	// detect Status change and update submit button text
@@ -424,6 +424,7 @@ jQuery(document).ready(function($){
 		$.get( "/news/article/"+pageName+"/comment", function( data ) {
 			$('#news-post-comment-form').html(data);
 			$('#news-post-comment-form input[name=article-slug]').val(pageName);
+			$('form.add-comment .comment-content').focus();
 		});
 	});
 	// cancel news article reply
@@ -499,6 +500,7 @@ jQuery(document).ready(function($){
 				scrollTop: commentBoxPos.top-110
 			}, 2000);
 			$('#'+commentId+' .create-something-new').find('input[name=article-slug]').val(pageName);
+			$('form.add-comment .comment-content').focus();
 		});
 	});
 	// cancel comment reply
@@ -576,6 +578,7 @@ jQuery(document).ready(function($){
 			});
 			$('#'+commentIdBox+' .comment-contents').html(data);
 			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(pageName);
+			$('form.edit-comment .update-comment-content').focus();
 		});
 	});
 	// cancel editing a comment

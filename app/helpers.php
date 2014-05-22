@@ -119,61 +119,6 @@ function find_mentions($content) {
 	return $mention;
 }
 
-function article_ping_email($newArticle, $previousMentions = '') {
-	$parseUsers = $newArticle->mentions;
-	$parseUsers = explode(' ',$parseUsers);
-
-	$parseOldUsers = $previousMentions;
-	$parseOldUsers = explode(' ', $parseOldUsers);
-
-	$findTasks = find_assigned_count('tasks');
-	$findProjects = find_assigned_count('projects');
-	$findBillables = find_assigned_count('billables');
-	$findHelp = find_assigned_count('help');
-
-	$users = array();
-	foreach($parseUsers as $pUser) {
-		if($pUser == '') unset($pUser);
-		elseif(in_array($pUser, $parseOldUsers)) unset($pUser);
-		else {
-			$users[] = $pUser;
-		}
-	}
-
-	foreach($users as $user) {
-		if($user == 'insideout') {
-			$userSend = '';
-			$author = User::where('id', '=', $newArticle->author_id)->first();
-			$pingDetails = array(
-				'content' => '<p>You have been pinged by ' . $author->first_name . ' ' . $author->last_name . ' in <b>' . $newArticle->title . '</b></p>
-	<p>View the post here: <a href="http://roosevelt.insideout.com/news/article/' . $newArticle->slug . '">' . $newArticle->title . '</a></p>
-	<small>This post was created on ' . $newArticle->created_at->format('F j, Y g:i a') . '</small>'
-				);
-			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $newArticle) {
-				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to('cbraddoss@gmail.com', 'InsideOut Solutions')->subject('You have been pinged in ' . $newArticle->title);
-			});
-		}
-		else {
-			$userSend = User::where('user_path','=',$user)->first();
-			$author = User::where('id', '=', $newArticle->author_id)->first();
-			$pingDetails = array(
-				'content' => '<p>You have been pinged by ' . $author->first_name . ' ' . $author->last_name . ' in <b>' . $newArticle->title . '</b></p>
-	<p>View the post here: <a href="http://roosevelt.insideout.com/news/article/' . $newArticle->slug . '">' . $newArticle->title . '</a></p>
-	<small>This post was created on ' . $newArticle->created_at->format('F j, Y g:i a') . '</small>',
-				'tasks' => $findTasks,
-				'projects' => $findProjects,
-				'billables' => $findBillables,
-				'help' => $findHelp,
-				);
-			Mail::send('emails.notifications.main', $pingDetails, function($message) use($userSend, $newArticle) {
-				$message->from('office@insideout.com', 'InsideOut Employee Remote Office');
-				$message->to($userSend->email, $userSend->first_name . ' ' . $userSend->last_name)->subject('You have been pinged in ' . $newArticle->title);
-			});
-		}
-	}
-}
-
 function article_comment_ping_email($newArticleComment, $previousMentions = '') {
 	$parseUsers = $newArticleComment->mentions;
 	$parseUsers = explode(' ',$parseUsers);
