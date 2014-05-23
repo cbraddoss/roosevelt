@@ -79,8 +79,7 @@
 		color: #000;
 		letter-spacing: 1px;
 		margin: 10px 0 5px;
-		padding-bottom: 10px;
-		border-bottom: 1px dashed #ccc;
+		padding-bottom: 0px;
 		text-align: center;
 
 	}

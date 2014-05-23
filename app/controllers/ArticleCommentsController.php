@@ -1,7 +1,12 @@
 <?php
 
+use \Mailer;
+use \Article;
+use \ArticleComment;
+
 class ArticleCommentsController extends \BaseController {
 
+	protected $mailer;
 	/**
      * Instantiate a new CommentsController instance.
      */
@@ -94,8 +99,8 @@ class ArticleCommentsController extends \BaseController {
 				return Response::json( $response );
 			}
 
-			article_comment_ping_email($newArticleComment);
-
+			$this->mailer->articleCommentPingEmail($newArticleComment);
+			
 			$response = array(
 				'slug' => Input::get('article-slug'),
 				'comment_id' => $newArticleComment->id,
@@ -208,7 +213,7 @@ class ArticleCommentsController extends \BaseController {
 				return Redirect::to('/news/article/'.$articleSlug)->with('flash_message_error','Oops, something went wrong. Please contact the DevTeam.');
 			}
 
-			if($previousMentions != $newMentions) article_comment_ping_email($commentUpdate,$previousMentions);
+			$this->mailer->articleCommentPingEmail($commentUpdate,$previousMentions);
 			
 			return Redirect::to('/news/article/'.$articleSlug.'/?comment=edit#comment-'.$commentUpdate->id)->with('flash_message_success', 'Comment successfully updated!');
 		}
