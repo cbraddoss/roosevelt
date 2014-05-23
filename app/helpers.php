@@ -174,9 +174,11 @@ function find_assigned_count($resource) {
 }
 
 function user_last_login($login) {
-	$login = new DateTime($login);
-	$login = $login->format('F j, Y');
-	if($login != 'November 30, -0001') return 'Last Login:<br/> '.$login;
+	//$login = new DateTime($login);
+	if(!empty($login)) {
+		$login = Carbon::createFromFormat('Y-m-d H:i:s', $login)->format('F j, Y');
+		return 'Last Login:<br/> '.$login;
+	}
 	else return 'Login: null';
 }
 // Save for later
