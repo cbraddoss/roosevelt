@@ -105,8 +105,10 @@ function upload_path() {
 }
 
 function find_mentions($content) {
-	$mentionSearch = "/(@)((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))/is";
 	$mention = '';
+	if(strpos($content, '@insideout') !== false) $mention .= 'insideout ';
+	
+	$mentionSearch = "/(@)((?:[a-z][a-z]+))(-)((?:[a-z][a-z]+))/is";
 	if(preg_match_all($mentionSearch, $content, $mentionFound)) {
 		$mentionFound = array_unique($mentionFound[0]);
 		foreach($mentionFound as $mentionAdd) {
@@ -114,7 +116,6 @@ function find_mentions($content) {
 			$mention .= $mentionAdd . ' ';
 		}
 	}
-	if(strpos($content, '@insideout') !== false) $mention .= 'insideout';
 	
 	return $mention;
 }

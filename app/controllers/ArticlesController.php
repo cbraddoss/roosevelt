@@ -105,8 +105,8 @@ class ArticlesController extends \BaseController {
 				return Response::json( $response );
 			}
 
-			article_ping_email($newArticle);
-
+			if(!empty($newArticle->mentions)) $this->mailer->articlePingEmail($newArticle);
+			
 			$response = array(
 				'slug' => $newArticle->slug,
 				'msg' => 'Article saved.'

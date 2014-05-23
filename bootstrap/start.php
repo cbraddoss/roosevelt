@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'dev-brad' => array('Cs-Mac-Pro.local'),
+	'dev-brad' => array('precise64'),
 	'dev-brad-laptop' => array('precise64'),
 	'dev-jack' => array('CHANGE_ME'),
 	'dev-taylor' => array('taylor-VirtualBox'),
