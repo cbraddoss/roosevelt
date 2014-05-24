@@ -187,7 +187,7 @@ ul {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b83b4', endColorstr='#3c698c',GradientType=0 ); /* IE6-9 */
 }
 .section {
-	width: 1400px;
+	width: 99%;
 	position:relative;
 	margin:0 auto;
 }
@@ -197,17 +197,17 @@ ul {
 
 /* Company Header */
 #company-header {
-	width:346px;
+	width:14%;
 	height:50px;
 	position:absolute;
 	top:0px;
 	left:0px;
 	z-index: 59;
-	margin: 5px 0 0;
+	margin: 10px 0 0;
 }
 #company-header a.logo img {
-	padding: 5px 0 0 0px;
-	width: 256px;
+	padding: 5px 0 0 5px;
+	width: 90%;
 	height: auto;
 	margin: 0;
 	display: block;
@@ -535,10 +535,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 #sidebar {
 	position:fixed;
 	top: 0px;
+	left: 0px;
 	text-align:left;
 	font-size: 1.2em;
-	width:250px;
-	margin:0px 0;
+	width:14%;
+	margin:0px;
 	padding:0;
 	z-index:55;
 	background: rgba(0,0,0,0.9);
@@ -557,7 +558,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	/*0px 0px 10px 0px #333;*/
 }
 #welcome-box ul#welcome-name {
-	width:250px;
+	width:100%;
 	height: 30px;
 	margin:80px 0 13px;
 	display: inline-block;
@@ -566,7 +567,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	color: #fff;
 	text-shadow: 1px 1px 1px #000;
 	text-align:center;
-	width:250px;
+	width:100%;
 	font-weight: 100;
 	font-size:1.2em;
 	letter-spacing: 1px;
@@ -575,8 +576,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 
 /* Search Bar */
 #search-box {
-	width: 240px;
-	margin: 6px 5px 4px;
+	width:90%;
+	margin: 4px 2.5% 4px;
 	position: relative;
 }
 #search-box input.search {
@@ -584,7 +585,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	display: inline-block;
 	border-top: 1px solid #444;
 	border-bottom: 1px solid #222;
-	width: 230px;
+	width:100%;
 	padding: 0px 5px 0;
 	height: 28px;
 	font-size: 1em;
@@ -596,15 +597,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 #search-box .ss-search {
 	color: #000;
 	position:absolute;
-	right: 5px;
+	right: 0px;
 	top: 4px;
 	font-size: 1.3em;
 }
 /* ToDo */
 #todo-box {
 	clear:both;
-	width:250px;
-	margin-top:12px;
+	width:100%;
+	margin-top:13px;
 	position:relative;
 	font-size:1.2em;
 	letter-spacing: 0.0625em;
@@ -636,21 +637,21 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	margin: 0 0 0px 0px;
 	padding: 5px 0 5px;
 	display:block;
-	width:262px;
+	width:100%;
 	color: #fff;
 	font-weight:100;
 	position:relative;
 }
 #todo-box .todo-feed-title.active {
 	padding: 5px 0 5px;
-	box-shadow: -3px 8px 9px -8px #333;
+	box-shadow: 0px 2px 10px -3px #333;
 }
 #todo-box .todo-feed-title span.ss-check:before,
 #todo-box .todo-feed-title span.ss-briefcase:before,
 #todo-box .todo-feed-title span.ss-list:before {
-	padding:0 10px 0 25px;
+	padding:0 10px 0 5%;
 }
-#todo-box .todo-feed-title:after {
+/*#todo-box .todo-feed-title:after {
 	content: "";
 	position: absolute;
 	display: block;
@@ -659,7 +660,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	bottom: -12px;
 	right: 0;
 	border-width: 12px 12px 0 0;
-}
+}*/
 #todo-box #projects-feed,
 #todo-box #leads-feed {
 	display:none;
@@ -791,9 +792,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 /* Page Content */
 #content {
-	width: 1115px;
-	margin:0 0 10px 265px;
-	padding: 0 0 0 20px;
+	width: 85%;
+	margin:0 0 10px 15%;
+	padding: 0 0 0 0px;
 	font-size: 1.2em;
 	/*background: #fff;*/
 	/*margin:20px 0;*/
@@ -1025,6 +1026,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-left:1px solid rgba(75,131,180,0.2);
 	border-right:1px solid rgba(75,131,180,0.8);
 	border-bottom:1px solid rgba(75,131,180,0.8);
+	
 	background: rgba(75,131,180,0.2);
 	background: #4b83b4; /* Old browsers */
 	background: -moz-linear-gradient(top,  #4b83b4 0%, #3c698c 100%); /* FF3.6+ */
@@ -1034,6 +1036,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	background: -ms-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b83b4', endColorstr='#3c698c',GradientType=0 ); /* IE6-9 */
+	
 	margin-bottom:5px;
 	position:relative;
 	height: 40px;
@@ -1050,8 +1053,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .page-menu ul li {
 	float:left;
 	border-bottom:none !important;
-	height:30px;
-	padding:5px 0px;
+	height:40px;
+	padding:0px 0px;
 	margin:0px 0px;
 	border-right: 1px solid rgba(93,143,187,1);
 	border-left: 1px solid rgba(60,105,144,1);
@@ -1060,7 +1063,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-left:none;
 }
 #content .page-menu ul li:last-child {
-	border-right:none;
+	box-shadow: 1px 0px 1px 0px rgba(60,105,144,1);
 }
 #content .page-menu ul li:hover {
 	background: #3c698c; /* Old browsers */
@@ -1075,19 +1078,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .page-menu ul li a {
 	color: #fff !important;
 	height: 30px;
-	padding: 5px 10px;
+	padding: 10px 10px;
 	margin: 0;
 	display: block;
 }
 #content .page-menu ul li select {
 	padding: 5px;
-	margin: 2px 10px 0px;
+	margin: 7px 10px 0px;
 	display: block;
 }
 #content .page-menu ul li input {
 	padding: 5px;
-	margin: 0px 10px 0px;
+	margin: 5px 10px 0px;
 	display: block;
+}
+#content .page-menu ul li span.calendar-jump-to {
+	color: #fff !important;
+	height: 30px;
+	display: inline-block;
+	padding: 10px 0px 10px 10px;
+	margin: 0;
+}
+#content .page-menu ul li input.datepicker {
+	display: inline-block;
 }
 /* create something button and form */
 #content .create-something-new {
@@ -1407,20 +1420,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	background: rgba(209,209,0,0.2);
 }
 #content .sticky-icon {
-	color: #000;
+	color: rgba(235,235,0,1);
 	font-size: 1.4em;
 	text-shadow:
-   -1px -1px 0 rgba(235,235,0,1),  
-    1px -1px 0 rgba(235,235,0,1),
-    -1px 1px 0 rgba(235,235,0,1),
-     1px 1px 0 rgba(235,235,0,1);
+   	-1px -1px 0 rgba(32,32,32,1),  
+    1px -1px 0 rgba(32,32,32,1),
+    -1px 1px 0 rgba(32,32,32,0.3),
+    1px 1px 0 rgba(32,32,32,0.3);
     -webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-ms-transform: rotate(90deg);
 	-o-transform: rotate(90deg);
 	position:absolute;
-	top:-10px;
-	right:-10px;
+	top:0px;
+	right:5px;
 }
 #content .office-post-comment {
 	display: block;
@@ -1980,10 +1993,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	cursor: pointer;
 }
 .calendar-header .arrow-previous-month {
-	left:5px;
+	left:0px;
 }
 .calendar-header .arrow-next-month {
-	right:16px;
+	right:.14%;
 }
 .calendar-header .arrow-next-month .ss-navigateright {
 	position: absolute;
@@ -2017,7 +2030,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .calendar-header .month-year h2 {
 	text-align:center;
 	font-size: 2.5em !important;
-	margin-top: 10px !important;
+	margin-top: 0px !important;
 	padding-top: 5px !important;
 	display: block;
 }
@@ -2029,7 +2042,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: rgba(75,131,180,1);
 }
 .calendar-header .calendar-key {
-	width:450px;
+	text-align:center;
 	margin:0 auto;
 }
 .calendar-header .key-desc {
@@ -2070,6 +2083,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size:0.75em;
 	display: inline-block;
 }
+.calendar-days {
+	width: 100%;
+	margin: 0 auto;
+}
 .calendar-days .days-of-week {
 	padding: 5px 0;
 	margin: 0px;
@@ -2078,33 +2095,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	height: 28px;
 }
 .calendar-days .days-of-week .day {
-	width: 140px;
-	margin: 0px 5px;
+	width: 14.25%;
+	margin: 0px;
 	padding: 5px 0;
 	background: #fafafa;
 	float:left;
 	display: block;
 	text-align: center;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.2);
-	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);
+	box-shadow: inset -1px -1px 0 0 rgba(32,32,32,0.2);
 }
 .calendar-days .days-of-month {
 	width: 100%;
 	height: 100%;
 }
 .calendar-days .days-of-month .day {
-	width: 140px;
+	width: 14.25%;
 	height: 100px;
 	padding-top:40px;
-	margin: 5px 5px 0;
+	margin: 0px 0px 0;
 	background: #fafafa;
 	display: inline-block;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.2);
-	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);
+	box-shadow: inset -1px -1px 0 0 rgba(32,32,32,0.2);
 	font-size: 3em;
 font-size: 2em;
 line-height: 1em;
@@ -2113,6 +2124,7 @@ line-height: 1em;
 	cursor: context-menu;
 }
 .calendar-days .days-of-month .day:hover {
+	box-shadow: inset -1px -1px 0 0 rgba(32,32,32,0.3);
 	background:#ccc;
 }
 .calendar-days .days-of-month .day .day-num {
@@ -2125,10 +2137,7 @@ top: 1px;
 left: 2px;
 }
 .calendar-days .days-of-month .today {
-	border-top:1px solid rgba(32,32,32,0.2);
-	border-right:1px solid rgba(32,32,32,0.7);
-	border-bottom:1px solid rgba(32,32,32,0.7);
-	border-left:1px solid rgba(32,32,32,0.2);
+	box-shadow: inset -1px -1px 0 0 rgba(32,32,32,0.3);
 	background: #ccc;
 }
 .calendar-days .days-of-month .this-month {
@@ -2224,7 +2233,7 @@ left: 2px;
 /* Responsive Tweaks */
 @media
 	only screen and (max-width: 1420px) {
-		.section { width:1280px; }
+		/*.section { width:1280px; }
 		#content { width: 985px; box-shadow: none; }
 		#nav_menu { margin-right: 0px; }
 
@@ -2248,5 +2257,5 @@ left: 2px;
 		}
 		.calendar-days .days-of-month .day .day-num {
 			font-size: 0.8em;
-		}
+		}*/
 }

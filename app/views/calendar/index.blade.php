@@ -6,10 +6,12 @@
 
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
-	@section('extra-menu')
-	<li><a href="/calendar/" class="button calendar-today">Today</a></li>
-	<li><span class="button calendar-jump-to">Jump to: </span><input type="text" class="datepicker calendar-jump-to-date" value="" placeholder="Month/Year" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
-	@stop
+	<div class="page-menu">
+		<ul>
+			<li><a href="/calendar/" class="link calendar-today">Today</a></li>
+			<li><span class="link calendar-jump-to">Jump to: </span><input type="text" class="datepicker calendar-jump-to-date" value="" placeholder="Month/Year" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
+		</ul>
+	</div>
 
 	<div class="calendar-header">
 		<div class="month-arrow arrow-previous-month">

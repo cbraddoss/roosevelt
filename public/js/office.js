@@ -680,7 +680,7 @@ jQuery(document).ready(function($){
 	});
 
 	/* Calendar Page */
-	$('#sub-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
+	$('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -737,6 +737,7 @@ jQuery(document).ready(function($){
 		if($(this).parent().attr('class') == 'add-vacation-profile') return;
 		if($(this).attr('class') == 'filter-author') return;
 		if($(this).attr('class') == 'filter-date') return;
+		if($(this).attr('class') == 'calendar-jump-to-date') return;
 		if($(this).parent().parent().attr('class') == 'login-form') return;
 		if($(this).parent().parent().attr('class') == 'login-remind') return;
 		if($(this).parent().parent().attr('class') == 'login-reset') return;

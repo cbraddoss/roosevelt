@@ -116,7 +116,7 @@
 				<div id="search-box">
 						<div class="search-details">
 							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-							<input type="text" class="search" name="s" id="s" placeholder="Search Remote Office..." /><span class="ss-search"></span>
+							<input type="text" class="search" name="s" id="s" placeholder="Search Office..." /><span class="ss-search"></span>
 							{{ Form::close() }}
 						</div>
 				</div>
@@ -124,7 +124,7 @@
 				<div id="todo-box">
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">
-							<a id="tasks" class="todo-feed-title active" href="#"><span class="ss-check"></span>Your Tasks<span class="todo-num">?!</span><span class="arrow ss-dropdown"></span></a>
+							<a id="tasks" class="todo-feed-title active" href="#"><span class="ss-check"></span>Tasks<span class="todo-num">?!</span><span class="arrow ss-dropdown"></span></a>
 							<ul id="tasks-feed" class="todo-feed">
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
@@ -134,7 +134,7 @@
 							</ul>
 						</div>
 						<div id="show-leads-list" class="todo-sub-box">
-							<a id="leads" class="todo-feed-title" href="#"><span class="ss-briefcase"></span>Current Leads<span class="todo-num">?!</span><span class="arrow ss-directleft"></span></a>
+							<a id="leads" class="todo-feed-title" href="#"><span class="ss-briefcase"></span>Leads<span class="todo-num">?!</span><span class="arrow ss-directleft"></span></a>
 							<ul id="leads-feed" class="todo-feed">
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
