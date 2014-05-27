@@ -2232,7 +2232,86 @@ left: 2px;
 
 /* Responsive Tweaks */
 @media
-	only screen and (max-width: 1420px) {
+	only screen and (max-width: 410px) {
+		#header {
+			height:auto;
+		}
+		#company-header {
+			float:none;
+			display: block;
+			width:100%;
+			clear:both;
+			position: relative;
+			margin:0 auto 3px;
+			height:auto;
+			text-align: center;
+		}
+		#company-header a.logo img {
+			width:99%;
+		}
+		#nav_menu {
+			float:none;
+			display: block;
+			width:100%;
+			clear:both;
+			position: relative;
+			height:auto;
+		}
+		#nav_menu #menu_header {
+			height:auto;
+		}
+		#nav_menu #menu_header ul#menu_links li.link {
+			display: inline-block;
+			float:none;
+			font-size: 1em;
+			height: 30px;
+			width: 55px;
+			padding-bottom: 5px;
+		}
+		#nav_menu #menu_header ul#menu_links li.link a {
+			padding-bottom: 5px;
+		}
+		#nav_menu #menu_header ul#menu_links li.link.active,
+		#nav_menu #menu_header ul#menu_links li.link:hover {
+			background:none;
+			box-shadow: none;
+		}
+		#nav_menu #menu_header ul#menu_links li.link.active:before,
+		#nav_menu #menu_header ul#menu_links li.link:hover:before {
+			border:none;
+			display: none;
+			padding: 0;
+		}
+		#nav_menu #menu_header ul#menu_links li.link ul {
+			display: none !important;
+			visibility: hidden !important;
+		}
+		#nav_menu #menu_header ul#menu_links li.link ul:hover {
+			display: none !important;
+			visibility: hidden !important;
+		}
+		#nav_menu #menu_header ul#menu_links li.link ul li {
+			display: none;
+		}
+		#sidebar {
+			position:relative;
+			width: 100%;
+			clear:both;
+			top: 100px;
+			border: none;
+			box-shadow: none;
+		}
+		#page {
+			margin-top: 120px;
+		}
+		#content {
+			margin-left: 5px;
+			width:99%;
+		}
+		#footer .footer-text{
+			margin-left:5px;
+			padding-left:0px;
+		}
 		/*.section { width:1280px; }
 		#content { width: 985px; box-shadow: none; }
 		#nav_menu { margin-right: 0px; }
