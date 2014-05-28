@@ -1395,10 +1395,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-right:1px solid rgba(32,32,32,0.3);
 	border-bottom:1px solid rgba(32,32,32,0.3);
 	border-left:1px solid rgba(32,32,32,0.1);
+	border: 1px solid #ccc;
 	padding:10px 10px 5px;
 	margin:0px 0 5px;
-	background: rgba(250,250,250,0.4);
+	background: rgba(255,255,255,1);
 	position: relative;
+}
+#content .office-post h3 {
+
+}
+#content .office-post h3 a {
+	text-decoration: none;
+}
+#content .office-post h3 a:hover {
+	text-decoration: underline;
 }
 #content .office-post .office-post-sub {
 	display: block;
