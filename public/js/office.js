@@ -33,12 +33,14 @@ jQuery(document).ready(function($){
 		zIndex = zIndex-1;
 	});
 	// show arrow for sub menu on specific main menu item
-	var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
-	var contentEdge = $(document).find('#content').offset().left;
-	var activeMenuPos = activeMenuItem-contentEdge+40;
-	$(document).find('#content .page-menu-arrow').css({
-		'margin-left': activeMenuPos+'px'
-	});
+	if($(document).find('#menu_header ul#menu_links li.active').length) {
+		var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
+		var contentEdge = $(document).find('#content').offset().left;
+		var activeMenuPos = activeMenuItem-contentEdge+40;
+		$(document).find('#content .page-menu-arrow').css({
+			'margin-left': activeMenuPos+'px'
+		});
+	}
 	
 	// show sub menu on hover
 	$('#menu_header ul#menu_links li.link').hover(function(){

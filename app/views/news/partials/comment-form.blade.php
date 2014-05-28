@@ -2,6 +2,7 @@
 <div class="page-cover">
 </div>
 <div id="article-comment-{{ $article->id }}" class="news-article-new-comment create-something-form">
+	<h3>Comment on {{ $article->title }}:</h3>
 	{{ Form::open( array('id' => 'add-comment-'.$article->id, 'files' => true, 'class' => 'add-comment', 'url' => '/news/article/'.$article->slug.'/comment', 'method' => 'post') ) }}
 		
 		<div class="form-textarea-buttons">
