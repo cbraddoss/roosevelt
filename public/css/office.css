@@ -197,18 +197,18 @@ ul {
 
 /* Company Header */
 #company-header {
-	width:14%;
+	width:19%;
 	height:50px;
 	position:absolute;
 	top:0px;
 	left:0px;
 	z-index: 59;
-	margin: 10px 0 0;
+	margin: 5px 0 0;
 }
 #company-header a.logo img {
 	padding: 5px 0 0 5px;
-	width: 90%;
-	height: auto;
+	width: auto;
+	height: 100%;
 	margin: 0;
 	display: block;
 }
@@ -538,24 +538,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 	left: 0px;
 	text-align:left;
 	font-size: 1.2em;
-	width:14%;
+	width:19%;
 	margin:0px;
 	padding:0;
 	z-index:55;
-	background: rgba(0,0,0,0.9);
 	background: #333333; /* Old browsers */
-	background: -moz-linear-gradient(top,  #333333 0%, #404040 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#333333), color-stop(100%,#404040)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top,  #333333 0%,#404040 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top,  #333333 0%,#404040 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top,  #333333 0%,#404040 100%); /* IE10+ */
-	background: linear-gradient(to bottom,  #333333 0%,#404040 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#333333', endColorstr='#404040',GradientType=0 ); /* IE6-9 */
-	/*background: rgba(0,0,0,0.8) url('../images/black-Linen.png') top left;*/
+	background: -moz-linear-gradient(left,  #404040 0%, #333333 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,#404040), color-stop(100%,#333333)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(left,  #404040 0%,#333333 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(left,  #404040 0%,#333333 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(left,  #404040 0%,#333333 100%); /* IE10+ */
+	background: linear-gradient(to right,  #404040 0%,#333333 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#404040', endColorstr='#333333',GradientType=1 ); /* IE6-9 */
 	height: 100%;
-	box-shadow: inset 1px 0px 0px 0px #555,
-	inset -1px 0px 0px 0px #555;
-	/*0px 0px 10px 0px #333;*/
 }
 #welcome-box ul#welcome-name {
 	width:100%;
@@ -792,8 +787,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 /* Page Content */
 #content {
-	width: 85%;
-	margin:0 0 10px 15%;
+	width: 80%;
+	margin:0 0 10px 20%;
 	padding: 0 0 0 0px;
 	font-size: 1.2em;
 	/*background: #fff;*/
@@ -2231,8 +2226,24 @@ left: 2px;
 }
 
 /* Responsive Tweaks */
+/* 996px:745px, 765px:475px, 475px:100% */
 @media
-	only screen and (max-width: 410px) {
+	only screen and (max-width: 996px) {
+		#nav_menu #menu_header ul#menu_links li.link {
+			font-size:1.1em;
+			width: 70px;
+			padding-bottom: 19px;
+		}
+		#nav_menu #menu_header ul#menu_links li.link.active {
+			padding-bottom: 19px;
+		}
+	}
+@media
+	only screen and (max-width: 765px) {
+
+	}
+@media
+	only screen and (max-width: 475px) {
 		#header {
 			height:auto;
 		}
