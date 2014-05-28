@@ -1,4 +1,5 @@
 <div class="page-menu">
+	<div class="page-menu-arrow"></div>
 	<ul>
 		<li><a href="/news/" class="link filter-all">All</a></li>
 		<li><a href="/news/unread/" class="link filter-unread">Unread</a></li>

@@ -7,6 +7,7 @@
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
 	<div class="page-menu">
+	<div class="page-menu-arrow"></div>
 		<ul>
 			<li><a href="/calendar/" class="link calendar-today">Today</a></li>
 			<li><span class="link calendar-jump-to">Jump to: </span><input type="text" class="datepicker calendar-jump-to-date" value="" placeholder="Month/Year" data-date-format="mm-yyyy" data-date-viewmode="months"></li>

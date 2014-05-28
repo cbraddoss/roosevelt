@@ -16,7 +16,6 @@ jQuery(document).ready(function($){
 			'background': 'rgba(75,131,180,0.2)'
 		});
 	}
-
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
@@ -33,6 +32,12 @@ jQuery(document).ready(function($){
 		$(this).css('z-index',zIndex);
 		zIndex = zIndex-1;
 	});
+	// show arrow for sub menu on specific main menu item
+	var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
+	var contentEdge = $(document).find('#content').offset().left;
+	var activeMenuPos = activeMenuItem-contentEdge+40;
+	$(document).find('#content .page-menu-arrow').css('margin-left', activeMenuPos+'px');
+	
 	// show sub menu on hover
 	$('#menu_header ul#menu_links li.link').hover(function(){
 		$(this).children('ul.sub_menu_links').css({

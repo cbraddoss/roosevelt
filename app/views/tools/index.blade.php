@@ -6,6 +6,13 @@
 
 @section('page-content')
 <div id="tools-page"  class="inner-page">
+	<div class="page-menu">
+	<div class="page-menu-arrow"></div>
+		<ul>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
 	<p>Miscellaneous Tools and Links for InsideOut Employees</p>
 
 	<p><a href="#" target="_blank">1Password</a></p>
