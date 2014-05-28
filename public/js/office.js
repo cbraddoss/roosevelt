@@ -36,7 +36,9 @@ jQuery(document).ready(function($){
 	var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
 	var contentEdge = $(document).find('#content').offset().left;
 	var activeMenuPos = activeMenuItem-contentEdge+40;
-	$(document).find('#content .page-menu-arrow').css('margin-left', activeMenuPos+'px');
+	$(document).find('#content .page-menu-arrow').css({
+		'margin-left': activeMenuPos+'px'
+	});
 	
 	// show sub menu on hover
 	$('#menu_header ul#menu_links li.link').hover(function(){
@@ -257,7 +259,7 @@ jQuery(document).ready(function($){
 		window.location.href='/news/date/'+yearLink+'/'+monthLink;
 	});
 	// Add new article
-	$(document).on('click','#news-page #news-new-article-form button.add-new',function(){
+	$(document).on('click','#content #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
 			$('#news-new-article-form').html(data);
 
@@ -282,7 +284,7 @@ jQuery(document).ready(function($){
 		$('form.add-article').find('input#add-new-submit').val(submitText);
 	});
 	// cancel adding new form
-	$(document).on('click','#news-page .article-add-form span.cancel',function(){
+	$(document).on('click','#content .article-add-form span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
 		if(findChanged > 0) {
 			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
@@ -305,7 +307,7 @@ jQuery(document).ready(function($){
 		success:       afterAddArticleSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
-	$(document).on('submit','#news-page .article-add-form form.add-article', function() {
+	$(document).on('submit','#content .article-add-form form.add-article', function() {
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});

@@ -2,7 +2,7 @@
 <div class="page-cover">
 </div>
 <div class="article-add-form create-something-form">
-
+<h3>Create new News post:</h3>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-article', 'url' => '/news/', 'method' => 'post') ) }}
 
 {{ Form::text('title', null, array('placeholder' => 'Title', 'class' => 'article-title field')) }}

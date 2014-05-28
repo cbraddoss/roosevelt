@@ -10,28 +10,28 @@
 		<div class="page-menu-arrow"></div>
 		<ul>
 			<li>
-				<div id="news-post-comment-form" class="create-something-new">
-				<span class="news-button"><button class="post-comment">New Project</button></span>
+				<div id="project-new-project-form" class="create-something-new">
+				<span class="project-button"><button class="add-new">New Project</button></span>
 				</div>
 			</li>
 			<li>
-				<div id="news-post-comment-form" class="create-something-new">
-				<span class="news-button"><button class="post-comment">New Account</button></span>
+				<div id="account-new-account-form" class="create-something-new">
+				<span class="account-button"><button class="add-new">New Account</button></span>
 				</div>
 			</li>
 			<li>
-				<div id="news-post-comment-form" class="create-something-new">
-				<span class="news-button"><button class="post-comment">New Help</button></span>
+				<div id="help-new-help-form" class="create-something-new">
+				<span class="help-button"><button class="add-new">New Help</button></span>
 				</div>
 			</li>
 			<li>
-				<div id="news-post-comment-form" class="create-something-new">
-				<span class="news-button"><button class="post-comment">New Billable</button></span>
+				<div id="billable-new-billable-form" class="create-something-new">
+				<span class="billable-button"><button class="add-new">New Billable</button></span>
 				</div>
 			</li>
 			<li>
-				<div id="news-post-comment-form" class="create-something-new">
-				<span class="news-button"><button class="post-comment">New Post</button></span>
+				<div id="news-new-article-form" class="create-something-new">
+				<span class="news-button"><button class="add-new">New Post</button></span>
 				</div>
 			</li>
 		</ul>

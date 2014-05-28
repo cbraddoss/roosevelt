@@ -1183,15 +1183,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	top: 0;
 }
 #content .create-something-form {
-	position: absolute;
-	top:35px;
-	right:-5px;
+	position: fixed;
+	top:85px;
+	left: 10%;
 	padding:10px;
 	background: #fff;
 	border:1px solid #ddd;
 	box-shadow: 0px 0px 15px 0px #333;
 }
-#content .create-something-form:before {
+/*#content .create-something-form:before {
 	content: "";
 	position: absolute;
 	display: block;
@@ -1200,9 +1200,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	top: -2.4em;
 	border-width: 20px;
 	right: 0;
-}
+}*/
 #content .create-something-form {
-	width: 700px;
+	width: 80%;
 }
 #content .create-something-form textarea {
 	font-size:1em;
@@ -1235,8 +1235,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	width:100%;
 	display: block;
 	font-size:1em;
-	padding: 0px;
-	margin:5px 0;
+	padding: 0px !important;
+	margin:5px 0 !important;
 }
 #content .create-something-form input[type=submit],
 #content .create-something-form .cancel {
