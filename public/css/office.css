@@ -1517,13 +1517,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	display: block;
 	vertical-align: middle;
 	text-align: center;
-	font-weight: 100;
+	font-weight: 700;
 	font-size: 1.5em;
 	color: #4B83B4;
 	line-height: 60px;
 }
 #content .office-post .post-activity p a {
-	color: #fff;
+	color: #4B83B4;
 	text-decoration: none;
 	font-size: 0.8em;
 	position: relative;
@@ -1531,16 +1531,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post .post-activity p a:hover {
 	text-decoration: underline;
-	color: #4B83B4;
+	color: #fff;
 	font-weight: 700;
 }
 #content .office-post .post-activity p a:before {
-	position: absolute;
-	right: -10px;
-	top: -13px;
+	padding-right: 2px;
 	color: #4B83B4;
 	z-index: -1;
-	font-size: 1.8em;
 }
 #content .office-post .post-activity p a:hover:before {
 	color: #fff;
