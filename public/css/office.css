@@ -1134,7 +1134,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	height: 30px;
 	padding: 10px 10px;
 	margin: 0;
-	display: block;
+	display: inline-block;
+}
+#content .page-menu ul li a.navigateleft span.ss-navigateleft,
+#content .page-menu ul li a.navigateright span.ss-navigateright {
+	color: #fff !important;
+}
+#content .page-menu ul li a.navigateleft {
+	padding-right: 0;
+	text-decoration: none;
+}
+#content .page-menu ul li a.navigateright {
+	padding-left: 0;
+	text-decoration: none;
 }
 #content .page-menu ul li select {
 	padding: 5px;
@@ -2209,7 +2221,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .calendar-header .arrow-next-month {
 	right:.14%;
 }
-.calendar-header .arrow-next-month .ss-navigateright {
+/*.calendar-header .arrow-next-month .ss-navigateright {
 	position: absolute;
 	right: 5px;
 	top: 5px;
@@ -2219,7 +2231,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	left: 5px;
 	top: 5px;
 	z-index: 44;
-}
+}*/
 .calendar-header a.show-next-month {
 	color: #000;
 	text-decoration: none;
