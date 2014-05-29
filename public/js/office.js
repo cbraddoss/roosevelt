@@ -502,12 +502,12 @@ jQuery(document).ready(function($){
 				$(this).hide();
 			});
 			$('#'+commentId+' .create-something-new').html(data);
-			$('#'+commentId+' .create-something-new .create-something-form').css('top',commentHeight+'px');
+			//$('#'+commentId+' .create-something-new .create-something-form').css('top',commentHeight+'px');
 
-			var commentBoxPos = $('#'+commentId).offset();
-			$('html, body').animate({
-				scrollTop: commentBoxPos.top-110
-			}, 2000);
+			// var commentBoxPos = $('#'+commentId).offset();
+			// $('html, body').animate({
+			// 	scrollTop: commentBoxPos.top-110
+			// }, 2000);
 			$('#'+commentId+' .create-something-new').find('input[name=article-slug]').val(pageName);
 			$('form.add-comment .comment-content').focus();
 		});
@@ -684,9 +684,9 @@ jQuery(document).ready(function($){
 	});
 	
 	// set min height of comments with attachments
-	$('#content .office-post-comment .comment-contents').each(function() {
-		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
-	});
+	// $('#content .office-post-comment .comment-contents').each(function() {
+	// 	if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
+	// });
 
 	/* Calendar Page */
 	$('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {

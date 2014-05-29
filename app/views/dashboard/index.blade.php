@@ -7,7 +7,7 @@
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
 	<div class="page-menu">
-		<div class="page-menu-arrow"></div>
+		
 		<ul>
 			<li>
 				<div id="project-new-project-form" class="create-something-new">
