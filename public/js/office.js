@@ -684,9 +684,9 @@ jQuery(document).ready(function($){
 	});
 	
 	// set min height of comments with attachments
-	// $('#content .office-post-comment .comment-contents').each(function() {
-	// 	if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
-	// });
+	$('#content .office-post-comment .comment-contents').each(function() {
+		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
+	});
 
 	/* Calendar Page */
 	$('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
