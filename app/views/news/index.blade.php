@@ -16,7 +16,7 @@
 			<div class="post-date"><p>{{ $stick->created_at->format('M j') }}</p></div>
 			<h3>{{ link_to('/news/article/'. $stick->slug, $stick->title, array('class' => 'news-link')) }}</h3>
 			<div class="post-hover-content">
-				<a href="{{ URL::to('/news/article/'. $stick->slug) }}" class="news-link">{{ display_content($stick->content, '200') }}</a>
+				<a href="{{ URL::to('/news/article/'. $stick->slug) }}" class="news-link">{{ display_content($stick->content, '75') }}</a>
 			</div>
 			<span class="sticky-icon ss-pinboard ss-social"></span>
 			

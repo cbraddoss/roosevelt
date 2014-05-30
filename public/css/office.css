@@ -1535,18 +1535,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post .post-hover-content {
 	display:none;
 	position: absolute;
-	right: 25%;
-	top: -1px;
-	height: 60px;
-	width: 35%;
+	left: 100px;
+	top: 40px;
+	height: 20px;
+	width: 50%;
 	color: #fff;
 	font-size: 0.8em;
 }
 #content .office-post .post-hover-content a {
 	color: #fff;
 	text-decoration: none;
-	height: 57px;
-	margin: 5px 0 0;
+	height: 20px;
+	margin: 0 0 0 10px;
 	display: block;
 	overflow: hidden;
 }
