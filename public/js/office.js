@@ -260,6 +260,11 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/news/date/'+yearLink+'/'+monthLink;
 	});
+	$('#content .office-post').hover(function() {
+		$(this).find('.post-hover-content').show();
+	}, function() {
+		$(this).find('.post-hover-content').hide();
+	});
 	// Add new article
 	$(document).on('click','#content #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
@@ -689,7 +694,15 @@ jQuery(document).ready(function($){
 	});
 
 	/* Calendar Page */
-	$('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
+	// $('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
+	// 	$('.dropdown-menu').hide();
+	// 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	// 	var dateLink = new Date(ev.date.valueOf());
+	// 	var yearLink = dateLink.getFullYear();
+	// 	var monthLink = months[dateLink.getMonth()];
+	// 	window.location.href='/calendar/'+yearLink+'/'+monthLink;
+	// });
+	$('.page-menu div.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());

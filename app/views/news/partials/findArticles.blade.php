@@ -3,7 +3,9 @@
 		
 		<div class="post-date"><p>{{ $article->created_at->format('M j') }}</p></div>
 		<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
-		
+		<div class="post-hover-content">
+			<a href="{{ URL::to('/news/article/'. $article->slug) }}" class="news-link">{{ display_content($article->content, '200') }}</a>
+		</div>
 		
 		<div class="news-article-sub office-post-sub">
 			

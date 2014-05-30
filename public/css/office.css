@@ -1165,6 +1165,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding: 10px 0px 10px 10px;
 	margin: 0;
 }
+#content .page-menu ul li span.calendar-jump-to:hover {
+	text-decoration: underline;
+}
+#content .page-menu ul li div.calendar-jump-to-date {
+	color: #fff !important;
+	height: 30px;
+	padding: 1px 5px 5px 10px;
+	margin: 0;
+	display: inline-block;
+	cursor: pointer;
+}
+#content .page-menu ul li div.calendar-jump-to-date:hover {
+	text-decoration: underline;
+}
+#content .page-menu ul li span.ss-calendar {
+	color: #fff;
+	font-size: 2em;
+	vertical-align: middle;
+	padding-right: 5px;
+}
+#content .page-menu ul li span.ss-calendar:before {
+	padding-left: 5px;
+}
 #content .page-menu ul li input.datepicker {
 	display: inline-block;
 }
@@ -1508,6 +1531,24 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-weight: 700;
 	font-size: 1.1em;
 	line-height: 60px;
+}
+#content .office-post .post-hover-content {
+	display:none;
+	position: absolute;
+	right: 25%;
+	top: -1px;
+	height: 60px;
+	width: 35%;
+	color: #fff;
+	font-size: 0.8em;
+}
+#content .office-post .post-hover-content a {
+	color: #fff;
+	text-decoration: none;
+	height: 57px;
+	margin: 5px 0 0;
+	display: block;
+	overflow: hidden;
 }
 #content .office-post .post-attachment {
 	float: right;
