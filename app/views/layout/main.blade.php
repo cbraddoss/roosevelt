@@ -110,7 +110,7 @@
 				<div id="search-box">
 						<div class="search-details">
 							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-							<input type="text" class="search" name="s" id="s" placeholder="Search Office..." /><span class="ss-search"></span>
+							<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /><span class="ss-search"></span>
 							{{ Form::close() }}
 						</div>
 				</div>
@@ -120,7 +120,7 @@
 						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
 					</ul>
 				</div>
-				
+
 				<div id="todo-box">
 					<div id="todo-list">
 						<div id="show-tasks-list" class="todo-sub-box">

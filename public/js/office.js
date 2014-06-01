@@ -260,6 +260,7 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/news/date/'+yearLink+'/'+monthLink;
 	});
+	// Show/hide preview of content on article hover
 	$('#content .office-post').hover(function() {
 		$(this).find('.post-hover-content').show();
 	}, function() {

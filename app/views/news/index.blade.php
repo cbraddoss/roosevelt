@@ -21,7 +21,7 @@
 			<span class="sticky-icon ss-pinboard ss-social"></span>
 			
 			
-				<div class="news-article-sub office-post-sub">
+			<div class="news-article-sub office-post-sub">
 				<small>Posted by {{ link_to('/news/author/'.any_user_path($stick->author_id), User::find($stick->author_id)->first_name) }}</small>
 				<small>
 					@if(strpos($stick->favorited, current_user_path()) !== false) <span class="ss-heart favorited"> @else <span class="ss-heart"> @endif

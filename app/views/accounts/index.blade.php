@@ -18,11 +18,16 @@
 		</div>
 	</div>
 
-    <ul>
-        @foreach($accounts as $a)
-			<li>{{ link_to('/accounts/'.$a->link, $a->name) }}</li>
-        @endforeach
-    </ul>
+    @foreach($accounts as $a)
+	<div id="account-{{ $a->id }}" class="account-entry office-post">
+		<h3>{{ link_to('/accounts/'.$a->link, $a->name) }}</h3>
+		<div class="post activity">
+			<p class="ss-users"><a></a></p>
+		</div>
+
+	</div>
+    @endforeach
+
 </div>
 
 @stop
