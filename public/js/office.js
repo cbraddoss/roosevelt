@@ -223,7 +223,8 @@ jQuery(document).ready(function($){
 		$(".template-output").hide();
 	});
 	$(document).on('click', '#admin-page .post-preview', function(){
-		$(".template-output").toggle();
+		var templateId = $(this).attr('id');
+		$(document).find("#template-output-"+templateId).toggle();
 	});
 	$(document).on('click', '#admin-page .template-output h3', function() {
 		$(this).parent().find('.checklist-checkbox-section').toggle();

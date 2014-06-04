@@ -40,11 +40,11 @@
 			<div class="office-post-sub">
 				<small>Created: {{ $active->created_at->format('M d, Y') }}</small>
 			</div>
-			<div class="post-preview">
+			<div id="{{ $active->id }}" class="post-preview">
 				<p class="ss-view"></p>
 			</div>
 		</div>
-		<div class="template-output">
+		<div id="template-output-{{ $active->id }}" class="template-output">
 			<div class="page-cover">
 			</div>
 			<div class="template-preview">
@@ -67,11 +67,11 @@
 			<div class="office-post-sub">
 				<small>Created: {{ $inactive->created_at->format('M d, Y') }}</small>
 			</div>
-			<div class="post-preview">
+			<div id="{{ $inactive->id }}" class="post-preview">
 				<p class="ss-view"></p>
 			</div>
 		</div>
-		<div class="template-output">
+		<div id="template-output-{{ $inactive->id }}" class="template-output">
 			<div class="page-cover">
 			</div>
 			<div class="template-preview">
