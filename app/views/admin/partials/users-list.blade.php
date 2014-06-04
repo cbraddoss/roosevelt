@@ -5,8 +5,8 @@
 <div class="page-menu">
 	<ul>
 		<li><a href="/admin/" class="link">Admin</a></li>
-		<li><a href="/admin/users" class="link">User Management</a></li>
-		<li><a href="/admin/templates" class="link">Template Management</a></li>
+		<li><a href="/admin/users" class="link">Users</a></li>
+		<li><a href="/admin/templates" class="link">Templates</a></li>
 	</ul>
 	<div id="admin-new-user-form" class="create-something-new">
 		<span class="admin-button"><button class="add-new">Add New</button></span>

@@ -1852,6 +1852,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	height: 100%;
 	width: 100%;
 }
+#content .template-preview h3 {
+	padding: 10px 0 0 10px;
+}
+#content .template-preview h4 {
+	padding: 10px 0 10px 10px;
+}
 #content .close-template-preview {
 	float:right;
 	background: rgba(32,32,32,1);

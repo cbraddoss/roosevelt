@@ -55,6 +55,7 @@ function get_project_type_select($selected = null) {
 	$projectTypes = Template::where('type','=','project')->get();
 	$options = '';
 	foreach($projectTypes as $type) {
+		if($type->status == 'inactive') $type->name = $type->name.' (i)';
 		if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.$type->name.'</option>';
 		else $options .= '<option value="'.$type->slug.'">'.$type->name.'</option>';
 	}
