@@ -51,7 +51,15 @@ function get_user_list_select($selected = null) {
 	}
 	return $options;
 }
-
+function get_project_type_select($selected = null) {
+	$projectTypes = Template::where('type','=','project')->get();
+	$options = '';
+	foreach($projectTypes as $type) {
+		if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.$type->name.'</option>';
+		else $options .= '<option value="'.$type->slug.'">'.$type->name.'</option>';
+	}
+	return $options;
+}
 function convert_title_to_path($title) {
 	$title = trim($title);
 	$title = str_replace(" ","-",$title);

@@ -1481,12 +1481,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post:hover .post-date,
 #content .office-post:hover .office-post-sub,
+#content .office-post:hover .office-post-sub a,
+#content .office-post:hover .office-post-sub small,
 #content .office-post:hover h3 a,
 #content .office-post:hover .post-activity p,
 #content .office-post:hover .post-activity p a,
 #content .office-post:hover .post-activity p a:before,
 #content .office-post:hover .post-attachment p,
-#content .office-post:hover .office-post-sub a {
+#content .office-post:hover .post-preview p {
 	color: #fff !important;
 	border-color: #3c698c !important;
 }
@@ -1577,13 +1579,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #4B83B4;
 	line-height: 60px;
 }
-#content .office-post .post-activity {
+#content .office-post .post-activity,
+#content .office-post .post-preview {
 	float: right;
 	height: 100%;
 	width: 5%;
 	vertical-align: middle;
+	cursor: pointer;
 }
-#content .office-post .post-activity p {
+#content .office-post .post-activity p,
+#content .office-post .post-preview p {
 	margin: -5px 0 0 0;
 	display: block;
 	vertical-align: middle;
@@ -1593,24 +1598,34 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #4B83B4;
 	line-height: 60px;
 }
-#content .office-post .post-activity p a {
+#content .office-post .post-preview .ss-view small {
+	position: absolute;
+	top: 15px;
+	right: 16%;
+	color: #fff;
+}
+#content .office-post .post-activity p a,
+#content .office-post .post-preview p a {
 	color: #4B83B4;
 	text-decoration: none;
 	font-size: 0.8em;
 	position: relative;
 	z-index: 2;
 }
-#content .office-post .post-activity p a:hover {
+#content .office-post .post-activity p a:hover,
+#content .office-post .post-preview p a:hover {
 	text-decoration: underline;
 	color: #000;
 	font-weight: 700;
 }
-#content .office-post .post-activity p a:before {
+#content .office-post .post-activity p a:before,
+#content .office-post .post-preview p a:before {
 	padding-right: 2px;
 	color: #4B83B4;
 	z-index: -1;
 }
-#content .office-post .post-activity p a:hover:before {
+#content .office-post .post-activity p a:hover:before,
+#content .office-post .post-preview p a:hover:before {
 	color: #000;
 }
 #content .office-post .office-post-sub {
@@ -1622,6 +1637,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-left: 1px solid #ddd;
 	width: 15%;
 	text-align: center;
+	color: #000;
+}
+#content .office-post .office-post-sub small {
+	color: #000;
 }
 #content .office-post .office-post-sub a {
 	text-decoration: none;
@@ -1819,11 +1838,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .template-output {
 	display:none;
-	position: absolute;
-	top: 0px;
-	right: 10%;
-	width: 80%;
-	height: 80%;
+	position: fixed;
+	top: 120px;
+	right: 1%;
+	z-index: 55;
+	width: 79%;
 	background: rgba(255,255,255,1);
 	box-shadow: 0px 0px 3px 0px #333;
 }
@@ -1832,6 +1851,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	background: #fff;
 	height: 100%;
 	width: 100%;
+}
+#content .close-template-preview {
+	float:right;
+	background: rgba(32,32,32,1);
+	color: #fff;
+	padding: 3px;
+	cursor: pointer;
 }
 #content .checklist-section {
 

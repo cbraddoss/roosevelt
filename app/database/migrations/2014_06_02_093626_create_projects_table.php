@@ -17,9 +17,12 @@ class CreateProjectsTable extends Migration {
 			$table->increments('id');
 			$table->string('title', 120);
 			$table->text('content');
-			$table->enum('department', array('Design','Development','S.E.M.','Print'));
+			$table->enum('department', array('design','development','sem','print'));
 			$table->enum('priority', array('low', 'normal', 'high'));
 			$table->string('stage',60);
+			$table->string('type',60);
+			$table->enum('status',array('open','closed','archived'));
+			$table->string('subscribed');
 			$table->integer('assigned_id');
 			$table->integer('template_id');
 			$table->integer('account_id');

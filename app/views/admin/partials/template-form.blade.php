@@ -19,6 +19,11 @@
 	<span class="user-value type-value">{{ Form::select('type', array('project' => 'Project', 'billable' => 'Billable', 'invoice' => 'Invoice', 'help' => 'Help') , $template->type) }}</span>
 </div>
 
+<div class="user-field">
+	<span class="user-title status">{{ Form::label('status','Status:') }}</span>
+	<span class="user-value status-value">{{ Form::select('status', array('active' => 'Active', 'inactive' => 'Inactive') , $template->status) }}</span>
+</div>
+
 <div class="user-textarea">
 	<span class="user-value items-value">{{ Form::textarea('items', $template->items, array('placeholder' => 'Create new checklist here.', 'class' => 'template-items field', 'id' => 'template-items')) }}</span>
 </div>
@@ -32,23 +37,12 @@
 
 {{ Form::close() }}
 
-
-{{ Form::open( array('class' => 'delete-template', 'url' => '/admin/templates/'.$template->id, 'method' => 'delete') ) }}
-
-{{ Form::hidden('id', $template->id) }}
-
-{{ Form::hidden('name', $template->name, array('class' => 'name field')) }}
-
-<div class="user-field">
-{{ Form::submit('Delete Template', array('class' => 'delete') ) }}
-</div>
-{{ Form::close() }}
-
 <div class="template-output">
 <div class="page-cover">
 </div>
 <div class="template-preview">
-<h3>Sample Project:</h3>
+<div class="close-template-preview">X Close</div>
+<h2>TEMPLATE: {{ $template->name }}</h2>
 <h4><a href="#">Sample Account</a></h4>
 {{ $template->convertCode($template->items) }}
 </div>

@@ -32,7 +32,6 @@ Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'Admin
 Route::post('/admin/templates', array('as' => 'admin.templateNew', 'uses' => 'AdminController@templateNew'));
 Route::post('/admin/templates/{id}', array('as' => 'admin.templateUpdate', 'uses' => 'AdminController@templateUpdate'));
 Route::get('/admin/templates/{template}/edit', array('uses' => 'AdminController@templateEdit'));
-Route::delete('/admin/templates/{template}', array('uses' => 'AdminController@templateDelete'));
 
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
 Route::post('/profile/vacation', array('as' => 'profile.vacation', 'uses' => 'ProfilesController@vacation'));
@@ -64,14 +63,13 @@ Route::get('/news/date/{year}/{month}', array('as' => 'news.dateFilter', 'uses' 
 Route::get('/calendar', array('as' => 'calendar', 'uses' => 'CalendarsController@index'));
 Route::get('/calendar/{year}/{month}', array('as' => 'calendar.month', 'uses' => 'CalendarsController@show'));
 
+Route::get('/projects', array('as' => 'projects', 'uses' => 'ProjectsController@index'));
+
 Route::get('/tools', function(){
 	return View::make('tools.index');
 })->before('auth');
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
-Route::get('/projects', function(){
-	return View::make('projects.index');
-})->before('auth');
 
 Route::get('/billables', function(){
 	return View::make('billables.index');

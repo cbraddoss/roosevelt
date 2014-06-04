@@ -152,9 +152,10 @@ class AdminController extends \BaseController {
 	 */
 	public function templates()
 	{
-		$templates = Template::all();
+		$templatesActive = Template::where('status','=','active')->get();
+		$templatesInactive = Template::where('status','=','inactive')->get();
 		if(Request::ajax()) return View::make('admin.partials.templates-add-new', compact('templates'));
-		else return View::make('admin.partials.templates-list', compact('templates'));
+		else return View::make('admin.partials.templates-list', compact('templatesActive','templatesInactive'));
 	}
 
 	/**
@@ -183,6 +184,7 @@ class AdminController extends \BaseController {
 			$newTemplate = new Template;
 			$newTemplate->name =  ucwords(Input::get('name'));
 			$newTemplate->type =  Input::get('type');
+			$newTemplate->status =  'active';
 			$newTemplate->items = clean_content(Input::get('items'));
 			$newTemplate->slug = convert_title_to_path(Input::get('name'));
 
@@ -222,22 +224,24 @@ class AdminController extends \BaseController {
 	{
 		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/templates/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
  
-        $validator = Validator::make(Input::only('name','type','items'), array(
+        $validator = Validator::make(Input::only('name','type','items','status'), array(
         	'id' => 'same:id',
 			'name' => 'required|max:120',
 			'type' => 'required|in:project,help,billable,invoice',
-			'items' => 'required'
+			'items' => 'required',
+			'status' => 'required|in:active,inactive'
 		));
 
 		if($validator->fails()) {
 			$messages = $validator->messages();
-			return Redirect::to('/admin/templates/'.$templateSlug)->withInput()->withErrors($messages->first());
+			return Redirect::to('/admin/templates/'.$templateSlug.'/edit')->withInput()->withErrors($messages->first());
 		}
 		else {
 			$template = Template::find(Input::get('id'));
 			
 			$template->name =  ucwords(Input::get('name'));
 			$template->type =  Input::get('type');
+			$template->status =  Input::get('status');
 			$template->items = clean_content(Input::get('items'));
 			$template->slug = convert_title_to_path(Input::get('name'));
 
@@ -246,18 +250,11 @@ class AdminController extends \BaseController {
 				$template->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/admin/templates/'.$template->slug)->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+				return Redirect::to('/admin/templates/'.$template->slug.'/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 			return Redirect::to('/admin/templates/')->with('flash_message_success', '<i>' . $template->name . '</i> successfully updated!');
 		}
-		return Redirect::to('/admin/templates/'.$template->slug)->with('flash_message_error','Something went wrong. :(');
-	}
-
-	public function templateDelete($id) {
-		$templateToDelete = Template::find($id);
-		$templateToDelete->delete();
-		return Redirect::to('/admin/templates/')->with('flash_message_success','Template deleted successfully.');
-
+		return Redirect::to('/admin/templates/'.$template->slug.'/edit')->with('flash_message_error','Something went wrong. :(');
 	}
 
 }

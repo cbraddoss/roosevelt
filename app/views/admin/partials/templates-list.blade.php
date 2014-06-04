@@ -29,17 +29,56 @@
 </pre>
 	</div>
 
-	<h3>Current Templates:</h3>
-
-	@foreach($templates as $template)
-		<div id="template-{{ $template->id }}" class="template-item office-post">
-			<div class="post-date"><p>{{ ucwords($template->type) }}</p></div>
-			<h3>{{ link_to('/admin/templates/'. $template->slug.'/edit/', $template->name, array('class' => 'template-link')) }}</h3>
+	<h3>Active Templates:</h3>
+	@if($templatesActive->isEmpty())
+	<p>No templates. Add some!</p>
+	@endif
+	@foreach($templatesActive as $active)
+		<div id="template-{{ $active->id }}" class="template-item office-post">
+			<div class="post-date"><p>{{ ucwords($active->type) }}</p></div>
+			<h3>{{ link_to('/admin/templates/'. $active->slug.'/edit/', $active->name, array('class' => 'template-link')) }}</h3>
 			<div class="office-post-sub">
-				<small>Created: {{ $template->created_at->format('M d, Y') }}</small>
+				<small>Created: {{ $active->created_at->format('M d, Y') }}</small>
 			</div>
+			<div class="post-preview">
+				<p class="ss-view"></p>
+			</div>
+		</div>
+		<div class="template-output">
+			<div class="page-cover">
+			</div>
+			<div class="template-preview">
+			<div class="close-template-preview">X Close</div>
+				<h3>TEMPLATE: {{ $active->name }}</h3>
+				<h4><a href="#">Sample Account</a></h4>
+				{{ $active->convertCode($active->items) }}
+			</div>
+		</div>
+	@endforeach
+
+	<h3>Inactive Templates:</h3>
+	@if($templatesActive->isEmpty())
+	<p>No inactive templates.</p>
+	@endif
+	@foreach($templatesInactive as $inactive)
+		<div id="template-{{ $inactive->id }}" class="template-item office-post">
+			<div class="post-date"><p>{{ ucwords($inactive->type) }}</p></div>
+			<h3>{{ link_to('/admin/templates/'. $inactive->slug.'/edit/', $inactive->name, array('class' => 'template-link')) }}</h3>
 			<div class="office-post-sub">
-				<small>Last Update: {{ $template->updated_at->format('M d, Y') }}</small>
+				<small>Created: {{ $inactive->created_at->format('M d, Y') }}</small>
+			</div>
+			<div class="post-preview">
+				<p class="ss-view"></p>
+			</div>
+		</div>
+		<div class="template-output">
+			<div class="page-cover">
+			</div>
+			<div class="template-preview">
+			<div class="close-template-preview">X Close</div>
+				<h3>TEMPLATE: {{ $inactive->name }}</h3>
+				<h4><a href="#">Sample Account</a></h4>
+				{{ $inactive->convertCode($inactive->items) }}
 			</div>
 		</div>
 	@endforeach

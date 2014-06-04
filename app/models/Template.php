@@ -12,14 +12,6 @@ class Template extends Eloquent {
 	protected $table = 'templates';
 
 	public function convertCode($items) {
-		// $newItemsH = strpos($items, '[[h]]');
-		// if($newItemsH !== false) $newItems = preg_replace('/\[\[h\]\](.*)/i','<h3 class="checklist-header ss-dropdown">$1</h3>', $items);
-		// $newItemsO = strpos($newItems, '[[o]]');
-		// if($newItemsO !== false) $newItems = preg_replace('/\[\[o\]\](.*)/i','<input type="checkbox" class="checklist-checkbox" value="$1" />$1', $newItems);
-		// $newItemsS = strpos($newItems, '[[START]]');
-		// if($newItemsS !== false) $newItems = str_replace('[[START]]','', $newItems);
-		// $newItemsE = strpos($newItems, '[[END]]');
-		// if($newItemsE !== false) $newItems = str_replace('[[END]]','', $newItems);
 		$newItems = explode("\n",$items);
 		$checklist = '';
 		$checkNum = 1;
@@ -41,7 +33,6 @@ class Template extends Eloquent {
 			if($item == '[[END]]') $checklist .= '</div>';
 			$checkNum++;
 		}
-		//dd($newItems);
 
 		return $checklist;
 	}

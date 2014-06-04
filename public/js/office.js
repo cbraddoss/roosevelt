@@ -211,7 +211,18 @@ jQuery(document).ready(function($){
 		   	window.location.href = '/admin/templates?template=new';
 		}
 	}
+	$('#admin-page .post-preview').hover(function(){
+		$(this).find('.ss-view').html('<small>Preview Template</small>');
+	},function(){
+		$(this).find('.ss-view').html('');
+	});
 	$(document).on('click', '#admin-page #admin-preview-template-form .preview-template', function(){
+		$(".template-output").show();
+	});
+	$(document).on('click', '#admin-page .close-template-preview', function(){
+		$(".template-output").hide();
+	});
+	$(document).on('click', '#admin-page .post-preview', function(){
 		$(".template-output").toggle();
 	});
 	$(document).on('click', '#admin-page .template-output h3', function() {

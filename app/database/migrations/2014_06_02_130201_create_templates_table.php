@@ -19,6 +19,7 @@ class CreateTemplatesTable extends Migration {
 			$table->string('slug')->unique();
 			$table->enum('type',array('project','billable','invoice','help'));
 			$table->text('items');
+			$table->enum('status',array('active', 'inactive'));
 			$table->timestamps();
 		});
 	}
