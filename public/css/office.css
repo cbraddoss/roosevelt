@@ -749,20 +749,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9389', end
 }
 #message-box,
 #message-box-json {
+	display: none;
 	position: fixed;
-	top:80px;
-	left:0px;
-	height: 40px;
+	top:76px;
+	right:1%;
+	height: 42px;
 	width:98%;
-	padding: 0 1%;
+	padding: 0;
 	z-index:56;
-	font-size: 1.8em;
+	font-size: 2em;
 }
 #message-box .action-message,
 #message-box-json .action-message {
-	margin:0px 0 0 20%;
-	padding:4px;
+	margin:0px 0 0 19.5%;
+	padding:5px 1% 0;
+	height: 35px;
 	color:#fff;
+	border-radius: 5px;
 	background: #fff;
 	background: #f2f5f6; /* Old browsers */
 background: -moz-linear-gradient(top,  #f2f5f6 0%, #e3eaed 37%, #c8d7dc 100%); /* FF3.6+ */
@@ -1251,8 +1254,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .create-something-form {
 	position: fixed;
-	top:85px;
-	left: 10%;
+	top:120px;
+	right: 1%;
 	padding:10px;
 	background: #fff;
 	border:1px solid #ddd;
@@ -1269,7 +1272,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	right: 0;
 }*/
 #content .create-something-form {
-	width: 80%;
+	width: 78%;
 }
 #content .create-something-form textarea {
 	font-size:1em;
@@ -1454,6 +1457,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding;
 	background-clip: padding-box;
+}
+#content .template-key {
+	margin-bottom: 10px;
 }
 /* page divs */
 #content .office-post {
@@ -1800,6 +1806,86 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post-comment .comment-single-attachment {
 	float:right;
 	padding-top: 5px;
+}
+#content form .user-textarea textarea {
+	height: 400px;
+	width: 600px;
+	font-size: 1em;
+	margin-top: 10px;
+}
+#content .user-textarea .user-title {
+	width: 200px;
+	display: inline-block;
+}
+#content .checklist-section {
+
+}
+#content h3.checklist-header {
+	position: relative;
+	text-decoration: none;
+	background: #333;
+	background: #4b83b4;
+	background: -moz-linear-gradient(top, #4b83b4 0%, #3c698c 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4b83b4), color-stop(100%,#3c698c));
+	background: -webkit-linear-gradient(top, #4b83b4 0%,#3c698c 100%);
+	background: -o-linear-gradient(top, #4b83b4 0%,#3c698c 100%);
+	background: -ms-linear-gradient(top, #4b83b4 0%,#3c698c 100%);
+	background: linear-gradient(to bottom, #4b83b4 0%,#3c698c 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4b83b4', endColorstr='#3c698c',GradientType=0 );
+	text-shadow: 1px 1px 1px #111;
+	margin: 0 0 0px 0px;
+	padding: 5px 0 5px;
+	display: block;
+	width: 100%;
+	color: #fff;
+	font-weight: 100;
+	position: relative;
+}
+#content h3.checklist-header:before {
+	padding: 0 5px;
+}
+#content .checklist-checkbox-section {
+	height: 20px;
+	padding: 10px;
+}
+/*general styles for all CSS Checkboxes*/
+#content .checklist-checkbox-label label {
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+input[type=checkbox].checklist-checkbox {
+	position: absolute; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    height:1px; 
+    width:1px; 
+    margin:-1px; 
+    padding:0;
+    border:0;
+}
+
+input[type=checkbox].checklist-checkbox + label.checklist-checkbox-label {
+	padding-left:20px;
+	height:20px; 
+	display:inline-block;
+	line-height:20px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	font-size:15px;
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label {
+	background-position: 0 -20px;
+}
+.custom-checkbox {
+	background-image:url(../images/klaus.png);
 }
 /* pagination links */
 .pagination-footer {

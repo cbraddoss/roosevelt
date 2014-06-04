@@ -2,7 +2,6 @@
 
 @section('profile-details')
 <div class="page-menu">
-	<div class="page-menu-arrow"></div>
 	<ul>
 	@if(Auth::user()->userrole == 'admin')
 		<li><a href="/admin/" class="link">Admin</a></li>

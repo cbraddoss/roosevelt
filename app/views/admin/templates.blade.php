@@ -13,11 +13,11 @@
 			<li><a href="/admin/templates" class="link">Template Management</a></li>
 		</ul>
 		<div id="admin-new-template-form" class="create-something-new">
-			<span class="admin-button"><button class="add-new">Add New</button></span>
+			<span class="template-button"><button class="add-new">Add New</button></span>
 		</div>
 	</div>
 
-	<p>Manage Project, Task, Billable, and Help templates here...</p>
+	@yield('admin-template-content')
 
 </div>
 @stop

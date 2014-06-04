@@ -29,6 +29,10 @@ Route::delete('/admin/users', array('as' => 'admin.userDelete', 'uses' => 'Admin
 Route::get('/admin/users/{userpath}', array('as' => 'admin.userEdit', 'uses' => 'AdminController@userEdit'));
 Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' => 'AdminController@userUpdate'));
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
+Route::post('/admin/templates', array('as' => 'admin.templateNew', 'uses' => 'AdminController@templateNew'));
+Route::post('/admin/templates/{id}', array('as' => 'admin.templateUpdate', 'uses' => 'AdminController@templateUpdate'));
+Route::get('/admin/templates/{template}', array('uses' => 'AdminController@templateEdit'));
+Route::delete('/admin/templates/{template}', array('uses' => 'AdminController@templateDelete'));
 
 Route::get('/profile/', array('as' => 'profile', 'uses' => 'ProfilesController@show'));
 Route::post('/profile/vacation', array('as' => 'profile.vacation', 'uses' => 'ProfilesController@vacation'));

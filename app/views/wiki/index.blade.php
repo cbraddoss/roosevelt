@@ -8,7 +8,6 @@
 <div id="wiki-page"  class="inner-page">
 
 	<div class="page-menu">
-	<div class="page-menu-arrow"></div>
 		<ul>
 			<li></li>
 			<li></li>

@@ -7,7 +7,6 @@
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
 	<div class="page-menu">
-	<div class="page-menu-arrow"></div>
 		<ul>
 			<li><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month navigateleft"><span class="ss-navigateleft"></span></a><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month">{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></li>
 			<li><a href="/calendar/" class="link calendar-today">Today</a></li>

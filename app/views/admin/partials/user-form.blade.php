@@ -1,7 +1,7 @@
 @extends('admin.users')
 
 @section('page-title')
-{{ 'Admin - ' . $user->first_name . ' ' . $user->last_name }}
+{{ 'User: ' . $user->first_name . ' ' . $user->last_name }}
 @stop
 
 @section('admin-user-content')

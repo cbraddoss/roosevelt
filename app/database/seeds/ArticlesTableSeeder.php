@@ -13,7 +13,7 @@ class ArticlesTableSeeder extends Seeder {
 			'author_id' => '1',
 			'edit_id' => '1',
 			'status' => 'published',
-			'created_at' => '2014-02-25 21:22:48'
+			'created_at' => '2014-03-25 21:22:48'
 		));
 
 		Article::create(array(
@@ -27,7 +27,7 @@ class ArticlesTableSeeder extends Seeder {
 			'author_id' => '2',
 			'edit_id' => '2',
 			'status' => 'published',
-			'created_at' => '2014-03-31 21:22:48'
+			'created_at' => '2014-04-31 21:22:48'
 		));
 
 		Article::create(array(
@@ -40,7 +40,7 @@ class ArticlesTableSeeder extends Seeder {
 			'author_id' => '3',
 			'edit_id' => '3',
 			'status' => 'published',
-			'created_at' => '2014-04-01 21:22:48'
+			'created_at' => '2014-06-01 21:22:48'
 		));
 
 		Article::create(array(
@@ -56,7 +56,7 @@ class ArticlesTableSeeder extends Seeder {
 			'author_id' => '4',
 			'edit_id' => '4',
 			'status' => 'published',
-			'created_at' => '2014-01-31 21:22:48'
+			'created_at' => '2014-05-31 21:22:48'
 		));
 
 		Article::create(array(
@@ -66,7 +66,7 @@ class ArticlesTableSeeder extends Seeder {
 			'author_id' => '1',
 			'edit_id' => '1',
 			'status' => 'draft',
-			'created_at' => '2014-04-16 21:22:48'
+			'created_at' => '2014-05-16 21:22:48'
 		));
 
 		Article::create(array(
@@ -108,7 +108,7 @@ Total: $880
 			'author_id' => '2',
 			'edit_id' => '2',
 			'status' => 'published',
-			'created_at' => '2014-04-16 11:22:48'
+			'created_at' => '2014-05-23 11:22:48'
 		));
 
 		Article::create(array(
@@ -148,8 +148,8 @@ stuck on shorecrest in raven",
 			'author_id' => '2',
 			'edit_id' => '2',
 			'status' => 'sticky',
-			'show_on_calendar' => '2014-04-25 12:42:48',
-			'created_at' => '2014-04-15 12:42:48'
+			'show_on_calendar' => '2014-06-02 12:42:48',
+			'created_at' => '2014-06-02 12:42:48'
 		));
 
 		Article::create(array(
@@ -161,7 +161,7 @@ I'll be getting inndx and directory updated here in a few minutes.",
 			'author_id' => '1',
 			'edit_id' => '1',
 			'status' => 'published',
-			'created_at' => '2014-04-25 14:22:48'
+			'created_at' => '2014-05-25 14:22:48'
 		));
 	}
 }

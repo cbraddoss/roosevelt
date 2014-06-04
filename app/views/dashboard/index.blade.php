@@ -7,15 +7,14 @@
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
 	<div class="page-menu">
-		
 		<ul>
 			<li>
-				<div id="project-new-project-form" class="create-something-new">
+				<div id="projects-new-project-form" class="create-something-new">
 				<span class="project-button"><button class="add-new">New Project</button></span>
 				</div>
 			</li>
 			<li>
-				<div id="account-new-account-form" class="create-something-new">
+				<div id="accounts-new-account-form" class="create-something-new">
 				<span class="account-button"><button class="add-new">New Account</button></span>
 				</div>
 			</li>
@@ -25,7 +24,7 @@
 				</div>
 			</li>
 			<li>
-				<div id="billable-new-billable-form" class="create-something-new">
+				<div id="billables-new-billable-form" class="create-something-new">
 				<span class="billable-button"><button class="add-new">New Billable</button></span>
 				</div>
 			</li>

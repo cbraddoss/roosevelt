@@ -1,13 +1,18 @@
 <?php
 
+Use \Template;
+
 class AdminController extends \BaseController {
 
+	protected $template;
 	/**
      * Instantiate a new AdminController instance.
      */
-    public function __construct()
+    public function __construct(Template $template)
     {
         $this->beforeFilter('admin');
+
+        $this->template = $template;
 
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
@@ -147,9 +152,112 @@ class AdminController extends \BaseController {
 	 */
 	public function templates()
 	{
-		$users = User::all();
-		if(Request::ajax()) return View::make('admin.partials.templates-form', compact('users'));
-		else return View::make('admin.templates', compact('users'));
+		$templates = Template::all();
+		if(Request::ajax()) return View::make('admin.partials.templates-add-new', compact('templates'));
+		else return View::make('admin.partials.templates-list', compact('templates'));
+	}
+
+	/**
+	 * Add new resource.
+	 *
+	 * @return Response
+	 */
+	public function templateNew()
+	{
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/templates/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 
+        $validator = Validator::make(Input::only('name','type','items'), array(
+			'name' => 'required|max:120',
+			'type' => 'required|in:project,help,billable,invoice',
+			'items' => 'required'
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			$response = array(
+				'errorMsg' => $messages->first()
+			);
+			return Response::json( $response );
+		}
+		else {
+			$newTemplate = new Template;
+			$newTemplate->name =  ucwords(Input::get('name'));
+			$newTemplate->type =  Input::get('type');
+			$newTemplate->items = clean_content(Input::get('items'));
+			$newTemplate->slug = convert_title_to_path(Input::get('name'));
+
+			try
+			{
+				$newTemplate->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				$response = array(
+					'errorMsg' => 'Oops, something went wrong (possible name match exception).'
+				);
+				return Response::json( $response );
+			}
+			$response = array(
+				'msg' => 'Template saved.'
+			);
+			return Response::json( $response );
+		}
+		$response = array(
+			'errorMsg' => 'Something went wrong. :('
+		);
+		return Response::json( $response );
+	}
+
+	/**
+	 * Display single view of the resource.
+	 *
+	 * @return Response
+	 */
+	public function templateEdit($template)
+	{
+		$template = Template::where('slug','=',$template)->first();
+		return View::make('admin.partials.template-form', compact('template'));
+	}
+
+	public function templateUpdate($templateSlug)
+	{
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/templates/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 
+        $validator = Validator::make(Input::only('name','type','items'), array(
+        	'id' => 'same:id',
+			'name' => 'required|max:120',
+			'type' => 'required|in:project,help,billable,invoice',
+			'items' => 'required'
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			return Redirect::to('/admin/templates/'.$templateSlug)->withInput()->withErrors($messages->first());
+		}
+		else {
+			$template = Template::find(Input::get('id'));
+			
+			$template->name =  ucwords(Input::get('name'));
+			$template->type =  Input::get('type');
+			$template->items = clean_content(Input::get('items'));
+			$template->slug = convert_title_to_path(Input::get('name'));
+
+			try
+			{
+				$template->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				return Redirect::to('/admin/templates/'.$template->slug)->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+			}
+			return Redirect::to('/admin/templates/')->with('flash_message_success', '<i>' . $template->name . '</i> successfully updated!');
+		}
+		return Redirect::to('/admin/templates/'.$template->slug)->with('flash_message_error','Something went wrong. :(');
+	}
+
+	public function templateDelete($id) {
+		$templateToDelete = Template::find($id);
+		$templateToDelete->delete();
+		return Redirect::to('/admin/templates/')->with('flash_message_success','Template deleted successfully.');
+
 	}
 
 }

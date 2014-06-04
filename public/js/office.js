@@ -128,17 +128,20 @@ jQuery(document).ready(function($){
 			$('form.add-user .first-name').focus();
 		});
 	});
+	// cancel user add form
 	$(document).on('click','#admin-page .user-add-form span.cancel',function(){
 		$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New</button></span>');
 		$('#message-box-json').find('.section').empty();
 		$('#message-box-json').fadeOut();
 	});
+	// keyboard action to cancel user add form
 	$(document).on('keyup','#admin-page form.add-user input', function(ev) {
 		// hide if press esc
 		if ( ev.keyCode == 27 ) {
 			$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New</button></span>');
 		}
 	});
+	// add user ajax submit
 	$(document).on('submit', '#admin-page .user-add-form form.add-user', function(){
 		$.post(
 			$(this).prop('action'),
@@ -168,6 +171,46 @@ jQuery(document).ready(function($){
 		);
 		return false;
 	});
+	// add new template
+	$(document).on('click', '#admin-page #admin-new-template-form button.add-new', function(){
+		$.get( "/admin/templates", function( data ) {
+			$('#admin-new-template-form').html(data);
+			$('form.add-template .name').focus();
+		});
+	});
+	// cancel template add
+	$(document).on('click','#admin-page form.add-template span.cancel',function(){
+		$('#admin-new-template-form').html('<span class="template-button"><button class="add-new">Add New</button></span>');
+		$('#message-box-json').find('.section').empty();
+		$('#message-box-json').fadeOut();
+	});
+	// add template ajax submit
+	var newTemplateOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       templateAddSuccess,  // post-submit callback
+			dataType: 'json', 
+			resetForm: false        // reset the form after successful submit 
+		};	
+	$(document).on('submit','#admin-page form.add-template', function() {
+
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(newTemplateOptions);
+	    return false;
+	});
+	function templateAddSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		   	window.location.href = '/admin/templates?template=new';
+		}
+	}
 	/************/
 
 	/* Profile Page */
