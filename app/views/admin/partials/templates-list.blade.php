@@ -7,7 +7,6 @@
 		<p>[[END]] = end a section</p>
 		<p>[[h]] = Header</p>
 		<p>[[o]] = Open checkbox</p>
-		<p>[[x]] = Closed checkbox</p>
 		
 		<h3>Example:</h3>
 <pre class="php">
@@ -35,7 +34,7 @@
 	@foreach($templates as $template)
 		<div id="template-{{ $template->id }}" class="template-item office-post">
 			<div class="post-date"><p>{{ ucwords($template->type) }}</p></div>
-			<h3>{{ link_to('/admin/templates/'. $template->slug, $template->name, array('class' => 'template-link')) }}</h3>
+			<h3>{{ link_to('/admin/templates/'. $template->slug.'/edit/', $template->name, array('class' => 'template-link')) }}</h3>
 			<div class="office-post-sub">
 				<small>Created: {{ $template->created_at->format('M d, Y') }}</small>
 			</div>

@@ -211,6 +211,14 @@ jQuery(document).ready(function($){
 		   	window.location.href = '/admin/templates?template=new';
 		}
 	}
+	$(document).on('click', '#admin-page #admin-preview-template-form .preview-template', function(){
+		$(".template-output").toggle();
+	});
+	$(document).on('click', '#admin-page .template-output h3', function() {
+		$(this).parent().find('.checklist-checkbox-section').toggle();
+		$(this).toggleClass('ss-directright');
+		$(this).toggleClass('ss-dropdown');
+	});
 	/************/
 
 	/* Profile Page */
@@ -808,6 +816,7 @@ jQuery(document).ready(function($){
 		if($(this).parent().parent().attr('class') == 'login-remind') return;
 		if($(this).parent().parent().attr('class') == 'login-reset') return;
 		if($(this).parent().attr('class') == 'office-search') return;
+		if($(this).closest('.template-output').attr('class') == 'template-output') return;
 		$(this).addClass('changed-input');
 	});
 	$(document).on('submit', 'form', function() {
