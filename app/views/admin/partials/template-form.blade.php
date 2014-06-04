@@ -45,9 +45,13 @@
 {{ Form::close() }}
 
 <div class="template-output">
+<div class="page-cover">
+</div>
+<div class="template-preview">
 <h3>Sample Project:</h3>
 <h4><a href="#">Sample Account</a></h4>
 {{ $template->convertCode($template->items) }}
+</div>
 </div>
 
 @stop
