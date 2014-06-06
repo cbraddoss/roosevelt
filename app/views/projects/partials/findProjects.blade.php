@@ -1,3 +1,10 @@
+<div class="project-title office-post-header">
+	<div class="post-date">Due Date</div>
+	<div class="post-title">Title</div>
+	<div class="post-user">User</div>
+	<div class="post-stage">Stage</div>
+	<div class="post-meta">Meta</div>
+</div>
 @foreach($projects as $project)
 	@if($project->priority == 'high')
 		@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
@@ -42,18 +49,18 @@
 		<div class="post-assigned">
 			<p class=""><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">{{ link_to('/projects/assigned-to/'.User::find($project->assigned_id)->user_path, User::find($project->assigned_id)->first_name) }}</p>
 		</div>
+		@if(strlen($project->stage) >= 10)
+		<div class="post-stage post-stage-long">
+		@else
 		<div class="post-stage">
+		@endif
 			<p class="">{{ ucwords(str_replace('-',' ',$project->stage)) }}</p>
 		</div>
+		@if($project->priority == 'high')
 		<div class="post-priority">
-			@if($project->priority == 'high')
-			<p class="ss-alert">{{ ucwords($project->priority) }}</p>
-			@elseif($project->priority == 'low')
-			<p class="ss-dashboard">{{ ucwords($project->priority) }}</p>
-			@else
-			<p class="ss-dashboard">{{ ucwords($project->priority) }}</p>
-			@endif
+			<p class="ss-alert">{{ ucwords($project->priority) }} Priority</p>
 		</div>
+		@endif
 		<div class="post-attachment">
 			<p class="ss-attach"></p>
 		</div>

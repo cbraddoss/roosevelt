@@ -1462,6 +1462,30 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	margin-bottom: 10px;
 }
 /* page divs */
+#content .office-post-header {
+	height: 20px;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
+}
+#content .office-post-header div {
+	float:left;
+	text-align:center;
+}
+#content .office-post-header div.post-date {
+	width: 120px;
+}
+#content .office-post-header div.post-title {
+	width: 49%;
+	text-align: left;
+	padding-left: 10px;
+}
+#content .office-post-header div.post-user,
+#content .office-post-header div.post-stage,
+#content .office-post-header div.post-meta {
+	float: right;
+	width: 6%;
+	padding: 0 10px;
+}
 #content .office-post {
 	/*border-top:1px solid rgba(32,32,32,0.1);
 	border-right:1px solid rgba(32,32,32,0.3);
@@ -1626,7 +1650,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post .post-priority {
 	float: right;
 	height: 100%;
-	width: 5%;
+	width: 6%;
 	vertical-align: middle;
 	cursor: pointer;
 	border-left: 1px solid #ddd;
@@ -1634,16 +1658,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	text-align: center;
 }
 #content .office-post .post-assigned {
-	text-align: left;
+	text-align: center;
 }
 #content .office-post .post-assigned p {
 	color: #4B83B4;
-	line-height: 60px;
+	padding-top: 10px;
+	line-height: 20px;
 	margin: 0;
 }
 #content .office-post .post-assigned p img {
-	margin-bottom: -5px;
-	margin-right: 2px;
+	display: block;
+	margin: 0 auto;
 }
 #content .office-post .post-assigned p a {
 	color: #4B83B4;
@@ -1657,6 +1682,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	line-height: 60px;
 	margin: 0;
 }
+#content .office-post .post-stage.post-stage-long p {
+	line-height: 20px;
+}
 #content .office-post .post-stage p a {
 	color: #4B83B4;
 	text-decoration: none;
@@ -1666,7 +1694,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post .post-priority p {
 	color: #4B83B4;
-	line-height: 60px;
+	padding-top: 10px;
+	line-height: 20px;
 	margin: 0;
 }
 #content .office-post .post-priority p:before {
@@ -1677,8 +1706,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post.high-priority .post-priority p {
 	color: #fff;
-	line-height: 60px;
-	margin: 0;
 }
 #content .office-post .post-activity,
 #content .office-post .post-preview {
