@@ -10,7 +10,7 @@
 @include('news.partials.sub-menu')
 	
 	@if($articles->isEmpty())
-			<div class="news-article office-post">
+			<div class="news-article">
 				<h3>No articles found for <i>{{ $date }}</i>.</h3>
 				<p></p>
 			</div>

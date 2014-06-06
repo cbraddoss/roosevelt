@@ -54,10 +54,31 @@ function get_user_list_select($selected = null) {
 function get_project_type_select($selected = null) {
 	$projectTypes = Template::where('type','=','project')->get();
 	$options = '';
+	$optionsLast = '';
 	foreach($projectTypes as $type) {
-		if($type->status == 'inactive') $type->name = $type->name.' (i)';
-		if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.$type->name.'</option>';
-		else $options .= '<option value="'.$type->slug.'">'.$type->name.'</option>';
+		if($type->status == 'inactive') {
+			if($selected == $type->name) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
+			else $optionsLast .= '<option value="'.$type->slug.'">' . $type->name.' (i)' . '</option>';
+		}
+		else {
+			if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
+			else $options .= '<option value="'.$type->slug.'">'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';			
+		}
+	}
+	$options = $options.$optionsLast;
+	return $options;
+}
+function get_project_stage_select($selected = null) {
+	$projectStages = Project::where('status','=','open')->get();
+	$options = '';
+	$stages = '';
+	foreach($projectStages as $stage) {
+		$stage->stage = ucwords(str_replace('-',' ',$stage->stage));
+		if(strpos($stages, $stage->stage) === false) {
+			$stages .= $stage->stage;
+			if(ucwords(str_replace('-',' ',$selected)) == $stage->stage) $options .= '<option value="'.convert_title_to_path($stage->stage).'" selected>'.$stage->stage.'</option>';
+			else $options .= '<option value="'.convert_title_to_path($stage->stage).'">'.$stage->stage.'</option>';
+		}
 	}
 	return $options;
 }
@@ -156,7 +177,7 @@ function find_assigned_count($resource) {
 	$currentUser = current_user_path();
 	// display projects assigned or part of per user not completed yet
 	if($resource == 'projects') {
-		$projects = '?!';
+		$projects = Project::where('assigned_id', '=', Auth::user()->id)->count();
 		return '<span class="linked-to">'.$projects.'</span>';
 	}
 	// display billables assigned per user not completed yet

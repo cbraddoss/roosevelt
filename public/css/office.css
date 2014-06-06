@@ -1492,6 +1492,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #fff !important;
 	border-color: #3c698c !important;
 }
+#content .office-post.high-priority {
+	box-shadow: 0px 0px 2px 0px red;
+}
+#content .office-post.due-soon {
+	box-shadow: 0px 0px 2px 0px rgba(179,0,0,1);
+}
+#content .office-post.due-now {
+	box-shadow: 0px 0px 2px 0px red;
+}
+#content .office-post.low-priority {
+	opacity: 0.7;
+}
 #content .office-post h3 {
 	width: 60%;
 	height: 100%;
@@ -1536,6 +1548,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	display: block;
 	border-right: 1px solid #ddd;
 }
+#content #projects-page .office-post .post-date {
+	width: 120px;
+}
 #content .office-post .post-date p {
 	margin: 0;
 	display: block;
@@ -1544,6 +1559,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-weight: 700;
 	font-size: 1.1em;
 	line-height: 60px;
+}
+#content #projects-page .office-post .post-date p {
+	line-height: 1.1em;
+	padding-top: 15px;
+}
+#content .office-post.due-soon p {
+	color: rgba(179,0,0,1);
+}
+#content .office-post.due-now p {
+	color: rgba(255,0,0,1);
 }
 #content .office-post .post-hover-content {
 	display:none;
@@ -1554,6 +1579,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	width: 50%;
 	color: #fff;
 	font-size: 0.8em;
+}
+#content #projects-page .office-post .post-hover-content {
+	left: 120px;
 }
 #content .office-post .post-hover-content a {
 	color: #fff;

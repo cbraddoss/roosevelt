@@ -781,16 +781,39 @@ jQuery(document).ready(function($){
 	});
 
 	/* Projects Page */
-	//Change color of high priority project items
-	$(document).on('change','.priority',function(){
-   		var priority = $(this).val()
-   		if(priority == 'High') {
-   			$(this).parent().parent().parent().addClass('high-priority');
-   		}
-   		else {
-   			$(this).parent().parent().parent().removeClass('high-priority');
-   		}
-		
+	// Filter by user
+	$(document).on('change','#projects-page .filter-user', function(){
+		var authorLink = $(this).val();
+		window.location.href='/projects/assigned-to/'+authorLink;
+	});
+	// Filter by project stage
+	$(document).on('change','#projects-page .filter-stage', function(){
+		var stageLink = $(this).val();
+		window.location.href='/projects/stage/'+stageLink;
+	});
+	// Filter by project priority
+	$(document).on('change','#projects-page .filter-priority', function(){
+		var priorityLink = $(this).val();
+		window.location.href='/projects/priority/'+priorityLink;
+	});
+	// Filter by project status
+	$(document).on('change','#projects-page .filter-status', function(){
+		var statusLink = $(this).val();
+		window.location.href='/projects/status/'+statusLink;
+	});
+	// Filter by project type
+	$(document).on('change','#projects-page .filter-type', function(){
+		var typeLink = $(this).val();
+		window.location.href='/projects/type/'+typeLink;
+	});
+	// Filter by date
+	$('#projects-page .filter-date').datepicker().on('changeDate', function(ev) {
+		$('.dropdown-menu').hide();
+		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dateLink = new Date(ev.date.valueOf());
+		var yearLink = dateLink.getFullYear();
+		var monthLink = months[dateLink.getMonth()];
+		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
 	});
 	
 	//for search icon popup
@@ -823,6 +846,11 @@ jQuery(document).ready(function($){
 		if($(this).parent().attr('class') == 'add-vacation-profile') return;
 		if($(this).attr('class') == 'filter-author') return;
 		if($(this).attr('class') == 'filter-date') return;
+		if($(this).attr('class') == 'filter-type') return;
+		if($(this).attr('class') == 'filter-status') return;
+		if($(this).attr('class') == 'filter-priority') return;
+		if($(this).attr('class') == 'filter-user') return;
+		if($(this).attr('class') == 'filter-stage') return;
 		if($(this).attr('class') == 'calendar-jump-to-date') return;
 		if($(this).parent().parent().attr('class') == 'login-form') return;
 		if($(this).parent().parent().attr('class') == 'login-remind') return;

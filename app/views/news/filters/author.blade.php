@@ -10,7 +10,7 @@
 @include('news.partials.sub-menu')
 	
 	@if($articles->isEmpty())
-			<div class="news-article office-post">
+			<div class="news-article">
 				<h3>No articles found for <i>{{ $userAuthor->first_name.' '.$userAuthor->last_name }}</i>.</h3>
 				<p></p>
 			</div>

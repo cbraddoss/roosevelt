@@ -10,7 +10,7 @@
 @include('news.partials.sub-menu')
 	
 	@if($articles->isEmpty())
-			<div class="news-article office-post">
+			<div class="news-article">
 				<h3>No unread articles found.</h3>
 				<p></p>
 			</div>

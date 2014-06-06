@@ -13,7 +13,7 @@ class Project extends Eloquent {
 
 	public function getOpenProjects() {
 		$projects = Project::where('status','=','open')
-					->orderBy('created_at','DESC')
+					->orderBy('due_date','ASC')
 					->paginate(20);
 
 		return $projects;

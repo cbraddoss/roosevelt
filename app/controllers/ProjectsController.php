@@ -66,6 +66,145 @@ class ProjectsController extends \BaseController {
 		//
 	}
 
+	/**
+	 * Return search for assigned to user
+	 *
+	 * @param  int  $author
+	 * @return Response
+	 */
+	public function assignedTo($userpath) {
+		if(!empty($userpath)) {
+			$user = find_user_from_path($userpath);
+			if($user != null) {
+				$projects = Project::where('assigned_id','=',$user->id)
+							->where('status','=','open')
+							->orderBy('due_date','ASC')
+							->paginate(10);
+				return View::make('projects.filters.user', compact('projects','user'));
+			}
+			else return Redirect::route('projects');
+		}
+		else return Redirect::route('projects');		
+	}
+
+	/**
+	 * Return search for date
+	 *
+	 * @param  int  $date
+	 * @return Response
+	 */
+	public function dateFilter($year, $month) {
+		$date = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax->modify('+1 month');		
+		$projects = Project::where('due_date','>=', $date)
+					->where('status','=','open')
+					->where('due_date','<', $dateMax)
+					->orderBy('due_date','ASC')
+					->paginate(10);
+		$date = $date->format('F, Y');
+		return View::make('projects.filters.date', compact('projects','date'));
+	}
+
+	/**
+	 * Return search for project stages
+	 *
+	 * @return Response
+	 */
+	public function stageFilter($stage) {
+		if($stage != '0') {
+			$projects = Project::where('stage','=',$stage)
+					->where('status','=','open')
+					->orderBy('due_date','ASC')
+					->paginate(10);
+			if(!$projects->isEmpty()) {
+				return View::make('projects.filters.stage', compact('projects','stage'));
+			}
+			else return Redirect::route('projects');
+		}
+		else return Redirect::route('projects');
+	}
+
+	/**
+	 * Return search for project priority
+	 *
+	 * @return Response
+	 */
+	public function priorityFilter($priority) {
+		$low = '';
+		$normal = '';
+		$high = '';
+		if($priority == 'low' || $priority == 'normal' || $priority == 'high') {
+			$projects = Project::where('priority','=',$priority)
+					->where('status','=','open')
+					->orderBy('due_date','ASC')
+					->paginate(10);
+			if($projects != null) {
+				if($priority == 'low') $low = $priority;
+				if($priority == 'normal') $normal = $priority;
+				if($priority == 'high') $high = $priority;
+				return View::make('projects.filters.priority', compact('projects','low','normal','high','priority'));
+			}
+			else return Redirect::route('projects');
+		}
+		else return Redirect::route('projects');
+	}
+
+	/**
+	 * Return search for project status
+	 *
+	 * @return Response
+	 */
+	public function statusFilter($status) {
+		$open = '';
+		$closed = '';
+		$archived = '';
+		if($status == 'open' || $status == 'closed' || $status == 'archived') {
+			if($status == 'open') {
+				$projects = Project::where('status','=',$status)
+						->orderBy('due_date','ASC')
+						->paginate(10);
+			}
+			else {
+				$projects = Project::where('status','=',$status)
+						->orderBy('created_at','DESC')
+						->paginate(10);
+			}
+			if($projects != null) {
+				if($status == 'open') $open = $status;
+				if($status == 'closed') $closed = $status;
+				if($status == 'archived') $archived = $status;
+				return View::make('projects.filters.status', compact('projects','open','closed','archived','status'));
+			}
+			else return Redirect::route('projects');
+		}
+		else return Redirect::route('projects');
+	}
+
+	/**
+	 * Return search for project type
+	 *
+	 * @return Response
+	 */
+	public function typeFilter($type) {
+		$templates = Template::where('slug','=',$type)->first();
+		if($templates != null) {
+			if($templates->status == 'inactive') $tStatus = ' (inactive)';
+			else $tStatus = '';
+			if($type != '0') {
+				$projects = Project::where('type','=',$type)
+						->where('status','=','open')
+						->orderBy('due_date','ASC')
+						->paginate(10);
+				if($projects != null) {
+					return View::make('projects.filters.type', compact('projects','tStatus','type'));
+				}
+				else return Redirect::route('projects');
+			}
+			else return Redirect::route('projects');
+		}
+		else return Redirect::route('projects');
+	}
 
 	/**
 	 * Show the form for editing the specified resource.
