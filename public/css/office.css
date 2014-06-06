@@ -1525,29 +1525,36 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #fff !important;
 	border-color: #3c698c !important;
 }
+#content .office-post.high-priority {
+	padding-right: 0;
+	border-left: 15px solid rgba(204,0,0,0.5);
+	border-top: 1px solid rgba(204,0,0,0.5);
+	border-bottom: 1px solid rgba(204,0,0,0.5);
+	border-right: 15px solid rgba(204,0,0,0.5);
+}
+#content .office-post.normal-priority {
+	padding-right: 0;
+	border-left: 15px solid rgba(75,131,180,1);
+	border-top: 1px solid rgba(75,131,180,1);
+	border-bottom: 1px solid rgba(75,131,180,1);
+	border-right: 15px solid rgba(75,131,180,1);
+}
+#content .office-post.low-priority {
+	padding-right: 0;
+	border-left: 15px solid rgba(75,131,180,0.5);
+	border-top: 1px solid rgba(75,131,180,0.5);
+	border-bottom: 1px solid rgba(75,131,180,0.5);
+	border-right: 15px solid rgba(75,131,180,0.5);
+}
 #content .office-post.due-soon {
 	/*box-shadow: 0px 0px 2px 0px rgba(179,0,0,1);*/
-	border-left: 10px solid rgba(204,0,0,1);
+	border-left: 15px solid rgba(204,0,0,1);
 	/*background: rgba(255,0,0,0.5);*/
 }
 #content .office-post.due-now {
 	/*box-shadow: 0px 0px 2px 0px red;*/
-	border-left: 10px solid rgba(255,51,255,1);
+	border-left: 15px solid rgba(255,51,255,1);
 	/*background: rgba(255,51,255,0.5);*/
-}
-#content .office-post.high-priority {
-	padding-right: 0;
-	border-top: 1px solid rgba(204,0,0,0.5);
-	border-bottom: 1px solid rgba(204,0,0,0.5);
-	border-right: 10px solid rgba(204,0,0,0.5);
-}
-#content .office-post.normal-priority {
-	padding-right: 0;
-	border-right: 10px solid rgba(75,131,180,1);
-}
-#content .office-post.low-priority {
-	padding-right: 0;
-	border-right: 10px solid rgba(75,131,180,0.5);
 }
 #content .office-post h3 {
 	width: 60%;
@@ -1594,11 +1601,32 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-right: 1px solid #ddd;
 }
 #content #projects-page .office-post .post-date {
-	width: 120px;
+	width: 100px;
+	padding-left: 10px;
+	margin-left: -15px;
+	border-right: 1px solid rgba(75,131,180,1);
+}
+#content #projects-page .office-post.low-priority .post-date {
+	border-right: 1px solid rgba(75,131,180,0.5);
 }
 #content #projects-page .office-post.due-soon .post-date,
 #content #projects-page .office-post.due-now .post-date {
-	width: 110px;
+	width: 100px;
+	padding-left: 10px;
+	margin-top: -1px;
+	margin-left: -15px;
+	border-top-left-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+#content #projects-page .office-post.due-now .post-date {
+	border-top: 1px solid rgba(255,51,255,1);
+	border-bottom: 1px solid rgba(255,51,255,1);
+	border-right: 1px solid rgba(255,51,255,1);
+}
+#content #projects-page .office-post.due-soon .post-date {
+	border-top: 1px solid rgba(204,0,0,1);
+	border-bottom: 1px solid rgba(204,0,0,1);
+	border-right: 1px solid rgba(204,0,0,1);
 }
 #content .office-post .post-date p {
 	margin: 0;
@@ -1664,9 +1692,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	width: 6%;
 	vertical-align: middle;
 	cursor: pointer;
-	border-left: 1px solid #ddd;
+	border-left: 1px solid rgba(75,131,180,1);
 	padding: 0 5px;
 	text-align: center;
+}
+#content #projects-page .office-post.low-priority .post-assigned,
+#content #projects-page .office-post.low-priority .post-stage,
+#content #projects-page .office-post.low-priority .post-priority {
+	border-left: 1px solid rgba(75,131,180,0.5);
 }
 #content .office-post .post-assigned {
 	text-align: center;
