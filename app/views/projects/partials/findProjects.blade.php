@@ -1,3 +1,4 @@
+@if(!$projects->isEmpty())
 <div class="project-title office-post-header">
 	<div class="post-date">Due Date</div>
 	<div class="post-title">Title</div>
@@ -5,34 +6,46 @@
 	<div class="post-stage">Stage</div>
 	<div class="post-meta">Meta</div>
 </div>
+@endif
 @foreach($projects as $project)
-	@if($project->priority == 'high')
-		@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-now">
-		@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-soon">
-		@else
-		<div id="project-{{ $project->id }}" class="project-post office-post high-priority">
-		@endif
-	@elseif($project->priority == 'low')
-		@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post low-priority due-now">
-		@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post low-priority due-soon">
-		@else
-		<div id="project-{{ $project->id }}" class="project-post office-post low-priority">
-		@endif
-	@else
-		@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post due-now">
-		@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-		<div id="project-{{ $project->id }}" class="project-post office-post due-soon">
-		@else
+	@if(!empty($closed))
 		<div id="project-{{ $project->id }}" class="project-post office-post">
+	@elseif(!empty($archived))
+		<div id="project-{{ $project->id }}" class="project-post office-post">
+	@else
+		@if($project->priority == 'high')
+			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-now">
+			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-soon">
+			@else
+			<div id="project-{{ $project->id }}" class="project-post office-post high-priority">
+			@endif
+		@elseif($project->priority == 'low')
+			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post low-priority due-now">
+			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post low-priority due-soon">
+			@else
+			<div id="project-{{ $project->id }}" class="project-post office-post low-priority">
+			@endif
+		@else
+			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post due-now">
+			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
+			<div id="project-{{ $project->id }}" class="project-post office-post due-soon">
+			@else
+			<div id="project-{{ $project->id }}" class="project-post office-post">
+			@endif
 		@endif
 	@endif
 
 		<div class="post-date">
+		@if(!empty($closed))
+			<p>Done:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('F j') }}</p>
+		@elseif(!empty($archived))
+			<p>Done:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('F j') }}</p>
+		@else
 			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
 			<p>Due:<br>Today</p>
 			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
@@ -40,6 +53,7 @@
 			@else
 			<p>Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</p>
 			@endif
+		@endif
 		</div>
 		<h3>{{ link_to('/project/'.$project->department.'/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 		<div class="post-hover-content">
