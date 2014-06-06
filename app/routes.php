@@ -64,6 +64,7 @@ Route::get('/calendar', array('as' => 'calendar', 'uses' => 'CalendarsController
 Route::get('/calendar/{year}/{month}', array('as' => 'calendar.month', 'uses' => 'CalendarsController@show'));
 
 Route::get('/projects', array('as' => 'projects', 'uses' => 'ProjectsController@index'));
+Route::post('/projects/listview', array('as' => 'projects.updateOnListView', 'uses' => 'ProjectsController@updateOnListView'));
 Route::get('/projects/assigned-to/{userpath}', array('as' => 'projects.assignedTo', 'uses' => 'ProjectsController@assignedTo'));
 Route::get('/projects/date/{year}/{month}', array('as' => 'projects.dateFilter', 'uses' => 'ProjectsController@dateFilter'));
 Route::get('/projects/priority/{priority}', array('as' => 'projects.priorityFilter', 'uses' => 'ProjectsController@priorityFilter'));

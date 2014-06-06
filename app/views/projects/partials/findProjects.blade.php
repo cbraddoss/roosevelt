@@ -31,11 +31,11 @@
 			@endif
 		@else
 			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-			<div id="project-{{ $project->id }}" class="project-post office-post due-now">
+			<div id="project-{{ $project->id }}" class="project-post office-post normal-priority due-now">
 			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
-			<div id="project-{{ $project->id }}" class="project-post office-post due-soon">
+			<div id="project-{{ $project->id }}" class="project-post office-post normal-priority due-soon">
 			@else
-			<div id="project-{{ $project->id }}" class="project-post office-post">
+			<div id="project-{{ $project->id }}" class="project-post office-post normal-priority">
 			@endif
 		@endif
 	@endif
@@ -70,13 +70,9 @@
 		@endif
 			<p class="">{{ ucwords(str_replace('-',' ',$project->stage)) }}</p>
 		</div>
-		@if($project->priority == 'high')
-		<div class="post-priority">
-			<p class="ss-alert">{{ ucwords($project->priority) }} Priority</p>
-		</div>
-		@endif
-		<div class="post-attachment">
-			<p class="ss-attach"></p>
+		
+		<div class="post-activity">
+			<p class="ss-chat"></p>
 		</div>
 		
 	</div>

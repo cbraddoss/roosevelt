@@ -229,6 +229,19 @@ class ProjectsController extends \BaseController {
 		//
 	}
 
+	/**
+	 * Update the project on list view pages.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateOnListView($id)
+	{
+		// if(Request::ajax()) return View::make('projects.partials.new-project');
+		// else 
+			return Redirect::route('projects');
+	}
+
 
 	/**
 	 * Remove the specified resource from storage.
