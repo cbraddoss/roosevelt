@@ -75,15 +75,18 @@ function get_project_stage_select($selected = null) {
 	$projectStages = Project::where('status','=','open')->get();
 	$options = '';
 	$stages = '';
-	foreach($projectStages as $stage) {
-		$stage->stage = ucwords(str_replace('-',' ',$stage->stage));
-		if(strpos($stages, $stage->stage) === false) {
-			$stages .= $stage->stage;
-			if(ucwords(str_replace('-',' ',$selected)) == $stage->stage) $options .= '<option value="'.convert_title_to_path($stage->stage).'" selected>'.$stage->stage.'</option>';
-			else $options .= '<option value="'.convert_title_to_path($stage->stage).'">'.$stage->stage.'</option>';
+	if($projectStages != null) {
+		foreach($projectStages as $stage) {
+			$stage->stage = ucwords(str_replace('-',' ',$stage->stage));
+			if(strpos($stages, $stage->stage) === false) {
+				$stages .= $stage->stage;
+				if(ucwords(str_replace('-',' ',$selected)) == $stage->stage) $options .= '<option value="'.convert_title_to_path($stage->stage).'" selected>'.$stage->stage.'</option>';
+				else $options .= '<option value="'.convert_title_to_path($stage->stage).'">'.$stage->stage.'</option>';
+			}
 		}
+		return $options;
 	}
-	return $options;
+	else return;
 }
 function convert_title_to_path($title) {
 	$title = trim($title);
