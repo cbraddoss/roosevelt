@@ -235,11 +235,34 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function updateOnListView($id)
+	public function updateOnListView($id, $value)
 	{
-		// if(Request::ajax()) return View::make('projects.partials.new-project');
-		// else 
-			return Redirect::route('projects');
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$project = Project::where('id','=',$id)->first();
+			if(empty($project)) return Redirect::to('/project');
+			else $oldValue = $project->$value;
+			// dd(Input::get('value'));
+			if(Input::has('date') == 'youbetcha') {
+				$date = Input::get('value');
+				$date = str_replace(' GMT-0500 (CDT)','',$date);
+				$date = Carbon::createFromFormat('l M d Y H:i:s', $date);
+				$project->$value = $date;
+				$dateSave = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F j');
+			}
+			
+			$project->save();
+			$response = array(
+				'msg' => 'Saved!',
+				'pid' => $project->id,
+				'date' => $dateSave
+			);
+			
+			
+			return Response::json( $response );
+		}
+		else return Redirect::route('projects');
 	}
 
 

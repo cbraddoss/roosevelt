@@ -815,6 +815,49 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
 	});
+	// Update Projects on List View page with ajax
+
+	$('#projects-page p.change-project-date').datepicker().on('changeDate', function(ev) {
+		$('.dropdown-menu').hide();
+		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dateLink = new Date(ev.date.valueOf());
+		// var yearLink = dateLink.getFullYear();
+		// var monthLink = dateLink.getMonth();
+		// var dayLink = dateLink.getDay();
+		// var dateVal = ev;
+		//console.log(dateLink);
+
+		// set project post date ajax submit options
+		var changeProjectDateOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectDateChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
+				id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
+				value: dateLink,
+				date: 'youbetcha',
+			},
+			type: 'POST',
+			url: $(this).parent().find('form.change-project-date-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(changeProjectDateOptions);
+	    return false;
+	});
+
+	function projectDateChangeSuccess(data)
+	{
+		var projectID = data.pid;
+		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date);
+	}
+
+
+
+
 	
 	//for search icon popup
 	// $('#link-search').click( function() {

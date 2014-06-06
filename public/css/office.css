@@ -1605,6 +1605,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding-left: 10px;
 	margin-left: -15px;
 	border-right: 1px solid rgba(75,131,180,0.5);
+	cursor: pointer;
 }
 #content #projects-page .office-post.low-priority .post-date {
 	border-right: 1px solid #ddd;
