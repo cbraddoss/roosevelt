@@ -1488,18 +1488,28 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post:hover .post-activity p a,
 #content .office-post:hover .post-activity p a:before,
 #content .office-post:hover .post-attachment p,
-#content .office-post:hover .post-preview p {
+#content .office-post:hover .post-preview p,
+#content .office-post:hover .post-assigned,
+#content .office-post:hover .post-assigned p,
+#content .office-post:hover .post-assigned p a,
+#content .office-post:hover .post-stage,
+#content .office-post:hover .post-stage p,
+#content .office-post:hover .post-stage p a,
+#content .office-post:hover .post-priority,
+#content .office-post:hover .post-priority p,
+#content .office-post:hover .post-priority p a {
 	color: #fff !important;
 	border-color: #3c698c !important;
 }
-#content .office-post.high-priority {
-	box-shadow: 0px 0px 2px 0px red;
-}
 #content .office-post.due-soon {
-	box-shadow: 0px 0px 2px 0px rgba(179,0,0,1);
+	/*box-shadow: 0px 0px 2px 0px rgba(179,0,0,1);*/
+	border-left: 10px solid rgba(204,0,0,1);
+	/*background: rgba(255,0,0,0.5);*/
 }
 #content .office-post.due-now {
-	box-shadow: 0px 0px 2px 0px red;
+	/*box-shadow: 0px 0px 2px 0px red;*/
+	border-left: 10px solid rgba(255,51,255,1);
+	/*background: rgba(255,51,255,0.5);*/
 }
 #content .office-post.low-priority {
 	opacity: 0.7;
@@ -1551,6 +1561,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content #projects-page .office-post .post-date {
 	width: 120px;
 }
+#content #projects-page .office-post.due-soon .post-date,
+#content #projects-page .office-post.due-now .post-date {
+	width: 110px;
+}
 #content .office-post .post-date p {
 	margin: 0;
 	display: block;
@@ -1565,10 +1579,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding-top: 15px;
 }
 #content .office-post.due-soon p {
-	color: rgba(179,0,0,1);
+	color: rgba(204,0,0,1);
 }
 #content .office-post.due-now p {
-	color: rgba(255,0,0,1);
+	color: rgba(255,51,255,1);
 }
 #content .office-post .post-hover-content {
 	display:none;
@@ -1606,6 +1620,65 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size: 1.5em;
 	color: #4B83B4;
 	line-height: 60px;
+}
+#content .office-post .post-assigned,
+#content .office-post .post-stage,
+#content .office-post .post-priority {
+	float: right;
+	height: 100%;
+	width: 5%;
+	vertical-align: middle;
+	cursor: pointer;
+	border-left: 1px solid #ddd;
+	padding: 0 5px;
+	text-align: center;
+}
+#content .office-post .post-assigned {
+	text-align: left;
+}
+#content .office-post .post-assigned p {
+	color: #4B83B4;
+	line-height: 60px;
+	margin: 0;
+}
+#content .office-post .post-assigned p img {
+	margin-bottom: -5px;
+	margin-right: 2px;
+}
+#content .office-post .post-assigned p a {
+	color: #4B83B4;
+	text-decoration: none;
+}
+#content .office-post .post-assigned p a:hover {
+	text-decoration: underline;
+}
+#content .office-post .post-stage p {
+	color: #4B83B4;
+	line-height: 60px;
+	margin: 0;
+}
+#content .office-post .post-stage p a {
+	color: #4B83B4;
+	text-decoration: none;
+}
+#content .office-post .post-stage p a:hover {
+	text-decoration: underline;
+}
+#content .office-post .post-priority p {
+	color: #4B83B4;
+	line-height: 60px;
+	margin: 0;
+}
+#content .office-post .post-priority p:before {
+	padding-right: 3px;
+}
+#content .office-post.high-priority .post-priority {
+	background: rgba(204,0,0,0.5);
+}
+#content .office-post.high-priority .post-priority p {
+	color: #fff;
+	line-height: 60px;
+	margin: 0;
 }
 #content .office-post .post-activity,
 #content .office-post .post-preview {

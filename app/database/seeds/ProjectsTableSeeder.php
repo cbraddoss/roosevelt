@@ -42,7 +42,7 @@ class ProjectsTableSeeder extends Seeder {
 			'title' => 'The Best BnB New Website',
 			'content' => 'Create new website!',
 			'department' => 'design',
-			'priority' => 'low',
+			'priority' => 'normal',
 			'stage' => 'waiting-on-materials',
 			'type' => 'new-website',
 			'status' => 'open',
@@ -58,7 +58,7 @@ class ProjectsTableSeeder extends Seeder {
 			'title' => 'Sample Inn SEM',
 			'content' => 'SEM monthly.',
 			'department' => 'sem',
-			'priority' => 'normal',
+			'priority' => 'low',
 			'stage' => 'coding',
 			'type' => 'sem-monthly',
 			'status' => 'open',
@@ -67,6 +67,22 @@ class ProjectsTableSeeder extends Seeder {
 			'template_id' => '5',
 			'account_id' => '1',
 			'due_date' => '2014-06-30 08:00:00',
+			'created_at' => '2014-06-01 08:00:00'
+		));
+
+		Project::create(array(
+			'title' => 'The Best BnB Mobile Website',
+			'content' => 'SEM monthly.',
+			'department' => 'design',
+			'priority' => 'normal',
+			'stage' => 'coding',
+			'type' => 'mobile-website',
+			'status' => 'open',
+			'subscribed' => 'brad_doss insideout',
+			'assigned_id' => '3',
+			'template_id' => '6',
+			'account_id' => '3',
+			'due_date' => '2014-06-15 08:00:00',
 			'created_at' => '2014-06-01 08:00:00'
 		));
 
