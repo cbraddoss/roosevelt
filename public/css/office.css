@@ -1484,7 +1484,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post-header div.post-meta {
 	float: right;
 	width: 6%;
-	padding: 0 10px;
+	padding: 0 15px 0 0;
 }
 #content .office-post {
 	/*border-top:1px solid rgba(32,32,32,0.1);

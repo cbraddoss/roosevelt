@@ -70,7 +70,9 @@
 		@endif
 			<p class="">{{ ucwords(str_replace('-',' ',$project->stage)) }}</p>
 		</div>
-		
+		<div class="post-attachment">
+			<p class="ss-attach"></p>
+		</div>
 		<div class="post-activity">
 			<p class="ss-chat"></p>
 		</div>
