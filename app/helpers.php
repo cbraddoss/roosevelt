@@ -53,20 +53,23 @@ function get_user_list_select($selected = null) {
 }
 function get_project_type_select($selected = null) {
 	$projectTypes = Template::where('type','=','project')->get();
-	$options = '';
-	$optionsLast = '';
-	foreach($projectTypes as $type) {
-		if($type->status == 'inactive') {
-			if($selected == $type->name) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
-			else $optionsLast .= '<option value="'.$type->slug.'">' . $type->name.' (i)' . '</option>';
+	if($projectTypes != null) {
+		$options = '';
+		$optionsLast = '';
+		foreach($projectTypes as $type) {
+			if($type->status == 'inactive') {
+				if($selected == $type->name) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
+				else $optionsLast .= '<option value="'.$type->slug.'">' . $type->name.' (i)' . '</option>';
+			}
+			else {
+				if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
+				else $options .= '<option value="'.$type->slug.'">'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';			
+			}
 		}
-		else {
-			if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
-			else $options .= '<option value="'.$type->slug.'">'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';			
-		}
+		$options = $options.$optionsLast;
+		return $options;
 	}
-	$options = $options.$optionsLast;
-	return $options;
+	else return;
 }
 function get_project_stage_select($selected = null) {
 	$projectStages = Project::where('status','=','open')->get();
