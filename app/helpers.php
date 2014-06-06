@@ -183,7 +183,9 @@ function find_assigned_count($resource) {
 	$currentUser = current_user_path();
 	// display projects assigned or part of per user not completed yet
 	if($resource == 'projects') {
-		$projects = Project::where('assigned_id', '=', Auth::user()->id)->count();
+		$projects = Project::where('assigned_id', '=', Auth::user()->id)
+					->where('status','=','open')
+					->count();
 		return '<span class="linked-to">'.$projects.'</span>';
 	}
 	// display billables assigned per user not completed yet
