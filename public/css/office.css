@@ -1626,6 +1626,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size: 2em;
 	text-shadow: 1px 1px 1px #000;
 }
+#content #projects-page .office-post .post-date .ss-write,
+#content #todo-page .office-post .post-date .ss-write {
+	position: absolute;
+	top: 1px;
+	left: 16px;
+	font-size: 0.9em;
+	color: #000;
+}
 #content #projects-page .office-post .post-date .ss-calendar span.update-hover-text,
 #content #todo-page .office-post .post-date .ss-calendar span.update-hover-text {
 	font-size: 0.3em;

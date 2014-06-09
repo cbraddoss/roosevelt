@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ Auth::user()->first_name.'\'s To-Do List' }}
+{{ $user->first_name.'\'s To-Do List' }}
 @stop
 
 @section('page-content')
@@ -16,13 +16,18 @@
 		@if(Auth::user()->userrole == 'admin')
 			<li><a href="/admin/" class="link">Admin</a></li>
 		@endif
+			<li>
+				<select class="filter-user">
+					@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
+				</select>
+			</li>
 		</ul>
 	</div>
 
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
 			<div class="projects-post">
-				<h3>You are currently not assigned any projects.</h3>
+				<h4>You are currently not assigned any projects.</h4>
 				<p></p>
 			</div>
 	@else

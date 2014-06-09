@@ -862,14 +862,17 @@ jQuery(document).ready(function($){
 	function projectDateChangeSuccess(data)
 	{
 		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-calendar"><span class="update-hover-text">Update</span></span>');
+		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-write"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span>');
 		$(document).find('div#project-'+projectID).removeClass('due-soon');
 		$(document).find('div#project-'+projectID).removeClass('due-now');
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);
 	}
 
-
-
+	/* To-Do List page */
+	$(document).on('change','#todo-page .filter-user', function(){
+		var authorLink = $(this).val();
+		window.location.href='/to-do/'+authorLink;
+	});
 
 	
 	//for search icon popup
