@@ -1608,15 +1608,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	cursor: pointer;
 	position:relative;
 }
-#content #projects-page .office-post .post-date:hover {
-	background: #333;
+#content #projects-page .office-post .post-date:hover p {
+	/*background: #333;*/
+	color: #4B83B4;
 }
-#content #projects-page .office-post .post-date .post-date-change {
+#content #projects-page .office-post .post-date .ss-calendar {
 	position: absolute;
-	top: -15px;
-	left: 25px;
-	color: #333;
-	font-size: 0.7em;
+	top: -0px;
+	right: 30px;
+	color: #fff !important;
+	font-size: 2em;
+	text-shadow: 1px 1px 1px #000;
+}
+#content #projects-page .office-post .post-date .ss-calendar span {
+	font-size: 0.3em;
+	line-height: 0.5em;
+	display: block;
 }
 #content #projects-page .office-post.low-priority .post-date {
 	border-right: 1px solid #ddd;

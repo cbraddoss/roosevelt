@@ -817,11 +817,11 @@ jQuery(document).ready(function($){
 	});
 	// Update Projects on List View page with ajax
 	// change date
-	// $('#projects-page p.change-project-date').hover(function(){
-	// 	$(this).append('<p class="post-date-change">Change date</p>');
-	// }, function() {
-	// 	$(this).find('.post-date-change').remove();
-	// });
+	$('#projects-page p.change-project-date').hover(function(){
+		$(this).append('<p class="ss-calendar"><span>Update</span></p>');
+	}, function() {
+		$(this).find('.ss-calendar').remove();
+	});
 	$('#projects-page p.change-project-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
