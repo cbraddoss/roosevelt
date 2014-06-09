@@ -821,9 +821,9 @@ jQuery(document).ready(function($){
 	// Update Projects on List View page with ajax
 	// change date
 	$('#content p.change-project-date').hover(function(){
-		$(this).append('<p class="ss-calendar"><span>Update</span></p>');
+		$(this).find('.ss-calendar').fadeIn(300);
 	}, function() {
-		$(this).find('.ss-calendar').remove();
+		$(this).find('.ss-calendar').fadeOut(300);
 	});
 	$('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
@@ -862,7 +862,7 @@ jQuery(document).ready(function($){
 	function projectDateChangeSuccess(data)
 	{
 		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date);
+		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-calendar"><span class="update-hover-text">Update</span></span>');
 		$(document).find('div#project-'+projectID).removeClass('due-soon');
 		$(document).find('div#project-'+projectID).removeClass('due-now');
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);

@@ -1618,17 +1618,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content #projects-page .office-post .post-date .ss-calendar,
 #content #todo-page .office-post .post-date .ss-calendar {
+	display: none;
 	position: absolute;
-	top: -0px;
+	top: 20px;
 	right: 30px;
 	color: #fff !important;
 	font-size: 2em;
 	text-shadow: 1px 1px 1px #000;
 }
-#content #projects-page .office-post .post-date .ss-calendar span,
-#content #todo-page .office-post .post-date .ss-calendar span {
+#content #projects-page .office-post .post-date .ss-calendar span.update-hover-text,
+#content #todo-page .office-post .post-date .ss-calendar span.update-hover-text {
 	font-size: 0.3em;
-	line-height: 0.5em;
+	line-height: 2.5em;
 	display: block;
 }
 #content #projects-page .office-post.low-priority .post-date,
