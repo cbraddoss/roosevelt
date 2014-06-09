@@ -36,7 +36,7 @@
 		</ul>
 	</div>
 	<div id="quicklinks">
-		<p class=""><a href="/todo/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List</a></p>
+		<p class=""><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List</a></p>
 		<p class=""><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
 		<p class=""><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
 		<p class=""><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>

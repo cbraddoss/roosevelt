@@ -20,12 +20,14 @@ jQuery(document).ready(function($){
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
 	currentPage = currentPage.split('/');
+	// console.log(currentPage);
 	$('#menu_links').find('li.link').each(function(){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
 		$(this).removeClass('active');
 		if(currentPage.indexOf(linkActiveMain) >= 0 ) $(this).addClass('active');
 		if(currentPage == '' && linkActiveMain == 'dashboard') $(this).addClass('active');
+		if(currentPage[0] == 'to-do' && linkActiveMain == 'profile') $(this).addClass('active');
 	});
 	var zIndex = 80;
 	$('#menu_links .link').each(function(){
@@ -95,24 +97,24 @@ jQuery(document).ready(function($){
 	// $('#projects-feed').hide();
 	$('#leads-feed').hide();
 	$('#billables-feed').hide();
-	$('#show-billables-list').click(function() {
-		$('#billables-feed').toggle();
+	$('.todo-feed-title').click(function() {
+		$(this).find('.todo-feed').toggle();
 		$(this).find('a.todo-feed-title').toggleClass('active');
 		$(this).find('span.arrow').toggleClass('ss-dropdown');
 		$(this).find('span.arrow').toggleClass('ss-directleft');
 	});
-	$('#show-leads-list').click(function() {
-		$('#leads-feed').toggle();
-		$(this).find('a.todo-feed-title').toggleClass('active');
-		$(this).find('span.arrow').toggleClass('ss-dropdown');
-		$(this).find('span.arrow').toggleClass('ss-directleft');
-	});
-	$('#show-projects-list').click(function() {
-		$('#projects-feed').toggle();
-		$(this).find('a.todo-feed-title').toggleClass('active');
-		$(this).find('span.arrow').toggleClass('ss-dropdown');
-		$(this).find('span.arrow').toggleClass('ss-directleft');
-	});
+	// $('#show-leads-list').click(function() {
+	// 	$('#leads-feed').toggle();
+	// 	$(this).find('a.todo-feed-title').toggleClass('active');
+	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
+	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
+	// });
+	// $('#show-projects-list').click(function() {
+	// 	$('#projects-feed').toggle();
+	// 	$(this).find('a.todo-feed-title').toggleClass('active');
+	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
+	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
+	// });
 	
 	$('#message-box-json').hide();
 	$('#message-box').fadeIn();
@@ -818,12 +820,12 @@ jQuery(document).ready(function($){
 	});
 	// Update Projects on List View page with ajax
 	// change date
-	$('#projects-page p.change-project-date').hover(function(){
+	$('#content p.change-project-date').hover(function(){
 		$(this).append('<p class="ss-calendar"><span>Update</span></p>');
 	}, function() {
 		$(this).find('.ss-calendar').remove();
 	});
-	$('#projects-page p.change-project-date').datepicker().on('changeDate', function(ev) {
+	$('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		

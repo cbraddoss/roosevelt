@@ -45,9 +45,7 @@
 							<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a>
 							<ul class="sub_menu_links">
 								<li class="sub-link"></li>
-								<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Projects</a></li>
-								<li><a href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Billables</a></li>
-								<li><a href="/help/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Help</a></li>
+								<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
 								@if(Auth::user()->userrole == 'admin')
 								<li class="sub-link"><a href="/admin/">Admin</a></li>
 								@endif
@@ -118,6 +116,7 @@
 				<div id="welcome-box">
 					<ul id="welcome-name">
 						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
+						<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">View To-Do List</a></li>
 					</ul>
 				</div>
 
@@ -134,7 +133,7 @@
 							</ul>
 						</div> -->
 						<div id="show-projects-list" class="todo-sub-box">
-							<a id="projects" class="todo-feed-title" href="#"><span class="ss-list"></span>Projects<span class="todo-num">{{ find_assigned_count('projects') }}</span><span class="arrow ss-dropdown"></span></a>
+							<a id="projects" class="todo-feed-title active" href="#"><span class="ss-list"></span>Projects<span class="todo-num">{{ find_assigned_count('projects') }}</span><span class="arrow ss-dropdown"></span></a>
 							<ul id="projects-feed" class="todo-feed">
 								{{ get_projects_list_sidebar() }}
 								<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="projects-item view-all">View all...</a></li>

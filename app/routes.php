@@ -22,6 +22,8 @@ Route::resource('sessions','SessionsController', array('only' => array('create',
 
 Route::controller('password', 'RemindersController');
 
+Route::get('/to-do/{userpath}', array('as' => 'todo', 'uses' => 'TodoController@index'));
+
 Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
 Route::get('/admin/users', array('as' => 'admin.users', 'uses' => 'AdminController@users'));
 Route::post('/admin/users', array('as' => 'admin.userNew', 'uses' => 'AdminController@userNew'));

@@ -27,10 +27,12 @@ body {
 	height: 100%;
 }
 a {
-	color: #A95306;
+	color: #4B83B4;
+	text-decoration: none;
 }
 a:hover {
-	color: #4B83B4;
+	color: #A95306;
+	text-decoration: underline;
 }
 ul {
 	list-style:none;
@@ -1600,7 +1602,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	display: block;
 	border-right: 1px solid #ddd;
 }
-#content #projects-page .office-post .post-date {
+#content #projects-page .office-post .post-date,
+#content #todo-page .office-post .post-date {
 	width: 100px;
 	padding-left: 10px;
 	margin-left: -15px;
@@ -1608,11 +1611,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	cursor: pointer;
 	position:relative;
 }
-#content #projects-page .office-post .post-date:hover p {
+#content #projects-page .office-post .post-date:hover p,
+#content #todo-page .office-post .post-date:hover p {
 	/*background: #333;*/
 	color: #4B83B4;
 }
-#content #projects-page .office-post .post-date .ss-calendar {
+#content #projects-page .office-post .post-date .ss-calendar,
+#content #todo-page .office-post .post-date .ss-calendar {
 	position: absolute;
 	top: -0px;
 	right: 30px;
@@ -1620,16 +1625,20 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size: 2em;
 	text-shadow: 1px 1px 1px #000;
 }
-#content #projects-page .office-post .post-date .ss-calendar span {
+#content #projects-page .office-post .post-date .ss-calendar span,
+#content #todo-page .office-post .post-date .ss-calendar span {
 	font-size: 0.3em;
 	line-height: 0.5em;
 	display: block;
 }
-#content #projects-page .office-post.low-priority .post-date {
+#content #projects-page .office-post.low-priority .post-date,
+#content #todo-page .office-post.low-priority .post-date {
 	border-right: 1px solid #ddd;
 }
 #content #projects-page .office-post.due-soon .post-date,
-#content #projects-page .office-post.due-now .post-date {
+#content #projects-page .office-post.due-now .post-date,
+#content #todo-page .office-post.due-soon .post-date,
+#content #todo-page .office-post.due-now .post-date {
 	width: 100px;
 	padding-left: 10px;
 	margin-top: -1px;
@@ -1637,12 +1646,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-top-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
-#content #projects-page .office-post.due-now .post-date {
+#content #projects-page .office-post.due-now .post-date,
+#content #todo-page .office-post.due-now .post-date {
 	border-top: 1px solid rgba(255,51,255,1);
 	border-bottom: 1px solid rgba(255,51,255,1);
 	border-right: 1px solid rgba(255,51,255,1);
 }
-#content #projects-page .office-post.due-soon .post-date {
+#content #projects-page .office-post.due-soon .post-date,
+#content #todo-page .office-post.due-soon .post-date {
 	border-top: 1px solid rgba(204,0,0,1);
 	border-bottom: 1px solid rgba(204,0,0,1);
 	border-right: 1px solid rgba(204,0,0,1);
@@ -1656,7 +1667,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size: 1.1em;
 	line-height: 60px;
 }
-#content #projects-page .office-post .post-date p {
+#content #projects-page .office-post .post-date p,
+#content #todo-page .office-post .post-date p {
 	line-height: 1.1em;
 	padding-top: 15px;
 }
@@ -1676,7 +1688,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #fff;
 	font-size: 0.8em;
 }
-#content #projects-page .office-post .post-hover-content {
+#content #projects-page .office-post .post-hover-content,
+#content #todo-page .office-post .post-hover-content {
 	left: 120px;
 }
 #content .office-post .post-hover-content a {
@@ -1717,7 +1730,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content #projects-page .office-post.low-priority .post-assigned,
 #content #projects-page .office-post.low-priority .post-stage,
-#content #projects-page .office-post.low-priority .post-priority {
+#content #projects-page .office-post.low-priority .post-priority,
+#content #todo-page .office-post.low-priority .post-assigned,
+#content #todo-page .office-post.low-priority .post-stage,
+#content #todo-page .office-post.low-priority .post-priority  {
 	border-left: 1px solid #ddd;
 }
 #content .office-post .post-assigned {
