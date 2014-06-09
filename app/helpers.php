@@ -211,6 +211,19 @@ function find_assigned_count($resource) {
 	else return;
 }
 
+function get_projects_list_sidebar() {
+	$projectsSide = Project::where('status','=','open')
+					->where('assigned_id','=',Auth::user()->id)
+					->orderBy('due_date','ASC')
+					->take(3)
+					->get();
+	$pside = '';
+	foreach($projectsSide as $projectSide) {
+		$pside .= '<li><a href="/projects/'.$projectSide->department.'/'.$projectSide->slug .'" class="projects-item">'. $projectSide->title .'</a> <span>'. Carbon::createFromFormat('Y-m-d H:i:s',$projectSide->due_date)->format('F j') .'</span></li>';
+	}
+	return $pside;
+}
+
 function user_last_login($login) {
 	//$login = new DateTime($login);
 	if(!empty($login)) {

@@ -45,13 +45,13 @@
 							<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a>
 							<ul class="sub_menu_links">
 								<li class="sub-link"></li>
+								<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Projects</a></li>
+								<li><a href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Billables</a></li>
+								<li><a href="/help/assigned-to/{{ Auth::user()->user_path }}" class="sub-link">Help</a></li>
 								@if(Auth::user()->userrole == 'admin')
 								<li class="sub-link"><a href="/admin/">Admin</a></li>
 								@endif
-								<li><a href="/todo/{{ Auth::user()->user_path }}" class="sub-link">Tasks</a></li>
-								<li><a href="/projects/assigned/{{ Auth::user()->user_path }}" class="sub-link">Projects</a></li>
-								<li><a href="/billables/assigned/{{ Auth::user()->user_path }}" class="sub-link">Billables</a></li>
-								<li><a href="/help/assigned/{{ Auth::user()->user_path }}" class="sub-link">Help</a></li>
+								<li><a href="/logout" class="sub-link">Logout</a></li>
 							</ul>
 							</li>
 							
@@ -123,7 +123,7 @@
 
 				<div id="todo-box">
 					<div id="todo-list">
-						<div id="show-tasks-list" class="todo-sub-box">
+						<!-- <div id="show-tasks-list" class="todo-sub-box">
 							<a id="tasks" class="todo-feed-title active" href="#"><span class="ss-check"></span>Tasks<span class="todo-num">?!</span><span class="arrow ss-dropdown"></span></a>
 							<ul id="tasks-feed" class="todo-feed">
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
@@ -131,6 +131,22 @@
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
 								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="task-item view-all">View all...</a></li>
+							</ul>
+						</div> -->
+						<div id="show-projects-list" class="todo-sub-box">
+							<a id="projects" class="todo-feed-title" href="#"><span class="ss-list"></span>Projects<span class="todo-num">{{ find_assigned_count('projects') }}</span><span class="arrow ss-dropdown"></span></a>
+							<ul id="projects-feed" class="todo-feed">
+								{{ get_projects_list_sidebar() }}
+								<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="projects-item view-all">View all...</a></li>
+							</ul>
+						</div>
+						<div id="show-billables-list" class="todo-sub-box">
+							<a id="billables" class="todo-feed-title" href="#"><span class="ss-list"></span>Billables<span class="todo-num">{{ find_assigned_count('billables') }}</span><span class="arrow ss-directleft"></span></a>
+							<ul id="billables-feed" class="todo-feed">
+								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
+								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
+								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
+								<li><a href="#" class="billables-item view-all">View all...</a></li>
 							</ul>
 						</div>
 						<div id="show-leads-list" class="todo-sub-box">
@@ -142,15 +158,6 @@
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
 								<li><a href="#" class="leads-item view-all">View all...</a></li>
-							</ul>
-						</div>
-						<div id="show-projects-list" class="todo-sub-box">
-							<a id="projects" class="todo-feed-title" href="#"><span class="ss-list"></span>Projects<span class="todo-num">?!</span><span class="arrow ss-directleft"></span></a>
-							<ul id="projects-feed" class="todo-feed">
-								<li><a href="#" class="projects-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="projects-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="projects-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="projects-item view-all">View all...</a></li>
 							</ul>
 						</div>
 					</div> <!-- #todo-list -->

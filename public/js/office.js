@@ -92,10 +92,11 @@ jQuery(document).ready(function($){
 	// }
 
 	//Show/hide task items in sidebar
-	$('#projects-feed').hide();
+	// $('#projects-feed').hide();
 	$('#leads-feed').hide();
-	$('#show-tasks-list').click(function() {
-		$('#tasks-feed').toggle();
+	$('#billables-feed').hide();
+	$('#show-billables-list').click(function() {
+		$('#billables-feed').toggle();
 		$(this).find('a.todo-feed-title').toggleClass('active');
 		$(this).find('span.arrow').toggleClass('ss-dropdown');
 		$(this).find('span.arrow').toggleClass('ss-directleft');
