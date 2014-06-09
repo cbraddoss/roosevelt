@@ -816,16 +816,23 @@ jQuery(document).ready(function($){
 		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
 	});
 	// Update Projects on List View page with ajax
-
+	// change date
+	// $('#projects-page p.change-project-date').hover(function(){
+	// 	$(this).append('<p class="post-date-change">Change date</p>');
+	// }, function() {
+	// 	$(this).find('.post-date-change').remove();
+	// });
 	$('#projects-page p.change-project-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		
 		var dateLink = new Date(ev.date.valueOf());
-		// var yearLink = dateLink.getFullYear();
-		// var monthLink = dateLink.getMonth();
-		// var dayLink = dateLink.getDay();
-		// var dateVal = ev;
-		//console.log(dateLink);
+		var yearLink = dateLink.getFullYear();
+		var monthLink = dateLink.getMonth();
+		monthLink = monthLink+1;
+		var dayLink = dateLink.getDate();
+		//var dateVal = ev;
+		//console.log(yearLink+'-'+monthLink+'-'+dayLink);
 
 		// set project post date ajax submit options
 		var changeProjectDateOptions = { 
@@ -835,7 +842,7 @@ jQuery(document).ready(function($){
 			data: { 
 				_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
 				id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
-				value: dateLink,
+				value: yearLink+'-'+monthLink+'-'+dayLink,
 				date: 'youbetcha',
 			},
 			type: 'POST',
@@ -845,14 +852,17 @@ jQuery(document).ready(function($){
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
-	    $(this).ajaxSubmit(changeProjectDateOptions);
-	    return false;
+		$(this).ajaxSubmit(changeProjectDateOptions);
+		return false;
 	});
 
 	function projectDateChangeSuccess(data)
 	{
 		var projectID = data.pid;
 		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date);
+		$(document).find('div#project-'+projectID).removeClass('due-soon');
+		$(document).find('div#project-'+projectID).removeClass('due-now');
+		$(document).find('div#project-'+projectID).addClass(data.changeclass);
 	}
 
 

@@ -1,18 +1,17 @@
 <div class="page-menu">
 		<ul>
-			<li><a href="/projects/" class="link filter-all">All Open</a></li>
-			<li>
-				<select class="filter-type">
-					<option value="0">Type Filter</option>
-					@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
-				</select>
-			</li>
 			<li>
 				<select class="filter-status">
 					<option value="0">Status Filter</option>
 					@if(!empty($open)) <option value="open" selected>Open</option> @else <option value="open">Open</option> @endif
 					@if(!empty($closed)) <option value="closed" selected>Closed</option> @else <option value="closed">Closed</option> @endif
 					@if(!empty($archived)) <option value="archived" selected>Archived</option> @else <option value="archived">Archived</option> @endif
+				</select>
+			</li>
+			<li>
+				<select class="filter-type">
+					<option value="0">Type Filter</option>
+					@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
 				</select>
 			</li>
 			<li>

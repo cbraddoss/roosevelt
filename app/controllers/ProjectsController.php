@@ -246,17 +246,22 @@ class ProjectsController extends \BaseController {
 			// dd(Input::get('value'));
 			if(Input::has('date') == 'youbetcha') {
 				$date = Input::get('value');
-				$date = str_replace(' GMT-0500 (CDT)','',$date);
-				$date = Carbon::createFromFormat('l M d Y H:i:s', $date);
+				$date = Carbon::createFromFormat('Y-m-d', $date);
 				$project->$value = $date;
 				$dateSave = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F j');
+				if(Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-now';
+				elseif(Carbon::createFromFormat('Y-m-d H:i:s', $date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-soon';
+				else $classchange = '';
+
+				if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
 			}
 			
 			$project->save();
 			$response = array(
 				'msg' => 'Saved!',
 				'pid' => $project->id,
-				'date' => $dateSave
+				'date' => $dateSave,
+				'changeclass' => $classchange
 			);
 			
 			
