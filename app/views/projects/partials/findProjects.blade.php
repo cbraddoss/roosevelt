@@ -47,11 +47,11 @@
 			<p>Done:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('F j') }}</p>
 		@else
 			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>Today<span class="ss-write"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
+			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>Today<span class="ss-expand"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
 			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Past Due!<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-write"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
+			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Past Due!<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-expand"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
 			@else
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-write"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
+			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-expand"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span></p>
 			@endif
 		@endif
 		{{ Form::open( array('id' => 'change-project-date-'.$project->id, 'class' => 'change-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
@@ -66,7 +66,7 @@
 		<div class="post-assigned">
 			<p class="change-project-user">
 				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">{{ User::find($project->assigned_id)->first_name }}
-				<span class="ss-write"></span>
+				<span class="ss-expand"></span>
 				<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
 			</p>
 			
@@ -74,12 +74,12 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
-		@if(strlen($project->stage) >= 10)
+		@if(strlen($project->stage) > 10)
 		<div class="post-stage post-stage-long">
 		@else
 		<div class="post-stage">
 		@endif
-			<p class="change-project-stage">{{ ucwords($project->stage) }}
+			<p class="change-project-stage">{{ ucwords($project->stage) }}<span class="ss-expand"></span>
 				<select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage) }}</select>
 			</p>
 		{{ Form::open( array('id' => 'change-project-stage-'.$project->id, 'class' => 'change-project-stage-form', 'url' => '/projects/listviewupdate/'.$project->id.'/stage', 'method' => 'post') ) }}
