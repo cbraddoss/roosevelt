@@ -255,12 +255,29 @@ class ProjectsController extends \BaseController {
 
 				if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
 			}
+			else {
+				$dateSave = '';
+				$date = '';
+				$classchange = '';
+			}
+			if(Input::has('user') == 'userchange') {
+				$userChange = Input::get('value');
+				$userFind = User::where('user_path','=',$userChange)->first();
+				$userName = $userFind->first_name;
+				$project->$value = $userFind->id;
+			}
+			else {
+				$userChange = '';
+				$userName = '';
+			}
 			
 			$project->save();
 			$response = array(
 				'msg' => 'Saved!',
 				'pid' => $project->id,
 				'date' => $dateSave,
+				'user' => $userChange,
+				'thispage' => Input::get('thisPage'),
 				'changeclass' => $classchange
 			);
 			

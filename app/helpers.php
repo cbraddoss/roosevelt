@@ -51,6 +51,15 @@ function get_user_list_select($selected = null) {
 	}
 	return $options;
 }
+function get_active_user_list_select($selected = null) {
+	$users = User::where('status','=','active')->get();
+	$options = '';
+	foreach($users as $user) {
+		if($selected == $user->first_name.' '.$user->last_name) $options .= '<option value="'.any_user_path($user->id).'" selected>'.$user->first_name.' '.$user->last_name.'</option>';
+		else $options .= '<option value="'.any_user_path($user->id).'">'.$user->first_name.' '.$user->last_name.'</option>';
+	}
+	return $options;
+}
 function get_project_type_select($selected = null) {
 	$projectTypes = Template::where('type','=','project')->get();
 	if($projectTypes != null) {

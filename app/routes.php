@@ -22,6 +22,7 @@ Route::resource('sessions','SessionsController', array('only' => array('create',
 
 Route::controller('password', 'RemindersController');
 
+Route::get('/to-do', array('uses' => 'TodoController@noUser'));
 Route::get('/to-do/{userpath}', array('as' => 'todo', 'uses' => 'TodoController@index'));
 
 Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));

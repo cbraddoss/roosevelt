@@ -29,4 +29,8 @@ class TodoController extends \BaseController {
 		return View::make('todo.index',compact('user','projects','billables','helps'));
 	}
 
+	public function noUser() {
+		return Redirect::to('/');
+	}
+
 }

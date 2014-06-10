@@ -64,7 +64,15 @@
 		</div>
 		
 		<div class="post-assigned">
-			<p class=""><a href="{{ '/projects/assigned-to/'.User::find($project->assigned_id)->user_path }}"><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">{{ User::find($project->assigned_id)->first_name }}</a></p>
+			<p class="change-project-user">
+				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">{{ User::find($project->assigned_id)->first_name }}
+				<span class="ss-write"></span>
+				<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+			</p>
+			
+		{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/listviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
+			{{ Form::hidden('id', $project->id) }}
+		{{ Form::close() }}
 		</div>
 		@if(strlen($project->stage) >= 10)
 		<div class="post-stage post-stage-long">

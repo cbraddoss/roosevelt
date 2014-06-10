@@ -819,7 +819,7 @@ jQuery(document).ready(function($){
 		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
 	});
 	// Update Projects on List View page with ajax
-	// change date
+	// change project date
 	$('#content p.change-project-date').hover(function(){
 		$(this).find('.ss-calendar').fadeIn(300);
 	}, function() {
@@ -866,6 +866,44 @@ jQuery(document).ready(function($){
 		$(document).find('div#project-'+projectID).removeClass('due-soon');
 		$(document).find('div#project-'+projectID).removeClass('due-now');
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);
+	}
+	//change project user
+	$('#content p.change-project-user').hover(function(){
+		$(this).find('.change-project-user-list').fadeIn(300);
+	}, function() {
+		$(this).find('.change-project-user-list').fadeOut(300);
+	});
+	$(document).on('change', '#content .change-project-user-list', function() {
+		var userSelect = $(this).val();
+		//console.log(userSelect);
+
+		// set project user ajax submit options
+		var changeProjectUserOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectUserChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().parent().find('form.change-project-user-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().find('form.change-project-user-form input[name=id]').attr('value'),
+				value: userSelect,
+				thisPage: window.location.pathname,
+				user: 'userchange',
+			},
+			type: 'POST',
+			url: $(this).parent().parent().find('form.change-project-user-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeProjectUserOptions);
+		return false;
+	});
+
+	function projectUserChangeSuccess(data)
+	{
+		var projectID = data.pid;
+		window.location.href = data.thispage;	
 	}
 
 	/* To-Do List page */
@@ -916,6 +954,7 @@ jQuery(document).ready(function($){
 		if($(this).parent().parent().attr('class') == 'login-reset') return;
 		if($(this).parent().attr('class') == 'office-search') return;
 		if($(this).closest('.template-output').attr('class') == 'template-output') return;
+		if($(this).attr('class') == 'change-project-user-list') return;
 		$(this).addClass('changed-input');
 	});
 	$(document).on('submit', 'form', function() {

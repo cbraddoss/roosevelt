@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ $user->first_name.'\'s To-Do List' }}
+{{ $user->first_name.' '.$user->last_name.' - To-Do List' }}
 @stop
 
 @section('page-content')
@@ -27,7 +27,11 @@
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
 			<div class="projects-post">
-				<h4>You are currently not assigned any projects.</h4>
+				@if(Auth::user()->id == $user->id)
+				<h4>You are not currently assigned any projects.</h4>
+				@else
+				<h4>{{ $user->first_name }} {{ $user->last_name }} is not currently assigned any projects.</h4>
+				@endif
 				<p></p>
 			</div>
 	@else
@@ -38,7 +42,11 @@
 	@if(empty($billables))
 		<h3>Billables:</h3>
 			<div class="billables-post">
-				<h4>You are currently not assigned any billable items.</h4>
+				@if(Auth::user()->id == $user->id)
+				<h4>You are not currently assigned any billable items.</h4>
+				@else
+				<h4>{{ $user->first_name }} {{ $user->last_name }} is not currently assigned any billable items.</h4>
+				@endif
 				<p></p>
 			</div>
 	@else
@@ -49,7 +57,11 @@
 	@if(empty($helps))
 		<h3>Help:</h3>
 			<div class="helps-post">
-				<h4>You are currently not assigned any help items.</h4>
+				@if(Auth::user()->id == $user->id)
+				<h4>You are not currently assigned any help items.</h4>
+				@else
+				<h4>{{ $user->first_name }} {{ $user->last_name }} is not currently assigned any help items.</h4>
+				@endif
 				<p></p>
 			</div>
 	@else

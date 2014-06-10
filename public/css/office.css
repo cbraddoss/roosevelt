@@ -1626,8 +1626,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	font-size: 2em;
 	text-shadow: 1px 1px 1px #000;
 }
-#content #projects-page .office-post .post-date .ss-write,
-#content #todo-page .office-post .post-date .ss-write {
+#content #projects-page .office-post .ss-write,
+#content #todo-page .office-post .ss-write {
 	position: absolute;
 	top: 1px;
 	left: 16px;
@@ -1736,6 +1736,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-left: 1px solid rgba(75,131,180,0.5);
 	padding: 0 5px;
 	text-align: center;
+	position: relative;
 }
 #content #projects-page .office-post.low-priority .post-assigned,
 #content #projects-page .office-post.low-priority .post-stage,
@@ -1753,6 +1754,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding-top: 10px;
 	line-height: 20px;
 	margin: 0;
+}
+#content #projects-page .office-post .post-assigned .change-project-user-list,
+#content #todo-page .office-post .post-assigned .change-project-user-list {
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	color: #000 !important;
+	font-weight: 100;
+	font-size: 1em;
 }
 #content .office-post .post-assigned p img {
 	display: block;
