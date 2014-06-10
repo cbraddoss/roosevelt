@@ -1624,35 +1624,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	cursor: pointer;
 	position:relative;
 }
-#content #projects-page .office-post .post-date:hover p,
-#content #todo-page .office-post .post-date:hover p {
-	/*background: #333;*/
-	color: #4B83B4;
-}
-#content #projects-page .office-post .post-date .ss-calendar,
-#content #todo-page .office-post .post-date .ss-calendar {
-	display: none;
-	position: absolute;
-	top: 20px;
-	right: 30px;
-	color: #fff !important;
-	font-size: 2em;
-	text-shadow: 1px 1px 1px #000;
-}
-#content #projects-page .office-post .ss-write,
-#content #todo-page .office-post .ss-write {
-	position: absolute;
-	top: 1px;
-	left: 16px;
-	font-size: 0.9em;
-	color: #000;
-}
-#content #projects-page .office-post .post-date .ss-calendar span.update-hover-text,
-#content #todo-page .office-post .post-date .ss-calendar span.update-hover-text {
-	font-size: 0.3em;
-	line-height: 2.5em;
-	display: block;
-}
 #content #projects-page .office-post.low-priority .post-date,
 #content #todo-page .office-post.low-priority .post-date {
 	border-right: 1px solid #ddd;
@@ -1761,6 +1732,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post .post-assigned {
 	text-align: center;
+	width: 10%;
 }
 #content .office-post .post-assigned p {
 	color: #4B83B4;
@@ -1770,10 +1742,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content #projects-page .office-post .post-assigned .change-project-user-list,
 #content #todo-page .office-post .post-assigned .change-project-user-list {
-	display: none;
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
+	width: 100%;
 	padding: 0 3px;
 	color: #000 !important;
 	font-weight: 100;
@@ -1782,7 +1751,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post .post-assigned p img {
 	display: block;
-	margin: 0 auto;
+	margin: -7px auto 5px;
 }
 #content .office-post .post-assigned p a {
 	color: #4B83B4;
@@ -1793,15 +1762,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content #projects-page .office-post .post-stage .change-project-stage-list,
 #content #todo-page .office-post .post-stage .change-project-stage-list {
-	display: none;
-	position: absolute;
-	bottom: 20px;
-	left: 0px;
 	padding: 0 3px;
+	width: 100%;
 	color: #000 !important;
 	font-weight: 100;
 	font-size: 1em;
-	z-index: 2;
 }
 #content .office-post .post-stage {
 	width: 10%;
@@ -1809,15 +1774,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post .post-stage p {
 	color: #4B83B4;
-	line-height: 60px;
+	padding-top: 5px;
+	line-height: 20px;
 	margin: 0;
 	position: relative;
 }
-#content .office-post .post-stage.post-stage-long p {
-	line-height: 20px;
-}
-#content .office-post .post-stage p span.ss-expand {
-	bottom: 0px;
+#content .office-post .post-stage p span {
+	padding-bottom: 8px;
+	display: block;
 }
 #content .office-post .post-stage p a {
 	color: #4B83B4;

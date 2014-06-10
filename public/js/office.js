@@ -820,11 +820,6 @@ jQuery(document).ready(function($){
 	});
 	// Update Projects on List View page with ajax
 	// change project date
-	$('#content p.change-project-date').hover(function(){
-		$(this).find('.ss-calendar').fadeIn(300);
-	}, function() {
-		$(this).find('.ss-calendar').fadeOut(300);
-	});
 	$('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -868,11 +863,6 @@ jQuery(document).ready(function($){
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);
 	}
 	//change project user
-	$('#content p.change-project-user').hover(function(){
-		$(this).find('.change-project-user-list').fadeIn(300);
-	}, function() {
-		$(this).find('.change-project-user-list').fadeOut(300);
-	});
 	$(document).on('change', '#content .change-project-user-list', function() {
 		var userSelect = $(this).val();
 		//console.log(userSelect);
@@ -906,11 +896,6 @@ jQuery(document).ready(function($){
 		window.location.href = data.thispage;	
 	}
 	//change project stage
-	$('#content p.change-project-stage').hover(function(){
-		$(this).find('.change-project-stage-list').fadeIn(300);
-	}, function() {
-		$(this).find('.change-project-stage-list').fadeOut(300);
-	});
 	$(document).on('change', '#content .change-project-stage-list', function() {
 		var stageSelect = $(this).val();
 		//console.log(userSelect);
