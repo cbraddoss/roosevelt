@@ -81,16 +81,31 @@ function get_project_type_select($selected = null) {
 	else return;
 }
 function get_project_stage_select($selected = null) {
-	$projectStages = Project::where('status','=','open')->get();
+	//$projectStages = Project::where('status','=','open')->get();
+	$templateStages = Template::where('status','=','active')->get();
+	if($templateStages != null) {
+		$checklist = array();
+		foreach($templateStages as $template) {
+			$newItems = explode("\n",$template->items);
+			foreach($newItems as $item) {
+				$item = trim($item);
+				$newItemsH = strpos($item, '[[h]]');
+				if($newItemsH !== false) {
+					$checklistParse = str_replace('[[h]]','', $item);
+					$checklistParse = $checklistParse;
+					$checklist[] = $checklistParse;
+				}
+			}
+		}
+	}
 	$options = '';
-	$stages = '';
-	if($projectStages != null) {
-		foreach($projectStages as $stage) {
-			$stage->stage = ucwords(str_replace('-',' ',$stage->stage));
-			if(strpos($stages, $stage->stage) === false) {
-				$stages .= $stage->stage;
-				if(ucwords(str_replace('-',' ',$selected)) == $stage->stage) $options .= '<option value="'.convert_title_to_path($stage->stage).'" selected>'.$stage->stage.'</option>';
-				else $options .= '<option value="'.convert_title_to_path($stage->stage).'">'.$stage->stage.'</option>';
+	$stages = array();
+	if($checklist != null) {
+		foreach($checklist as $stage) {
+			if(in_array($stage, $stages) != true) {
+				$stages[] = $stage;
+				if($selected == convert_title_to_path($stage)) $options .= '<option value="'.convert_title_to_path($stage).'" selected>'.$stage.'</option>';
+				else $options .= '<option value="'.convert_title_to_path($stage).'">'.$stage.'</option>';
 			}
 		}
 		return $options;

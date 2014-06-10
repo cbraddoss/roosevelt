@@ -1764,6 +1764,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #000 !important;
 	font-weight: 100;
 	font-size: 1em;
+	z-index: 2;
 }
 #content .office-post .post-assigned p img {
 	display: block;

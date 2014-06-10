@@ -117,10 +117,7 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(10);
-			if(!$projects->isEmpty()) {
-				return View::make('projects.filters.stage', compact('projects','stage'));
-			}
-			else return Redirect::route('projects');
+			return View::make('projects.filters.stage', compact('projects','stage'));
 		}
 		else return Redirect::route('projects');
 	}
@@ -270,6 +267,12 @@ class ProjectsController extends \BaseController {
 				$userChange = '';
 				$userName = '';
 			}
+			// if(Input::has('stage') == 'stagechange') {
+			// 	$stageChange = Input::get('value');
+			// }
+			// else {
+
+			// }
 			
 			$project->save();
 			$response = array(

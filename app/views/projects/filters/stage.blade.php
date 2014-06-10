@@ -11,7 +11,7 @@
 	
 	@if($projects->isEmpty())
 			<div class="projects-post">
-				<h3>There are no projects that are at stage: <i>{{ $stage }}</i>.</h3>
+				<h3>There are no projects that are at the <i>{{ ucwords($stage) }}</i> stage.</h3>
 				<p></p>
 			</div>
 	@endif
