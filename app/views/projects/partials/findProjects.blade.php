@@ -79,7 +79,12 @@
 		@else
 		<div class="post-stage">
 		@endif
-			<p class="">{{ ucwords(str_replace('-',' ',$project->stage)) }}</p>
+			<p class="change-project-stage">{{ ucwords($project->stage) }}
+				<select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage) }}</select>
+			</p>
+		{{ Form::open( array('id' => 'change-project-stage-'.$project->id, 'class' => 'change-project-stage-form', 'url' => '/projects/listviewupdate/'.$project->id.'/stage', 'method' => 'post') ) }}
+			{{ Form::hidden('id', $project->id) }}
+		{{ Form::close() }}
 		</div>
 		<div class="post-attachment">
 			<p class="ss-attach"></p>

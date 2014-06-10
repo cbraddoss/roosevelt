@@ -1777,6 +1777,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post .post-assigned p a:hover {
 	text-decoration: underline;
 }
+#content #projects-page .office-post .post-stage .change-project-stage-list,
+#content #todo-page .office-post .post-stage .change-project-stage-list {
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	color: #000 !important;
+	font-weight: 100;
+	font-size: 1em;
+	z-index: 2;
+}
 #content .office-post .post-stage p {
 	color: #4B83B4;
 	line-height: 60px;

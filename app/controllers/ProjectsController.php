@@ -267,12 +267,13 @@ class ProjectsController extends \BaseController {
 				$userChange = '';
 				$userName = '';
 			}
-			// if(Input::has('stage') == 'stagechange') {
-			// 	$stageChange = Input::get('value');
-			// }
-			// else {
-
-			// }
+			if(Input::has('stage') == 'stagechange') {
+				$stageChange = Input::get('value');
+				$project->$value = $stageChange;
+			}
+			else {
+				$stageChange = '';
+			}
 			
 			$project->save();
 			$response = array(
@@ -281,6 +282,7 @@ class ProjectsController extends \BaseController {
 				'date' => $dateSave,
 				'user' => $userChange,
 				'thispage' => Input::get('thisPage'),
+				'stage' => $stageChange,
 				'changeclass' => $classchange
 			);
 			
