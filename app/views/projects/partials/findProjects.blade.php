@@ -40,18 +40,25 @@
 			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
 			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>Today<span class="ss-expand"></span></p>
 			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Past Due!<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-expand"></span></p>
+			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Past Due!<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}<span class="ss-expand"></span></p>
 			@else
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}<span class="ss-expand"></span></p>
+			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}<span class="ss-expand"></span></p>
 			@endif
 		@endif
 		{{ Form::open( array('id' => 'change-project-date-'.$project->id, 'class' => 'change-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
-		<h3>{{ link_to('/project/'.$project->department.'/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+		<div class="post-end-date">
+			@if($project->period == 'recurring')
+			<span>Start Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('M j') }} - End Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
+			@else
+			<span>Launching: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
+			@endif
+		</div>
+		<h3>{{ link_to('/projects/'.$project->department.'/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 		<div class="post-hover-content">
-			<a href="{{ URL::to('/project/'.$project->department.'/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
+			<a href="{{ URL::to('/projects/'.$project->department.'/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
 		</div>
 		
 		<div class="post-assigned">
@@ -66,7 +73,7 @@
 		</div>
 
 		<div class="post-stage">
-			<p class="change-project-stage"><span>Stage:</span><select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage) }}</select>
+			<p class="change-project-stage"><span>Stage:</span><select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage, $project->type, $project->id) }}</select>
 		
 			
 				</p>

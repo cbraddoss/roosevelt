@@ -80,9 +80,23 @@ function get_project_type_select($selected = null) {
 	}
 	else return;
 }
-function get_project_stage_select($selected = null) {
+function get_project_stage_select($selected = null, $pType = null, $pID = null) {
 	//$projectStages = Project::where('status','=','open')->get();
-	$templateStages = Template::where('status','=','active')->get();
+	if($pType == null) {
+		$templateStages = Template::where('status','=','active')
+						  ->where('type','=','project')
+						  ->get();
+	}
+	else {
+		$templateStages = Template::where('status','=','active')
+						  ->where('slug','=',$pType)
+						  ->where('type','=','project')
+						  ->get();
+	}
+	// if($pID != null) {
+	// 	$checklist = ProjectTask::where('project_id','=', $pID)
+	// 				 ->get();
+	// }
 	if($templateStages != null) {
 		$checklist = array();
 		foreach($templateStages as $template) {

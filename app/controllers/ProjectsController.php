@@ -2,6 +2,8 @@
 
 use \Mailer;
 use \Project;
+use \ProjectComment;
+use \Template;
 
 class ProjectsController extends \BaseController {
 
@@ -9,7 +11,7 @@ class ProjectsController extends \BaseController {
 	/**
      * Instantiate a new UsersController instance.
      */
-    public function __construct(Mailer $mailer, Project $project)
+    public function __construct(Mailer $mailer, Project $project, ProjectComment $projectComment, Template $template)
     {
         $this->beforeFilter('auth');
 
@@ -18,6 +20,10 @@ class ProjectsController extends \BaseController {
         $this->mailer = $mailer;
 
         $this->project = $project;
+
+        $this->projectComment = $projectComment;
+
+        $this->template = $template;
     }
 
 	/**
@@ -61,9 +67,21 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show($department,$slug)
 	{
-		//
+		$project = Project::where('slug', '=', $slug)->first();
+
+		if(empty($project)) return Redirect::route('projects');
+		
+		//$tasks = $this->projectTasks->getTasks($project->id);
+		//$tasks = Template::where('slug','=',$project->type)->first();
+		$subscribed = $project->subscribed;
+		$subscribed = explode(' ',$subscribed);
+		$tasks = $this->template->displayChecklist($project->type, $project->id);
+		$comments = $this->projectComment->getComments($project->id);
+		$subComments = $this->projectComment->getSubComments($project->id);
+		if($project) return View::make('projects.single', compact('project','comments','subComments','tasks','subscribed'));
+		else return Redirect::route('projects');
 	}
 
 	/**
@@ -261,7 +279,12 @@ class ProjectsController extends \BaseController {
 				$userChange = Input::get('value');
 				$userFind = User::where('user_path','=',$userChange)->first();
 				$userName = $userFind->first_name;
+				$oldUser = $project->$value;
+				$oldSubscribed = $project->subscribed;
+				if(strpos($oldSubscribed,$userFind->user_path) !== false ) $project->subscribed = $oldSubscribed;
+				else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
 				$project->$value = $userFind->id;
+				//if($oldUser != $userFind->id) $this->mailer->projectPingEmail($project,$oldSubscribed);
 			}
 			else {
 				$userChange = '';
@@ -284,6 +307,71 @@ class ProjectsController extends \BaseController {
 				'thispage' => Input::get('thisPage'),
 				'stage' => $stageChange,
 				'changeclass' => $classchange
+			);
+			
+			
+			return Response::json( $response );
+		}
+		else return Redirect::route('projects');
+	}
+
+	/**
+	 * Update the project on single view pages.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateOnSingleView($id, $value)
+	{
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$project = Project::where('id','=',$id)->first();
+			if(empty($project)) return Redirect::to('/project');
+			else $oldValue = $project->$value;
+			// dd(Input::get('value'));
+			if(Input::has('subRemove') == 'subremove') {
+				$userRemove = Input::get('value');
+				//$userFind = User::where('user_path','=',$userChange)->first();
+				//$userName = $userFind->first_name;
+				//$oldUser = $project->$value;
+				$oldSubscribed = $project->subscribed;
+				$newSubscribed = str_replace($userRemove, '', $oldSubscribed);
+				$project->$value = $newSubscribed;
+			}
+			else {
+				$userChange = '';
+				$userName = '';
+				$userRemove = '';
+			}
+			if(Input::has('subAdd') == 'subadd') {
+				$userAdd = Input::get('value');
+				$userFind = User::where('user_path','=',$userAdd)->first();
+				
+				$oldSubscribed = $project->subscribed;
+				if(strpos($oldSubscribed,$userFind->user_path) !== false ) {
+					$project->subscribed = $oldSubscribed;
+					$userName = '';
+				}
+				else {
+					$project->subscribed = $oldSubscribed.' '.$userFind->user_path;
+					$userName = $userFind->first_name. ' ' . $userFind->last_name;
+					$userRemove = $userFind->user_path;
+				}
+				
+			}
+			else {
+				$userChange = '';
+				$userName = '';
+			}
+			
+			$project->save();
+			$response = array(
+				'msg' => 'Saved!',
+				'pid' => $project->id,
+				'sub' => $userRemove,
+				'subName' => $userName,
+				'thispage' => Input::get('thisPage')
 			);
 			
 			

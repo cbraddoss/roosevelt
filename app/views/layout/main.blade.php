@@ -184,8 +184,7 @@
 		<div class="section">
 			<div class="footer-text">
 				<p>Designed and Developed by the <a href="mailto:devteam@insideout.com?subject=Remote Office">IOS DevTeam</a> |
-				&copy; 2010-{{ Carbon::now()->format('Y') }} <a href="http://insideout.com">InsideOut Solutions</a> |
-				<a href="/logout">Logout</a></p>
+				&copy; 2010-{{ Carbon::now()->format('Y') }} <a href="http://insideout.com">InsideOut Solutions</a></p>
 			</div>
 		</div>
 	</div>

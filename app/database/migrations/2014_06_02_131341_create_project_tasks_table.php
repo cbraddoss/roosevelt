@@ -18,6 +18,7 @@ class CreateProjectTasksTable extends Migration {
 			$table->integer('project_id');
 			$table->integer('assigned_id');
 			$table->text('notes');
+			$table->string('checklist_stage');
 			$table->dateTime('due_date');
 			$table->enum('stage', array('checked','unchecked'));
 			$table->timestamps();

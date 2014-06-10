@@ -19,4 +19,30 @@ class Project extends Eloquent {
 		return $projects;
 	}
 
+	public function getCommentsCount($id) {
+		$commentsCount = ProjectComment::where('project_id','=',$id)->count();
+		return $commentsCount;
+	}
+
+	public function getAttachments($id,$class = 'post-single-attachment') {
+		$project = Project::find($id);
+		$projectImage = $project->attachment;
+		$thumbnails = array();
+		if(!empty($projectImage)) {
+			foreach(unserialize($projectImage) as $attachment) {
+				$getThumbnail = substr_replace($attachment, 'thumbnail-',17,0);
+				$thumbnails[] = $getThumbnail;
+			}
+		}
+		$thumbnailsSend = '';
+		if(!empty($thumbnails)) {
+			foreach($thumbnails as $thumbnail) {
+				$attachmentTitle = preg_replace('/(\\/)(uploads)(\\/)(\\d+)(\\/)(\\d+)(\\/)(thumbnail)(-)(\\d+)(-)/is', '', $thumbnail);
+				if(strpos($thumbnail, '.pdf')) $thumbnailsSend .= '<span class="right '.$class.' post-pdf-attachment"><a href="' . str_replace('thumbnail-','',$thumbnail) .'" target="_blank" rel="gallery-'.$id.'"><img src="/images/pdficon.png" alt="'.$attachmentTitle.'"><span>'.$attachmentTitle.'</span></a></span>';
+				else $thumbnailsSend .= '<span class="right '.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'" rel="gallery-'.$id.'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'article-attachment')).'</a></span>';
+			}
+		}
+
+		return $thumbnailsSend;
+	}
 }

@@ -109,20 +109,11 @@ class TemplatesTableSeeder extends Seeder {
 			'slug' => 'sem-monthly',
 			'type' => 'project',
 			'items' => '[[START]]
-[[h]]Design
+[[h]]SEM
 [[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Coding
-[[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Pre-Launch
-[[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Launch
-[[o]]do stuff
+[[o]]do more stuff
+[[o]]do additional stuff
+[[o]]do stuff some more
 [[END]]',
 			'status' => 'active',
 			'created_at' => '2014-06-05 08:00:00',

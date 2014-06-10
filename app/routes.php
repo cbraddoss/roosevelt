@@ -68,12 +68,14 @@ Route::get('/calendar/{year}/{month}', array('as' => 'calendar.month', 'uses' =>
 
 Route::get('/projects', array('as' => 'projects', 'uses' => 'ProjectsController@index'));
 Route::post('/projects/listviewupdate/{id}/{value}', array('as' => 'projects.updateOnListView', 'uses' => 'ProjectsController@updateOnListView'));
+Route::post('/projects/singleviewupdate/{id}/{value}', array('as' => 'projects.updateOnSingleView', 'uses' => 'ProjectsController@updateOnSingleView'));
 Route::get('/projects/assigned-to/{userpath}', array('as' => 'projects.assignedTo', 'uses' => 'ProjectsController@assignedTo'));
 Route::get('/projects/date/{year}/{month}', array('as' => 'projects.dateFilter', 'uses' => 'ProjectsController@dateFilter'));
 Route::get('/projects/priority/{priority}', array('as' => 'projects.priorityFilter', 'uses' => 'ProjectsController@priorityFilter'));
 Route::get('/projects/status/{status}', array('as' => 'projects.statusFilter', 'uses' => 'ProjectsController@statusFilter'));
 Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' => 'ProjectsController@typeFilter'));
 Route::get('/projects/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
+Route::get('/projects/{department}/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
 
 Route::get('/tools', function(){
 	return View::make('tools.index');

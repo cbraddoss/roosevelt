@@ -211,6 +211,39 @@ class Calendar {
 				else $postNextMonth[$uNum] = '<a href="#" class="calendar-post-title user-anniversary-link">' . $uAnn->title . '  '.$uYears.'</a>';
 			}
 		}
+
+		// get Projects with period = ending and end_date (aka launch date)
+		$projectLaunch = Project::where('end_date', '>=', Carbon::parse('first day of '.$month.$year)->subWeeks(1))
+						->where('end_date', '<=', Carbon::parse('last day of '.$month.$year)->addWeeks(1))
+						->where('period','=','ending')
+						->get();
+		//dd($articleShow);
+		foreach($projectLaunch as $pLaunch) {
+			// create project month and project year values
+			$plNum = Carbon::createFromFormat('Y-m-d H:i:s', $pLaunch->end_date)->format('j');
+			$plMonth = Carbon::createFromFormat('Y-m-d H:i:s', $pLaunch->end_date)->format('m');
+			//dd($plMonth);
+			// get project title and shorten to 15 characters (if needed)
+			$pLaunch->title = ( (strlen($pLaunch->title) >= '15') ? $pLaunch->title = substr($pLaunch->title, 0, 15).'...' : $pLaunch->title);
+
+			// parse previous month projects
+			if($plMonth == Carbon::parse($previousMonth.$year)->format('m')) {
+				if(array_key_exists($plNum, $postPreviousMonth)) $postPreviousMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postPreviousMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+			}
+
+			// parse selected month projects
+			if($plMonth == Carbon::parse($month.$year)->format('m')) {
+				if(array_key_exists($plNum, $postThisMonth)) $postThisMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postThisMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+			}
+
+			// parse next month projects
+			if($plMonth == Carbon::parse($nextMonth.$year)->format('m')) {
+				if(array_key_exists($plNum, $postNextMonth)) $postNextMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postNextMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+			}
+		}
 		
 		//dd($postPreviousMonth);
 

@@ -214,6 +214,7 @@ jQuery(document).ready(function($){
 		   	window.location.href = '/admin/templates?template=new';
 		}
 	}
+	//preview templates on admin page
 	$('#admin-page .post-preview').hover(function(){
 		$(this).find('.ss-view').html('<small>Preview Template</small>');
 	},function(){
@@ -928,6 +929,78 @@ jQuery(document).ready(function($){
 		var projectID = data.pid;
 		window.location.href = data.thispage;	
 	}
+	// Projects Single View updating via ajax
+	//change project subscribed
+	$(document).on('click', '#content .post-subscribed span.ss-delete', function() {
+		var userSelect = $(this).attr('value');
+		//console.log(userSelect);
+
+		// set project user ajax submit options
+		var changeProjectSubOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectSubChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
+				id: $(this).parent().find('form.change-project-sub-form input[name=id]').attr('value'),
+				value: userSelect,
+				thisPage: window.location.pathname,
+				subRemove: 'subremove',
+			},
+			type: 'POST',
+			url: $(this).parent().find('form.change-project-sub-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeProjectSubOptions);
+		return false;
+	});
+
+	function projectSubChangeSuccess(data)
+	{
+		var projectID = data.pid;
+		$(document).find('div#project-'+projectID+' .post-subscribed span[value='+data.sub+']').remove();	
+	}
+	//add project subscribed
+	$(document).on('click','#content .post-subscribed span.ss-plus', function(){
+		$(this).find('select[name=add-project-sub-list]').fadeIn(200);
+	});
+	$(document).on('change', '#content .post-subscribed span.ss-plus select[name=add-project-sub-list]', function() {
+		var userSelect = $(this).val();
+		//console.log(userSelect);
+
+		// set project user ajax submit options
+		var addProjectSubOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectSubAddSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().find('form.change-project-sub-form input[name=id]').attr('value'),
+				value: userSelect,
+				thisPage: window.location.pathname,
+				subAdd: 'subadd',
+			},
+			type: 'POST',
+			url: $(this).parent().parent().find('form.change-project-sub-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(addProjectSubOptions);
+		return false;
+	});
+
+	function projectSubAddSuccess(data)
+	{
+		var projectID = data.pid;
+		if(data.subName != '') {
+			$(document).find('div#project-'+projectID+' .post-subscribed span').first().before('<span class="ss-delete" value="'+data.sub+'">'+data.subName+'</span>');
+		}
+	}
 
 	/* To-Do List page */
 	$(document).on('change','#todo-page .filter-user', function(){
@@ -979,6 +1052,7 @@ jQuery(document).ready(function($){
 		if($(this).closest('.template-output').attr('class') == 'template-output') return;
 		if($(this).attr('class') == 'change-project-user-list') return;
 		if($(this).attr('class') == 'change-project-stage-list') return;
+		if($(this).attr('class') == 'add-project-sub-list') return;
 		$(this).addClass('changed-input');
 	});
 	$(document).on('submit', 'form', function() {
