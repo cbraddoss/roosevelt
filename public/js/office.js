@@ -857,7 +857,7 @@ jQuery(document).ready(function($){
 	function projectDateChangeSuccess(data)
 	{
 		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-write"></span><span class="ss-calendar"><span class="update-hover-text">Update</span></span>');
+		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-expand"></span>');
 		$(document).find('div#project-'+projectID).removeClass('due-soon');
 		$(document).find('div#project-'+projectID).removeClass('due-now');
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);
