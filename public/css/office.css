@@ -1408,13 +1408,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#ff9389',GradientType=0 ); /* IE6-9 */
 	
 }
-#content .form-textarea-buttons {
+#content .form-textarea-buttons,
+#content .form-subscribe-buttons {
 	display: block;
 	margin:0px 0 0px;
 	width:100%;
 	border: 1px solid #888;
 }
-#content .form-textarea-buttons .textarea-button {
+#content .form-textarea-buttons .textarea-button,
+#content .form-subscribe-buttons .subscribe-button {
 	display: inline-block;
 	margin: 5px 5px;
 	padding: 0px 3px;
@@ -1427,10 +1429,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	border-bottom: 1px solid #555;
 	border-right: 1px solid #555;
 }
-#content .form-textarea-buttons .textarea-button-text {
+#content .form-subscribe-buttons .subscribe-button.subscribe-selected {
+	background: rgba(75,131,180,0.8);
+	box-shadow: inset 1px 1px 0px 0px rgba(75,131,180,0.3),
+	inset -1px -1px 0px 0px rgba(75,131,180,0.3);
+	color: #fff;
+}
+#content .form-textarea-buttons .textarea-button-text,
+#content .form-subscribe-buttons .subscribe-button-text {
 	padding: 0 3px;
 }
-#content .form-textarea-buttons .textarea-button-divider {
+#content .form-textarea-buttons .textarea-button-divider,
+#content .form-subscribe-buttons .subscribe-button-divider {
 	width: 2px;
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #bbb;
@@ -1967,6 +1977,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	padding-bottom: 10px;
 	margin-bottom: 5px;
 }
+#content .office-post-single h3 {
+	margin: 10px 0;
+}
+#content .office-post-single .post-manager,
+#content .office-post-single .post-assigned-to {
+	margin: 0;
+}
+#content .office-post-single .post-manager span,
+#content .office-post-single .post-assigned-to span {
+	font-size: 1.1em;
+	line-height: 1.1em;
+	height: 25px;
+	padding-top: 5px;
+	vertical-align: middle;
+	display: inline-block;
+}
+#content .office-post-single .post-manager img,
+#content .office-post-single .post-assigned-to img {
+	line-height: 1.1em;
+	height: 30px;
+	vertical-align: middle;
+	display: inline-block;
+}
 #content .office-post-single .post-subscribed span {
 	border-radius: 3px;
 	background: rgba(75,131,180,0.5);
@@ -2079,6 +2112,52 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .office-post-comment .comment-single-attachment {
 	float:right;
 	padding-top: 5px;
+}
+#content .article-single-attachment,
+#content .article-all-attachment,
+#content .comment-single-attachment {
+	display: inline-block;
+	float: right;
+	margin: 0 0 10px 20px;
+	overflow: hidden;
+}
+#content .comment-single-attachment {
+	float: none;
+	text-align:right;
+	display: block;
+}
+#content .article-single-attachment img,
+#content .article-all-attachment img,
+#content .comment-single-attachment img {
+	width: 100px;
+	height:auto;
+	padding:5px;
+	display: block;
+	clear:right;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.4);
+	border-bottom:1px solid rgba(32,32,32,0.4);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
+#content .article-pdf-attachment,
+#content .comment-pdf-attachment {
+	display: inline-block;
+	float: right;
+	margin: 0 0 10px 20px;
+	padding: 5px;
+	border-top:1px solid rgba(32,32,32,0.1);
+	border-right:1px solid rgba(32,32,32,0.2);
+	border-bottom:1px solid rgba(32,32,32,0.2);
+	border-left:1px solid rgba(32,32,32,0.1);
+}
+#content .article-pdf-attachment img,
+#content .comment-pdf-attachment img {
+	width: 32px;
+	height:auto;
+	padding:5px;
+	margin: 0 auto;
+	display: block;
+	clear:right;
 }
 #content form .user-textarea textarea {
 	height: 400px;
@@ -2250,52 +2329,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 /* News Page */
 /* (probably need to move the rest of this to #content selectors for better global support) */
-#news-page .article-single-attachment,
-#news-page .article-all-attachment,
-#news-page .comment-single-attachment {
-	display: inline-block;
-	float: right;
-	margin: 0 0 10px 20px;
-	overflow: hidden;
-}
-#news-page .comment-single-attachment {
-	float: none;
-	text-align:right;
-	display: block;
-}
-#news-page .article-single-attachment img,
-#news-page .article-all-attachment img,
-#news-page .comment-single-attachment img {
-	width: 100px;
-	height:auto;
-	padding:5px;
-	display: block;
-	clear:right;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.4);
-	border-bottom:1px solid rgba(32,32,32,0.4);
-	border-left:1px solid rgba(32,32,32,0.1);
-}
-#news-page .article-pdf-attachment,
-#news-page .comment-pdf-attachment {
-	display: inline-block;
-	float: right;
-	margin: 0 0 10px 20px;
-	padding: 5px;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.2);
-	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);
-}
-#news-page .article-pdf-attachment img,
-#news-page .comment-pdf-attachment img {
-	width: 32px;
-	height:auto;
-	padding:5px;
-	margin: 0 auto;
-	display: block;
-	clear:right;
-}
+
 #news-page .edit-attachments .article-pdf-attachment {
 	float:none !important;
 	margin: 0 20px 0 0 !important;

@@ -81,12 +81,16 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
+		@if($project->getCommentsCount($project->id))
+		<div class="post-activity">
+			<p>{{ link_to('/projects/'.$project->department.'/'. $project->slug.'#comments', $project->getCommentsCount($project->id), array('class' => 'ss-chat projects-link')) }}</p>
+		</div>
+		@endif
+		@if($project->getAttachments($project->id))
 		<div class="post-attachment">
 			<p class="ss-attach"></p>
 		</div>
-		<div class="post-activity">
-			<p class="ss-chat"></p>
-		</div>
+		@endif
 		
 	</div>
 @endforeach

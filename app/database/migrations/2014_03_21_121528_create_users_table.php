@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration {
 			$table->string('user_path', 128)->unique();
 			$table->dateTime('last_login')->nullable();
 			$table->enum('status', array('active', 'inactive'));
+			$table->enum('can_manage', array('yes','no'));
 			$table->string('remember_token',100)->nullable();
 			$table->timestamps();
 		});

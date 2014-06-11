@@ -75,6 +75,11 @@ Route::get('/projects/priority/{priority}', array('as' => 'projects.priorityFilt
 Route::get('/projects/status/{status}', array('as' => 'projects.statusFilter', 'uses' => 'ProjectsController@statusFilter'));
 Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' => 'ProjectsController@typeFilter'));
 Route::get('/projects/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
+Route::get('/projects/post/{project}/comment', array('as' => 'projects.projectComment', 'uses' => 'ProjectCommentsController@show'));
+Route::post('/projects/post/{project}/comment', array('uses' => 'ProjectCommentsController@store'));
+Route::get('/projects/post/comment/{id}/edit', array('uses' => 'ProjectCommentsController@edit'));
+Route::post('/projects/post/comment/{id}', array('uses' => 'ProjectCommentsController@update'));
+Route::post('/projects/post/comment/{id}/remove/{imageName}', array('uses' => 'ProjectCommentsController@removeImage'));
 Route::get('/projects/{department}/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
 
 Route::get('/tools', function(){

@@ -53,6 +53,7 @@ class AdminController extends \BaseController {
 			'last_name' => 'required|max:40|alpha',
 			'userrole' => 'required|in:standard,admin',
 			'status' => 'required|in:active,inactive',
+			'can_manage' => 'required|in:yes,no',
 			'anniversary' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
 			'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
@@ -74,6 +75,7 @@ class AdminController extends \BaseController {
 			$user->cell_phone =  Input::get('cell_phone');
 			$user->status =  Input::get('status');
 			$user->userrole =  Input::get('userrole');
+			$user->can_manage = Input::get('can_manage');
 			if(Input::get('anniversary') != '') $user->anniversary = Carbon::createFromFormat('m/d/Y', Input::get('anniversary'));
 			try
 			{

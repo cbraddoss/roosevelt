@@ -48,6 +48,10 @@
 	<span class="user-value userrole-value">{{ Form::select('userrole', array('admin' => 'admin', 'standard' => 'standard'), $user->userrole) }}</span>
 </div>
 <div class="user-field">
+	<span class="user-title can-manage">{{ Form::label('can_manage','Can Manage:') }}</span>
+	<span class="user-value can-manage-value">{{ Form::select('can_manage', array('no' => 'no', 'yes' => 'yes'), $user->can_manage) }}</span>
+</div>
+<div class="user-field">
 	<span class="user-title status">{{ Form::label('status','User Status:') }}</span>
 	<span class="user-value status-value">{{ Form::select('status', array('active' => 'active', 'inactive' => 'inactive'), $user->status ) }}</span>
 </div>

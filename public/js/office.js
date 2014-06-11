@@ -1001,6 +1001,341 @@ jQuery(document).ready(function($){
 			$(document).find('div#project-'+projectID+' .post-subscribed span').first().before('<span class="ss-delete" value="'+data.sub+'">'+data.subName+'</span>');
 		}
 	}
+	// add new Project
+	$(document).on('click','#content #projects-new-project-form button.add-new',function(){
+		$.get( "/projects", function( data ) {
+			$('#projects-new-project-form').html(data);
+
+			// var calTemp = new Date();
+		 //    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
+		 //    var calPost = $('#projects-page form.add-project .project-end-date').datepicker({
+		 //      onRender: function(date) {
+		 //        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		 //      }
+		 //    }).on('changeDate', function(ev) {
+		 //    	calPost.hide();
+		 //    	$(this).addClass('changed-input');
+		 //    }).data('datepicker');
+		    
+			$('form.add-project .projects-title').focus();
+		});
+	});
+	// // detect Status change and update submit button text
+	// $(document).on('change', 'form.add-article select[name=status]', function(){
+	// 	var selectVal = $(this).val();
+	// 	var submitText = $(this).find('option[value='+selectVal+']').text();
+	// 	$('form.add-article').find('input#add-new-submit').val(submitText);
+	// });
+	// cancel adding new project
+	$(document).on('click','#content .project-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$('#projects-new-project-form').html('<span class="projects-button"><button class="add-new">New Project</button></span>');
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$('#projects-new-project-form').html('<span class="projects-button"><button class="add-new">New Project</button></span>');
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	// submit new project
+	var addProjectOptions = { 
+		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+		success:       afterAddProjectSuccess,  // post-submit callback 
+		resetForm: false        // reset the form after successful submit 
+	};	        
+	$(document).on('submit','#content .project-add-form form.add-project', function() {
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(addProjectOptions);
+	    //console.log('submit');
+	    return false; 
+	});
+	function afterAddProjectSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		    //console.log('success');
+			window.location.href = '/projects/'+data.department+'/'+data.slug;
+		}
+	}
+	$(document).on('click', '.form-subscribe-buttons .subscribe', function(){
+		var subscribe = $(this).attr('id');
+		//console.log(ping);
+		$(this).toggleClass('subscribe-selected');
+	});
+	// load comment form on project single view page.
+	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
+		
+		var pageName = $('body').attr('class');
+		pageName = pageName.split(' ');
+		pageName = pageName[0];
+		pageName = pageName.replace('page-projects-design-','');
+		pageName = pageName.replace('page-projects-development-','');
+		pageName = pageName.replace('page-projects-print-','');
+		pageName = pageName.replace('page-projects-sem-','');
+		//console.log(pageName);
+		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
+			$('#projects-post-comment-form').html(data);
+			$('#projects-post-comment-form input[name=project-slug]').val(pageName);
+			$('form.add-comment .comment-content').focus();
+		});
+	});
+	// cancel project post reply
+	$(document).on('click','#projects-page #projects-post-comment-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$('#projects-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$('#projects-post-comment-form').html('<span class="projects-button"><button class="post-comment">Reply</button></span>');
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	// submit reply to project
+	var projectCommentOptions = { 
+		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+		success:       projectCommentSuccess,  // post-submit callback 
+		resetForm: false        // reset the form after successful submit 
+	};	        
+	$(document).on('submit','#projects-page #projects-post-comment-form form.add-comment', function() {
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(projectCommentOptions);
+	    return false;
+	});
+	function projectCommentSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		    //console.log(data.comment_id);
+			window.location.href = '/projects/'+data.department+'/'+data.slug+'?comment=new#comment-'+data.comment_id;
+			if(window.location.search == '?comment=new') window.location.reload(true);
+		}
+	}
+	//load comment form on reply of comment button click
+	$(document).on('click', '#projects-page #comment-post-comment-form button.post-comment', function(){
+		var pageName = $('body').attr('class');
+		pageName = pageName.split(' ');
+		pageName = pageName[0];
+		pageName = pageName.replace('page-projects-design-','');
+		pageName = pageName.replace('page-projects-development-','');
+		pageName = pageName.replace('page-projects-print-','');
+		pageName = pageName.replace('page-projects-sem-','');
+		//console.log(pageName);
+		var commentId = $(this).closest('.office-post-comment').attr('id');
+		var commentHeight = $(this).closest('.office-post-comment').height();
+		commentHeight = commentHeight-15;
+		//commentId = commentId.replace('comment-','');
+		//console.log(commentId);
+		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
+			$(document).find('#comment-post-comment-form .post-comment').each(function(){
+				$(this).hide();
+			});
+			$('#'+commentId+' .create-something-new').html(data);
+			//$('#'+commentId+' .create-something-new .create-something-form').css('top',commentHeight+'px');
+
+			// var commentBoxPos = $('#'+commentId).offset();
+			// $('html, body').animate({
+			// 	scrollTop: commentBoxPos.top-110
+			// }, 2000);
+			$('#'+commentId+' .create-something-new').find('input[name=project-slug]').val(pageName);
+			$('form.add-comment .comment-content').focus();
+		});
+	});
+	// cancel comment reply
+	$(document).on('click','#projects-page #comment-post-comment-form form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
+				$(document).find('#comment-post-comment-form .post-comment').each(function(){
+					$(this).show();
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
+			$(document).find('#comment-post-comment-form .post-comment').each(function(){
+				$(this).show();
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	// submit comment on a comment
+	$(document).on('submit','#projects-page #comment-post-comment-form form.add-comment', function() {
+		var commentReplyToId = $(document).find('#projects-page form.add-comment').closest('.office-post-comment').attr('id');
+		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
+		else commentReplyToId = 0;
+		// submit reply to comment
+		var projectCommentCommentOptions = {
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectCommentCommentSuccess,  // post-submit callback 
+			resetForm: false,        // reset the form after successful submit 
+			data: { reply_to_id: commentReplyToId }
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(projectCommentCommentOptions);
+	    return false; 
+	});
+	function projectCommentCommentSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		   	//console.log(data.slug);
+			window.location.href = '/projects/'+data.department+'/'+data.slug+'?comment=new#comment-'+data.comment_id;
+			if(window.location.search == '?comment=new') window.location.reload(true);
+		}
+	}
+	// edit comment
+	$(document).on('click', '#projects-page .comment-edit-button button.edit-comment', function(){
+		var pageName = $('body').attr('class');
+		pageName = pageName.split(' ');
+		pageName = pageName[0];
+		pageName = pageName.replace('page-projects-design-','');
+		pageName = pageName.replace('page-projects-development-','');
+		pageName = pageName.replace('page-projects-print-','');
+		pageName = pageName.replace('page-projects-sem-','');
+		
+		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
+		var commentId = commentIdBox.replace('comment-','');
+		//console.log(commentId);
+		///news/article/comment/{{ $subComment->id }}/edit
+		$.get( "/projects/post/comment/"+commentId+"/edit", function( data ) {
+			$(document).find('#projects-page .comment-edit-button button.edit-comment').each(function(){
+				$(this).hide();
+			});
+			$(document).find('#comment-post-comment-form .post-comment').each(function(){
+				$(this).hide();
+			});
+			$('#'+commentIdBox+' .comment-contents').html(data);
+			$('#'+commentIdBox+' .comment-contents').find('input[name=project-slug]').val(pageName);
+			$('form.edit-comment .update-comment-content').focus();
+		});
+	});
+	// cancel editing a comment
+	$(document).on('click','#projects-page form.edit-comment span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+				var pageHref = window.location.href;
+				window.location.reload(true);
+			}
+		}
+		else {
+			var pageHref = window.location.href;
+			window.location.reload(true);
+		}
+	});
+	// submit edit on comment
+	$(document).on('submit','#projects-page form.edit-comment #update-comment', function() {
+		var editProjectCommentOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       commentProjectEditSuccess,  // post-submit callback 
+			resetForm: false        // reset the form after successful submit 
+		};	 
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(editProjectCommentOptions);
+	    return false;
+	});
+	function commentProjectEditSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		   	//console.log(data.comment_id);
+			//window.location.href = '/news/article/'+data.slug+'?comment=edit#comment-'+data.comment_id;
+			//if(window.location.search == '?comment=edit') window.location.reload(true);
+		}
+	}
+	// add option to delete attachment
+	$(document).on('mouseenter', '#projects-page .comment-edit-attachment', function(){
+		$(this).append('<span class="ss-delete"></span>');
+	});
+	$(document).on('mouseleave', '#projects-page .comment-edit-attachment', function(){
+		$(this).find('.ss-delete').remove();
+	});
+	// delete comment attachment with ajax
+	$(document).on('click', '#projects-page .comment-edit-attachment', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
+		
+		if(confirmCancel == true) {
+			var imageName = $(this).find('a img').attr('alt');
+			var imagePath = $(this).find('a').attr('href');
+			var imageId = $(this).closest('.office-post-comment').attr('id');
+			imageId = imageId.replace('comment-','');
+			var imageToken = $(this).closest('form.edit-comment').find('input[name=_token]').val();
+			$.post(
+				'/projects/post/comment/'+imageId+'/remove/'+imageName,
+				{
+					"_token": imageToken,
+					"imageName" : imageName,
+					"imagePath" : imagePath,
+					"id" : imageId,
+				}, function (data) {
+					if(data.errorMsg) {
+						$('#message-box-json').fadeIn();
+						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+					}
+					else {
+						$('#message-box-json').find('.section').empty();
+						$('#message-box-json').fadeOut();
+						//console.log(data.image);
+						$(document).find('a[href="'+ data.image +'"]').fadeOut();
+						//window.location.href = data.path;
+					}
+				},'json'
+			);
+		}
+	});
 
 	/* To-Do List page */
 	$(document).on('change','#todo-page .filter-user', function(){

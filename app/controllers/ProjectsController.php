@@ -34,7 +34,7 @@ class ProjectsController extends \BaseController {
 	public function index()
 	{
 		$projects = $this->project->getOpenProjects();
-		if(Request::ajax()) return View::make('projects.partials.new-project');
+		if(Request::ajax()) return View::make('projects.partials.new');
 		else return View::make('projects.index', compact('projects'));
 	}
 
@@ -269,11 +269,14 @@ class ProjectsController extends \BaseController {
 				else $classchange = '';
 
 				if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
-			}
-			else {
-				$dateSave = '';
-				$date = '';
-				$classchange = '';
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'date' => $dateSave,
+					'thispage' => Input::get('thisPage'),
+					'changeclass' => $classchange
+				);
 			}
 			if(Input::has('user') == 'userchange') {
 				$userChange = Input::get('value');
@@ -285,30 +288,26 @@ class ProjectsController extends \BaseController {
 				else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
 				$project->$value = $userFind->id;
 				//if($oldUser != $userFind->id) $this->mailer->projectPingEmail($project,$oldSubscribed);
-			}
-			else {
-				$userChange = '';
-				$userName = '';
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'user' => $userChange,
+					'thispage' => Input::get('thisPage')
+				);
 			}
 			if(Input::has('stage') == 'stagechange') {
 				$stageChange = Input::get('value');
 				$project->$value = $stageChange;
-			}
-			else {
-				$stageChange = '';
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'thispage' => Input::get('thisPage')
+				);
 			}
 			
 			$project->save();
-			$response = array(
-				'msg' => 'Saved!',
-				'pid' => $project->id,
-				'date' => $dateSave,
-				'user' => $userChange,
-				'thispage' => Input::get('thisPage'),
-				'stage' => $stageChange,
-				'changeclass' => $classchange
-			);
-			
 			
 			return Response::json( $response );
 		}
@@ -332,17 +331,16 @@ class ProjectsController extends \BaseController {
 			// dd(Input::get('value'));
 			if(Input::has('subRemove') == 'subremove') {
 				$userRemove = Input::get('value');
-				//$userFind = User::where('user_path','=',$userChange)->first();
-				//$userName = $userFind->first_name;
-				//$oldUser = $project->$value;
 				$oldSubscribed = $project->subscribed;
 				$newSubscribed = str_replace($userRemove, '', $oldSubscribed);
 				$project->$value = $newSubscribed;
-			}
-			else {
-				$userChange = '';
-				$userName = '';
-				$userRemove = '';
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'sub' => $userRemove,
+					'thispage' => Input::get('thisPage')
+				);
 			}
 			if(Input::has('subAdd') == 'subadd') {
 				$userAdd = Input::get('value');
@@ -358,22 +356,17 @@ class ProjectsController extends \BaseController {
 					$userName = $userFind->first_name. ' ' . $userFind->last_name;
 					$userRemove = $userFind->user_path;
 				}
-				
-			}
-			else {
-				$userChange = '';
-				$userName = '';
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'sub' => $userRemove,
+					'subName' => $userName,
+					'thispage' => Input::get('thisPage')
+				);
 			}
 			
-			$project->save();
-			$response = array(
-				'msg' => 'Saved!',
-				'pid' => $project->id,
-				'sub' => $userRemove,
-				'subName' => $userName,
-				'thispage' => Input::get('thisPage')
-			);
-			
+			$project->save();			
 			
 			return Response::json( $response );
 		}

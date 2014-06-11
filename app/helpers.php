@@ -51,6 +51,7 @@ function get_user_list_select($selected = null) {
 	}
 	return $options;
 }
+
 function get_active_user_list_select($selected = null) {
 	$users = User::where('status','=','active')->get();
 	$options = '';
@@ -60,6 +61,17 @@ function get_active_user_list_select($selected = null) {
 	}
 	return $options;
 }
+
+function get_active_account_list($selected = null) {
+	$accounts = Account::where('status','=','active')->get();
+	$options = '';
+	foreach($accounts as $account) {
+		if($selected == $account->name) $options .= '<option value="'.$account->id.'" selected>'.$account->name.'</option>';
+		else $options .= '<option value="'.$account->id.'">'.$account->name.'</option>';
+	}
+	return $options;
+}
+
 function get_project_type_select($selected = null) {
 	$projectTypes = Template::where('type','=','project')->get();
 	if($projectTypes != null) {
@@ -80,6 +92,26 @@ function get_project_type_select($selected = null) {
 	}
 	else return;
 }
+
+function get_template_list_select($selected = null) {
+	$projectTemplates = Template::where('type','=','project')->get();
+	if($projectTemplates != null) {
+		$options = '';
+		$optionsLast = '';
+		foreach($projectTemplates as $type) {
+			if($type->status == 'inactive') {
+				$options .= '';
+			}
+			else {
+				if($selected == $type->name) $options .= '<option value="'.$type->id.'" selected>'. $type->name .'</option>';
+				else $options .= '<option value="'.$type->id.'">'. $type->name .'</option>';			
+			}
+		}
+		return $options;
+	}
+	else return;
+}
+
 function get_project_stage_select($selected = null, $pType = null, $pID = null) {
 	//$projectStages = Project::where('status','=','open')->get();
 	if($pType == null) {
@@ -203,6 +235,17 @@ function display_pingable() {
 	}
 	return $pingable;
 }
+
+function display_subscribable() {
+	$users = User::where('status','!=', 'inactive')->get();
+	$subscribable = '';
+	$subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
+	foreach($users as $user) {
+		$subscribable .= '<span class="subscribe-button subscribe" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+	}
+	return $subscribable;
+}
+
 
 function find_unread_count($resource) {
 	$currentUser = current_user_path();

@@ -11,9 +11,14 @@
 	@include('projects.partials.sub-menu')
 	
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single">
-		<p class="post-manager">Project manager: {{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</p>
-		<div class="post-subscribed">Subscribed:
-		@if($project->author_id == Auth::user()->id || Auth::user()->userrole == 'admin')
+		<h3>Project Manager:</h3>
+		<p class="post-manager">
+			<img src="{{ gravatar_url(User::find($project->author_id)->email,30) }}" alt="{{ User::find($project->author_id)->first_name }} {{ User::find($project->author_id)->last_name }}">
+			<span>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</span>
+		</p>
+		<h3>Subscribed <small>(receives email notifications)</small>:</h3>
+		<div class="post-subscribed">
+		@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 			@foreach($subscribed as $subd)
 			@if(!empty($subd))
 			<span class="ss-delete" value="{{ $subd }}">{{ ucwords(str_replace('-',' ',$subd)) }}</span>
@@ -31,9 +36,16 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
-			
+		<h3>Currently assigned to:</h3>
+		<p class="post-assigned-to">
+			<img src="{{ gravatar_url(User::find($project->assigned_id)->email,30) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
+			<span>{{ User::find($project->assigned_id)->first_name . ' ' . User::find($project->assigned_id)->last_name }}</span>
+		</p>
+		
+		<h3>Project Scope:</h3>
 		{{ $project->getAttachments($project->id) }}
 		<p>{{ display_content($project->content) }}</p>
+		<h3>Project Checklist:</h3>
 		<div class="project-checklist">
 			{{ $tasks }}
 		</div>
@@ -50,6 +62,7 @@
 			{{ Form::close() }}
 		</div>
 	</div>
+	<h3>Project Comments:</h3>
 	<div id="comments"></div>
 	@foreach($comments as $comment)
 	@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 

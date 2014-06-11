@@ -16,6 +16,7 @@ class UsersTableSeeder extends Seeder {
 			'extension' => '312',
 			'cell_phone' => '360-808-2877',
 			'status' => 'active',
+			'can_manage' => 'yes',
 			'user_path' => 'brad-doss'
 		));
 
@@ -28,6 +29,7 @@ class UsersTableSeeder extends Seeder {
 			'anniversary' => '2006-09-05 00:00:00',
 			'extension' => '308',
 			'status' => 'active',
+			'can_manage' => 'yes',
 			'user_path' => 'jack-waknitz'
 		));
 
@@ -40,6 +42,7 @@ class UsersTableSeeder extends Seeder {
 			'anniversary' => '0000-00-00 00:00:00',
 			'extension' => '313,315',
 			'status' => 'active',
+			'can_manage' => 'yes',
 			'user_path' => 'taylor-hasenpflug'
 		));
 
@@ -51,6 +54,7 @@ class UsersTableSeeder extends Seeder {
 			'last_name' => 'One',
 			'anniversary' => '2013-04-15 00:00:00',
 			'status' => 'active',
+			'can_manage' => 'yes',
 			'user_path' => 'user-one'
 		));
 
