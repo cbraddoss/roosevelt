@@ -1979,26 +1979,36 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 #content .office-post-single h3 {
 	margin: 10px 0;
+	color: #4B83B4;
+	text-shadow: 1px 1px 1px #fff;
 }
 #content .office-post-single .post-manager,
 #content .office-post-single .post-assigned-to {
 	margin: 0;
+	padding: 0 10px;
+	width: 145px;
+	float: left;
+	text-align: center;
+	border-right: 1px solid #fff;
+	box-shadow: inset -1px 0px 0px 0px #ddd;
 }
 #content .office-post-single .post-manager span,
 #content .office-post-single .post-assigned-to span {
 	font-size: 1.1em;
-	line-height: 1.1em;
-	height: 25px;
-	padding-top: 5px;
-	vertical-align: middle;
-	display: inline-block;
+	display: block;
+	text-shadow: 1px 1px 1px #fff;
 }
 #content .office-post-single .post-manager img,
 #content .office-post-single .post-assigned-to img {
-	line-height: 1.1em;
-	height: 30px;
-	vertical-align: middle;
-	display: inline-block;
+	display: block;
+	margin: 0 auto;
+}
+#content .office-post-single .post-subscribed {
+	width: auto;
+	max-width: 550px;
+	float:left;
+	padding: 0 10px;
+	height: 122px;
 }
 #content .office-post-single .post-subscribed span {
 	border-radius: 3px;
@@ -2007,8 +2017,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	color: #fff;
 	border: 1px solid rgba(75,131,180,1);
 	cursor: pointer;
+	float:left;
 	position: relative;
-	margin: 0px 3px;
+	margin: 3px 3px;
 }
 #content .office-post-single .post-subscribed span.ss-delete:before {
 	padding-right: 3px;
@@ -2018,6 +2029,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	position: absolute;
 	top: 0;
 	margin-left: 8px;
+}
+#content .office-post-single .post-content {
+	clear:left;
+	width: 99%;
 }
 #content .office-post-single .ss-heart .favorite-this {
 	background: none;

@@ -350,6 +350,7 @@ class ProjectsController extends \BaseController {
 				if(strpos($oldSubscribed,$userFind->user_path) !== false ) {
 					$project->subscribed = $oldSubscribed;
 					$userName = '';
+					$userRemove = '';
 				}
 				else {
 					$project->subscribed = $oldSubscribed.' '.$userFind->user_path;
