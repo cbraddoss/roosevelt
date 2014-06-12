@@ -340,7 +340,7 @@ jQuery(document).ready(function($){
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-		    var calPost = $('#news-page form.add-article .article-calendar-date').datepicker({
+		    var calPost = $('#content form.add-article .article-calendar-date').datepicker({
 		      onRender: function(date) {
 		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
 		      }
@@ -1006,31 +1006,66 @@ jQuery(document).ready(function($){
 		$.get( "/projects", function( data ) {
 			$('#projects-new-project-form').html(data);
 
-			// var calTemp = new Date();
-		 //    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-		 //    var calPost = $('#projects-page form.add-project .project-end-date').datepicker({
-		 //      onRender: function(date) {
-		 //        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		 //      }
-		 //    }).on('changeDate', function(ev) {
-		 //    	calPost.hide();
-		 //    	$(this).addClass('changed-input');
-		 //    }).data('datepicker');
+			var calTemp = new Date();
+		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
+		    var calLaunch = $('#content form.add-project .project-launch-date').datepicker({
+		      onRender: function(date) {
+		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		      }
+		    }).on('changeDate', function(ev) {
+		    	calLaunch.hide();
+		    	$(this).addClass('changed-input');
+		    }).data('datepicker');
+		    var calStart = $('#content form.add-project .project-start-date').datepicker({
+		      onRender: function(date) {
+		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		      }
+		    }).on('changeDate', function(ev) {
+		    	calStart.hide();
+		    	$(this).addClass('changed-input');
+		    }).data('datepicker');
+		    var calEnd = $('#content form.add-project .project-end-date').datepicker({
+		      onRender: function(date) {
+		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+		      }
+		    }).on('changeDate', function(ev) {
+		    	calEnd.hide();
+		    	$(this).addClass('changed-input');
+		    }).data('datepicker');
 		    
 			$('form.add-project .projects-title').focus();
+			$('form.add-project .project-start-date').hide();
+			$('form.add-project .label-start-date').hide();
+			$('form.add-project .project-end-date').hide();
+			$('form.add-project .label-end-date').hide();
+			$(document).on('change','form.add-project select[name=period]', function() {
+				var periodValue = $(this).val();
+				if(periodValue == 'recurring') {
+					$('form.add-project .project-launch-date').hide();
+					$('form.add-project .label-launch-date').hide();
+					$('form.add-project .project-launch-date').val('');
+					$('form.add-project .project-start-date').fadeIn(200);
+					$('form.add-project .label-start-date').fadeIn(200);
+					$('form.add-project .project-end-date').fadeIn(200);
+					$('form.add-project .label-end-date').fadeIn(200);
+				}
+				else {
+					$('form.add-project .project-end-date').val('');
+					$('form.add-project .project-start-date').hide();
+					$('form.add-project .label-start-date').hide();
+					$('form.add-project .project-end-date').hide();
+					$('form.add-project .label-end-date').hide();
+					$('form.add-project .project-launch-date').fadeIn(200);	
+					$('form.add-project .label-launch-date').fadeIn(200);				
+				}
+			});
 		});
 	});
-	// // detect Status change and update submit button text
-	// $(document).on('change', 'form.add-article select[name=status]', function(){
-	// 	var selectVal = $(this).val();
-	// 	var submitText = $(this).find('option[value='+selectVal+']').text();
-	// 	$('form.add-article').find('input#add-new-submit').val(submitText);
-	// });
 	// cancel adding new project
 	$(document).on('click','#content .project-add-form span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
 		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
 				$('#projects-new-project-form').html('<span class="projects-button"><button class="add-new">New Project</button></span>');
@@ -1071,10 +1106,18 @@ jQuery(document).ready(function($){
 			window.location.href = '/projects/'+data.department+'/'+data.slug;
 		}
 	}
+	// subscribe users to a project
 	$(document).on('click', '.form-subscribe-buttons .subscribe', function(){
 		var subscribe = $(this).attr('id');
 		//console.log(ping);
+		var currentSubscribed = $(this).closest('form.add-project').find('input.project-subscribed').attr('value');
 		$(this).toggleClass('subscribe-selected');
+		var allSelected = '';
+		$(this).parent().find('.subscribe-selected').each(function(){
+			var subSelected = $(this).attr('id');
+			allSelected = subSelected+allSelected;
+		});
+		$(this).closest('form.add-project').find('input.project-subscribed').attr('value',allSelected);
 	});
 	// load comment form on project single view page.
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){

@@ -236,12 +236,13 @@ function display_pingable() {
 	return $pingable;
 }
 
-function display_subscribable() {
+function display_subscribable($selected = null) {
 	$users = User::where('status','!=', 'inactive')->get();
 	$subscribable = '';
-	$subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
+	// $subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		$subscribable .= '<span class="subscribe-button subscribe" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		if($selected == $user->user_path) $subscribable .= '<span class="subscribe-button subscribe subscribe-selected" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		else $subscribable .= '<span class="subscribe-button subscribe" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 	return $subscribable;
 }

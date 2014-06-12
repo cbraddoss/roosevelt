@@ -49,6 +49,9 @@ ul {
 .none {
 	display: none;
 }
+.required {
+	color: red;
+}
 
 /* Login Form */
 #login-box {
@@ -1281,17 +1284,49 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	width:100%;
 	height:200px;
 }
-#content .create-something-form .article-calendar-date {
+#content .project-add-form.create-something-form textarea {
+	height: 100px;
+}
+#content .create-something-form .datepicker {
 	width:145px;
 	display: block;
 	margin:15px 0;
 	float:right;
+}
+#content .create-something-form select[name=department],
+#content .create-something-form select[name=type],
+#content .create-something-form select[name=account_id],
+#content .create-something-form select[name=priority] {
+	margin: 0 10px 10px 0;
+	display: inline-block;
+}
+#content .create-something-form label[for=priority] {
+	padding-right: 10px;
+}
+#content .create-something-form label[for=period] {
+	display: block;
+	padding-right: 5px;
+}
+#content .create-something-form .datepicker.project-launch-date,
+#content .create-something-form .datepicker.project-end-date,
+#content .create-something-form .datepicker.project-start-date {
+	float: none;
+	display: inline-block;
+}
+#content .create-something-form span.label-launch-date,
+#content .create-something-form span.label-start-date,
+#content .create-something-form span.label-end-date {
+	display: inline-block;
+	padding: 0 5px;
 }
 #content .create-something-form input[type=file] {
 	width:300px;
 	display: block;
 	margin:15px 0;
 	float:left;
+}
+#content .create-something-form input.projects-post-attachment {
+	float:none;
 }
 #content .create-something-form select[name=status],
 #content .create-something-form select[name=userrole] {
@@ -1414,6 +1449,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	margin:0px 0 0px;
 	width:100%;
 	border: 1px solid #888;
+}
+#content .form-subscribe-buttons {
+	margin-bottom: 5px;
 }
 #content .form-textarea-buttons .textarea-button,
 #content .form-subscribe-buttons .subscribe-button {
