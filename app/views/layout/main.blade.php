@@ -25,8 +25,8 @@
 						<ul id="menu_links">
 							<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/">Dashboard</a></li>
 							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href">Projects</a>{{ find_assigned_count('projects') }}</li>
-							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-cart link-href">Billables</a>{{ find_assigned_count('billables') }}</li>
-							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-dollarsign link-href">Invoices</a></li>
+							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href">Billables</a>{{ find_assigned_count('billables') }}</li>
+							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-redirect link-href">Invoices</a></li>
 							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href">Accounts</a></li>
 							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href">Calendar</a>{{ find_assigned_count('calendar') }}</li>
 							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href">Help</a>{{ find_assigned_count('help') }}</li>
@@ -41,7 +41,7 @@
 							</ul>
 							</li>
 							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href">Wiki</a></li>
-							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-signpost link-href">Tools</a></li>
+							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href">Tools</a></li>
 							<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a>
 							<ul class="sub_menu_links">
 								<li class="sub-link"></li>

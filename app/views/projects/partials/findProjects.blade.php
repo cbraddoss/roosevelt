@@ -56,9 +56,9 @@
 			<span>Launching: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
 			@endif
 		</div>
-		<h3>{{ link_to('/projects/'.$project->department.'/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+		<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 		<div class="post-hover-content">
-			<a href="{{ URL::to('/projects/'.$project->department.'/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
+			<a href="{{ URL::to('/projects/post/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
 		</div>
 		
 		<div class="post-assigned">
@@ -83,7 +83,7 @@
 		</div>
 		@if($project->getCommentsCount($project->id))
 		<div class="post-activity">
-			<p>{{ link_to('/projects/'.$project->department.'/'. $project->slug.'#comments', $project->getCommentsCount($project->id), array('class' => 'ss-chat projects-link')) }}</p>
+			<p>{{ link_to('/projects/post/'. $project->slug.'#comments', $project->getCommentsCount($project->id), array('class' => 'ss-chat projects-link')) }}</p>
 		</div>
 		@endif
 		@if($project->getAttachments($project->id))

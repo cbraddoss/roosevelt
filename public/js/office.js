@@ -1059,8 +1059,38 @@ jQuery(document).ready(function($){
 					$('form.add-project .label-launch-date').fadeIn(200);				
 				}
 			});
+			$(document).on('input','form.add-project .search-accounts', function() {
+				var accountSearch = $(this).val();
+				if(accountSearch.length >= 3) {
+					// search accounts and return a list
+					var accountSearchOptions = { 
+						target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
+						success:       accountSearchSuccess,  // post-submit callback
+						dataType: 'json',
+						data: { 
+							_token: $(this).parent().find('input[name=_token]').attr('value'),
+							title: accountSearch
+						},
+						type: 'POST',
+						url: '/accounts/search/'+accountSearch,
+						resetForm: false        // reset the form after successful submit 
+					};
+					$(this).find('.changed-input').each(function() {
+						$(this).removeClass('changed-input');
+					});
+					$(this).ajaxSubmit(accountSearchOptions);
+					return false;
+				}
+
+			});
 		});
 	});
+	function accountSearchSuccess(data)
+	{
+		if(data.msg == 'found some') {
+			$(document).find('form.add-project .accounts-search-ajax').show().html(data.accounts);
+		}
+	}
 	// cancel adding new project
 	$(document).on('click','#content .project-add-form span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
@@ -1103,7 +1133,7 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
 		    //console.log('success');
-			window.location.href = '/projects/'+data.department+'/'+data.slug;
+			window.location.href = '/projects/post/'+data.slug;
 		}
 	}
 	// subscribe users to a project
@@ -1124,11 +1154,7 @@ jQuery(document).ready(function($){
 		
 		var pageName = $('body').attr('class');
 		pageName = pageName.split(' ');
-		pageName = pageName[0];
-		pageName = pageName.replace('page-projects-design-','');
-		pageName = pageName.replace('page-projects-development-','');
-		pageName = pageName.replace('page-projects-print-','');
-		pageName = pageName.replace('page-projects-sem-','');
+		pageName = pageName[0].replace('page-projects-post-','');
 		//console.log(pageName);
 		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
 			$('#projects-post-comment-form').html(data);
@@ -1177,7 +1203,7 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
 		    //console.log(data.comment_id);
-			window.location.href = '/projects/'+data.department+'/'+data.slug+'?comment=new#comment-'+data.comment_id;
+			window.location.href = '/projects/post/'+data.slug+'?comment=new#comment-'+data.comment_id;
 			if(window.location.search == '?comment=new') window.location.reload(true);
 		}
 	}
@@ -1185,11 +1211,7 @@ jQuery(document).ready(function($){
 	$(document).on('click', '#projects-page #comment-post-comment-form button.post-comment', function(){
 		var pageName = $('body').attr('class');
 		pageName = pageName.split(' ');
-		pageName = pageName[0];
-		pageName = pageName.replace('page-projects-design-','');
-		pageName = pageName.replace('page-projects-development-','');
-		pageName = pageName.replace('page-projects-print-','');
-		pageName = pageName.replace('page-projects-sem-','');
+		pageName = pageName[0].replace('page-projects-post-','');
 		//console.log(pageName);
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
@@ -1263,7 +1285,7 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
 		   	//console.log(data.slug);
-			window.location.href = '/projects/'+data.department+'/'+data.slug+'?comment=new#comment-'+data.comment_id;
+			window.location.href = '/projects/post/'+data.slug+'?comment=new#comment-'+data.comment_id;
 			if(window.location.search == '?comment=new') window.location.reload(true);
 		}
 	}
@@ -1271,11 +1293,7 @@ jQuery(document).ready(function($){
 	$(document).on('click', '#projects-page .comment-edit-button button.edit-comment', function(){
 		var pageName = $('body').attr('class');
 		pageName = pageName.split(' ');
-		pageName = pageName[0];
-		pageName = pageName.replace('page-projects-design-','');
-		pageName = pageName.replace('page-projects-development-','');
-		pageName = pageName.replace('page-projects-print-','');
-		pageName = pageName.replace('page-projects-sem-','');
+		pageName = pageName[0].replace('page-projects-post-','');
 		
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');

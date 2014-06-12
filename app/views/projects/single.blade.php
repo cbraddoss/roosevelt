@@ -56,7 +56,7 @@
 			
 			<small class="right">
 			@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-			<a class="edit-project edit-link" href="/projects/{{ $project->department }}/{{ $project->slug }}/edit">Edit Post</a>
+			<a class="edit-project edit-link" href="/projects/post/{{ $project->slug }}/edit">Edit Post</a>
 			@endif
 			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($project->edit_id)->first_name }} {{ User::find($project->edit_id)->last_name }}</small>
 			{{ Form::open( array('id' => 'project-subscribed-'.$project->id, 'class' => 'project-subscribed', 'url' => '/projects/listviewupdate/'.$project->id.'/subscribed', 'method' => 'post') ) }}

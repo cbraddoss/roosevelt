@@ -2,7 +2,7 @@
 
 class Project extends Eloquent {
 
-	protected $fillable = array('title','content','department','priority','stage','subscribed','assigned_id','template_id','account_id','due_date','attachment');
+	protected $fillable = array('title','content','priority','stage','subscribed','assigned_id','template_id','account_id','due_date','attachment');
 
 	/**
 	 * The database table used by the model.

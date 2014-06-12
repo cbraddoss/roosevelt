@@ -36,7 +36,7 @@
 			</li>
 			<li><input type="text" class="datepicker filter-date" value="@if(!empty($date)) {{ $date }} @endif" placeholder="Due Date Filter" data-date-format="mm-yyyy" data-date-viewmode="months"></li>
 		</ul>
-		@if(strpos(current_page(), 'projects/sem') || strpos(current_page(), 'projects/design') || strpos(current_page(), 'projects/development') || strpos(current_page(), 'projects/print'))
+		@if(strpos(current_page(), 'projects/post'))
 		<div id="projects-post-comment-form" class="create-something-new">
 			<span class="projects-button"><button class="post-comment">Reply</button></span>
 		</div>

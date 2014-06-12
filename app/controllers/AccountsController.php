@@ -1,6 +1,20 @@
 <?php
 
+use \Account;
+
 class AccountsController extends \BaseController {
+
+	/**
+     * Instantiate a new AccountsController instance.
+     */
+	public function __construct(Account $account)
+	{
+		$this->beforeFilter('auth');
+
+		$this->beforeFilter('csrf', array('on' => 'post'));
+
+        $this->account = $account;
+	}
 
 	/**
 	 * Display a listing of the resource.
@@ -10,6 +24,34 @@ class AccountsController extends \BaseController {
 	public function index()
 	{
 		return View::make('accounts.index')->withAccounts(Account::all());
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+	public function search($title) {
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+		$accounts = $this->account->getAccountsSearch($title);
+		$accountsSearched = '';
+		foreach($accounts as $account) {
+			$accountsSearched .= '<span value="'.$account->id.'">' . $account->name . '</span>';
+		}
+		if($accountsSearched != '') {
+			$response = array(
+				'accounts' => $accountsSearched,
+				'msg' => 'found some'
+			);
+			return Response::json( $response );
+		}
+		else {
+			$response = array(
+				'msg' => 'none'
+			);
+			return Response::json($response);
+		}
 	}
 
 	/**

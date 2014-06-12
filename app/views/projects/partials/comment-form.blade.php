@@ -12,7 +12,6 @@
 
 		{{ Form::hidden('project-id', $project->id) }}
 		{{ Form::hidden('project-slug') }}
-		{{ Form::hidden('project-department', $project->department) }}
 
 		{{ Form::textarea('content', null, array('placeholder' => 'Post a comment to: ' . $project->title, 'class' => 'comment-content field', 'id' => 'comment-content')) }}
 

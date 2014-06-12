@@ -4,14 +4,15 @@ use \Mailer;
 use \Project;
 use \ProjectComment;
 use \Template;
+use \Account;
 
 class ProjectsController extends \BaseController {
 
 	protected $mailer;
 	/**
-     * Instantiate a new UsersController instance.
+     * Instantiate a new ProjectsController instance.
      */
-    public function __construct(Mailer $mailer, Project $project, ProjectComment $projectComment, Template $template)
+    public function __construct(Mailer $mailer, Project $project, ProjectComment $projectComment, Template $template, Account $account)
     {
         $this->beforeFilter('auth');
 
@@ -24,6 +25,8 @@ class ProjectsController extends \BaseController {
         $this->projectComment = $projectComment;
 
         $this->template = $template;
+
+        $this->account = $account;
     }
 
 	/**
@@ -57,7 +60,69 @@ class ProjectsController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		$validator = Validator::make(Input::all(), array(
+			'title' => 'required|max:120',
+			'content' => 'required',
+			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'status' => 'required|in:published,sticky,draft',
+			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			$response = array(
+				'errorMsg' => $messages->first()
+			);
+			return Response::json( $response );
+		}
+		else {
+			$newArticle = new Article;
+			$newArticle->title = clean_title(Input::get('title'));
+			$newArticle->content =  clean_content(Input::get('content'));
+			$newArticle->slug = convert_title_to_path(Input::get('title'));
+			$newArticle->author_id = Auth::user()->id;
+			$newArticle->status = Input::get('status');
+			$newArticle->mentions = find_mentions(Input::get('content'));
+			$newArticle->edit_id = Auth::user()->id;
+			if(Input::has('show_on_calendar')) $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$fileNames = array();
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
+					$currentTime = Carbon::now()->timestamp;
+					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
+					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
+				}
+				$newArticle->attachment = serialize($fileNames);
+			}
+			try
+			{
+				$newArticle->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				$response = array(
+					'errorMsg' => 'Oops, there might be an article with this title already. Try a different title.'
+				);
+				return Response::json( $response );
+			}
+
+			if(!empty($newArticle->mentions)) $this->mailer->articlePingEmail($newArticle);
+			
+			$response = array(
+				'slug' => $newArticle->slug,
+				'msg' => 'Article saved.'
+			);
+			return Response::json( $response );
+		}
+		$response = array(
+			'errorMsg' => 'Something went wrong. :('
+		);
+		return Response::json( $response );
 	}
 
 
@@ -67,7 +132,7 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($department,$slug)
+	public function show($slug)
 	{
 		$project = Project::where('slug', '=', $slug)->first();
 

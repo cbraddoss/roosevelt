@@ -228,20 +228,20 @@ class Calendar {
 
 			// parse previous month projects
 			if($plMonth == Carbon::parse($previousMonth.$year)->format('m')) {
-				if(array_key_exists($plNum, $postPreviousMonth)) $postPreviousMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
-				else $postPreviousMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				if(array_key_exists($plNum, $postPreviousMonth)) $postPreviousMonth[$plNum] .= '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postPreviousMonth[$plNum] = '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
 			}
 
 			// parse selected month projects
 			if($plMonth == Carbon::parse($month.$year)->format('m')) {
-				if(array_key_exists($plNum, $postThisMonth)) $postThisMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
-				else $postThisMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				if(array_key_exists($plNum, $postThisMonth)) $postThisMonth[$plNum] .= '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postThisMonth[$plNum] = '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
 			}
 
 			// parse next month projects
 			if($plMonth == Carbon::parse($nextMonth.$year)->format('m')) {
-				if(array_key_exists($plNum, $postNextMonth)) $postNextMonth[$plNum] .= '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
-				else $postNextMonth[$plNum] = '<a href="/projects/'.$pLaunch->department.'/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				if(array_key_exists($plNum, $postNextMonth)) $postNextMonth[$plNum] .= '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
+				else $postNextMonth[$plNum] = '<a href="/projects/post/' . $pLaunch->slug . '" class="calendar-post-title projects-post-link">' . $pLaunch->title . '</a>';
 			}
 		}
 		

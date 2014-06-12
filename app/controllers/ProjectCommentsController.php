@@ -103,7 +103,6 @@ class ProjectCommentsController extends \BaseController {
 			
 			$response = array(
 				'slug' => Input::get('project-slug'),
-				'department' => Input::get('project-department'),
 				'comment_id' => $newProjectComment->id,
 				'msg' => 'Comment posted.'
 			);
@@ -128,7 +127,7 @@ class ProjectCommentsController extends \BaseController {
 		if(empty($project)) return Redirect::route('projects');
 				
 		if(Request::ajax()) return View::make('projects.partials.comment-form', compact('project'));
-		else return Redirect::to('/projects/'.$project->department.'/'.$project->slug);
+		else return Redirect::to('/projects/post/'.$project->slug);
 	}
 
 
@@ -167,11 +166,10 @@ class ProjectCommentsController extends \BaseController {
 		
 		$projectSlug = Input::get('project-slug');
 		$projectGet = Project::where('slug','=',$projectSlug)->first();
-		$projectDept = $projectGet->department;
 
 		if($validator->fails()) {
 			$messages = $validator->messages();
-			return Redirect::to('/projects/'.$projectDept.'/'.$projectSlug)->withInput()->withErrors($messages->first());
+			return Redirect::to('/projects/post/'.$projectSlug)->withInput()->withErrors($messages->first());
 		}
 		else {
 			$commentUpdate = ProjectComment::find($id);
@@ -208,15 +206,15 @@ class ProjectCommentsController extends \BaseController {
 				$commentUpdate->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/projects/'.$projectDept.'/'.$projectSlug)->with('flash_message_error','Oops, something went wrong. Please contact the DevTeam.');
+				return Redirect::to('/projects/post/'.$projectSlug)->with('flash_message_error','Oops, something went wrong. Please contact the DevTeam.');
 			}
 
 			//$this->mailer->articleCommentPingEmail($commentUpdate,$previousMentions);
 			
-			return Redirect::to('/projects/'.$projectDept.'/'.$projectSlug.'/?comment=edit#comment-'.$commentUpdate->id)->with('flash_message_success', 'Comment successfully updated!');
+			return Redirect::to('/projects/post/'.$projectSlug.'/?comment=edit#comment-'.$commentUpdate->id)->with('flash_message_success', 'Comment successfully updated!');
 		}
 
-		return Redirect::to('/projects/'.$projectDept.'/'.$projectSlug)->with('flash_message_error','Something went wrong. :(');
+		return Redirect::to('/projects/post/'.$projectSlug)->with('flash_message_error','Something went wrong. :(');
 	}
 
 	public function removeImage($id,$imageName) {
@@ -224,7 +222,6 @@ class ProjectCommentsController extends \BaseController {
 			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
  			
 			$projectSlug = Input::get('project-slug');
-			$projectDept = Input::get('project-department');
 
 			$comment = ProjectComment::find($id);
 			$attachments = $comment->attachment;
@@ -248,7 +245,7 @@ class ProjectCommentsController extends \BaseController {
 
 			$response = array(
 				'image' => $imageName,
-				'path' => '/projects/'.$projectDept.'/'.$projectSlug,
+				'path' => '/projects/post/'.$projectSlug,
 			);
 				
 			return Response::json( $response );

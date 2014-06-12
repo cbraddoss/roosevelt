@@ -18,7 +18,6 @@ class CreateProjectsTable extends Migration {
 			$table->string('title', 120)->unique;
 			$table->string('slug')->unique;
 			$table->text('content');
-			$table->enum('department', array('design','development','sem','print'));
 			$table->enum('priority', array('low', 'normal', 'high'));
 			$table->string('stage',60);
 			$table->string('type',60);

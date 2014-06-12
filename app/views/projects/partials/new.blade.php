@@ -1,4 +1,4 @@
-<span class="create-something-title">New Post</span>
+<span class="create-something-title">New Project</span>
 <div class="page-cover">
 </div>
 <div class="project-add-form create-something-form">
@@ -15,14 +15,6 @@
 </div>
 {{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed')) }}
 
-<select name="department">
-	<option value="">Select Department</option>
-	<option value="design">Design</option>
-	<option value="sem">S.E.M.</option>
-	<option value="print">Print</option>
-	<option value="development">Development</option>
-</select>
-
 <select name="type">
 	<option value="">Select Template</option>
 	{{ get_template_list_select() }}
@@ -32,6 +24,9 @@
 	<option value="">Select Account</option>
 	{{ get_active_account_list() }}
 </select>
+
+{{ Form::text('account_id', null, array('placeholder' => 'Select Account', 'class' => 'search-accounts field')) }}
+<div class="accounts-search-ajax"></div>
 
 {{ Form::label('priority', 'Priority:') }}
 {{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}

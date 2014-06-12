@@ -8,7 +8,7 @@ class ArticlesController extends \BaseController {
 
 	protected $mailer;
 	/**
-     * Instantiate a new UsersController instance.
+     * Instantiate a new ArticlesController instance.
      */
     public function __construct(Mailer $mailer, Article $article, ArticleComment $articleComment)
     {

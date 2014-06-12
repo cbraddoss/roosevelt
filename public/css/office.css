@@ -1293,7 +1293,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 	margin:15px 0;
 	float:right;
 }
-#content .create-something-form select[name=department],
 #content .create-something-form select[name=type],
 #content .create-something-form select[name=account_id],
 #content .create-something-form select[name=priority] {
@@ -1318,6 +1317,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 #content .create-something-form span.label-end-date {
 	display: inline-block;
 	padding: 0 5px;
+}
+#content .create-something-form div.accounts-search-ajax {
+	display: none;
+	position: absolute;
+	background: #ddd;
+	color: #000;
+	box-shadow: 1px 1px 2px 0px #333;
+	padding: 5px;
+	width: 25%;
+}
+#content .create-something-form div.accounts-search-ajax span {
+	display: block;
 }
 #content .create-something-form input[type=file] {
 	width:300px;

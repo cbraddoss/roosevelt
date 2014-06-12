@@ -6,7 +6,6 @@
 		{{ display_pingable() }}
 	</div>
 
-	{{ Form::hidden('project-department') }}
 	{{ Form::hidden('project-slug') }}
 
 	{{ Form::textarea('content', $comment->content, array('class' => 'update-comment-content field', 'id' => 'update-comment-content')) }}

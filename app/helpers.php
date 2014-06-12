@@ -301,7 +301,7 @@ function get_projects_list_sidebar() {
 					->get();
 	$pside = '';
 	foreach($projectsSide as $projectSide) {
-		$pside .= '<li><a href="/projects/'.$projectSide->department.'/'.$projectSide->slug .'" class="projects-item">'. $projectSide->title .'</a> <span>'. Carbon::createFromFormat('Y-m-d H:i:s',$projectSide->due_date)->format('F j') .'</span></li>';
+		$pside .= '<li><a href="/projects/post/'.$projectSide->slug .'" class="projects-item">'. $projectSide->title .'</a> <span>'. Carbon::createFromFormat('Y-m-d H:i:s',$projectSide->due_date)->format('F j') .'</span></li>';
 	}
 	return $pside;
 }
