@@ -1059,8 +1059,11 @@ jQuery(document).ready(function($){
 					$('form.add-project .label-launch-date').fadeIn(200);				
 				}
 			});
+
+			// active search of accounts
 			$(document).on('input','form.add-project .search-accounts', function() {
 				var accountSearch = $(this).val();
+				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/loading-indicator-big.gif" alt="Loading..."> Searching...</span>');
 				if(accountSearch.length >= 3) {
 					// search accounts and return a list
 					var accountSearchOptions = { 
@@ -1068,7 +1071,7 @@ jQuery(document).ready(function($){
 						success:       accountSearchSuccess,  // post-submit callback
 						dataType: 'json',
 						data: { 
-							_token: $(this).parent().find('input[name=_token]').attr('value'),
+							_token: $(this).parent().parent().find('input[name=_token]').attr('value'),
 							title: accountSearch
 						},
 						type: 'POST',
@@ -1081,7 +1084,14 @@ jQuery(document).ready(function($){
 					$(this).ajaxSubmit(accountSearchOptions);
 					return false;
 				}
+			});
 
+			$(document).on('click','form.add-project .accounts-search-ajax span', function() {
+				var accountID = $(this).attr('value');
+				var accountText = $(this).text();
+				$(this).closest('form.add-project').find('input[name=account_id]').val(accountText);
+				$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
+				$(document).find('form.add-project .accounts-search-ajax').hide();				
 			});
 		});
 	});
@@ -1089,6 +1099,9 @@ jQuery(document).ready(function($){
 	{
 		if(data.msg == 'found some') {
 			$(document).find('form.add-project .accounts-search-ajax').show().html(data.accounts);
+		}
+		else {
+			$(document).find('form.add-project .accounts-search-ajax').show().html('<span>No accounts found.</span>');
 		}
 	}
 	// cancel adding new project

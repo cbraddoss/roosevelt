@@ -15,18 +15,17 @@
 </div>
 {{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed')) }}
 
+<div class="form-account-searchbox">
+	{{ Form::text('account_id', null, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
+	<div class="accounts-search-ajax"></div>
+</div>
+
 <select name="type">
 	<option value="">Select Template</option>
 	{{ get_template_list_select() }}
 </select>
 
-<select name="account_id">
-	<option value="">Select Account</option>
-	{{ get_active_account_list() }}
-</select>
 
-{{ Form::text('account_id', null, array('placeholder' => 'Select Account', 'class' => 'search-accounts field')) }}
-<div class="accounts-search-ajax"></div>
 
 {{ Form::label('priority', 'Priority:') }}
 {{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}

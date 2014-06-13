@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>InsideOut Solutions</title>
-	@include('layout.css')
+	@include('layout.css-login')
 </head>
 <body>
 	<div id="login-box">
@@ -48,6 +48,5 @@
 		</div>
 
 	</div>
-@include('layout.js')
 </body>
 </html>
