@@ -216,6 +216,7 @@ class Calendar {
 		$projectLaunch = Project::where('end_date', '>=', Carbon::parse('first day of '.$month.$year)->subWeeks(1))
 						->where('end_date', '<=', Carbon::parse('last day of '.$month.$year)->addWeeks(1))
 						->where('period','=','ending')
+						->where('status','=','open')
 						->get();
 		//dd($articleShow);
 		foreach($projectLaunch as $pLaunch) {

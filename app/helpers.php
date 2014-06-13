@@ -256,7 +256,7 @@ function find_unread_count($resource) {
 					->where('been_read','not like','%'.$currentUser.'%')
 					->where('status','!=','draft')
 					->get()->count();
-		if($articles != 0) return '<span class="linked-to" value="'.$articles.'">'.$articles.'</span>';
+		if($articles != 0) return '<span id="linked-to-news" class="linked-to" value="'.$articles.'"><a href="/news/unread/">'.$articles.'</a></span>';
 	}
 	else return;
 }
@@ -268,28 +268,36 @@ function find_assigned_count($resource) {
 		$projects = Project::where('assigned_id', '=', Auth::user()->id)
 					->where('status','=','open')
 					->count();
-		if($projects !=0 ) return '<span class="linked-to" value="'.$projects.'">'.$projects.'</span>';
+		if($projects !=0 ) return '<span id="linked-to-projects" class="linked-to" value="'.$projects.'"><a href="/projects/assigned-to/'.Auth::user()->user_path.'">'.$projects.'</a></span>';
 	}
 	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
-		$billables = '?!';
-		return '<span class="linked-to">'.$billables.'</span>';
+		$billables = '0';
+		return '<span id="linked-to-billables" class="linked-to" value="'.$billables.'"><a href="/billables/assigned-to/'.Auth::user()->user_path.'">'.$billables.'</a></span>';
 	}
 	// display upcoming due dates per user for projects and tasks
 	elseif($resource == 'calendar') {
-		$calendar = '?!';
-		return '<span class="linked-to">'.$calendar.'</span>';
+		$calendarP = Project::where('assigned_id', '=', Auth::user()->id)
+					->where('end_date', '>=', Carbon::parse('first day of this month this year')->subWeeks(1))
+					->where('end_date', '<=', Carbon::parse('last day of this month this year')->addWeeks(1))
+					->where('period','=','ending')
+					->where('status','=','open')
+					->count();
+		$calendarB = 0;
+		$calendarH = 0;
+		$calendar = $calendarP + $calendarB + $calendarH;
+		return '<span id="linked-to-calendar" class="linked-to" value="'.$calendar.'"><a href="/calendar/">'.$calendar.'</a></span>';
 	}
 	// display help assigned per user not completed yet
 	elseif($resource == 'help') {
-		$help = '?!';
-		return '<span class="linked-to">'.$help.'</span>';
+		$help = '0';
+		return '<span id="linked-to-help" class="linked-to" value="'.$help.'"><a href="/help/assigned-to/'.Auth::user()->user_path.'">'.$help.'</a></span>';
 	}
 	// display taks assigned per user not completed yet
-	elseif($resource == 'tasks') {
-		$tasks = '?!';
-		return '<span class="linked-to">'.$tasks.'</span>';
-	}
+	// elseif($resource == 'tasks') {
+	// 	$tasks = '0';
+	// 	return '<span class="linked-to" value="'.$tasks.'">'.$tasks.'</span>';
+	// }
 	else return;
 }
 

@@ -25,51 +25,134 @@ jQuery(document).ready(function($){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
 		$(this).removeClass('active');
-		if(currentPage.indexOf(linkActiveMain) >= 0 ) $(this).addClass('active');
-		if(currentPage == '' && linkActiveMain == 'dashboard') $(this).addClass('active');
-		if(currentPage[0] == 'to-do' && linkActiveMain == 'profile') $(this).addClass('active');
+		$(this).addClass('inactive');
+		if(currentPage.indexOf(linkActiveMain) >= 0 ) {
+			$(this).addClass('active');
+			$(this).removeClass('inactive');
+			$(this).next('ul.sub_menu_links').css({
+				'visibility': 'visible'
+			}).fadeIn(400).show();
+		}
+		if(currentPage == '' && linkActiveMain == 'dashboard') {
+			$(this).addClass('active');
+			$(this).removeClass('inactive');
+		}
+		if(currentPage[0] == 'to-do' && linkActiveMain == 'profile') {
+			$(this).addClass('active');
+			$(this).removeClass('inactive');
+			$(this).next('ul.sub_menu_links').css({
+				'visibility': 'visible'
+			}).fadeIn(400).show();
+		}
 	});
-	var zIndex = 80;
-	$('#menu_links .link').each(function(){
-		$(this).css('z-index',zIndex);
-		zIndex = zIndex-1;
-	});
+	// var zIndex = 80;
+	// $('#menu_links .link').each(function(){
+	// 	$(this).css('z-index',zIndex);
+	// 	zIndex = zIndex-1;
+	// });
 	// show arrow for sub menu on specific main menu item
-	if($(document).find('#menu_header ul#menu_links li.active').length) {
-		var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
-		var contentEdge = $(document).find('#content').offset().left;
-		var activeMenuPos = activeMenuItem-contentEdge+40;
-		$(document).find('#content .page-menu-arrow').css({
-			'margin-left': activeMenuPos+'px'
-		});
-	}
+	// if($(document).find('#menu_header ul#menu_links li.active').length) {
+	// 	var activeMenuItem = $(document).find('#menu_header ul#menu_links li.active').offset().left;
+	// 	var contentEdge = $(document).find('#content').offset().left;
+	// 	var activeMenuPos = activeMenuItem-contentEdge+40;
+	// 	$(document).find('#content .page-menu-arrow').css({
+	// 		'margin-left': activeMenuPos+'px'
+	// 	});
+	// }
 	
 	// show sub menu on hover
-	$('#menu_header ul#menu_links li.link').hover(function(){
-		$(this).children('ul.sub_menu_links').css({
+	$('#menu_header ul#menu_links li.link.inactive').hover(function(){
+		$(this).children('ul.sub_menu_links-hover').css({
 			'visibility': 'visible'
 		}).fadeIn(400).show();
 	},function(){
-		$(this).children('ul.sub_menu_links').css({
+		$(this).children('ul.sub_menu_links-hover').css({
 			'visibility': 'hidden'
 		}).hide();
 	});
 
-	$(".the_menu ul li.arrow").hover(function() { //When hovering...
-		$(this).children("ul.subnav").slideDown(0400).show(); //Slide down
-		$(this).children("ul.subnav").css('visibility', 'visible'); //bring back visibility while sliding down
-	},
-	function() {
-		$(this).children("ul.subnav").css('visibility', 'hidden'); //instantly hide on mouseout
-		$(this).children("ul.subnav").hide(); //Slide back up
-	});
-	$(".the_menu ul li").hover(function() { //When hovering...
-		$(this).addClass("hovering"); 
-	},
-	function() {
-		$(this).removeClass("hovering"); 
-	});
+	//menu dropdowns
+	// $(".the_menu ul li.arrow").hover(function() { //When hovering...
+	// 	$(this).children("ul.subnav").slideDown(0400).show(); //Slide down
+	// 	$(this).children("ul.subnav").css('visibility', 'visible'); //bring back visibility while sliding down
+	// },
+	// function() {
+	// 	$(this).children("ul.subnav").css('visibility', 'hidden'); //instantly hide on mouseout
+	// 	$(this).children("ul.subnav").hide(); //Slide back up
+	// });
+	// $(".the_menu ul li").hover(function() { //When hovering...
+	// 	$(this).addClass("hovering"); 
+	// },
+	// function() {
+	// 	$(this).removeClass("hovering"); 
+	// });
 
+	// Add To-Do counts to menu profile link and 'view to-do list' link in header
+	var projectsCount = parseInt($(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-projects').attr('value'),10);
+	var billablesCount = parseInt($(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-billables').attr('value'),10);
+	var helpCount = parseInt($(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-help').attr('value'),10);
+	var todoCount = projectsCount+billablesCount+helpCount;
+	if(todoCount == 0) {
+		$(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-profile').hide();
+		$(document).find('#header #welcome-box #welcome-name li#link-to-do #linked-to-welcome').hide();
+	}
+	else {
+		$(document).find('#header #welcome-box #welcome-name li#link-to-do #linked-to-welcome a').append(todoCount);
+		$(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-profile a').html(todoCount);
+	}
+
+	// Detect window height and change menu to position:absolute, etal
+	var menuHeight = $(document).find('#nav_menu #menu_header .menu_nav #menu_links').height();
+	var windowHeight = $(window).height();
+	var documentHeight = $('html').height();
+	if(menuHeight > windowHeight) {
+
+		if(documentHeight < windowHeight) {
+			$(document).find('#nav_menu').css({
+				'position':'absolute',
+				'top':'44px',
+				'height':menuHeight+'px'
+			});
+		}
+		else {
+			$(document).find('#nav_menu').css({
+				'position':'absolute',
+				'top':'44px',
+				'height':documentHeight+'px'
+			});
+		}
+		$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
+			'position':'fixed',
+			'top':'0',
+			'left':'0',
+			'width':'12%',
+			'z-index': '60',
+			'padding-left':'0',
+			'background': 'linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%)'
+		});
+	}
+
+	$(window).on('resize',function() {
+		var menuHeight = $(document).find('#nav_menu #menu_header .menu_nav #menu_links').height();
+		var windowHeight = $(window).height();
+		var documentHeight = $('html').height();
+
+		if(menuHeight > windowHeight) {
+			$(document).find('#nav_menu').css({
+				'position':'absolute',
+				'top':'44px',
+				'height':documentHeight+'px'
+			});
+			$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
+				'position':'fixed',
+				'top':'0',
+				'left':'0',
+				'width':'12%',
+				'z-index': '60',
+				'padding-left':'0'
+			});
+		}
+	});
 	// $('#user-menu ul').find('li').each(function(){
 	// 	var linkActiveUser = $(this).attr('id');
 	// 	linkActiveUser = linkActiveUser.replace("link-", "");
@@ -95,14 +178,14 @@ jQuery(document).ready(function($){
 
 	//Show/hide task items in sidebar
 	// $('#projects-feed').hide();
-	$('#leads-feed').hide();
-	$('#billables-feed').hide();
-	$('.todo-feed-title').click(function() {
-		$(this).find('.todo-feed').toggle();
-		$(this).find('a.todo-feed-title').toggleClass('active');
-		$(this).find('span.arrow').toggleClass('ss-dropdown');
-		$(this).find('span.arrow').toggleClass('ss-directleft');
-	});
+	// $('#leads-feed').hide();
+	// $('#billables-feed').hide();
+	// $('.todo-feed-title').click(function() {
+	// 	$(this).find('.todo-feed').toggle();
+	// 	$(this).find('a.todo-feed-title').toggleClass('active');
+	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
+	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
+	// });
 	// $('#show-leads-list').click(function() {
 	// 	$('#leads-feed').toggle();
 	// 	$(this).find('a.todo-feed-title').toggleClass('active');
