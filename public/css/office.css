@@ -289,27 +289,32 @@ ul {
 }
 #menu_header ul#menu_links li.link span.linked-to {
 	position: absolute;
-	top: -1px;
-	right: 0px;
-	height: 46px;
-	width: 15%;
-	text-align: right;
-	padding-right: 5%;
-	line-height: 46px;
-	vertical-align: middle;
+	top: 12px;
+	right: 5px;
+	text-align: center;
+	padding: 3px 3px 3px;
+	height: 15px;
+	line-height: 15px;
+	vertical-align: top;
 	color: #fff;
 	font-weight: 500;
-	text-shadow: 1px 1px 1px #000;
+	text-shadow: 1px 1px 0px #000;
 	z-index: 58;
-	border: none;
 	background: #CC0000;
-	background: -moz-linear-gradient(left,  rgba(109,0,25,0) 0%, rgba(143,2,34,0.56) 56%, rgba(169,3,41,1) 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(109,0,25,0)), color-stop(56%,rgba(143,2,34,0.56)), color-stop(100%,rgba(169,3,41,1)));
-	background: -webkit-linear-gradient(left,  rgba(109,0,25,0) 0%,rgba(143,2,34,0.56) 56%,rgba(169,3,41,1) 100%);
-	background: -o-linear-gradient(left,  rgba(109,0,25,0) 0%,rgba(143,2,34,0.56) 56%,rgba(169,3,41,1) 100%);
-	background: -ms-linear-gradient(left,  rgba(109,0,25,0) 0%,rgba(143,2,34,0.56) 56%,rgba(169,3,41,1) 100%);
-	background: linear-gradient(to right,  rgba(109,0,25,0) 0%,rgba(143,2,34,0.56) 56%,rgba(169,3,41,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#006d0019', endColorstr='#a90329',GradientType=1 );
+	background: rgb(201,20,20);
+background: -moz-linear-gradient(left,  rgba(201,20,20,1) 0%, rgba(175,3,3,1) 100%);
+background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(201,20,20,1)), color-stop(100%,rgba(175,3,3,1)));
+background: -webkit-linear-gradient(left,  rgba(201,20,20,1) 0%,rgba(175,3,3,1) 100%);
+background: -o-linear-gradient(left,  rgba(201,20,20,1) 0%,rgba(175,3,3,1) 100%);
+background: -ms-linear-gradient(left,  rgba(201,20,20,1) 0%,rgba(175,3,3,1) 100%);
+background: linear-gradient(to right,  rgba(201,20,20,1) 0%,rgba(175,3,3,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c91414', endColorstr='#af0303',GradientType=1 );
+
+
+	box-shadow: inset -1px -1px 0px 0px #fff;
+	border-left: 1px solid #4D4D4D;
+	border-bottom: 1 solid #4D4D4D;
+	border-radius: 3px;
 }
 #menu_header ul#menu_links li#link-profile a.link-href span {
 	padding-top: 0px;

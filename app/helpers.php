@@ -256,7 +256,7 @@ function find_unread_count($resource) {
 					->where('been_read','not like','%'.$currentUser.'%')
 					->where('status','!=','draft')
 					->get()->count();
-		if($articles != 0) return '<span class="linked-to">'.$articles.'</span>';
+		if($articles != 0) return '<span class="linked-to" value="'.$articles.'">'.$articles.'</span>';
 	}
 	else return;
 }
@@ -268,7 +268,7 @@ function find_assigned_count($resource) {
 		$projects = Project::where('assigned_id', '=', Auth::user()->id)
 					->where('status','=','open')
 					->count();
-		if($projects !=0 ) return '<span class="linked-to">'.$projects.'</span>';
+		if($projects !=0 ) return '<span class="linked-to" value="'.$projects.'">'.$projects.'</span>';
 	}
 	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
@@ -293,18 +293,18 @@ function find_assigned_count($resource) {
 	else return;
 }
 
-function get_projects_list_sidebar() {
-	$projectsSide = Project::where('status','=','open')
-					->where('assigned_id','=',Auth::user()->id)
-					->orderBy('due_date','ASC')
-					->take(3)
-					->get();
-	$pside = '';
-	foreach($projectsSide as $projectSide) {
-		$pside .= '<li><a href="/projects/post/'.$projectSide->slug .'" class="projects-item">'. $projectSide->title .'</a> <span>'. Carbon::createFromFormat('Y-m-d H:i:s',$projectSide->due_date)->format('F j') .'</span></li>';
-	}
-	return $pside;
-}
+// function get_projects_list_sidebar() {
+// 	$projectsSide = Project::where('status','=','open')
+// 					->where('assigned_id','=',Auth::user()->id)
+// 					->orderBy('due_date','ASC')
+// 					->take(3)
+// 					->get();
+// 	$pside = '';
+// 	foreach($projectsSide as $projectSide) {
+// 		$pside .= '<li><a href="/projects/post/'.$projectSide->slug .'" class="projects-item">'. $projectSide->title .'</a> <span>'. Carbon::createFromFormat('Y-m-d H:i:s',$projectSide->due_date)->format('F j') .'</span></li>';
+// 	}
+// 	return $pside;
+// }
 
 function user_last_login($login) {
 	//$login = new DateTime($login);
