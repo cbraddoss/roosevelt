@@ -16,48 +16,30 @@
 	<div id="header">
 		<div class="section">
 			<div id="company-header">
-				<a class="logo" href="/"><img src="/images/ios-logo-remote-office.png" alt="InsideOut Solutions Logo" /></a>
+				<div id="page-title">
+					@if(current_page() == '/')
+					<h2>Welcome to the IOS Remote Office</h2>
+					@else
+					<h2>@yield('page-title')</h2>
+					@endif
+				</div>
 			</div>			
 			
-			<div id="nav_menu">
-				<div id="menu_header">
-					<div class="menu_nav">
-						<ul id="menu_links">
-							<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/">Dashboard</a></li>
-							<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href">Projects</a>{{ find_assigned_count('projects') }}</li>
-							<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href">Billables</a>{{ find_assigned_count('billables') }}</li>
-							<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-redirect link-href">Invoices</a></li>
-							<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href">Accounts</a></li>
-							<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href">Calendar</a>{{ find_assigned_count('calendar') }}</li>
-							<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href">Help</a>{{ find_assigned_count('help') }}</li>
-							<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href">News</a>{{ find_unread_count('articles') }}
-							<ul class="sub_menu_links">
-								<li class="sub-link"></li>
-								<li class="sub-link"><a href="/news/">All</a></li>
-								<li class="sub-link"><a href="/news/unread">Unread</a></li>
-								<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
-								<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
-								<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
-							</ul>
-							</li>
-							<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href">Wiki</a></li>
-							<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href">Tools</a></li>
-							<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">{{ Auth::user()->first_name }}</a>
-							<ul class="sub_menu_links">
-								<li class="sub-link"></li>
-								<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
-								@if(Auth::user()->userrole == 'admin')
-								<li class="sub-link"><a href="/admin/">Admin</a></li>
-								@endif
-								<li><a href="/logout" class="sub-link">Logout</a></li>
-							</ul>
-							</li>
-							
-						</ul>
-					</div> <!-- .menu_nav -->
-				</div> <!-- #menu_header -->
-			</div> <!-- #nav_menu -->
+			<div id="search-box">
+				<div class="search-details">
+					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /><span class="ss-search"></span>
+					{{ Form::close() }}
+				</div>
+			</div>
 
+			<div id="welcome-box">
+				<img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">
+				<ul id="welcome-name">
+					<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
+					<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">View To-Do List</a></li>
+				</ul>
+			</div>
 			
 			
 			@if(Session::get('flash_message_error'))
@@ -100,79 +82,47 @@
 
 		</div> <!-- .section -->
 	</div> <!-- #header -->
-
-	<div id="side">
+	<div id="nav_menu">
 		<div class="section">
-			<div id="sidebar">
-					
-				<div id="search-box">
-						<div class="search-details">
-							{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-							<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /><span class="ss-search"></span>
-							{{ Form::close() }}
-						</div>
-				</div>
-				
-				<div id="welcome-box">
-					<ul id="welcome-name">
-						<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-						<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">View To-Do List</a></li>
+			<div id="menu_header">
+				<div class="menu_nav">
+					<ul id="menu_links">
+						<li alt="Dashboard" id="link-dashboard" class="link"><a class="link-href" href="/"><img src="/images/ios-logo-ds.png" alt="InsideOut Solutions Logo" /><span>Dashboard</span></a></li>
+						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span>Projects</span></a>{{ find_assigned_count('projects') }}</li>
+						<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span>Billables</span></a>{{ find_assigned_count('billables') }}</li>
+						<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-redirect link-href"><span>Invoices</span></a></li>
+						<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span>Accounts</span></a></li>
+						<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span>Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
+						<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span>Help</span></a>{{ find_assigned_count('help') }}</li>
+						<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href"><span>News</span></a>{{ find_unread_count('articles') }}
+						<ul class="sub_menu_links">
+							<li class="sub-link"><a href="/news/">All</a></li>
+							<li class="sub-link"><a href="/news/unread">Unread</a></li>
+							<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
+							<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
+							<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
+						</ul>
+						</li>
+						<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span>Wiki</span></a></li>
+						<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span>Tools</span></a></li>
+						<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span>{{ Auth::user()->first_name }}</span></a>
+						<ul class="sub_menu_links">
+							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
+							@if(Auth::user()->userrole == 'admin')
+							<li class="sub-link"><a href="/admin/">Admin</a></li>
+							@endif
+							<li><a href="/logout" class="sub-link">Logout</a></li>
+						</ul>
+						</li>
 					</ul>
-				</div>
-
-				<div id="todo-box">
-					<div id="todo-list">
-						<!-- <div id="show-tasks-list" class="todo-sub-box">
-							<a id="tasks" class="todo-feed-title active" href="#"><span class="ss-check"></span>Tasks<span class="todo-num">?!</span><span class="arrow ss-dropdown"></span></a>
-							<ul id="tasks-feed" class="todo-feed">
-								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
-								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
-								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
-								<li class=""><a href="#" class="task-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="task-item view-all">View all...</a></li>
-							</ul>
-						</div> -->
-						<div id="show-projects-list" class="todo-sub-box">
-							<a id="projects" class="todo-feed-title active" href="#"><span class="ss-list"></span>Projects<span class="todo-num">{{ find_assigned_count('projects') }}</span><span class="arrow ss-dropdown"></span></a>
-							<ul id="projects-feed" class="todo-feed">
-								{{ get_projects_list_sidebar() }}
-								<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="projects-item view-all">View all...</a></li>
-							</ul>
-						</div>
-						<div id="show-billables-list" class="todo-sub-box">
-							<a id="billables" class="todo-feed-title" href="#"><span class="ss-list"></span>Billables<span class="todo-num">{{ find_assigned_count('billables') }}</span><span class="arrow ss-directleft"></span></a>
-							<ul id="billables-feed" class="todo-feed">
-								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="billables-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="billables-item view-all">View all...</a></li>
-							</ul>
-						</div>
-						<div id="show-leads-list" class="todo-sub-box">
-							<a id="leads" class="todo-feed-title" href="#"><span class="ss-briefcase"></span>Leads<span class="todo-num">?!</span><span class="arrow ss-directleft"></span></a>
-							<ul id="leads-feed" class="todo-feed">
-								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="leads-item">TITLE</a> <span>DUEDATE</span></li>
-								<li><a href="#" class="leads-item view-all">View all...</a></li>
-							</ul>
-						</div>
-					</div> <!-- #todo-list -->
-				</div> <!-- #todo-box -->
-			</div>
-		</div>
+				</div> <!-- .menu_nav -->
+			</div> <!-- #menu_header -->
+		</div> <!-- #nav_menu -->
 	</div>
-
 	<div id="page">
 		<div class="section">
 			
 			<div id="content">
-				<div id="page-title">
-					<h2>@yield('page-title')</h2>
-				</div>
-
 				@yield('page-content')
 			</div> <!-- #content -->
 

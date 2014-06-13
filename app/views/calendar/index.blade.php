@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Calendar' }}
+{{ 'Calendar - '. $selectedMonth .' - '. $selectedYear }}
 @stop
 
 @section('page-content')
@@ -28,8 +28,6 @@
 		
 
 		<div class="month-year">
-			<h2>{{ $selectedMonth }} - {{ $selectedYear }}</h2>
-
 			<div class="calendar-key">
 				<div id="key-news-article" class="key-desc" toggleval="news-article-link"><span class="key-color key-blue"></span><span class="key-title">News Article</span></div>
 				<div id="key-projects" class="key-desc" toggleval="projects-post-link"><span class="key-color key-orange"></span><span class="key-title">Projects</span></div>
