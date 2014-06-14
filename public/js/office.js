@@ -1088,6 +1088,7 @@ jQuery(document).ready(function($){
 	$(document).on('click','#content #projects-new-project-form button.add-new',function(){
 		$.get( "/projects", function( data ) {
 			$('#projects-new-project-form').html(data);
+			$('#projects-new-project-form .create-something-form').slideDown(400);
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);

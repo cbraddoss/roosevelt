@@ -65,8 +65,12 @@ class ProjectsController extends \BaseController {
  		$validator = Validator::make(Input::all(), array(
 			'title' => 'required|max:120',
 			'content' => 'required',
-			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'status' => 'required|in:published,sticky,draft',
+			'subscribed' => 'required', //more?
+			'account_id' => 'required', //more?
+			'type' => 'required', //more?
+			'priority' => 'required', //more?
+			'end_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'start_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 

@@ -76,6 +76,7 @@ Route::get('/calendar/{year}/{month}', array('as' => 'calendar.month', 'uses' =>
 
 /* Projects */
 Route::get('/projects', array('as' => 'projects', 'uses' => 'ProjectsController@index'));
+Route::post('/projects', array('as' => 'projects.projectNew','uses' => 'ProjectsController@store'));
 Route::post('/projects/listviewupdate/{id}/{value}', array('as' => 'projects.updateOnListView', 'uses' => 'ProjectsController@updateOnListView'));
 Route::post('/projects/singleviewupdate/{id}/{value}', array('as' => 'projects.updateOnSingleView', 'uses' => 'ProjectsController@updateOnSingleView'));
 Route::get('/projects/assigned-to/{userpath}', array('as' => 'projects.assignedTo', 'uses' => 'ProjectsController@assignedTo'));
