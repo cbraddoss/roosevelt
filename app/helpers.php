@@ -269,11 +269,13 @@ function find_assigned_count($resource) {
 					->where('status','=','open')
 					->count();
 		if($projects !=0 ) return '<span id="linked-to-projects" class="linked-to" value="'.$projects.'"><a href="/projects/assigned-to/'.Auth::user()->user_path.'">'.$projects.'</a></span>';
+		else return '<span id="linked-to-projects" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
 		$billables = '0';
-		return '<span id="linked-to-billables" class="linked-to" value="'.$billables.'"><a href="/billables/assigned-to/'.Auth::user()->user_path.'">'.$billables.'</a></span>';
+		if($billables !=0 ) return '<span id="linked-to-billables" class="linked-to" value="'.$billables.'"><a href="/billables/assigned-to/'.Auth::user()->user_path.'">'.$billables.'</a></span>';
+		else return '<span id="linked-to-billables" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display upcoming due dates per user for projects and tasks
 	elseif($resource == 'calendar') {
@@ -286,12 +288,13 @@ function find_assigned_count($resource) {
 		$calendarB = 0;
 		$calendarH = 0;
 		$calendar = $calendarP + $calendarB + $calendarH;
-		return '<span id="linked-to-calendar" class="linked-to" value="'.$calendar.'"><a href="/calendar/">'.$calendar.'</a></span>';
+		if($calendar !=0 ) return '<span id="linked-to-calendar" class="linked-to" value="'.$calendar.'"><a href="/calendar/">'.$calendar.'</a></span>';
 	}
 	// display help assigned per user not completed yet
 	elseif($resource == 'help') {
 		$help = '0';
-		return '<span id="linked-to-help" class="linked-to" value="'.$help.'"><a href="/help/assigned-to/'.Auth::user()->user_path.'">'.$help.'</a></span>';
+		if($help !=0 ) return '<span id="linked-to-help" class="linked-to" value="'.$help.'"><a href="/help/assigned-to/'.Auth::user()->user_path.'">'.$help.'</a></span>';
+		else return '<span id="linked-to-help" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display taks assigned per user not completed yet
 	// elseif($resource == 'tasks') {

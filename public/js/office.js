@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('inactive');
 			$(this).next('ul.sub_menu_links').css({
 				'visibility': 'visible'
-			}).fadeIn(400).show();
+			}).show();
 		}
 		if(currentPage == '' && linkActiveMain == 'dashboard') {
 			$(this).addClass('active');
@@ -42,7 +42,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('inactive');
 			$(this).next('ul.sub_menu_links').css({
 				'visibility': 'visible'
-			}).fadeIn(400).show();
+			}).show();
 		}
 	});
 	// var zIndex = 80;
@@ -127,7 +127,7 @@ jQuery(document).ready(function($){
 			'left':'0',
 			'width':'12%',
 			'z-index': '60',
-			'padding-left':'0',
+			'padding-left':'5px',
 			'background': 'linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%)'
 		});
 	}
