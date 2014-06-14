@@ -1099,6 +1099,8 @@ jQuery(document).ready(function($){
 		    }).on('changeDate', function(ev) {
 		    	calLaunch.hide();
 		    	$(this).addClass('changed-input');
+		    	var launchVal = $(this).val();
+		    	$(this).parent().find('input[name=end_date]').attr('value',launchVal);
 		    }).data('datepicker');
 		    var calStart = $('#content form.add-project .project-start-date').datepicker({
 		      onRender: function(date) {
@@ -1169,13 +1171,19 @@ jQuery(document).ready(function($){
 					return false;
 				}
 			});
-
 			$(document).on('click','form.add-project .accounts-search-ajax span', function() {
-				var accountID = $(this).attr('value');
+				var accountID = parseInt($(this).attr('value'),10);
 				var accountText = $(this).text();
-				$(this).closest('form.add-project').find('input[name=account_id]').val(accountText);
+				$(this).closest('form.add-project').find('input[name=account_name]').val(accountText);
 				$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
 				$(document).find('form.add-project .accounts-search-ajax').hide();				
+			});
+
+			// add template name from id to form
+			$(document).on('change','form.add-project select[name=template_id]', function(){
+				var templateIdGet = $(this).val();
+				var templateIdName = $(this).find('option[value='+templateIdGet+']').text();
+				$(this).next('input[name=template_name]').val(templateIdName);
 			});
 		});
 	});
@@ -1223,8 +1231,18 @@ jQuery(document).ready(function($){
 	function afterAddProjectSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			if(data.errorMsg == 'The account id field is required.') {
+				$('#message-box-json').fadeIn();
+				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Please select an Account.</span></div>');
+			}
+			else if(data.errorMsg == 'The template id field is required.') {
+				$('#message-box-json').fadeIn();
+				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Please select a Template.</span></div>');
+			}
+			else {
+				$('#message-box-json').fadeIn();
+				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			}
 		}
 		else {
 			$('#message-box-json').fadeIn();

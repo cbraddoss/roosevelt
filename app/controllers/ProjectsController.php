@@ -65,10 +65,13 @@ class ProjectsController extends \BaseController {
  		$validator = Validator::make(Input::all(), array(
 			'title' => 'required|max:120',
 			'content' => 'required',
-			'subscribed' => 'required', //more?
-			'account_id' => 'required', //more?
-			'type' => 'required', //more?
-			'priority' => 'required', //more?
+			'subscribed' => 'required',
+			'account_id' => 'required|integer',
+			'template_id' => 'required|integer',
+			'template_name' => 'required',
+			'priority' => 'required|in:low,normal,high',
+			'period' => 'required|in:ending,recurring',
+			'launch_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'end_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'start_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
@@ -82,15 +85,33 @@ class ProjectsController extends \BaseController {
 			return Response::json( $response );
 		}
 		else {
-			$newArticle = new Article;
-			$newArticle->title = clean_title(Input::get('title'));
-			$newArticle->content =  clean_content(Input::get('content'));
-			$newArticle->slug = convert_title_to_path(Input::get('title'));
-			$newArticle->author_id = Auth::user()->id;
-			$newArticle->status = Input::get('status');
-			$newArticle->mentions = find_mentions(Input::get('content'));
-			$newArticle->edit_id = Auth::user()->id;
-			if(Input::has('show_on_calendar')) $newArticle->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
+			$newProject = new Project;
+			$newProject->title = clean_title(Input::get('title'));
+			$newProject->content =  clean_content(Input::get('content'));
+			$newProject->slug = convert_title_to_path(Input::get('title'));
+			$newProject->author_id = Auth::user()->id;
+			$newProject->edit_id = Auth::user()->id;
+			$newProject->priority = Input::get('priority');
+			$newProject->status = 'open';
+			$newProject->subscribed = Input::get('subscribed');
+			$newProject->assigned_id = Auth::user()->id;
+			$newProject->template_id = Input::get('template_id');
+			$newProject->account_id = Input::get('account_id');
+			$newProjectTemplate = Template::find(Input::get('template_id'));
+			if($newProjectTemplate->name == Input::get('template_name')) $newProject->type = $newProjectTemplate->slug;
+			else {
+				$response = array(
+					'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+				);
+				return Response::json( $response );
+			}
+			$newProject->stage = 'coding';
+			$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
+			$newProject->period = Input::get('period'); 
+						
+			$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
+			$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+			$newProject->start_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
 			if(Input::hasFile('attachment')) {
 				$attachment = Input::file('attachment');
 				$fileNames = array();
@@ -102,11 +123,11 @@ class ProjectsController extends \BaseController {
 					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
 					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
 				}
-				$newArticle->attachment = serialize($fileNames);
+				$newProject->attachment = serialize($fileNames);
 			}
 			try
 			{
-				$newArticle->save();
+				$newProject->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
@@ -115,10 +136,10 @@ class ProjectsController extends \BaseController {
 				return Response::json( $response );
 			}
 
-			if(!empty($newArticle->mentions)) $this->mailer->articlePingEmail($newArticle);
+			//if(!empty($newProject->mentions)) $this->mailer->articlePingEmail($newProject);
 			
 			$response = array(
-				'slug' => $newArticle->slug,
+				'slug' => $newProject->slug,
 				'msg' => 'Article saved.'
 			);
 			return Response::json( $response );
