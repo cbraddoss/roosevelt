@@ -23,7 +23,8 @@ class AccountsController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('accounts.index')->withAccounts(Account::all());
+		if(Request::ajax()) return View::make('accounts.partials.new');
+		else return View::make('accounts.index')->withAccounts(Account::all());
 	}
 
 	/**

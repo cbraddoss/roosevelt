@@ -90,7 +90,7 @@
 						<li alt="Dashboard" id="link-dashboard" class="link"><a class="link-href" href="/"><img src="/images/ios-logo-ds.png" alt="InsideOut Solutions Logo" /><span class="link-text">Dashboard</span></a></li>
 						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}</li>
 						<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
-						<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-redirect link-href"><span class="link-text">Invoices</span></a></li>
+						<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
 						<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
 						<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
 						<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span class="link-text">Help</span></a>{{ find_assigned_count('help') }}</li>

@@ -105,7 +105,8 @@ Route::get('/tools', function(){
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/billables', function(){
-	return View::make('billables.index');
+	if(Request::ajax()) return View::make('billables.partials.new');
+	else return View::make('billables.index');
 })->before('auth');
 
 Route::get('/invoices', function(){
@@ -113,7 +114,8 @@ Route::get('/invoices', function(){
 })->before('auth');
 
 Route::get('/help', function(){
-	return View::make('help.index');
+	if(Request::ajax()) return View::make('help.partials.new');
+	else return View::make('help.index');
 })->before('auth');
 
 Route::get('/wiki', function(){

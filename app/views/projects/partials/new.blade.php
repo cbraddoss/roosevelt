@@ -1,5 +1,5 @@
 <div class="project-add-form create-something-form">
-<h3>Create new Project:</h3>
+<h3>New Project:</h3>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-project', 'url' => '/projects/', 'method' => 'post') ) }}
 
 {{ Form::text('title', null, array('placeholder' => 'Title project using: Account Name - Project Type (e.g. Sample Inn - New Website)', 'class' => 'project-title field')) }}

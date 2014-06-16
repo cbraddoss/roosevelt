@@ -107,28 +107,31 @@ jQuery(document).ready(function($){
 	var documentHeight = $('html').height();
 	if(menuHeight > windowHeight) {
 
-		if(documentHeight < windowHeight) {
-			$(document).find('#nav_menu').css({
-				'position':'absolute',
-				'top':'44px',
-				'height':menuHeight+'px'
-			});
-		}
-		else {
+		//if(documentHeight < windowHeight) {
+			// $(document).find('#nav_menu').css({
+			// 	'position':'absolute',
+			// 	'top':'44px',
+			// 	'height':menuHeight+'px'
+			// });
+		// }
+		// else {
 			$(document).find('#nav_menu').css({
 				'position':'absolute',
 				'top':'44px',
 				'height':documentHeight+'px'
 			});
-		}
+		// }
 		$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
 			'position':'fixed',
 			'top':'0',
 			'left':'0',
 			'width':'12%',
 			'z-index': '60',
-			'padding-left':'5px',
+			'padding-left':'0px',
 			'background': 'linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%)'
+		});
+		$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard img').css({
+			'margin-left': '5px'
 		});
 	}
 
@@ -1519,6 +1522,99 @@ jQuery(document).ready(function($){
 					}
 				},'json'
 			);
+		}
+	});
+
+	/* Accounts */
+	// add new account
+	$(document).on('click','#content #accounts-new-account-form button.add-new',function(){
+		$.get( "/accounts", function( data ) {
+			$('.inner-page').prepend(data);
+			$('.inner-page .account-add-form.create-something-form').slideDown(400);
+		});
+	});
+	// cancel adding new account
+	$(document).on('click','#content .account-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.account-add-form.create-something-form').remove();
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.account-add-form.create-something-form').remove();
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	
+	/* Billables */
+	// add new billable
+	$(document).on('click','#content #billables-new-billable-form button.add-new',function(){
+		$.get( "/billables", function( data ) {
+			$('.inner-page').prepend(data);
+			$('.inner-page .billable-add-form.create-something-form').slideDown(400);
+		});
+	});
+	// cancel adding new billable
+	$(document).on('click','#content .billable-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.billable-add-form.create-something-form').remove();
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.billable-add-form.create-something-form').remove();
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+
+	/* Help */
+	// add new help
+	$(document).on('click','#content #help-new-help-form button.add-new',function(){
+		$.get( "/help", function( data ) {
+			$('.inner-page').prepend(data);
+			$('.inner-page .help-add-form.create-something-form').slideDown(400);
+		});
+	});
+	// cancel adding new help
+	$(document).on('click','#content .help-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.help-add-form.create-something-form').remove();
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.help-add-form.create-something-form').remove();
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
 		}
 	});
 
