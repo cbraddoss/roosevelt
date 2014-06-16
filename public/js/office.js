@@ -419,7 +419,8 @@ jQuery(document).ready(function($){
 	// Add new article
 	$(document).on('click','#content #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
-			$('#news-new-article-form').html(data);
+			$('.inner-page').prepend(data);
+			$('.inner-page .article-add-form.create-something-form').slideDown(400);
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -448,13 +449,17 @@ jQuery(document).ready(function($){
 			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
-				$('#news-new-article-form').html('<span class="news-button"><button class="add-new">New Post</button></span>');
+				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.article-add-form.create-something-form').remove();
+				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
 			}
 		}
 		else {
-			$('#news-new-article-form').html('<span class="news-button"><button class="add-new">New Post</button></span>');
+			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.article-add-form.create-something-form').remove();
+			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
 		}
@@ -1087,8 +1092,8 @@ jQuery(document).ready(function($){
 	// add new Project
 	$(document).on('click','#content #projects-new-project-form button.add-new',function(){
 		$.get( "/projects", function( data ) {
-			$('#projects-new-project-form').html(data);
-			$('#projects-new-project-form .create-something-form').slideDown(400);
+			$('.inner-page').prepend(data);
+			$('.inner-page .project-add-form.create-something-form').slideDown(400);
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -1203,13 +1208,17 @@ jQuery(document).ready(function($){
 			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
-				$('#projects-new-project-form').html('<span class="projects-button"><button class="add-new">New Project</button></span>');
+				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.project-add-form.create-something-form').remove();
+				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
 			}
 		}
 		else {
-			$('#projects-new-project-form').html('<span class="projects-button"><button class="add-new">New Project</button></span>');
+			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.project-add-form.create-something-form').remove();
+			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
 		}

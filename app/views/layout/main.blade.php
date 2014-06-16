@@ -37,7 +37,7 @@
 				<img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">
 				<ul id="welcome-name">
 					<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-					<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">View To-Do List</a><span id="linked-to-welcome" class="linked-to"><a href="/to-do/{{ Auth::user()->user_path }}"></a></span></li>
+					<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">To-Do List: </a><span id="linked-to-welcome" class="linked-to"><a href="/to-do/{{ Auth::user()->user_path }}"></a></span></li>
 				</ul>
 			</div>
 			

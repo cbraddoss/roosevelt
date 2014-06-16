@@ -1,6 +1,3 @@
-<span class="create-something-title">New Project</span>
-<div class="page-cover">
-</div>
 <div class="project-add-form create-something-form">
 <h3>Create new Project:</h3>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-project', 'url' => '/projects/', 'method' => 'post') ) }}
