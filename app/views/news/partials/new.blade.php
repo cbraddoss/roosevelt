@@ -2,24 +2,41 @@
 <h3>News Post:</h3>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-article', 'url' => '/news/', 'method' => 'post') ) }}
 
+<div class="new-form-field">
+{{ Form::label('title', 'Title:') }}
 {{ Form::text('title', null, array('placeholder' => 'Title', 'class' => 'article-title field')) }}
-
-<div class="form-textarea-buttons">
-	<!-- <span class="ss-link textarea-button make-link"></span>
-	<span class="textarea-button make-bold">Bold</span>
-	<span class="textarea-button make-italic">Italic</span>
-	<span class="textarea-button-divider"></span> -->
-	<span class="textarea-button-text">Ping a user:</span>
-	{{ display_pingable() }}
 </div>
 
+<div class="new-form-field">
+	<div class="form-textarea-buttons">
+	{{ Form::label('content', 'Ping a user:') }}
+		<!-- <span class="ss-link textarea-button make-link"></span>
+		<span class="textarea-button make-bold">Bold</span>
+		<span class="textarea-button make-italic">Italic</span>
+		<span class="textarea-button-divider"></span> -->
+		{{ display_pingable() }}
+	</div>
+</div>
+
+<div class="new-form-field">
+{{ Form::label('content', 'Article Contents:') }}
 {{ Form::textarea('content', null, array('placeholder' => 'What\'s happening?', 'class' => 'article-content field', 'id' => 'article-content')) }}
+</div>
 
+<div class="new-form-field">
+{{ Form::label('show_on_calendar', 'Show on Calendar:') }}
 {{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+</div>
 
+<div class="new-form-field">
+{{ Form::label('attachment[]', 'Attach File(s):') }}
 {{ Form::file('attachment[]',array('multiple', 'class'=>'new-article-attachment')) }}
+</div>
 
+<div class="new-form-field">
+{{ Form::label('status', 'Article Status:') }}
 {{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , 'published') }}
+</div>
 
 {{ Form::submit('Publish', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}
 

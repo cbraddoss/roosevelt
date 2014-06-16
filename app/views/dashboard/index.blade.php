@@ -7,10 +7,16 @@
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
 	<div class="page-menu">
+		<span class="menu-start ss-action"></span>
 		<ul>
 			<li>
 				<div id="projects-new-project-form" class="create-something-new">
 				<span class="project-button"><button class="add-new">New Project</button></span>
+				</div>
+			</li>
+			<li>
+				<div id="billables-new-billable-form" class="create-something-new">
+				<span class="billable-button"><button class="add-new">New Billable</button></span>
 				</div>
 			</li>
 			<li>
@@ -21,11 +27,6 @@
 			<li>
 				<div id="help-new-help-form" class="create-something-new">
 				<span class="help-button"><button class="add-new">New Help</button></span>
-				</div>
-			</li>
-			<li>
-				<div id="billables-new-billable-form" class="create-something-new">
-				<span class="billable-button"><button class="add-new">New Billable</button></span>
 				</div>
 			</li>
 			<li>
@@ -48,9 +49,7 @@
 		<p class=""><a href="#" class="ss-globe ql-hosted">Website List</a></p>
 		<p class=""><a href="/tools" class="ss-signpost ql-tools">Tools</a></p>
 		<p class=""><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
-		<span><a></a></span>
 	</div>
-	<div class="clear"></div>
 	<div id="page-second-title">
 		<h2>Company News</h2>
 	</div>

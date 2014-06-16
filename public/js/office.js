@@ -121,18 +121,18 @@ jQuery(document).ready(function($){
 				'height':documentHeight+'px'
 			});
 		// }
-		$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
-			'position':'fixed',
-			'top':'0',
-			'left':'0',
-			'width':'12%',
-			'z-index': '60',
-			'padding-left':'0px',
-			'background': 'linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%)'
-		});
-		$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard img').css({
-			'margin-left': '5px'
-		});
+		// $(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
+		// 	'position':'fixed',
+		// 	'top':'0',
+		// 	'left':'0',
+		// 	'width':'12%',
+		// 	'z-index': '60',
+		// 	'padding-left':'0px',
+		// 	'background': 'linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%)'
+		// });
+		// $(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard img').css({
+		// 	'margin-left': '5px'
+		// });
 	}
 
 	$(window).on('resize',function() {
@@ -146,14 +146,14 @@ jQuery(document).ready(function($){
 				'top':'44px',
 				'height':documentHeight+'px'
 			});
-			$(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
-				'position':'fixed',
-				'top':'0',
-				'left':'0',
-				'width':'12%',
-				'z-index': '60',
-				'padding-left':'0'
-			});
+			// $(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
+			// 	'position':'fixed',
+			// 	'top':'0',
+			// 	'left':'0',
+			// 	'width':'12%',
+			// 	'z-index': '60',
+			// 	'padding-left':'0'
+			// });
 		}
 	});
 	// $('#user-menu ul').find('li').each(function(){
@@ -424,6 +424,7 @@ jQuery(document).ready(function($){
 		$.get( "/news", function( data ) {
 			$('.inner-page').prepend(data);
 			$('.inner-page .article-add-form.create-something-form').slideDown(400);
+			$('#content #news-new-article-form.create-something-new button').addClass('active');
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -436,7 +437,7 @@ jQuery(document).ready(function($){
 		    	$(this).addClass('changed-input');
 		    }).data('datepicker');
 		    
-			$('form.add-article .article-title').focus();
+			//$('form.add-article .article-title').focus();
 		});
 	});
 	// detect Status change and update submit button text
@@ -454,6 +455,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
+					$('#content #news-new-article-form.create-something-new button').removeClass('active');
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -462,6 +464,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
+					$('#content #news-new-article-form.create-something-new button').removeClass('active');
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1098,6 +1101,9 @@ jQuery(document).ready(function($){
 			$('.inner-page').prepend(data);
 			$('.inner-page .project-add-form.create-something-form').slideDown(400);
 
+			$('#content #projects-new-project-form.create-something-new button').addClass('active');
+			$('#content form.add-project input[name=title]').focus();
+
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
 		    var calLaunch = $('#content form.add-project .project-launch-date').datepicker({
@@ -1129,28 +1135,28 @@ jQuery(document).ready(function($){
 		    
 			$('form.add-project .projects-title').focus();
 			$('form.add-project .project-start-date').hide();
-			$('form.add-project .label-start-date').hide();
+			$('form.add-project label[for=start_date]').hide();
 			$('form.add-project .project-end-date').hide();
-			$('form.add-project .label-end-date').hide();
+			$('form.add-project label[for=end_date]').hide();
 			$(document).on('change','form.add-project select[name=period]', function() {
 				var periodValue = $(this).val();
 				if(periodValue == 'recurring') {
 					$('form.add-project .project-launch-date').hide();
-					$('form.add-project .label-launch-date').hide();
+					$('form.add-project label[for=launch_date]').hide();
 					$('form.add-project .project-launch-date').val('');
 					$('form.add-project .project-start-date').fadeIn(200);
-					$('form.add-project .label-start-date').fadeIn(200);
+					$('form.add-project label[for=start_date]').fadeIn(200);
 					$('form.add-project .project-end-date').fadeIn(200);
-					$('form.add-project .label-end-date').fadeIn(200);
+					$('form.add-project label[for=end_date]').fadeIn(200);
 				}
 				else {
 					$('form.add-project .project-end-date').val('');
 					$('form.add-project .project-start-date').hide();
-					$('form.add-project .label-start-date').hide();
+					$('form.add-project label[for=start_date]').hide();
 					$('form.add-project .project-end-date').hide();
-					$('form.add-project .label-end-date').hide();
+					$('form.add-project label[for=end_date]').hide();
 					$('form.add-project .project-launch-date').fadeIn(200);	
-					$('form.add-project .label-launch-date').fadeIn(200);				
+					$('form.add-project label[for=launch_date]').fadeIn(200);				
 				}
 			});
 
@@ -1184,7 +1190,7 @@ jQuery(document).ready(function($){
 				var accountText = $(this).text();
 				$(this).closest('form.add-project').find('input[name=account_name]').val(accountText);
 				$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
-				$(document).find('form.add-project .accounts-search-ajax').hide();				
+				$(document).find('form.add-project .accounts-search-ajax').hide();
 			});
 
 			// add template name from id to form
@@ -1213,6 +1219,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
+					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1221,6 +1228,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
+					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1531,6 +1539,7 @@ jQuery(document).ready(function($){
 		$.get( "/accounts", function( data ) {
 			$('.inner-page').prepend(data);
 			$('.inner-page .account-add-form.create-something-form').slideDown(400);
+			$('#content #accounts-new-account-form.create-something-new button').addClass('active');
 		});
 	});
 	// cancel adding new account
@@ -1542,6 +1551,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.account-add-form.create-something-form').remove();
+					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1550,6 +1560,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.account-add-form.create-something-form').remove();
+					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1562,6 +1573,7 @@ jQuery(document).ready(function($){
 		$.get( "/billables", function( data ) {
 			$('.inner-page').prepend(data);
 			$('.inner-page .billable-add-form.create-something-form').slideDown(400);
+			$('#content #billables-new-billable-form.create-something-new button').addClass('active');
 		});
 	});
 	// cancel adding new billable
@@ -1573,6 +1585,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.billable-add-form.create-something-form').remove();
+					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1581,6 +1594,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.billable-add-form.create-something-form').remove();
+					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1593,6 +1607,7 @@ jQuery(document).ready(function($){
 		$.get( "/help", function( data ) {
 			$('.inner-page').prepend(data);
 			$('.inner-page .help-add-form.create-something-form').slideDown(400);
+			$('#content #help-new-help-form.create-something-new button').addClass('active');
 		});
 	});
 	// cancel adding new help
@@ -1604,6 +1619,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.help-add-form.create-something-form').remove();
+					$('#content #help-new-help-form.create-something-new button').removeClass('active');
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1612,6 +1628,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.help-add-form.create-something-form').remove();
+					$('#content #help-new-help-form.create-something-new button').removeClass('active');
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();

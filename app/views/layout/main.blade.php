@@ -16,6 +16,9 @@
 	<div id="header">
 		<div class="section">
 			<div id="company-header">
+				<div id="company-logo">
+					<a href="/" class="logo"><img src="/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
+				</div>
 				<div id="page-title">
 					@if(current_page() == '/')
 					<h2>Welcome to the IOS Remote Office</h2>
