@@ -5,6 +5,7 @@
 @stop
 
 @section('admin-template-content')
+
 {{ Form::open( array('class' => 'update-template', 'url' => '/admin/templates/'.$template->slug, 'method' => 'post', 'id' => $template->id) ) }}
 
 {{ Form::hidden('id', $template->id) }}
@@ -16,12 +17,21 @@
 
 <div class="user-field">
 	<span class="user-title type">{{ Form::label('type','Type:') }}</span>
-	<span class="user-value type-value">{{ Form::select('type', array('project' => 'Project', 'billable' => 'Billable', 'invoice' => 'Invoice', 'help' => 'Help') , $template->type) }}</span>
+	<span class="user-value type-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('type', array('project' => 'Project', 'billable' => 'Billable', 'invoice' => 'Invoice', 'help' => 'Help') , $template->type) }}
+	</span>
+
 </div>
 
 <div class="user-field">
 	<span class="user-title status">{{ Form::label('status','Status:') }}</span>
-	<span class="user-value status-value">{{ Form::select('status', array('active' => 'Active', 'inactive' => 'Inactive') , $template->status) }}</span>
+	<span class="user-value status-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('status', array('active' => 'Active', 'inactive' => 'Inactive') , $template->status) }}
+	</span>
 </div>
 
 <div class="user-textarea">

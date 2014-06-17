@@ -13,6 +13,7 @@ class Account extends Eloquent {
 		$accounts = Account::where('name','like','%'.$search.'%')
 				   ->where('status','=','active')
 				   ->orderBy('name','ASC')
+				   ->take(5)
 				   ->get();
 
 		return $accounts;

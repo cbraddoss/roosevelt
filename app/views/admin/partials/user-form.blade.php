@@ -5,13 +5,6 @@
 @stop
 
 @section('admin-user-content')
-<div class="page-menu">
-	<ul>
-		<li><a href="/admin/" class="link">Admin</a></li>
-		<li><a href="/admin/users" class="link">Users</a></li>
-		<li><a href="/admin/templates" class="link">Templates</a></li>
-	</ul>
-</div>
 	
 {{ Form::open( array('class' => 'update-user', 'url' => '/admin/users/'.$user->user_path, 'method' => 'post', 'id' => $user->id) ) }}
 
@@ -45,15 +38,27 @@
 </div>
 <div class="user-field">
 	<span class="user-title userrole">{{ Form::label('userrole','User Role:') }}</span>
-	<span class="user-value userrole-value">{{ Form::select('userrole', array('admin' => 'admin', 'standard' => 'standard'), $user->userrole) }}</span>
+	<span class="user-value userrole-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('userrole', array('admin' => 'Admin', 'standard' => 'Standard'), $user->userrole) }}
+	</span>
 </div>
 <div class="user-field">
 	<span class="user-title can-manage">{{ Form::label('can_manage','Can Manage:') }}</span>
-	<span class="user-value can-manage-value">{{ Form::select('can_manage', array('no' => 'no', 'yes' => 'yes'), $user->can_manage) }}</span>
+	<span class="user-value can-manage-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('can_manage', array('no' => 'No', 'yes' => 'Yes'), $user->can_manage) }}
+	</span>
 </div>
 <div class="user-field">
 	<span class="user-title status">{{ Form::label('status','User Status:') }}</span>
-	<span class="user-value status-value">{{ Form::select('status', array('active' => 'active', 'inactive' => 'inactive'), $user->status ) }}</span>
+	<span class="user-value status-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('status', array('active' => 'Active', 'inactive' => 'Inactive'), $user->status ) }}
+	</span>
 </div>
 <div class="user-field">
 	<span class="user-title password">{{ Form::label('password','New Password:') }}</span>

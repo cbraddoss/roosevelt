@@ -1,6 +1,3 @@
-<span class="create-something-title">Add New</span>
-<div class="page-cover">
-</div>
 <div class="template-add-form create-something-form">
 <h3>Create new template:</h3>
 {{ Form::open( array('id' => 'add-new-template', 'files' => true, 'class' => 'add-template', 'url' => '/admin/templates/', 'method' => 'post') ) }}

@@ -1,6 +1,9 @@
 @extends('profile.index')
 
 @section('profile-details')
+<div class="create-something-new">
+	<button class="add-new "><a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile ss-write">Edit Profile</a></button>
+</div>
 <div class="page-menu">
 	<ul>
 		<li><a href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
@@ -11,9 +14,6 @@
 		<li><a href="/admin/" class="link">Admin</a></li>
 	@endif
 	</ul>
-	<div class="create-something-new">
-		<a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile">Edit Profile</a>
-	</div>
 </div>
 
 <h3>Details</h3>
@@ -54,7 +54,11 @@
 		<span class="profile-title vacation-add-dates">Add Dates:</span>
 		{{ Form::open( array('class' => 'add-vacation-profile', 'route' => 'profile.vacation', 'method' => 'post', 'id' => Auth::user()->id) ) }}
 		{{ Form::hidden('user_id', Auth::user()->id) }}
-		{{ Form::select('period', array('full-day' => 'Full Day', 'half-day-am' => 'Half Day AM', 'half-day-pm' => 'Half Day PM') , 'standard') }}
+		<div class="select-dropdown">
+			<span class="ss-dropdown"></span>
+			<span class="ss-directup"></span>
+			{{ Form::select('period', array('full-day' => 'Full Day', 'half-day-am' => 'Half Day AM', 'half-day-pm' => 'Half Day PM') , 'standard') }}
+		</div>
 		{{ Form::label('start_date', 'From:') }}
 		{{ Form::text('start_date', null, array('placeholder' => 'Start Date', 'class' => 'datepicker vacation-date-add', 'id' => 'vacation-date-start')) }}
 		{{ Form::label('end_date', 'To:') }}

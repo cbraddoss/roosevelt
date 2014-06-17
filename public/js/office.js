@@ -103,24 +103,28 @@ jQuery(document).ready(function($){
 
 	// Detect window height and change menu to position:absolute, etal
 	var menuHeight = $(document).find('#nav_menu #menu_header .menu_nav #menu_links').height();
+	menuHeight = menuHeight+45+92;
+	// console.log(menuHeight);
 	var windowHeight = $(window).height();
+	// console.log(windowHeight);
 	var documentHeight = $('html').height();
-	if(menuHeight > windowHeight) {
+	// console.log(documentHeight);
+	if(menuHeight >= windowHeight) {
 
-		//if(documentHeight < windowHeight) {
-			// $(document).find('#nav_menu').css({
-			// 	'position':'absolute',
-			// 	'top':'44px',
-			// 	'height':menuHeight+'px'
-			// });
-		// }
-		// else {
+		if(documentHeight < windowHeight) {
+			$(document).find('#nav_menu').css({
+				'position':'absolute',
+				'top':'44px',
+				'height':menuHeight+'px'
+			});
+		}
+		else {
 			$(document).find('#nav_menu').css({
 				'position':'absolute',
 				'top':'44px',
 				'height':documentHeight+'px'
 			});
-		// }
+		}
 		// $(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
 		// 	'position':'fixed',
 		// 	'top':'0',
@@ -140,12 +144,21 @@ jQuery(document).ready(function($){
 		var windowHeight = $(window).height();
 		var documentHeight = $('html').height();
 
-		if(menuHeight > windowHeight) {
-			$(document).find('#nav_menu').css({
-				'position':'absolute',
-				'top':'44px',
-				'height':documentHeight+'px'
-			});
+		if(menuHeight >= windowHeight) {
+			if(documentHeight < windowHeight) {
+				$(document).find('#nav_menu').css({
+					'position':'absolute',
+					'top':'44px',
+					'height':menuHeight+'px'
+				});
+			}
+			else {
+				$(document).find('#nav_menu').css({
+					'position':'absolute',
+					'top':'44px',
+					'height':documentHeight+'px'
+				});
+			}
 			// $(document).find('#nav_menu #menu_header .menu_nav #menu_links li#link-dashboard').css({
 			// 	'position':'fixed',
 			// 	'top':'0',
@@ -399,13 +412,19 @@ jQuery(document).ready(function($){
 		);
 		return false;
 	});
+	// filter by type (unread, mentions, favorites, drafts)
+	$(document).on('change','#news-page .filter-type', function(){
+		var typeLink = $(this).val();
+		if(typeLink == 0 || typeLink == '0') window.location.href='/news';
+		else window.location.href='/news/'+typeLink;
+	});
 	// Filter by author
 	$(document).on('change','#news-page .filter-author', function(){
 		var authorLink = $(this).val();
 		window.location.href='/news/author/'+authorLink;
 	});
 	// Filter by date
-	$('#news-page .filter-date').datepicker().on('changeDate', function(ev) {
+	$('#news-page .page-menu div.filter-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -422,6 +441,9 @@ jQuery(document).ready(function($){
 	// Add new article
 	$(document).on('click','#content #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
 			$('.inner-page').prepend(data);
 			$('.inner-page .article-add-form.create-something-form').slideDown(400);
 			$('#content #news-new-article-form.create-something-new button').addClass('active');
@@ -437,7 +459,7 @@ jQuery(document).ready(function($){
 		    	$(this).addClass('changed-input');
 		    }).data('datepicker');
 		    
-			//$('form.add-article .article-title').focus();
+			$('form.add-article .article-title').focus();
 		});
 	});
 	// detect Status change and update submit button text
@@ -456,6 +478,9 @@ jQuery(document).ready(function($){
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
 					$('#content #news-new-article-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -465,6 +490,9 @@ jQuery(document).ready(function($){
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
 					$('#content #news-new-article-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -905,7 +933,7 @@ jQuery(document).ready(function($){
 		window.location.href='/projects/type/'+typeLink;
 	});
 	// Filter by date
-	$('#projects-page .filter-date').datepicker().on('changeDate', function(ev) {
+	$('#projects-page .page-menu div.filter-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -1100,7 +1128,9 @@ jQuery(document).ready(function($){
 		$.get( "/projects", function( data ) {
 			$('.inner-page').prepend(data);
 			$('.inner-page .project-add-form.create-something-form').slideDown(400);
-
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
 			$('#content #projects-new-project-form.create-something-new button').addClass('active');
 			$('#content form.add-project input[name=title]').focus();
 
@@ -1114,7 +1144,7 @@ jQuery(document).ready(function($){
 		    	calLaunch.hide();
 		    	$(this).addClass('changed-input');
 		    	var launchVal = $(this).val();
-		    	$(this).parent().find('input[name=end_date]').attr('value',launchVal);
+		    	$(this).parent().parent().find('input[name=end_date]').attr('value',launchVal);
 		    }).data('datepicker');
 		    var calStart = $('#content form.add-project .project-start-date').datepicker({
 		      onRender: function(date) {
@@ -1131,6 +1161,8 @@ jQuery(document).ready(function($){
 		    }).on('changeDate', function(ev) {
 		    	calEnd.hide();
 		    	$(this).addClass('changed-input');
+		    	var endVal = $(this).val();
+		    	$(this).parent().parent().find('input[name=launch_date]').attr('value',endVal);
 		    }).data('datepicker');
 		    
 			$('form.add-project .projects-title').focus();
@@ -1171,7 +1203,7 @@ jQuery(document).ready(function($){
 						success:       accountSearchSuccess,  // post-submit callback
 						dataType: 'json',
 						data: { 
-							_token: $(this).parent().parent().find('input[name=_token]').attr('value'),
+							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
 							title: accountSearch
 						},
 						type: 'POST',
@@ -1197,7 +1229,7 @@ jQuery(document).ready(function($){
 			$(document).on('change','form.add-project select[name=template_id]', function(){
 				var templateIdGet = $(this).val();
 				var templateIdName = $(this).find('option[value='+templateIdGet+']').text();
-				$(this).next('input[name=template_name]').val(templateIdName);
+				$(this).parent().next('input[name=template_name]').val(templateIdName);
 			});
 		});
 	});
@@ -1220,6 +1252,9 @@ jQuery(document).ready(function($){
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
 					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1229,6 +1264,9 @@ jQuery(document).ready(function($){
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
 					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1540,6 +1578,9 @@ jQuery(document).ready(function($){
 			$('.inner-page').prepend(data);
 			$('.inner-page .account-add-form.create-something-form').slideDown(400);
 			$('#content #accounts-new-account-form.create-something-new button').addClass('active');
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
 		});
 	});
 	// cancel adding new account
@@ -1552,6 +1593,9 @@ jQuery(document).ready(function($){
 				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.account-add-form.create-something-form').remove();
 					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1561,6 +1605,9 @@ jQuery(document).ready(function($){
 			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.account-add-form.create-something-form').remove();
 					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1574,6 +1621,9 @@ jQuery(document).ready(function($){
 			$('.inner-page').prepend(data);
 			$('.inner-page .billable-add-form.create-something-form').slideDown(400);
 			$('#content #billables-new-billable-form.create-something-new button').addClass('active');
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
 		});
 	});
 	// cancel adding new billable
@@ -1586,6 +1636,9 @@ jQuery(document).ready(function($){
 				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.billable-add-form.create-something-form').remove();
 					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1595,6 +1648,9 @@ jQuery(document).ready(function($){
 			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.billable-add-form.create-something-form').remove();
 					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
@@ -1608,6 +1664,9 @@ jQuery(document).ready(function($){
 			$('.inner-page').prepend(data);
 			$('.inner-page .help-add-form.create-something-form').slideDown(400);
 			$('#content #help-new-help-form.create-something-new button').addClass('active');
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
 		});
 	});
 	// cancel adding new help
@@ -1620,6 +1679,9 @@ jQuery(document).ready(function($){
 				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.help-add-form.create-something-form').remove();
 					$('#content #help-new-help-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
@@ -1629,6 +1691,9 @@ jQuery(document).ready(function($){
 			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.help-add-form.create-something-form').remove();
 					$('#content #help-new-help-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
 			});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();

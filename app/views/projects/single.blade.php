@@ -8,7 +8,7 @@
 @section('page-content')
 <div id="projects-page"  class="inner-page">
 
-	@include('projects.partials.sub-menu')
+	<!-- @include('projects.partials.sub-menu') -->
 	
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single">
 		
@@ -65,6 +65,9 @@
 		</div>
 	</div>
 	<h3>Project Comments:</h3>
+	<div id="projects-post-comment-form" class="create-something-new">
+		<span class="projects-button"><button class="post-comment">Reply</button></span>
+	</div>
 	<div id="comments"></div>
 	@foreach($comments as $comment)
 	@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 

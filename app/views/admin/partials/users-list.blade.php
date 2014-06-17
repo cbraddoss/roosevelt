@@ -1,16 +1,15 @@
 @extends('admin.users')
 
 @section('admin-user-content')
-
+<div id="admin-new-user-form" class="create-something-new">
+	<span class="admin-button"><button class="add-new ss-plus">Add New</button></span>
+</div>
 <div class="page-menu">
 	<ul>
 		<li><a href="/admin/" class="link">Admin</a></li>
 		<li><a href="/admin/users" class="link">Users</a></li>
 		<li><a href="/admin/templates" class="link">Templates</a></li>
 	</ul>
-	<div id="admin-new-user-form" class="create-something-new">
-		<span class="admin-button"><button class="add-new">Add New</button></span>
-	</div>
 </div>
 
 <h3>Admin Users</h3>

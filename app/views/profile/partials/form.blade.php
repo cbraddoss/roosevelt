@@ -1,17 +1,6 @@
 @extends('profile.index')
 
 @section('profile-details')
-<div class="page-menu">
-	<ul>
-		<li><a href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
-		<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="link">Projects</a></li>
-		<li><a href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="link">Billables</a></li>
-		<li><a href="/help/assigned-to/{{ Auth::user()->user_path }}" class="link">Help</a></li>
-	@if(Auth::user()->userrole == 'admin')
-		<li><a href="/admin/" class="link">Admin</a></li>
-	@endif
-	</ul>
-</div>
 {{ Form::open( array('class' => 'update-profile', 'route' => 'profile.update', 'method' => 'post', 'id' => Auth::user()->id) ) }}
 
 {{ Form::hidden('id', Auth::user()->id) }}

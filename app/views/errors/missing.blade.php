@@ -6,6 +6,7 @@
 
 @section('page-content')
 <div id="fourOhFour-page"  class="inner-page">
+	<p><a href="{{ URL::previous() }}"><span class="ss-reply">Back to previous page</span></a></p>
 	<p class="alert-icon"><span class="ss-alert"></span></p>
 	<p>Oops, Page Not Found!</p>
 	<p>Error: 404</p>

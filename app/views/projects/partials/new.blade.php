@@ -31,16 +31,24 @@
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('template_id', 'Project Template:') }}
-<select name="template_id">
-	<option value="">Select Template</option>
-	{{ get_template_list_select() }}
-</select>
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	<select name="template_id">
+		<option value="">Select Template</option>
+		{{ get_template_list_select() }}
+	</select>
+</div>
 {{ Form::hidden('template_name', null, array('class' => 'project-template-name field', 'id' => 'project-template-name')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('period', 'Is this project recurring?') }}
-{{ Form::select('period', array('ending' => 'No', 'recurring' => 'Yes') , 'ending') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	{{ Form::select('period', array('ending' => 'No', 'recurring' => 'Yes') , 'ending') }}
+</div>
 </div>
 
 <div class="new-form-field new-form-field-extras">
@@ -63,7 +71,11 @@
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('priority', 'Priority:') }}
-{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}
+</div>
 </div>
 
 <div class="new-form-field new-form-field-extras">

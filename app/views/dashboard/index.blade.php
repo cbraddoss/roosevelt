@@ -7,7 +7,7 @@
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
 	<div class="page-menu">
-		<span class="menu-start ss-action"></span>
+		<span class="menu-start ss-plus"></span>
 		<ul>
 			<li>
 				<div id="projects-new-project-form" class="create-something-new">

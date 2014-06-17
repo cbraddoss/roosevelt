@@ -13,6 +13,7 @@
 			<li><a href="/admin/templates" class="link">Templates</a></li>
 		</ul>
 	</div>
+	<div class="clear"></div>
 
 	<p class="admin-p"><a href="/admin/users" class="admin-link ss-users">Users</a></p>
 	<p class="admin-p"><a href="/admin/templates" class="admin-link ss-layout">Templates</a></p>

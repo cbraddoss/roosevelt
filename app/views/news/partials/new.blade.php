@@ -35,7 +35,11 @@
 
 <div class="new-form-field">
 {{ Form::label('status', 'Article Status:') }}
-{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , 'published') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , 'published') }}
+</div>
 </div>
 
 {{ Form::submit('Publish', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}

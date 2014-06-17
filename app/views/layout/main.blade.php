@@ -91,7 +91,18 @@
 				<div class="menu_nav">
 					<ul id="menu_links">
 						<li alt="Dashboard" id="link-dashboard" class="link"><a class="link-href" href="/"><img src="/images/ios-logo-ds.png" alt="InsideOut Solutions Logo" /><span class="link-text">Dashboard</span></a></li>
-						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}</li>
+						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
+						<ul class="sub_menu_links-hover">
+							<li class="sub-link"><a href="/projects/status/open">Open</a></li>
+							<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
+							<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
+						</ul>
+						</li>
+						<ul class="sub_menu_links">
+							<li class="sub-link"><a href="/projects/status/open">Open</a></li>
+							<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
+							<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
+						</ul>
 						<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
 						<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
 						<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
@@ -108,29 +119,30 @@
 						</li>
 						<ul class="sub_menu_links">
 							<li class="sub-link"><a href="/news/">All</a></li>
-							<li class="sub-link"><a href="/news/unread">Unread</a></li>
-							<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
-							<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
+							<li class="sub-link"><a href="/news/unread">Your Unread</a></li>
+							<li class="sub-link"><a href="/news/favorites">Your Favorites</a></li>
+							<li class="sub-link"><a href="/news/mentions">Your Mentions</a></li>
 							<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
 						</ul>
 						<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
 						<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
 						<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span class="link-text">{{ Auth::user()->first_name }}</span></a><span id="linked-to-profile" class="linked-to" value=""><a href="/to-do/{{ Auth::user()->user_path }}"></a></span>
 						<ul class="sub_menu_links-hover">
+							<li><a href="/profile/" class="sub-link">Profile</a></li>
 							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
 							@if(Auth::user()->userrole == 'admin')
 							<li class="sub-link"><a href="/admin/">Admin</a></li>
 							@endif
-							<li><a href="/logout" class="sub-link">Logout</a></li>
 						</ul>
 						</li>
 						<ul class="sub_menu_links">
+							<li><a href="/profile/" class="sub-link">Profile</a></li>
 							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
 							@if(Auth::user()->userrole == 'admin')
 							<li class="sub-link"><a href="/admin/">Admin</a></li>
 							@endif
-							<li><a href="/logout" class="sub-link">Logout</a></li>
 						</ul>
+						<li alt="Profile" id="link-logout" class="link"><a href="/logout/" class="ss-logout link-href"><span class="link-text">Logout</span></a></li>
 					</ul>
 				</div> <!-- .menu_nav -->
 			</div> <!-- #menu_header -->

@@ -6,16 +6,15 @@
 
 @section('page-content')
 <div id="accounts-page" class="inner-page">
-
+	<div id="accounts-new-account-form" class="create-something-new">
+		<span class="accounts-button"><button class="add-new ss-plus">Add New</button></span>
+	</div>
 	<div class="page-menu">
-		<div class="page-menu-arrow"></div>
 		<ul>
 			<li></li>
 			<li></li>
 		</ul>
-		<div id="accounts-new-account-form" class="create-something-new">
-			<span class="accounts-button"><button class="add-new">Add New</button></span>
-		</div>
+		
 	</div>
 
     @foreach($accounts as $a)

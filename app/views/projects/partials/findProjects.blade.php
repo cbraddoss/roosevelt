@@ -64,7 +64,11 @@
 		<div class="post-assigned">
 			<p class="change-project-user">
 				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
-				<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+				<div class="select-dropdown">
+					<span class="ss-dropdown"></span>
+					<span class="ss-directup"></span>
+					<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+				</div>
 			</p>
 			
 		{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/listviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
@@ -73,17 +77,23 @@
 		</div>
 
 		<div class="post-stage">
-			<p class="change-project-stage"><span>Stage:</span><select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage, $project->type, $project->id) }}</select>
-		
-			
-				</p>
+			<p class="change-project-stage">
+				<span>Stage:</span>
+				<div class="select-dropdown">
+					<span class="ss-dropdown"></span>
+					<span class="ss-directup"></span>
+					<select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage, $project->type, $project->id) }}</select>
+				</div>
+			</p>
 		{{ Form::open( array('id' => 'change-project-stage-'.$project->id, 'class' => 'change-project-stage-form', 'url' => '/projects/listviewupdate/'.$project->id.'/stage', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
 		@if($project->getCommentsCount($project->id))
 		<div class="post-activity">
-			<p>{{ link_to('/projects/post/'. $project->slug.'#comments', $project->getCommentsCount($project->id), array('class' => 'ss-chat projects-link')) }}</p>
+			<p>
+				{{ link_to('/projects/post/'. $project->slug.'#comments', $project->getCommentsCount($project->id), array('class' => 'ss-chat projects-link')) }}
+			</p>
 		</div>
 		@endif
 		@if($project->getAttachments($project->id))

@@ -70,9 +70,9 @@ class ProjectsController extends \BaseController {
 			'template_id' => 'required|integer',
 			'template_name' => 'required',
 			'priority' => 'required|in:low,normal,high',
-			'period' => 'required|in:ending,recurring',
-			'launch_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'end_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'period' => 'in:ending,recurring',
+			'launch_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'end_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'start_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
@@ -106,11 +106,27 @@ class ProjectsController extends \BaseController {
 				return Response::json( $response );
 			}
 			$newProject->stage = 'coding';
-			$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
 			$newProject->period = Input::get('period'); 
-						
-			$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
-			$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+			
+			if(Input::get('period') == 'ending' && Input::get('launch_date') == '') {
+				$response = array(
+					'errorMsg' => 'The Launch Date field is required.'
+				);
+				return Response::json( $response );
+			}
+			elseif(Input::get('period') == 'ending') {
+				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
+			}
+			if(Input::get('period') == 'recurring' && Input::get('end_date') == '') {
+				$response = array(
+					'errorMsg' => 'The End Date field is required.'
+				);
+				return Response::json( $response );
+			}
+			elseif(Input::get('period') == 'recurring') {
+				$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+			}
 			$newProject->start_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
 			if(Input::hasFile('attachment')) {
 				$attachment = Input::file('attachment');
@@ -140,7 +156,7 @@ class ProjectsController extends \BaseController {
 			
 			$response = array(
 				'slug' => $newProject->slug,
-				'msg' => 'Article saved.'
+				'msg' => 'Project created successfully!'
 			);
 			return Response::json( $response );
 		}

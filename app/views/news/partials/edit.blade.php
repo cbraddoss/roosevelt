@@ -8,7 +8,7 @@
 @section('page-content')
 <div id="news-page"  class="inner-page">
 
-@include('news.partials.sub-menu')
+<!-- @include('news.partials.sub-menu') -->
 
 {{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 
@@ -37,12 +37,16 @@
 	<span class="article-value attachment-value">{{ Form::file('attachment[]',array('multiple')) }}</span>
 </div>
 <div class="user-field">
-	<span class="article-value status-value">{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , $article->status) }}</span>
+	<span class="article-value status-value select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , $article->status) }}
+	</span>
 </div>
 
-{{ Form::submit('Save Article', array('class' => 'save', 'id' => 'update-article-submit') ) }}
+{{ Form::submit('Save Article', array('class' => 'save form-button', 'id' => 'update-article-submit') ) }}
 
-<a href="/news/article/{{ $article->slug }}" class="button cancel">Cancel</a>
+<a href="/news/article/{{ $article->slug }}" class="form-button cancel">Cancel</a>
 
 {{ Form::close() }}
 
@@ -59,7 +63,7 @@
 {{ Form::hidden('id', $article->id) }}
 
 <div class="user-field">
-{{ Form::submit('Delete Article', array('class' => 'delete') ) }}
+{{ Form::submit('Delete Article', array('class' => 'delete form-button') ) }}
 </div>
 {{ Form::close() }}
 @endif

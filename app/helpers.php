@@ -79,11 +79,11 @@ function get_project_type_select($selected = null) {
 		$optionsLast = '';
 		foreach($projectTypes as $type) {
 			if($type->status == 'inactive') {
-				if($selected == $type->name) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
+				if($selected == $type->slug) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
 				else $optionsLast .= '<option value="'.$type->slug.'">' . $type->name.' (i)' . '</option>';
 			}
 			else {
-				if($selected == $type->name) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
+				if($selected == $type->slug) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
 				else $options .= '<option value="'.$type->slug.'">'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';			
 			}
 		}

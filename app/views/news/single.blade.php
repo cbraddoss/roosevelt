@@ -8,7 +8,7 @@
 @section('page-content')
 <div id="news-page"  class="inner-page">
 
-	@include('news.partials.sub-menu')
+	<!-- @include('news.partials.sub-menu') -->
 	
 	<div id="article-{{ $article->id }}" class="news-article office-post-single">
 		
@@ -31,6 +31,10 @@
 				{{ Form::hidden('favorite', $article->id) }}
 			{{ Form::close() }}
 		</div>
+	</div>
+	<h3>Article Comments:</h3>
+	<div id="news-post-comment-form" class="create-something-new">
+		<span class="news-button"><button class="post-comment">Reply</button></span>
 	</div>
 	<div id="comments"></div>
 	@foreach($comments as $comment)
