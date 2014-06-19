@@ -59,7 +59,7 @@
 @section('page-content')
 <div id="news-page"  class="single-page inner-page">
 
-	<div id="article-{{ $article->id }}" class="news-article office-post-single">
+	<div id="article-{{ $article->id }}" class="news-article office-post-single" slug="{{ $article->slug }}">
 		
 		{{ $article->getAttachments($article->id); }}
 		<p>{{ display_content($article->content) }}</p>
@@ -69,7 +69,7 @@
 			<small>{{ $article->created_at->format('j, Y') }}</small>
 			
 			<small class="right">
-			Last edit: {{ $article->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name.' '.User::find($article->author_id)->last_name) }}
+			Last edit: {{ $article->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/news/author/'.any_user_path($article->edit_id), User::find($article->edit_id)->first_name.' '.User::find($article->edit_id)->last_name) }}
 			</small>
 			
 		</div>

@@ -165,6 +165,8 @@ function get_project_stage_select($selected = null, $pType = null, $pID = null) 
 }
 function convert_title_to_path($title) {
 	$title = trim($title);
+	$title = str_replace("-","",$title);
+	$title = str_replace("  "," ",$title);
 	$title = str_replace(" ","-",$title);
 	$title = preg_replace('/[^A-Za-z0-9\-]/', '', $title);
 	$title = strip_tags($title);

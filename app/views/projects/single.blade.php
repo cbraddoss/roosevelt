@@ -7,6 +7,13 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
+@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
+		<li>
+			<div class="create-something-new">
+				<button class="add-new"><a class="edit-project edit-link ss-write" href="/projects/post/{{ $project->slug }}/edit">Edit Post</a></button>
+			</div>
+		</li>
+@endif
 		<li>
 			<span class="ss-check">0/4</span>
 		</li>
@@ -17,7 +24,7 @@
 @section('page-content')
 <div id="projects-page"  class="inner-page">
 
-	<div id="project-{{ $project->id }}" class="projects-post office-post-single">
+	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		
 		<div class="post-manager">
 			<h3>Project Manager:</h3>
@@ -59,13 +66,11 @@
 			{{ $tasks }}
 		</div>
 		<div class="projects-post-sub office-post-sub">
-			<small>Created on: {{ $project->created_at->format('F j, Y') }}</small>
+			<small>Created on: {{ $project->created_at->format('F j, Y') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->author_id), User::find($project->author_id)->first_name.' '.User::find($project->author_id)->last_name) }}</small>
 			
 			<small class="right">
-			@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-			<a class="edit-project edit-link" href="/projects/post/{{ $project->slug }}/edit">Edit Post</a>
-			@endif
-			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($project->edit_id)->first_name }} {{ User::find($project->edit_id)->last_name }}</small>
+			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->edit_id), User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name) }}
+			</small>
 			{{ Form::open( array('id' => 'project-subscribed-'.$project->id, 'class' => 'project-subscribed', 'url' => '/projects/listviewupdate/'.$project->id.'/subscribed', 'method' => 'post') ) }}
 				{{ Form::hidden('id', $project->id) }}
 			{{ Form::close() }}

@@ -658,15 +658,13 @@ jQuery(document).ready(function($){
 	
 	// load comment form on article single view page.
 	$(document).on('click', '#news-page #news-post-comment-form button.post-comment', function(){
-		
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-news-article-','');
-		//console.log(pageName);
-		$.get( "/news/article/"+pageName+"/comment", function( data ) {
+				
+		var articleSlug = $(document).find('.projects-post').attr('slug');
+		//console.log(articleSlug);
+		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			$('#comments').append(data);
 			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
-			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(pageName);
+			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -739,15 +737,14 @@ jQuery(document).ready(function($){
 	});
 	// load comment form on reply of comment button click
 	$(document).on('click', '#news-page #comment-post-comment-form button.post-comment', function(){
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-news-article-','');
+		
+		var articleSlug = $(document).find('.projects-post').attr('slug');
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
-		$.get( "/news/article/"+pageName+"/comment", function( data ) {
+		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			$(document).find('#comment-post-comment-form .post-comment').each(function(){
 				$(this).hide();
 			});
@@ -758,7 +755,7 @@ jQuery(document).ready(function($){
 			// $('html, body').animate({
 			// 	scrollTop: commentBoxPos.top-110
 			// }, 2000);
-			$('#'+commentId+' .create-something-new').find('input[name=article-slug]').val(pageName);
+			$('#'+commentId+' .create-something-new').find('input[name=article-slug]').val(articleSlug);
 			$('form.add-comment .comment-content').focus();
 		});
 	});
@@ -820,9 +817,8 @@ jQuery(document).ready(function($){
 	}
 	// edit comment
 	$(document).on('click', '#news-page .comment-edit-button button.edit-comment', function(){
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-news-article-','');
+		
+		var articleSlug = $(document).find('.projects-post').attr('slug');
 		
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');
@@ -836,7 +832,7 @@ jQuery(document).ready(function($){
 				$(this).hide();
 			});
 			$('#'+commentIdBox+' .comment-contents').html(data);
-			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(pageName);
+			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(articleSlug);
 			$('form.edit-comment .update-comment-content').focus();
 		});
 	});
@@ -1383,15 +1379,13 @@ jQuery(document).ready(function($){
 	// load comment form on project single view page.
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
 		
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-projects-post-','');
-		//console.log(pageName);
-		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
+		var projectSlug = $(document).find('.projects-post').attr('slug');
+		console.log(projectSlug);
+		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
 
 			$('#comments').append(data);
 			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
-			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(pageName);
+			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -1459,16 +1453,15 @@ jQuery(document).ready(function($){
 	}
 	//load comment form on reply of comment button click
 	$(document).on('click', '#projects-page #comment-post-comment-form button.post-comment', function(){
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-projects-post-','');
-		//console.log(pageName);
+		
+		var projectSlug = $(document).find('.projects-post').attr('slug');
+		//console.log(projectSlug);
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
-		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
+		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
 			$(document).find('#comment-post-comment-form .post-comment').each(function(){
 				$(this).hide();
 			});
@@ -1479,7 +1472,7 @@ jQuery(document).ready(function($){
 			// $('html, body').animate({
 			// 	scrollTop: commentBoxPos.top-110
 			// }, 2000);
-			$('#'+commentId+' .create-something-new').find('input[name=project-slug]').val(pageName);
+			$('#'+commentId+' .create-something-new').find('input[name=project-slug]').val(projectSlug);
 			$('form.add-comment .comment-content').focus();
 		});
 	});
@@ -1541,9 +1534,8 @@ jQuery(document).ready(function($){
 	}
 	// edit comment
 	$(document).on('click', '#projects-page .comment-edit-button button.edit-comment', function(){
-		var pageName = $('body').attr('class');
-		pageName = pageName.split(' ');
-		pageName = pageName[0].replace('page-projects-post-','');
+		
+		var projectSlug = $(document).find('.projects-post').attr('slug');
 		
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');
@@ -1557,7 +1549,7 @@ jQuery(document).ready(function($){
 				$(this).hide();
 			});
 			$('#'+commentIdBox+' .comment-contents').html(data);
-			$('#'+commentIdBox+' .comment-contents').find('input[name=project-slug]').val(pageName);
+			$('#'+commentIdBox+' .comment-contents').find('input[name=project-slug]').val(projectSlug);
 			$('form.edit-comment .update-comment-content').focus();
 		});
 	});
