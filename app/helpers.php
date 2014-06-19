@@ -17,7 +17,12 @@ function body_class() {
 	$bodyClass = $page . ' ' . $mainPage;
 	return $bodyClass;
 }
-
+// function parent_page() {
+// 	$currentPage = $_SERVER['REQUEST_URI'];
+// 	$currentPage = strtok($currentPage, '?');
+// 	$currentPageArray = explode('/', $currentPage);
+// 	dd($currentPageArray[0]);
+// }
 function current_page() {
 	$currentPage = $_SERVER['REQUEST_URI'];
 	return $currentPage;

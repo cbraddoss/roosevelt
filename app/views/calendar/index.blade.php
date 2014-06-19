@@ -4,26 +4,37 @@
 {{ 'Calendar - '. $selectedMonth .' - '. $selectedYear }}
 @stop
 
+@section('header-menu')
+<div class="page-menu">
+	<ul>
+		<li>
+			<div class="navigate-something">
+				<button class=""><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month"><span class="ss-navigateleft"></span>{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></button>
+			</div>
+		</li>
+		<li>
+			<div class="navigate-something">
+				<button class=""><a href="/calendar/" class="calendar-today">Go To Today</a></button>
+			</div>
+		</li>
+		<li>
+			<div class="calendar-jump-to-date filter-date calendar-filter" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
+				<span>Jump to:</span>
+				<span class="ss-calendar"></span>
+			</div>
+		</li>
+		<li>
+			<div class="navigate-something">
+				<button class=""><a href="/calendar/{{ $nextMonthYear }}" class="show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}<span class="ss-navigateright"></span></a></button>
+			</div>
+		</li>
+	</ul>
+</div>
+@stop
+
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
-	<div class="page-menu">
-		<ul>
-			<li><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month navigateleft"><span class="ss-navigateleft"></span></a><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month">{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></li>
-			<li><a href="/calendar/" class="link calendar-today">Today</a></li>
-			<li>
-				<!-- <input type="text" class="datepicker calendar-jump-to-date" value="" placeholder="Month/Year" data-date-format="mm-yyyy" data-date-viewmode="months"> -->
-				<div class="calendar-jump-to-date" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
-					<span>Jump to:</span>
-					<span class="ss-calendar"></span>
-				</div>
-			</li>
-		</ul>
-		<ul class="right">
-			<li><a href="/calendar/" class="link calendar-today">Today</a></li>
-			<li><a href="/calendar/{{ $nextMonthYear }}" class="show-next-month">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}</a><a href="/calendar/{{ $nextMonthYear }}" class="show-next-month navigateright"><span class="ss-navigateright"></span></a></li>
-		</ul>
-	</div>
-
+	
 	<div class="calendar-header">
 		
 

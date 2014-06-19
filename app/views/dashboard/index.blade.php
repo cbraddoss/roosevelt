@@ -4,38 +4,42 @@
 {{ 'Dashboard' }}
 @stop
 
+@section('header-menu')
+<div class="page-menu">
+	<!-- <span class="menu-start ss-plus"></span> -->
+	<ul>
+		<li>
+			<div id="projects-new-project-form" class="create-something-new">
+			<span class="project-button"><button class="add-new"><span class="ss-plus"></span> Project</button></span>
+			</div>
+		</li>
+		<li>
+			<div id="billables-new-billable-form" class="create-something-new">
+			<span class="billable-button"><button class="add-new"><span class="ss-plus"></span> Billable</button></span>
+			</div>
+		</li>
+		<li>
+			<div id="accounts-new-account-form" class="create-something-new">
+			<span class="account-button"><button class="add-new"><span class="ss-plus"></span> Account</button></span>
+			</div>
+		</li>
+		<li>
+			<div id="help-new-help-form" class="create-something-new">
+			<span class="help-button"><button class="add-new"><span class="ss-plus"></span> Help</button></span>
+			</div>
+		</li>
+		<li>
+			<div id="news-new-article-form" class="create-something-new">
+			<span class="news-button"><button class="add-new"><span class="ss-plus"></span> Post</button></span>
+			</div>
+		</li>
+	</ul>
+</div>
+@stop
+
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
-	<div class="page-menu">
-		<span class="menu-start ss-plus"></span>
-		<ul>
-			<li>
-				<div id="projects-new-project-form" class="create-something-new">
-				<span class="project-button"><button class="add-new">New Project</button></span>
-				</div>
-			</li>
-			<li>
-				<div id="billables-new-billable-form" class="create-something-new">
-				<span class="billable-button"><button class="add-new">New Billable</button></span>
-				</div>
-			</li>
-			<li>
-				<div id="accounts-new-account-form" class="create-something-new">
-				<span class="account-button"><button class="add-new">New Account</button></span>
-				</div>
-			</li>
-			<li>
-				<div id="help-new-help-form" class="create-something-new">
-				<span class="help-button"><button class="add-new">New Help</button></span>
-				</div>
-			</li>
-			<li>
-				<div id="news-new-article-form" class="create-something-new">
-				<span class="news-button"><button class="add-new">New Post</button></span>
-				</div>
-			</li>
-		</ul>
-	</div>
+	
 	<div id="quicklinks">
 		<p class=""><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List</a></p>
 		<p class=""><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
@@ -57,7 +61,6 @@
 				
 		@include('news.partials.findArticles')
 		
-		<a href="/news" class="news_link view-all">View all...</a>
 	</div>
 	<div class="clear"></div>
 </div>

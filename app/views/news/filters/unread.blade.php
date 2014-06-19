@@ -4,26 +4,21 @@
 {{ 'Company News - Unread Articles'  }}
 @stop
 
-@section('page-content')
-<div id="news-page"  class="inner-page">
-
-<!-- @include('news.partials.sub-menu') -->
-	<div class="page-home">
-		<a href="/news"><span class="ss-newspaper"></span></a>
-	</div>
-	<div class="page-return">
-		<a href="{{ URL::previous() }}"><span class="ss-reply"></span></a>
-	</div>
+@section('header-menu')
 	<div class="page-menu">
 	<ul>
 		<li>
-			<span class="ss-filter"></span>
-			<span class="page-menu-text">Filtering Your Unread:</span>
+			<div id="news-new-article-form" class="create-something-new">
+				<span class="news-button"><button class="add-new ss-plus">Add New</button></span>
+			</div>
+		</li>
+		<li>
+			<span class="page-menu-text">Filtering Your Unread</span>
 		</li>
 		<li class="select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-type">
+			<select class="filter-type news-filter">
 				<option value="0">Type Filter</option>
 				<option value="unread" selected>Unread</option>
 				<option value="mentions">Mentions</option>
@@ -33,6 +28,10 @@
 		</li>
 	</ul>
 	</div>
+@stop
+
+@section('page-content')
+<div id="news-page"  class="inner-page">
 
 	@if($articles->isEmpty())
 			<div class="news-article">

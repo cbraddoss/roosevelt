@@ -4,32 +4,31 @@
 {{ 'Project Type - '. ucwords(str_replace('-',' ',$type)) . $tStatus }}
 @stop
 
+@section('header-menu')
+<div class="page-menu">
+<ul>
+	<li>
+		<div id="projects-new-project-form" class="create-something-new">
+			<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
+		</div>
+	</li>
+	<li>
+		<span class="page-menu-text">Filtering Type:</span>
+	</li>
+	<li class="select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		<select class="filter-type projects-filter">
+			<option value="0">Type Filter</option>
+			@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
+		</select>
+	</li>
+</ul>
+</div>
+@stop
+
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-
-<!-- @include('projects.partials.sub-menu') -->
-	<div class="page-home">
-		<a href="/projects"><span class="ss-list"></span></a>
-	</div>
-	<div class="page-return">
-		<a href="{{ URL::previous() }}"><span class="ss-reply"></span></a>
-	</div>
-	<div class="page-menu">
-	<ul>
-		<li>
-			<span class="ss-filter"></span>
-			<span class="page-menu-text">Filtering Type:</span>
-		</li>
-		<li class="select-dropdown">
-			<span class="ss-dropdown"></span>
-			<span class="ss-directup"></span>
-			<select class="filter-type">
-				<option value="0">Type Filter</option>
-				@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
-			</select>
-		</li>
-	</ul>
-	</div>
 
 	@if($projects->isEmpty())
 			<div class="projects-post">

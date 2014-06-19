@@ -11,11 +11,11 @@
 			
 			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
 			<small>
-				@if(strpos($article->favorited, current_user_path()) !== false) <span class="ss-heart favorited"> @else <span class="ss-heart"> @endif
+				@if(strpos($article->favorited, current_user_path()) !== false) <span id="favorite-{{ $article->id }}" class="ss-heart favorited"> @else <span id="favorite-{{ $article->id }}" class="ss-heart"> @endif
 				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span></span>
 			</small>
 			
-			{{ Form::open( array('id' => 'favorite-article', 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
+			{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 				{{ Form::hidden('favorite', $article->id) }}
 			{{ Form::close() }}
 		</div>

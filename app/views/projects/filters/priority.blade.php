@@ -4,26 +4,21 @@
 {{ 'Projects - '. ucwords($priority) .' priority' }}
 @stop
 
-@section('page-content')
-<div id="projects-page"  class="inner-page">
-
-<!-- @include('projects.partials.sub-menu') -->
-	<div class="page-home">
-		<a href="/projects"><span class="ss-list"></span></a>
-	</div>
-	<div class="page-return">
-		<a href="{{ URL::previous() }}"><span class="ss-reply"></span></a>
-	</div>
+@section('header-menu')
 	<div class="page-menu">
 	<ul>
 		<li>
-			<span class="ss-filter"></span>
+			<div id="projects-new-project-form" class="create-something-new">
+				<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
+			</div>
+		</li>
+		<li>
 			<span class="page-menu-text">Filtering Priority:</span>
 		</li>
 		<li class="select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-priority">
+			<select class="filter-priority projects-filter">
 				<option value="0">Priority Filter</option>
 				@if(!empty($low)) <option value="low" selected>Low</option> @else <option value="low">Low</option> @endif
 				@if(!empty($normal)) <option value="normal" selected>Normal</option> @else <option value="normal">Normal</option> @endif
@@ -32,6 +27,10 @@
 		</li>
 	</ul>
 	</div>
+@stop
+
+@section('page-content')
+<div id="projects-page"  class="inner-page">
 
 	@if($projects->isEmpty())
 			<div class="projects-post">

@@ -19,15 +19,30 @@
 				<div id="company-logo">
 					<a href="/" class="logo"><img src="/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
 				</div>
-				<div id="page-title">
-					@if(current_page() == '/')
-					<h2>Welcome to the IOS Remote Office</h2>
-					@else
-					<h2>@yield('page-title')</h2>
-					@endif
+				<div id="header-menu">
+					@yield('header-menu')
 				</div>
 			</div>			
 			
+			<div id="welcome-box">
+				<div class="profile-details">
+					<a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }}</span></a>
+					<a class="todo-link" href="/to-do/{{ Auth::user()->user_path }}"><span class="linked-to" value="">0</span></a>
+				</div>
+				<div class="profile-dropdown">
+					<a href="/profile/" class="profile-dropdown-link"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></a>
+					<a href="/profile/" class="profile-dropdown-link"><span class="arrow-down ss-navigatedown"></span></a>
+						<ul class="sub_menu_links-hover">
+							<li><a href="/profile/" class="sub-link">Profile</a></li>
+							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
+							@if(Auth::user()->userrole == 'admin')
+							<li class="sub-link"><a href="/admin/">Admin</a></li>
+							@endif
+							<li class="sub-link"><a href="/logout/">Logout</a></li>
+						</ul>
+				</div>
+			</div>
+
 			<div id="search-box">
 				<div class="search-details">
 					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
@@ -35,15 +50,6 @@
 					{{ Form::close() }}
 				</div>
 			</div>
-
-			<div id="welcome-box">
-				<img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}">
-				<ul id="welcome-name">
-					<li id="link-name" class="link">Howdy, {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</li>
-					<li id="link-to-do" class="link"><a href="/to-do/{{ Auth::user()->user_path }}">To-Do List: </a><span id="linked-to-welcome" class="linked-to"><a href="/to-do/{{ Auth::user()->user_path }}"></a></span></li>
-				</ul>
-			</div>
-			
 			
 			@if(Session::get('flash_message_error'))
 				<div id="message-box">
@@ -126,23 +132,6 @@
 						</ul>
 						<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
 						<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
-						<li alt="Profile" id="link-profile" class="link"><a href="/profile/" class="link-href"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span class="link-text">{{ Auth::user()->first_name }}</span></a><span id="linked-to-profile" class="linked-to" value=""><a href="/to-do/{{ Auth::user()->user_path }}"></a></span>
-						<ul class="sub_menu_links-hover">
-							<li><a href="/profile/" class="sub-link">Profile</a></li>
-							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
-							@if(Auth::user()->userrole == 'admin')
-							<li class="sub-link"><a href="/admin/">Admin</a></li>
-							@endif
-						</ul>
-						</li>
-						<ul class="sub_menu_links">
-							<li><a href="/profile/" class="sub-link">Profile</a></li>
-							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
-							@if(Auth::user()->userrole == 'admin')
-							<li class="sub-link"><a href="/admin/">Admin</a></li>
-							@endif
-						</ul>
-						<li alt="Profile" id="link-logout" class="link"><a href="/logout/" class="ss-logout link-href"><span class="link-text">Logout</span></a></li>
 					</ul>
 				</div> <!-- .menu_nav -->
 			</div> <!-- #menu_header -->
@@ -150,8 +139,14 @@
 	</div>
 	<div id="page">
 		<div class="section">
-			
 			<div id="content">
+				<div id="page-title">
+					@if(current_page() == '/')
+					<h2>Welcome to the IOS Remote Office</h2>
+					@else
+					<h2>@yield('page-title')</h2>
+					@endif
+				</div>
 				@yield('page-content')
 			</div> <!-- #content -->
 

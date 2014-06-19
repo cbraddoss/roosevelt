@@ -4,32 +4,31 @@
 {{ 'Projects at stage: '. ucwords(str_replace('-',' ', $stage)) }}
 @stop
 
-@section('page-content')
-<div id="projects-page"  class="inner-page">
-
-<!-- @include('projects.partials.sub-menu') -->
-	<div class="page-home">
-		<a href="/projects"><span class="ss-list"></span></a>
-	</div>
-	<div class="page-return">
-		<a href="{{ URL::previous() }}"><span class="ss-reply"></span></a>
-	</div>
+@section('header-menu')
 	<div class="page-menu">
 	<ul>
 		<li>
-			<span class="ss-filter"></span>
+			<div id="projects-new-project-form" class="create-something-new">
+				<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
+			</div>
+		</li>
+		<li>
 			<span class="page-menu-text">Filtering Stage:</span>
 		</li>
 		<li class="select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-stage">
+			<select class="filter-stage projects-filter">
 				<option value="0">Stage Filter</option>
 				@if(!empty($stage)) {{ get_project_stage_select($stage) }} @else {{ get_project_stage_select() }} @endif
 			</select>
 		</li>
 	</ul>
 	</div>
+@stop
+
+@section('page-content')
+<div id="projects-page"  class="inner-page">
 
 	@if($projects->isEmpty())
 			<div class="projects-post">

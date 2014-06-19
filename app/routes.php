@@ -119,7 +119,8 @@ Route::get('/help', function(){
 })->before('auth');
 
 Route::get('/wiki', function(){
-	return View::make('wiki.index');
+	if(Request::ajax()) return View::make('wiki.partials.new');
+	else return View::make('wiki.index');
 })->before('auth');
 // End dummy pages section
 

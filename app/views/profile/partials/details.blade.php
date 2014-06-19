@@ -1,11 +1,13 @@
 @extends('profile.index')
 
-@section('profile-details')
-<div class="create-something-new">
-	<button class="add-new "><a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile ss-write">Edit Profile</a></button>
-</div>
+@section('header-menu')
 <div class="page-menu">
 	<ul>
+		<li>
+			<div class="create-something-new">
+				<button class="add-new"><a href="/profile/edit" id="{{ Auth::user()->id }}" class="button edit-profile ss-write">Edit Profile</a></button>
+			</div>
+		</li>
 		<li><a href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
 		<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="link">Projects</a></li>
 		<li><a href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="link">Billables</a></li>
@@ -15,7 +17,9 @@
 	@endif
 	</ul>
 </div>
+@stop
 
+@section('profile-details')
 <h3>Details</h3>
 <div id="profile-details">
 	<div class="profile-field">

@@ -70,6 +70,17 @@ jQuery(document).ready(function($){
 			'visibility': 'hidden'
 		}).hide();
 	});
+	$('#welcome-box div.profile-dropdown').hover(function(){
+		$(this).addClass('active');
+		$(this).children('ul.sub_menu_links-hover').css({
+			'visibility': 'visible'
+		}).fadeIn(400).show();
+	},function(){
+		$(this).removeClass('active');
+		$(this).children('ul.sub_menu_links-hover').css({
+			'visibility': 'hidden'
+		}).hide();
+	});
 
 	//menu dropdowns
 	// $(".the_menu ul li.arrow").hover(function() { //When hovering...
@@ -93,12 +104,10 @@ jQuery(document).ready(function($){
 	var helpCount = parseInt($(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-help').attr('value'),10);
 	var todoCount = projectsCount+billablesCount+helpCount;
 	if(todoCount == 0) {
-		$(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-profile').hide();
-		$(document).find('#header #welcome-box #welcome-name li#link-to-do #linked-to-welcome').hide();
+		// do nothing
 	}
 	else {
-		$(document).find('#header #welcome-box #welcome-name li#link-to-do #linked-to-welcome a').append(todoCount);
-		$(document).find('#menu_header .menu_nav ul#menu_links li.link span#linked-to-profile a').html(todoCount);
+		$(document).find('#welcome-box .todo-link span.linked-to').html(todoCount);
 	}
 
 	// Detect window height and change menu to position:absolute, etal
@@ -394,37 +403,66 @@ jQuery(document).ready(function($){
 	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
 	$(document).on('click', '#news-page span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
+		console.log(articleId);
 		$.post(
-			$('#news-page #article-'+articleId+' form.favorite-article').prop('action'),
+			$('#news-page form#favorite-article-'+articleId).prop('action'),
 			{
-				"_token" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=_token]').val(),
-				"favorite" : $('#news-page #article-'+articleId+' form.favorite-article').find('input[name=favorite]').val(),
+				"_token" : $('#news-page form#favorite-article-'+articleId).find('input[name=_token]').val(),
+				"favorite" : $('#news-page form#favorite-article-'+articleId).find('input[name=favorite]').val(),
 			}, function (data) {
 				if(data.nofav) {
-					$('#news-page #article-'+articleId+' span.ss-heart').removeClass('favorited');
-					$('#news-page span.ss-heart').find('.favorite-this').html('Favorite This Article');
+					$('#news-page #favorite-'+articleId).removeClass('favorited');
+					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Favorite This Article');
 				}
 				else {
-					$('#news-page #article-'+articleId+' span.ss-heart').addClass('favorited');
-					$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
+					$('#news-page #favorite-'+articleId).addClass('favorited');
+					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Unfavorite This Article');
+				}
+			},'json'
+		);
+		return false;
+	});
+	// favorite articles
+	$('#header-menu span.ss-heart').hover(function(){
+		$(this).find('span.favorite-this').show();
+	}, function(){
+		$(this).find('span.favorite-this').hide();
+	});
+	$('#header-menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
+	$(document).on('click', '#header-menu span.ss-heart', function(){
+		var articleId = $(this).find('.favorite-this').attr('favoriteval');
+		console.log(articleId);
+		$.post(
+			$('#header-menu form#favorite-article-'+articleId).prop('action'),
+			{
+				"_token" : $('#header-menu form#favorite-article-'+articleId).find('input[name=_token]').val(),
+				"favorite" : $('#header-menu form#favorite-article-'+articleId).find('input[name=favorite]').val(),
+			}, function (data) {
+				if(data.nofav) {
+					$('#header-menu #favorite-'+articleId).removeClass('favorited');
+					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Favorite This Article');
+				}
+				else {
+					$('#header-menu #favorite-'+articleId).addClass('favorited');
+					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Unfavorite This Article');
 				}
 			},'json'
 		);
 		return false;
 	});
 	// filter by type (unread, mentions, favorites, drafts)
-	$(document).on('change','#news-page .filter-type', function(){
+	$(document).on('change','#header-menu .filter-type.news-filter', function(){
 		var typeLink = $(this).val();
 		if(typeLink == 0 || typeLink == '0') window.location.href='/news';
 		else window.location.href='/news/'+typeLink;
 	});
 	// Filter by author
-	$(document).on('change','#news-page .filter-author', function(){
+	$(document).on('change','#header-menu .filter-author.news-filter', function(){
 		var authorLink = $(this).val();
 		window.location.href='/news/author/'+authorLink;
 	});
 	// Filter by date
-	$('#news-page .page-menu div.filter-date').datepicker().on('changeDate', function(ev) {
+	$('#header-menu .page-menu div.filter-date.news-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -439,14 +477,14 @@ jQuery(document).ready(function($){
 		$(this).find('.post-hover-content').hide();
 	});
 	// Add new article
-	$(document).on('click','#content #news-new-article-form button.add-new',function(){
+	$(document).on('click','#header-menu #news-new-article-form button.add-new',function(){
 		$.get( "/news", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('.inner-page').prepend(data);
-			$('.inner-page .article-add-form.create-something-form').slideDown(400);
-			$('#content #news-new-article-form.create-something-new button').addClass('active');
+			$('#content').prepend(data);
+			$('#content .article-add-form.create-something-form').slideDown(400);
+			$('#header-menu #news-new-article-form.create-something-new button').addClass('active');
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -477,7 +515,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
-					$('#content #news-new-article-form.create-something-new button').removeClass('active');
+					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -489,7 +527,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
-					$('#content #news-new-article-form.create-something-new button').removeClass('active');
+					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -626,25 +664,42 @@ jQuery(document).ready(function($){
 		pageName = pageName[0].replace('page-news-article-','');
 		//console.log(pageName);
 		$.get( "/news/article/"+pageName+"/comment", function( data ) {
-			$('#news-post-comment-form').html(data);
-			$('#news-post-comment-form input[name=article-slug]').val(pageName);
-			$('form.add-comment .comment-content').focus();
+			$('#comments').append(data);
+			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
+			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(pageName);
+			$('button.post-comment').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#content #news-post-comment-form.create-something-new button').addClass('active');
+			$('#content form.add-comment .comment-content').focus();
 		});
 	});
 	// cancel news article reply
-	$(document).on('click','#news-page #news-post-comment-form span.cancel',function(){
+	$(document).on('click','#news-page .news-article-new-comment span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
 		if(findChanged > 0) {
 			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
-				$('#news-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
+					$(document).find('.news-article-new-comment.create-something-form').remove();
+					$('#content #news-post-comment-form.create-something-new button').removeClass('active');
+					$('button.post-comment').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
 			}
 		}
 		else {
-			$('#news-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
+					$(document).find('.news-article-new-comment.create-something-form').remove();
+					$('#content #news-post-comment-form.create-something-new button').removeClass('active');
+					$('button.post-comment').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
 		}
@@ -655,7 +710,7 @@ jQuery(document).ready(function($){
 		success:       postCommentSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
-	$(document).on('submit','#news-page #news-post-comment-form form.add-comment', function() {
+	$(document).on('submit','#news-page .news-article-new-comment form.add-comment', function() {
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
@@ -892,7 +947,7 @@ jQuery(document).ready(function($){
 	// 	var monthLink = months[dateLink.getMonth()];
 	// 	window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	// });
-	$('.page-menu div.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
+	$('#header-menu div.calendar-jump-to-date.calendar-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -908,32 +963,32 @@ jQuery(document).ready(function($){
 
 	/* Projects Page */
 	// Filter by user
-	$(document).on('change','#projects-page .filter-user', function(){
+	$(document).on('change','#header-menu .filter-user.projects-filter', function(){
 		var authorLink = $(this).val();
 		window.location.href='/projects/assigned-to/'+authorLink;
 	});
 	// Filter by project stage
-	$(document).on('change','#projects-page .filter-stage', function(){
+	$(document).on('change','#header-menu .filter-stage.projects-filter', function(){
 		var stageLink = $(this).val();
 		window.location.href='/projects/stage/'+stageLink;
 	});
 	// Filter by project priority
-	$(document).on('change','#projects-page .filter-priority', function(){
+	$(document).on('change','#header-menu .filter-priority.projects-filter', function(){
 		var priorityLink = $(this).val();
 		window.location.href='/projects/priority/'+priorityLink;
 	});
 	// Filter by project status
-	$(document).on('change','#projects-page .filter-status', function(){
+	$(document).on('change','#header-menu .filter-status.projects-filter', function(){
 		var statusLink = $(this).val();
 		window.location.href='/projects/status/'+statusLink;
 	});
 	// Filter by project type
-	$(document).on('change','#projects-page .filter-type', function(){
+	$(document).on('change','#header-menu .filter-type.projects-filter', function(){
 		var typeLink = $(this).val();
 		window.location.href='/projects/type/'+typeLink;
 	});
 	// Filter by date
-	$('#projects-page .page-menu div.filter-date').datepicker().on('changeDate', function(ev) {
+	$('#header-menu .page-menu div.filter-date.projects-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -1124,14 +1179,14 @@ jQuery(document).ready(function($){
 		}
 	}
 	// add new Project
-	$(document).on('click','#content #projects-new-project-form button.add-new',function(){
+	$(document).on('click','#header-menu #projects-new-project-form button.add-new',function(){
 		$.get( "/projects", function( data ) {
-			$('.inner-page').prepend(data);
-			$('.inner-page .project-add-form.create-something-form').slideDown(400);
+			$('#content').prepend(data);
+			$('#content .project-add-form.create-something-form').slideDown(400);
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content #projects-new-project-form.create-something-new button').addClass('active');
+			$('#header-menu #projects-new-project-form.create-something-new button').addClass('active');
 			$('#content form.add-project input[name=title]').focus();
 
 			var calTemp = new Date();
@@ -1251,7 +1306,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
-					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
+					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1263,7 +1318,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
-					$('#content #projects-new-project-form.create-something-new button').removeClass('active');
+					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1330,25 +1385,44 @@ jQuery(document).ready(function($){
 		pageName = pageName[0].replace('page-projects-post-','');
 		//console.log(pageName);
 		$.get( "/projects/post/"+pageName+"/comment", function( data ) {
-			$('#projects-post-comment-form').html(data);
-			$('#projects-post-comment-form input[name=project-slug]').val(pageName);
-			$('form.add-comment .comment-content').focus();
+
+			$('#comments').append(data);
+			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
+			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(pageName);
+			$('button.post-comment').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#content #projects-post-comment-form.create-something-new button').addClass('active');
+			$('#content form.add-comment .comment-content').focus();
+
 		});
 	});
 	// cancel project post reply
-	$(document).on('click','#projects-page #projects-post-comment-form span.cancel',function(){
+	$(document).on('click','#projects-page .projects-post-new-comment.create-something-form span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
 		if(findChanged > 0) {
 			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
 		
 			if(confirmCancel == true) {
-				$('#projects-post-comment-form').html('<span class="news-button"><button class="post-comment">Reply</button></span>');
+				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
+					$(document).find('.projects-post-new-comment.create-something-form').remove();
+					$('#content #projects-post-comment-form.create-something-new button').removeClass('active');
+					$('button.post-comment').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 				$('#message-box-json').find('.section').empty();
 				$('#message-box-json').fadeOut();
 			}
 		}
 		else {
-			$('#projects-post-comment-form').html('<span class="projects-button"><button class="post-comment">Reply</button></span>');
+				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
+					$(document).find('.projects-post-new-comment.create-something-form').remove();
+					$('#content #projects-post-comment-form.create-something-new button').removeClass('active');
+					$('button.post-comment').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 			$('#message-box-json').find('.section').empty();
 			$('#message-box-json').fadeOut();
 		}
@@ -1359,7 +1433,7 @@ jQuery(document).ready(function($){
 		success:       projectCommentSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
-	$(document).on('submit','#projects-page #projects-post-comment-form form.add-comment', function() {
+	$(document).on('submit','#projects-page .projects-post-new-comment form.add-comment', function() {
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
@@ -1573,11 +1647,11 @@ jQuery(document).ready(function($){
 
 	/* Accounts */
 	// add new account
-	$(document).on('click','#content #accounts-new-account-form button.add-new',function(){
+	$(document).on('click','#header-menu #accounts-new-account-form button.add-new',function(){
 		$.get( "/accounts", function( data ) {
-			$('.inner-page').prepend(data);
-			$('.inner-page .account-add-form.create-something-form').slideDown(400);
-			$('#content #accounts-new-account-form.create-something-new button').addClass('active');
+			$('#content').prepend(data);
+			$('#content .account-add-form.create-something-form').slideDown(400);
+			$('#header-menu #accounts-new-account-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -1592,7 +1666,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.account-add-form.create-something-form').remove();
-					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1604,7 +1678,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.account-add-form.create-something-form').remove();
-					$('#content #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1616,11 +1690,11 @@ jQuery(document).ready(function($){
 	
 	/* Billables */
 	// add new billable
-	$(document).on('click','#content #billables-new-billable-form button.add-new',function(){
+	$(document).on('click','#header-menu #billables-new-billable-form button.add-new',function(){
 		$.get( "/billables", function( data ) {
-			$('.inner-page').prepend(data);
-			$('.inner-page .billable-add-form.create-something-form').slideDown(400);
-			$('#content #billables-new-billable-form.create-something-new button').addClass('active');
+			$('#content').prepend(data);
+			$('#content .billable-add-form.create-something-form').slideDown(400);
+			$('#header-menu #billables-new-billable-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -1635,7 +1709,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.billable-add-form.create-something-form').remove();
-					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1647,7 +1721,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.billable-add-form.create-something-form').remove();
-					$('#content #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1659,11 +1733,11 @@ jQuery(document).ready(function($){
 
 	/* Help */
 	// add new help
-	$(document).on('click','#content #help-new-help-form button.add-new',function(){
+	$(document).on('click','#header-menu #help-new-help-form button.add-new',function(){
 		$.get( "/help", function( data ) {
-			$('.inner-page').prepend(data);
-			$('.inner-page .help-add-form.create-something-form').slideDown(400);
-			$('#content #help-new-help-form.create-something-new button').addClass('active');
+			$('#content').prepend(data);
+			$('#content .help-add-form.create-something-form').slideDown(400);
+			$('#header-menu #help-new-help-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -1678,7 +1752,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.help-add-form.create-something-form').remove();
-					$('#content #help-new-help-form.create-something-new button').removeClass('active');
+					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1690,7 +1764,50 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.help-add-form.create-something-form').remove();
-					$('#content #help-new-help-form.create-something-new button').removeClass('active');
+					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
+	
+	/* Wiki */
+	// add new wiki
+	$(document).on('click','#header-menu #wiki-new-wiki-form button.add-new',function(){
+		$.get( "/wiki", function( data ) {
+			$('#content').prepend(data);
+			$('#content .wiki-add-form.create-something-form').slideDown(400);
+			$('#header-menu #wiki-new-wiki-form.create-something-new button').addClass('active');
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
+		});
+	});
+	// cancel adding new wiki
+	$(document).on('click','#content .wiki-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.wiki-add-form.create-something-form').remove();
+					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.wiki-add-form.create-something-form').remove();
+					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1742,6 +1859,8 @@ jQuery(document).ready(function($){
 		if($(this).attr('class') == 'filter-priority') return;
 		if($(this).attr('class') == 'filter-user') return;
 		if($(this).attr('class') == 'filter-stage') return;
+		if($(this).hasClass('news-filter') ) return;
+		if($(this).hasClass('projects-filter') ) return;
 		if($(this).attr('class') == 'calendar-jump-to-date') return;
 		if($(this).parent().parent().attr('class') == 'login-form') return;
 		if($(this).parent().parent().attr('class') == 'login-remind') return;

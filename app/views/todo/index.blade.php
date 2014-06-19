@@ -4,18 +4,15 @@
 {{ $user->first_name.' '.$user->last_name.' - To-Do List' }}
 @stop
 
-@section('page-content')
-<div id="todo-page"  class="inner-page">
-	
+@section('header-menu')
 	<div class="page-menu">
 		<ul>
-			<li><a href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
-			<li><a href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="link">Projects</a></li>
-			<li><a href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="link">Billables</a></li>
-			<li><a href="/help/assigned-to/{{ Auth::user()->user_path }}" class="link">Help</a></li>
-		@if(Auth::user()->userrole == 'admin')
-			<li><a href="/admin/" class="link">Admin</a></li>
-		@endif
+			<li>
+				<div id="news-new-article-form" class="create-something-new">
+					<span class="news-button"><button class="add-new ss-plus">Add New</button></span>
+				</div>
+			</li>
+			<li><span class="page-menu-text">View: </span></li>
 			<li class="select-dropdown">
 				<span class="ss-dropdown"></span>
 				<span class="ss-directup"></span>
@@ -25,6 +22,10 @@
 			</li>
 		</ul>
 	</div>
+@stop
+
+@section('page-content')
+<div id="todo-page"  class="inner-page">
 
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
