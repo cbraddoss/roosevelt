@@ -1271,6 +1271,9 @@ jQuery(document).ready(function($){
 					$(this).ajaxSubmit(accountSearchOptions);
 					return false;
 				}
+				else {
+					$(document).find('form.add-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
+				}
 			});
 			$(document).on('click','form.add-project .accounts-search-ajax span', function() {
 				var accountID = parseInt($(this).attr('value'),10);
