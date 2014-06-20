@@ -1111,10 +1111,13 @@ select {
 }
 #content .create-something-form .form-subscribe-buttons span.subscribe,
 #content .create-something-form .form-textarea-buttons span.ping,
+#content .create-something-form .form-textarea-buttons span.template-code,
 #content .edit-something-form .form-subscribe-buttons span.subscribe,
 #content .edit-something-form .form-textarea-buttons span.ping,
+#content .edit-something-form .form-textarea-buttons span.template-code,
 #content .update-something-form .form-subscribe-buttons span.subscribe,
-#content .update-something-form .form-textarea-buttons span.ping {
+#content .update-something-form .form-textarea-buttons span.ping,
+#content .update-something-form .form-textarea-buttons span.template-code {
 	padding: 0px 5px;
 	margin: 0px 10px 0 0;
 	height: 20px;
@@ -1135,7 +1138,10 @@ select {
 }
 #content .create-something-form .form-textarea-buttons span.ping:hover,
 #content .edit-something-form .form-textarea-buttons span.ping:hover,
-#content .update-something-form .form-textarea-buttons span.ping:hover {
+#content .update-something-form .form-textarea-buttons span.ping:hover,
+#content .create-something-form .form-textarea-buttons span.template-code:hover,
+#content .edit-something-form .form-textarea-buttons span.template-code:hover,
+#content .update-something-form .form-textarea-buttons span.template-code:hover {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	box-shadow: 1px 1px 1px 0px #333;

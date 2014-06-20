@@ -373,6 +373,11 @@ jQuery(document).ready(function($){
 		$(this).toggleClass('ss-directright');
 		$(this).toggleClass('ss-dropdown');
 	});
+	$(document).on('click', '.form-textarea-buttons .template-code', function(){
+		var ping = $(this).attr('id');
+		//console.log(ping);
+	    $('textarea.template-items').insertAtCaret(ping+'\n');
+	});
 	/************/
 
 	/* Profile Page */

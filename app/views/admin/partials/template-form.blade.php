@@ -35,6 +35,17 @@
 </div>
 
 <div class="new-form-field">
+	<div class="form-textarea-buttons">
+	{{ Form::label('content', 'Add Template code:') }}
+	<span class="textarea-button add-start template-code" id="[[START]]">Start Section</span>
+	<span class="textarea-button add-header template-code" id="[[h]]">Header</span>
+	<span class="textarea-button add-checkbox template-code" id="[[o]]">Checkbox</span>
+	<span class="textarea-button add-end template-code" id="[[END]]">End Section</span>
+		
+	</div>
+</div>
+
+<div class="new-form-field">
 	{{ Form::label('items', 'Checklist Template:') }}
 	{{ Form::textarea('items', $template->items, array('placeholder' => 'Create new checklist here.', 'class' => 'template-items field', 'id' => 'template-items')) }}
 </div>
