@@ -1273,6 +1273,16 @@ select {
 	width: 110px;
 	height: 110px;	
 }
+#content .profile-left,
+#content .profile-right {
+	width: 48%;
+	margin: 0 1%;
+	float:left;
+}
+#content .profile-left input,
+#content .profile-right input {
+	width: 97%;
+}
 .dropdown-menu {
 	font-size:1.4em;
 	position: absolute;

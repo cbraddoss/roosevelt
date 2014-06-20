@@ -29,7 +29,7 @@ class ProfilesController extends \BaseController {
 		$user = Auth::user()->id;
 		$vacationsUpcoming = $this->vacations->get_upcoming($user);
 		$vacationsPrevious = $this->vacations->get_previous($user);
-		return View::make('profile.partials.details', compact('vacationsUpcoming','vacationsPrevious'));
+		return View::make('profile.index', compact('vacationsUpcoming','vacationsPrevious'));
 	}
 
 	/**
@@ -40,7 +40,7 @@ class ProfilesController extends \BaseController {
 	 */
 	public function edit()
 	{
-		return View::make('profile.partials.form');
+		//return View::make('profile.partials.form');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class ProfilesController extends \BaseController {
 	 */
 	public function update()
 	{
-		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/profile/edit')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/profile')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
         
 		$validator = Validator::make(Input::all(), array(
 			'id' => 'same:id',
@@ -65,7 +65,7 @@ class ProfilesController extends \BaseController {
 		
 		if($validator->fails()) {
 			$messages = $validator->messages()->first();
-			return Redirect::to('/profile/edit')->withInput()->withErrors($messages);
+			return Redirect::to('/profile')->withInput()->withErrors($messages);
 		}
 		else {
 			$user = User::find(Input::get('id'));
@@ -81,7 +81,7 @@ class ProfilesController extends \BaseController {
 				$user->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/profile/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+				return Redirect::to('/profile')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 			return Redirect::to('/profile')->with('flash_message_success','Profile successfully updated!');
 		}
