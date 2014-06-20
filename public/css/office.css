@@ -1136,6 +1136,17 @@ select {
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	box-shadow: 1px 1px 1px 0px #333;
 }
+#content .create-something-form .form-subscribe-buttons span.subscribe:before,
+#content .create-something-form .form-textarea-buttons span.ping:before,
+#content .create-something-form .form-textarea-buttons span.template-code:before,
+#content .edit-something-form .form-subscribe-buttons span.subscribe:before,
+#content .edit-something-form .form-textarea-buttons span.ping:before,
+#content .edit-something-form .form-textarea-buttons span.template-code:before,
+#content .update-something-form .form-subscribe-buttons span.subscribe:before,
+#content .update-something-form .form-textarea-buttons span.ping:before,
+#content .update-something-form .form-textarea-buttons span.template-code:before {
+	padding-right: 3px;
+}
 #content .create-something-form .form-textarea-buttons span.ping:hover,
 #content .edit-something-form .form-textarea-buttons span.ping:hover,
 #content .update-something-form .form-textarea-buttons span.ping:hover,
@@ -2398,6 +2409,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display:inline-block;
 	text-align:center;
 	cursor: pointer;
+	margin-right: 5px;
 }
 .calendar-header .key-desc .key-color.disabled {
 	background: #ddd !important;
@@ -2428,7 +2440,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-right:2px;
 }
 .calendar-header .key-title {
-	font-size:0.75em;
+	font-size:1em;
 	display: inline-block;
 }
 .calendar-days {
@@ -2505,7 +2517,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin: 1px 0 0;
 }
 .calendar-days .days-of-month a.calendar-post-title.news-article-link {
-	background: rgba(75,131,180,1);
+	background: #A95306;
 }
 .calendar-days .days-of-month a.calendar-post-title.user-anniversary-link {
 	background: rgba(116,39,155,1);
@@ -2515,7 +2527,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	cursor: context-menu;
 }
 .calendar-days .days-of-month a.calendar-post-title.projects-post-link {
-	background: #A95306;
+	background: rgba(75,131,180,1);
 }
 .calendar-days .days-of-month a.calendar-post-title.user-tasks-link {
 	background: rgba(204,0,0,1);
