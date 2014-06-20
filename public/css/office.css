@@ -1146,6 +1146,8 @@ select {
 #content .update-something-form .form-textarea-buttons span.ping:before,
 #content .update-something-form .form-textarea-buttons span.template-code:before {
 	padding-right: 3px;
+	font-size: 0.9em;
+	vertical-align: middle;
 }
 #content .create-something-form .form-textarea-buttons span.ping:hover,
 #content .edit-something-form .form-textarea-buttons span.ping:hover,
