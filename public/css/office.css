@@ -26,6 +26,12 @@ body {
 	padding:0px;
 	height: 100%;
 }
+::selection {
+	background: #D5A829;
+}
+::-moz-selection {
+	background: #D5A829;
+}
 a {
 	color: #4B83B4;
 	text-decoration: none;
@@ -306,7 +312,8 @@ select {
 	margin-left: 10px;
 }
 #header-menu .create-something-new button,
-#header-menu .navigate-something button {
+#header-menu .navigate-something .anchor-button,
+#header-menu .create-something-new .anchor-button {
 	background: none;
 	background: rgba(255,255,255, 0.25);
 	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);
@@ -329,28 +336,32 @@ select {
 	text-shadow: 1px 1px 0px #000;
 }
 #header-menu .create-something-new button:hover,
-#header-menu .navigate-something button:hover {
+#header-menu .navigate-something .anchor-button:hover,
+#header-menu .create-something-new .anchor-button:hover {
 	box-shadow: inset 1px 1px 1px #333;
 	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
 }
 #header-menu .create-something-new button.active,
-#header-menu .navigate-something button.active {
+#header-menu .navigate-something .anchor-button.active,
+#header-menu .create-something-new .anchor-button.active {
 	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 	box-shadow: inset 1px 1px 1px #333;
 }
 #header-menu .create-something-new button a,
-#header-menu .navigate-something button a {
+#header-menu .navigate-something .anchor-button a,
+#header-menu .create-something-new .anchor-button a {
 	text-decoration: none;
 	color: #fff;
-	height: 20px;
+	height: 25px;
+	padding: 0 5px;
 	padding-top: 0px !important;
 	display: inline-block;
 }
-#header-menu .navigate-something button a {
+#header-menu .navigate-something .anchor-button a {
 	padding: 0px !important;
 	font-size: 1.1em;
 }
-#header-menu .navigate-something button a span {
+#header-menu .navigate-something .anchor-button a span {
 	color: #fff;
 }
 /* Search Bar */
@@ -722,9 +733,9 @@ select {
 	margin: 5px 1% 0 13%;
 	padding: 5px 1px 0;
 	height: 30px;
-	color: #fff;
+	color: #000;
 	border-radius: 3px;
-	background: linear-gradient(to bottom,  #555 0%,#222 100%);
+	background: linear-gradient(to bottom,  #ddd 0%, #aaa 100%);
 	box-shadow: 1px 1px 3px 0px #333;
 }
 #message-box .action-message span,
@@ -735,16 +746,16 @@ select {
 #message-box-json .action-message .ss-check,
 #message-box .action-message .flash-message-success,
 #message-box-json .action-message .flash-message-success {
-	color: #fff;
-	text-shadow:1px 1px 1px rgba(0,128,0,1);
+	color: rgba(0,128,0,1);
+	text-shadow:1px 1px 1px #fff;
 	padding:4px;
 }
 #message-box .action-message .ss-alert,
 #message-box-json .action-message .ss-alert,
 #message-box .action-message .flash-message-error,
 #message-box-json .action-message .flash-message-error {
-	color: #fff;
-	text-shadow:1px 1px 1px rgba(204,0,0,1);
+	color: rgba(204,0,0,1);
+	text-shadow:1px 1px 1px #fff;
 	padding:4px;
 }
 /* Page Content */
@@ -933,7 +944,8 @@ select {
 #content .create-something-new .ss-view:before {
 	margin-right: 5px;
 }
-#content .create-something-new button {
+#content .create-something-new button,
+#content .create-something-new .anchor-button {
 	background: none;
 	background: rgba(255,255,255, 0.25);
 	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
@@ -951,25 +963,31 @@ select {
 	/*border: 1px solid #ddd;*/
 	box-shadow: 1px 1px 0px #000;
 	text-shadow: 1px 1px 0px #000;
+	z-index: 60;
 }
-#content .create-something-new button:hover {
+#content .create-something-new button:hover,
+#content .create-something-new .anchor-button:hover {
 	box-shadow: inset 1px 1px 1px #333;
 	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
 }
-#content .create-something-new button.active {
+#content .create-something-new button.active,
+#content .create-something-new .anchor-button.active {
 	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 	box-shadow: inset 1px 1px 1px #333;
 }
-#content .create-something-new button a {
+/*#content .create-something-new button a {
 	text-decoration: none;
 	color: #fff;
 	height: 25px;
 	line-height: 25px;
 	vertical-align: middle;
 	display: inline-block;
-}
-/* create something new forms */
-#content .create-something-form {
+	z-index: 65;
+}*/
+/* create something new and edit something forms */
+#content .create-something-form,
+#content .edit-something-form,
+#content .update-something-form {
 	display: none;
 	position: relative;
 	width: 98%;
@@ -982,13 +1000,32 @@ select {
 	border-radius: 3px;
 	color: #fff;
 }
-#content .create-something-form h3 {
+#content .update-something-form {
+	display: block;
+}
+#content .edit-something-form {
+	width: 96%;
+}
+#content .create-something-form h3,
+#content .edit-something-form h3,
+#content .update-something-form h3 {
 	font-size: 1.4em;
 	font-weight: 500;
 	color: #fff;
 	text-shadow: 1px 1px 0px #000;
 }
-#content .create-something-form .new-form-field {
+#content .create-something-form h4,
+#content .edit-something-form h4,
+#content .update-something-form h4 {
+	font-size: 1.2em;
+	font-weight: 500;
+	color: #fff;
+	text-shadow: 1px 1px 0px #000;
+	margin-bottom: 10px;
+}
+#content .create-something-form .new-form-field,
+#content .edit-something-form .new-form-field,
+#content .update-something-form .new-form-field {
 	width: 100%;
 	display: block;
 	margin-bottom: 5px;
@@ -996,14 +1033,23 @@ select {
 #content .create-something-form .new-form-field-extras {
 
 }
-#content .create-something-form label {
+#content .create-something-form label,
+#content .edit-something-form label,
+#content .update-something-form label {
 	width: 200px;
 	display: inline-block;
 	height: 25px;
 	vertical-align: top;
 }
+#content .edit-something-form label {
+	width: 150px;
+}
 #content .create-something-form input,
-#content .create-something-form textarea {
+#content .create-something-form textarea,
+#content .edit-something-form input,
+#content .edit-something-form textarea,
+#content .update-something-form input,
+#content .update-something-form textarea {
 	border: 1px solid #ddd;
 	background: #fafafa;
 	font-size: 1em;
@@ -1015,35 +1061,60 @@ select {
 	color: #fff;
 	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);;
 }
-#content .create-something-form .select-dropdown {
+#content .create-something-form input,
+#content .edit-something-form input,
+#content .update-something-form input {
 	height: 25px;
 }
-#content .create-something-form .select-dropdown select {
+#content .create-something-form .select-dropdown,
+#content .edit-something-form .select-dropdown,
+#content .update-something-form .select-dropdown {
+	height: 25px;
+}
+#content .create-something-form .select-dropdown select,
+#content .edit-something-form .select-dropdown select,
+#content .update-something-form .select-dropdown select {
 	margin-top: 5px;
 }
 #content .create-something-form input:focus,
-#content .create-something-form textarea:focus {
+#content .create-something-form textarea:focus,
+#content .edit-something-form input:focus,
+#content .edit-something-form textarea:focus,
+#content .update-something-form input:focus,
+#content .update-something-form textarea:focus {
 	box-shadow: 0px 0px 3px 0px #A95306;
 }
-#content .create-something-form input[name=title] {
+#content .create-something-form input[name=title],
+#content .edit-something-form input[name=title],
+#content .update-something-form input[name=title] {
 	height: 25px;
 }
-#content .create-something-form textarea[name=content] {
+#content .create-something-form textarea[name=content],
+#content .edit-something-form textarea[name=content],
+#content .update-something-form textarea[name=content] {
 	padding: 5px;
 	height: 200px;
 }
 #content .project-add-form.create-something-form textarea[name=content] {
 	height: 75px;
 }
-#content .create-something-form .form-subscribe-buttons {
+#content .create-something-form .form-subscribe-buttons,
+#content .edit-something-form .form-subscribe-buttons,
+#content .update-something-form .form-subscribe-buttons {
 	margin-bottom: 10px;
 }
-#content .create-something-form .form-subscribe-buttons .subscribe-button-text {
+#content .create-something-form .form-subscribe-buttons .subscribe-button-text,
+#content .edit-something-form .form-subscribe-buttons .subscribe-button-text,
+#content .update-something-form .form-subscribe-buttons .subscribe-button-text {
 	font-size: 1.2em;
 	display: block;
 }
 #content .create-something-form .form-subscribe-buttons span.subscribe,
-#content .create-something-form .form-textarea-buttons span.ping {
+#content .create-something-form .form-textarea-buttons span.ping,
+#content .edit-something-form .form-subscribe-buttons span.subscribe,
+#content .edit-something-form .form-textarea-buttons span.ping,
+#content .update-something-form .form-subscribe-buttons span.subscribe,
+#content .update-something-form .form-textarea-buttons span.ping {
 	padding: 0px 5px;
 	margin: 0px 10px 0 0;
 	height: 20px;
@@ -1053,26 +1124,37 @@ select {
 	color: #555;
 	background: linear-gradient(165deg, #eee 0%, #ccc 100%);
 	box-shadow: 1px 1px 1px 0px #333;
+	white-space: nowrap;
 }
-#content .create-something-form .form-subscribe-buttons span.subscribe-selected {
+#content .create-something-form .form-subscribe-buttons span.subscribe-selected,
+#content .edit-something-form .form-subscribe-buttons span.subscribe-selected,
+#content .update-something-form .form-subscribe-buttons span.subscribe-selected {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	box-shadow: 1px 1px 1px 0px #333;
 }
-#content .create-something-form .form-textarea-buttons span.ping:hover {
+#content .create-something-form .form-textarea-buttons span.ping:hover,
+#content .edit-something-form .form-textarea-buttons span.ping:hover,
+#content .update-something-form .form-textarea-buttons span.ping:hover {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	box-shadow: 1px 1px 1px 0px #333;
 }
-#content .create-something-form input.search-accounts {
+#content .create-something-form input.search-accounts,
+#content .edit-something-form input.search-accounts,
+#content .update-something-form input.search-accounts {
 	height: 25px;
 	width: 145px;
 	margin-left: -5px;
 }
-#content .create-something-form .form-account-searchbox {
+#content .create-something-form .form-account-searchbox,
+#content .edit-something-form .form-account-searchbox,
+#content .update-something-form .form-account-searchbox {
 	position: relative;
 }
-#content .create-something-form .form-account-searchbox .accounts-search-ajax {
+#content .create-something-form .form-account-searchbox .accounts-search-ajax,
+#content .edit-something-form .form-account-searchbox .accounts-search-ajax,
+#content .update-something-form .form-account-searchbox .accounts-search-ajax {
 	display: none;
 	position: absolute;
 	left: 360px;
@@ -1080,10 +1162,14 @@ select {
 	padding: 0;
 	color: #000;
 }
-#content .create-something-form .form-account-searchbox .accounts-search-ajax img {
+#content .create-something-form .form-account-searchbox .accounts-search-ajax img,
+#content .edit-something-form .form-account-searchbox .accounts-search-ajax img,
+#content .update-something-form .form-account-searchbox .accounts-search-ajax img {
 	height: 15px;
 }
-#content .create-something-form .form-account-searchbox .accounts-search-ajax span {
+#content .create-something-form .form-account-searchbox .accounts-search-ajax span,
+#content .edit-something-form .form-account-searchbox .accounts-search-ajax span,
+#content .update-something-form .form-account-searchbox .accounts-search-ajax span {
 	height: 20px;
 	padding: 5px 5px 0;
 	margin-right: 5px;
@@ -1095,48 +1181,60 @@ select {
 	border-radius: 3px;
 	cursor: pointer;
 }
-#content .create-something-form .form-account-searchbox .accounts-search-ajax span:hover {
+#content .create-something-form .form-account-searchbox .accounts-search-ajax span:hover,
+#content .edit-something-form .form-account-searchbox .accounts-search-ajax span:hover,
+#content .update-something-form .form-account-searchbox .accounts-search-ajax span:hover {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	box-shadow: 1px 1px 1px 0px #333;
 }
-#content .create-something-form input.datepicker {
+#content .create-something-form input.datepicker,
+#content .edit-something-form input.datepicker,
+#content .update-something-form input.datepicker {
 	height: 25px;
 	width: 145px;
 }
-#content .create-something-form input[type=file] {
+#content .create-something-form input[type=file],
+#content .edit-something-form input[type=file],
+#content .update-something-form input[type=file] {
 	width: 25%;
 	background: none;
 	border: none;
 	margin-left: -5px;
 }
-/* edit something form */
-#content .edit-something-form textarea {
-	width: 100%;
-}
-#content .edit-something-form input[type=file] {
-	clear:left;
-	display: inline-block;
-	margin: 10px 0;
-}
-#content .edit-something-form input[type=submit] {
-	display: inline-block;
-	float: right;
-	margin: 5px 0 0 10px;
-	background: #4b83b4;
-	background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%);
-}
-#content .edit-something-form span.cancel {
-	display: inline-block;
+#content .edit-something-form .delete-post input[type=submit],
+#content .update-something-form .delete-post input[type=submit] {
+	margin-top: 20px;
 	float:right;
-	margin: 5px 10px 0 10px;
-	padding: 2px 5px;
-	background: #cc0000;
-	background: linear-gradient(to bottom,  #cc0000 0%,#ff9389 100%);
+	background: linear-gradient(165deg, #B3002D 0%,#990026 100%);
+}
+#content .edit-something-form .delete-post input[type=submit]:hover,
+#content .update-something-form .delete-post input[type=submit]:hover {
+	background-color: rgba(204,0,0,0.6);
+	box-shadow: inset 0px 1px 0px 0px rgba(230,0,0,1), inset 0px -1px 0px 0px rgba(230,0,0,1);
+}
+#content .update-something-form .post-edit-attachment {
+	width: 100px;
+	height:100px;
+	padding:5px;
+	display: block;
+	clear:right;
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	overflow: hidden;
+}
+#content .update-something-form .post-edit-attachment img {
+	width: 100%;
+	height: auto;
+}
+#content .update-something-form .post-edit-attachment.post-pdf-attachment a img {
+	width: 32px;
+	height: 32px;
 }
 #content .edit-something-form .edit-comment-attachments .comment-edit-attachment {
 	float:none;
 	position: relative;
+	overflow: hidden;
 }
 #content .edit-something-form .edit-comment-attachments .comment-edit-attachment img {
 	display: inline-block;
@@ -1145,20 +1243,35 @@ select {
 	width: 100px;
 	height: auto;
 	padding:5px;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.4);
-	border-bottom:1px solid rgba(32,32,32,0.4);
-	border-left:1px solid rgba(32,32,32,0.1);
-}
-#content .edit-something-form .comment-edit-attachment .ss-delete {
-	color: red;
-	background: #333;
 	border: 1px solid #ddd;
-	padding: 2px 3px 1px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
+	border-radius: 3px;
+}
+#content .update-something-form .post-edit-attachment {
+	display: inline-block;
+	float:none;
+	margin: 0 20px -10px 0;
+	position: relative;
 	cursor: help;
+}
+#content .update-something-form .post-edit-attachment .ss-delete,
+#content .edit-something-form .comment-edit-attachment .ss-delete {
+	color: #c60;
+	background: rgba(0,0,0,0.4);
+	position: absolute;
+	border-radius: 3px;
+	bottom: 2px;
+	right: 10px;
+	width: 112px;
+	height: 112px;
+	cursor: help;
+	font-size: 7em;
+	font-weight: 100;
+}
+#content .update-something-form .post-edit-attachment .ss-delete {
+	bottom: 0px;
+	right: 0px;
+	width: 110px;
+	height: 110px;	
 }
 .dropdown-menu {
 	font-size:1.4em;
@@ -1705,6 +1818,22 @@ select {
 	clear:left;
 	width: 99%;
 }
+#content .projects-post.office-post-single .post-content {
+	width: 40%;
+	padding-right: 10px;
+	float:left;
+}
+#content .projects-post.office-post-single .post-attachment {
+	float: left;
+	display: block;
+	width: 40%;
+	padding-left: 10px;
+	border-left: 1px solid #ddd;
+	box-shadow: inset 1px 0px 0px 0px #fff;
+}
+#content .projects-post.office-post-single .post-attachment .post-single-attachment {
+	float:none;
+}
 #content .office-post-single .office-post-sub {
 	display: block;
 	clear: both;
@@ -1714,12 +1843,17 @@ select {
 	padding: 5px;
 }
 #content h3.comment-on {
-	margin: 10px 0;
+	margin: 10px 0 20px;
 }
 #content .office-post-comment {
 	display: block;
 	min-height: 70px;
 	position: relative;
+	padding: 10px 0;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	background: #fff;
+	margin: 10px 0;
 }
 #content .office-post-sub-comment {
 	margin-left: 52px;
@@ -1729,19 +1863,17 @@ select {
 	max-width: 40px;
 	display: block;
 	float:left;
-	margin-right: 5px;
+	margin: 5px;
 }
 #content .office-post-comment .comment-contents {
-	padding: 10px;
-	border: 1px solid #ddd;
-	border-radius: 3px;
-	background: #fff;
 	display: block;
 	width:auto;
-	margin: 10px 0 10px 0px;
+	margin: 10px 0 10px 50px;
 }
 #content .office-post-comment .comment-contents .edit-link {
 	font-size: 1.1em;
+	cursor: pointer;
+	margin-left: 15px;
 }
 #content .office-post-comment .comment-details {
 	display: block;
@@ -1757,9 +1889,19 @@ select {
 	font-size: 0.9em;
 }
 #content .office-post-comment .comment-options {
-	display: block;
-	float: right;
+	display: inline-block;
 	font-size: 1em;
+}
+#content .office-post-comment .comment-options .create-something-new {
+	height: 15px;
+	padding: 0;
+	margin: 0 0 0 15px;
+}
+#content .office-post-comment .comment-options button {
+	/*background: none;*/
+	height: 15px;
+	margin: 0;
+	padding: 0;
 }
 #content .office-post-comment .comment-options .post-comment {
 	padding: 2px 6px;
@@ -1795,8 +1937,8 @@ select {
 	float:right;
 	padding-top: 5px;
 }
-#content .article-single-attachment,
-#content .article-all-attachment,
+#content .post-single-attachment,
+#content .post-all-attachment,
 #content .comment-single-attachment {
 	display: inline-block;
 	float: right;
@@ -1809,8 +1951,8 @@ select {
 	text-align:right;
 	display: block;
 }
-#content .article-single-attachment img,
-#content .article-all-attachment img,
+#content .post-single-attachment img,
+#content .post-all-attachment img,
 #content .comment-single-attachment img {
 	width: 100px;
 	height:auto;
@@ -1818,28 +1960,23 @@ select {
 	display: block;
 	clear:right;
 	border-radius: 3px;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.4);
-	border-bottom:1px solid rgba(32,32,32,0.4);
-	border-left:1px solid rgba(32,32,32,0.1);
+	border: 1px solid #ddd;
 }
-#content .article-pdf-attachment,
+#content .post-pdf-attachment,
 #content .comment-pdf-attachment {
 	display: inline-block;
 	float: right;
-	margin: 0 0 10px 20px;
+	margin: 10px;
 	padding: 5px;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.2);
-	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);
+	border-radius: 3px;
+	border: 1px solid #ddd;
 }
-#content .article-pdf-attachment img,
+#content .post-pdf-attachment img,
 #content .comment-pdf-attachment img {
 	width: 32px;
 	height:auto;
 	padding:5px;
-	margin: 0 auto;
+	margin: 5px auto 5px;
 	display: block;
 	clear:right;
 }
@@ -1907,103 +2044,34 @@ select {
 	height: 20px;
 	padding: 10px;
 }
-#content .edit-attachments .article-pdf-attachment {
-	float:none !important;
-	margin: 0 20px 0 0 !important;
-}
-#content .article-edit-attachment {
-	display: inline-block;
-	float:none;
-	margin: 0 20px 0 0;
-	position: relative;
-	cursor: help;
-}
-#content .article-edit-attachment img {
-	width: 100px;
-	height:auto;
-	padding:5px;
-	display: block;
-	clear:right;
-	border-top:1px solid rgba(32,32,32,0.1);
-	border-right:1px solid rgba(32,32,32,0.2);
-	border-bottom:1px solid rgba(32,32,32,0.2);
-	border-left:1px solid rgba(32,32,32,0.1);
-}
-#content .article-edit-attachment .ss-delete {
-	color: red;
-	background: #333;
+#content .vacation-box {
+	background: #fff;
 	border: 1px solid #ddd;
-	padding: 2px 3px 1px;
-	position: absolute;
-	top: 0px;
-	right: 0px;
+	border-radius: 3px;
+	margin: 10px 0;
+	padding: 10px
 }
-#content form.update-article input{
-	height: 25px;
-	width: 400px;
-	margin-bottom:10px;
-	font-size:1em;
+#content .vacation-box .update-something-form {
+	background: none;
+	border: none;
+	box-shadow: none;
 }
-#content form.update-article a.button {
-	height: 20px;
-	padding:0px;
-	width: 397px;
-	margin-bottom:10px;
-	font-size:1em;
-	clear:left;
+#content .vacation-box .update-something-form .delete-post input[type=submit] {
+	float:none;
+	width: 75px;
+	font-size: 0.8em;
+}
+#content .vacation-box .vacation-details {
+	width: 145px;
+	height: 100px;
+	text-align: center;
+	float: left;
+	margin: 5px 10px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+#content .vacation-box .vacation-details span {
 	display: block;
-}
-#content form.update-article textarea {
-	height: 400px;
-	width: 600px;
-	font-size:1em;
-}
-#content .update-article input[type=submit] {
-	width:150px;
-	color: #fff;
-	margin-top: 10px;
-}
-#content .delete-article input[type=submit] {
-	width:150px;
-	margin-top: 10px;
-	color: #fff;
-	background: linear-gradient(165deg, #B3002D 0%,#990026 100%);
-}
-#content .delete-article input[type=submit]:hover {
-	background-color: rgba(204,0,0,0.6);
-	box-shadow: inset 0px 1px 0px 0px rgba(230,0,0,1), inset 0px -1px 0px 0px rgba(230,0,0,1);
-}
-#content .update-article .cancel {
-	width:145px !important;
-	height:25px;
-	line-height: 25px;
-	vertical-align: middle;
-	padding:0px 2px;
-	color: #fff;
-	margin-top:10px;
-}
-#content .update-article .article-calendar-date {
-	width:145px;
-	height:25px;
-	display: block;
-	margin:15px 0;
-	padding:0;
-}
-#content .update-article label[for=attachment] {
-	
-}
-#content .update-article input[type=file] {
-	width:300px;
-	display: block;
-	margin:15px 0;
-}
-#content .update-article select[name=status] {
-	clear:right;
-	display:block;
-}
-#content .article-attachment {
-	width: 100%;
-	height: auto;
 }
 /*general styles for all CSS Checkboxes*/
 #content .checklist-checkbox-label label {
@@ -2240,54 +2308,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height:25px;
 	font-size:1em;
 	padding: 0 4px;
-}
-/* Proile Page */
-#profile-page {
-	font-size: 1em;
-}
-#profile-page .user-image {
-	float: right;
-	background: #eee;
-	border-radius: 5px;
-	border:1px solid #ddd;
-}
-#profile-page #profile-details {
-	margin-bottom: 10px;
-}
-#profile-page .profile-field {
-	padding:10px;
-	height:25px;
-	border-bottom: 1px solid #aaa;
-}
-#profile-page .profile-title {
-	width: 200px;
-	display: inline-block;
-}
-#profile-page .password-value {
-	color: #ccc;
-}
-#profile-page input {
-	height:25px;
-	font-size:1em;
-	margin: 0;
-}
-#profile-page #user-vacations .field-add-vacation-dates {
-	background: #ddd;
-}
-#profile-page #user-vacations form.add-vacation-profile {
-	display: inline-block;
-}
-#profile-page #user-vacations form.add-vacation-profile input.datepicker {
-	padding: 0px 4px;
-	height:20px;
-	font-size: 0.8em;
-}
-#profile-page #user-vacations form.add-vacation-profile input.save-vacation-profile {
-	margin-left: 5px;
-}
-#profile-page #user-vacations form.remove-vacation-profile {
-	display: inline-block;
-	margin-left:10px;
 }
 
 /* Calendar */

@@ -106,9 +106,9 @@ class ProfilesController extends \BaseController {
 				$removeVacation->delete();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/profile')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+				return Redirect::to('/profile#vacations')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
-			return Redirect::to('/profile')->with('flash_message_success','Vacation successfully deleted.');
+			return Redirect::to('/profile#vacations')->with('flash_message_success','Vacation successfully deleted.');
         }
         else {
 			$validator = Validator::make(Input::all(), array(
@@ -135,12 +135,12 @@ class ProfilesController extends \BaseController {
 					$newVacation->save();
 				} catch(Illuminate\Database\QueryException $e)
 				{
-					return Redirect::to('/profile')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
+					return Redirect::to('/profile#vacations')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 				}
-				return Redirect::to('/profile')->with('flash_message_success','Vacation successfully added!');
+				return Redirect::to('/profile#vacations')->with('flash_message_success','Vacation successfully added!');
 			}
 		}
-		return Redirect::to('/profile')->with('flash_message_error','Something went wrong. :(');
+		return Redirect::to('/profile#vacations')->with('flash_message_error','Something went wrong. :(');
 	}
 
 }

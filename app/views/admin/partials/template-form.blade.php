@@ -5,18 +5,18 @@
 @stop
 
 @section('admin-template-content')
-
+<div class="update-something-form">
 {{ Form::open( array('class' => 'update-template', 'url' => '/admin/templates/'.$template->slug, 'method' => 'post', 'id' => $template->id) ) }}
 
 {{ Form::hidden('id', $template->id) }}
 
-<div class="user-field">
-	<span class="user-title name">{{ Form::label('name','Name:') }}</span>
-	<span class="user-value name-value">{{ Form::text('name', $template->name, array('placeholder' => 'Name', 'class' => 'name field')) }}</span>
+<div class="new-form-field">
+	{{ Form::label('name','Name:') }}
+	{{ Form::text('name', $template->name, array('placeholder' => 'Name', 'class' => 'name field')) }}
 </div>
 
-<div class="user-field">
-	<span class="user-title type">{{ Form::label('type','Type:') }}</span>
+<div class="new-form-field">
+	{{ Form::label('type','Type:') }}
 	<span class="user-value type-value select-dropdown">
 		<span class="ss-dropdown"></span>
 		<span class="ss-directup"></span>
@@ -25,8 +25,8 @@
 
 </div>
 
-<div class="user-field">
-	<span class="user-title status">{{ Form::label('status','Status:') }}</span>
+<div class="new-form-field">
+	{{ Form::label('status','Status:') }}
 	<span class="user-value status-value select-dropdown">
 		<span class="ss-dropdown"></span>
 		<span class="ss-directup"></span>
@@ -34,19 +34,17 @@
 	</span>
 </div>
 
-<div class="user-textarea">
-	<span class="user-value items-value">{{ Form::textarea('items', $template->items, array('placeholder' => 'Create new checklist here.', 'class' => 'template-items field', 'id' => 'template-items')) }}</span>
+<div class="new-form-field">
+	{{ Form::label('items', 'Checklist Template:') }}
+	{{ Form::textarea('items', $template->items, array('placeholder' => 'Create new checklist here.', 'class' => 'template-items field', 'id' => 'template-items')) }}
 </div>
 
-<div class="user-field">
-	{{ Form::submit('Save Template', array('class' => 'save-template') ) }}
-</div>
-<div class="user-field">
-	<a href="/admin/templates" class="button cancel">Cancel</a>
-</div>
+	{{ Form::submit('Save Template', array('class' => 'save-template form-button') ) }}
+
+	<a href="/admin/templates" class="form-button cancel">Cancel</a>
 
 {{ Form::close() }}
-
+</div>
 <div class="template-output">
 <div class="page-cover">
 </div>

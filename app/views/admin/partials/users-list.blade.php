@@ -1,17 +1,6 @@
 @extends('admin.users')
 
 @section('admin-user-content')
-<div id="admin-new-user-form" class="create-something-new">
-	<span class="admin-button"><button class="add-new ss-plus">Add New</button></span>
-</div>
-<div class="page-menu">
-	<ul>
-		<li><a href="/admin/" class="link">Admin</a></li>
-		<li><a href="/admin/users" class="link">Users</a></li>
-		<li><a href="/admin/templates" class="link">Templates</a></li>
-	</ul>
-</div>
-
 <h3>Admin Users</h3>
 @foreach($users as $u)
 	@if($u->userrole == 'admin')
@@ -41,7 +30,7 @@
 
 <br class="clear">
 
-<h3>Subcontracted (non-standard) Users</h3>
+<h3>Sub-contracted (non-standard) Users</h3>
 @foreach($users as $u)
 	@if($u->userrole == 'non-standard' && $u->status == 'active')
 	<p class="admin-p">

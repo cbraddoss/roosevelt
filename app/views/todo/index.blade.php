@@ -7,11 +7,6 @@
 @section('header-menu')
 	<div class="page-menu">
 		<ul>
-			<li>
-				<div id="news-new-article-form" class="create-something-new">
-					<span class="news-button"><button class="add-new ss-plus">Add New</button></span>
-				</div>
-			</li>
 			<li><span class="page-menu-text">View: </span></li>
 			<li class="select-dropdown">
 				<span class="ss-dropdown"></span>

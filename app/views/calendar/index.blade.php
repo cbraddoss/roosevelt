@@ -9,12 +9,12 @@
 	<ul>
 		<li>
 			<div class="navigate-something">
-				<button class=""><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month"><span class="ss-navigateleft"></span>{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></button>
+				<div class="anchor-button"><a href="/calendar/{{ $previousMonthYear }}" class="show-previous-month"><span class="ss-navigateleft"></span>{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></div>
 			</div>
 		</li>
 		<li>
 			<div class="navigate-something">
-				<button class=""><a href="/calendar/" class="calendar-today">Go To Today</a></button>
+				<div class="anchor-button"><a href="/calendar/" class="calendar-today">Go To Today</a></div>
 			</div>
 		</li>
 		<li>
@@ -25,7 +25,7 @@
 		</li>
 		<li>
 			<div class="navigate-something">
-				<button class=""><a href="/calendar/{{ $nextMonthYear }}" class="show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}<span class="ss-navigateright"></span></a></button>
+				<div class="anchor-button"><a href="/calendar/{{ $nextMonthYear }}" class="show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}<span class="ss-navigateright"></span></a></div>
 			</div>
 		</li>
 	</ul>

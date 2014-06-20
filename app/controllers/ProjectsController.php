@@ -115,7 +115,8 @@ class ProjectsController extends \BaseController {
 				return Response::json( $response );
 			}
 			elseif(Input::get('period') == 'ending') {
-				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
+				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
+				$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
 			}
 			if(Input::get('period') == 'recurring' && Input::get('end_date') == '') {
 				$response = array(
@@ -333,9 +334,14 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($project)
 	{
-		//
+		$project = Project::where('slug', $project)->first();
+		if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin') {
+			if(empty($project)) return Redirect::route('projects');
+			else return View::make('projects.partials.edit', compact('project'));
+		}
+		else return Redirect::to('/projects/post/'.$project->slug);
 	}
 
 

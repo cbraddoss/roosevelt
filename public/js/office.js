@@ -230,30 +230,50 @@ jQuery(document).ready(function($){
 	$('#message-box .action-message .flash-message-error').parent().parent().parent().delay(14000).fadeOut();
 	$('#message-box-json').find('.section').empty();
 
+	// keyboard action to cancel user add form
+	$(document).on('keyup','#content form input', function(ev) {
+		// hide if press esc
+		if ( ev.keyCode == 27 ) {
+			$(document).find('.create-something-form').slideUp(400,function(){
+				$(document).find('.create-something-form').remove();
+				$('#header-menu .create-something-new button').removeClass('active');
+				$('button.add-new').each(function(){
+					$(this).prop('disabled', false);
+				});
+			});
+		}
+	});
+
 	/* Admin Page */
 	// Add New User
+	// add datepicker to user form
 	$('#admin-page form.update-user input.anniversary').datepicker();
-	$(document).on('click','#admin-page #admin-new-user-form button.add-new',function(){
+	
+	$(document).on('click','#header-menu #admin-new-user-form button.add-new',function(){
 		$.get( "/admin/users", function( data ) {
-			$('#admin-new-user-form').html(data);
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#content').prepend(data);
+			$('.user-add-form.create-something-form').slideDown(400);
+			$('#header-menu #admin-new-user-form.create-something-new button').addClass('active');
 			$('form.add-user .first-name').focus();
 		});
 	});
 	// cancel user add form
-	$(document).on('click','#admin-page .user-add-form span.cancel',function(){
-		$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New</button></span>');
+	$(document).on('click','#content .user-add-form span.cancel',function(){
+				$(document).find('.user-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.user-add-form.create-something-form').remove();
+					$('#header-menu #admin-new-user-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 		$('#message-box-json').find('.section').empty();
 		$('#message-box-json').fadeOut();
 	});
-	// keyboard action to cancel user add form
-	$(document).on('keyup','#admin-page form.add-user input', function(ev) {
-		// hide if press esc
-		if ( ev.keyCode == 27 ) {
-			$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New</button></span>');
-		}
-	});
 	// add user ajax submit
-	$(document).on('submit', '#admin-page .user-add-form form.add-user', function(){
+	$(document).on('submit', '#content .user-add-form form.add-user', function(){
 		$.post(
 			$(this).prop('action'),
 			{
@@ -272,10 +292,6 @@ jQuery(document).ready(function($){
 				else {
 					$('#message-box-json').find('.section').empty();
 					$('#message-box-json').fadeOut();
-					//$('#message-box-json').fadeIn();
-					//$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
-					//$('#message-box-json').delay(2000).fadeOut();
-					//$('#admin-new-user-form').html('<span class="admin-button"><button class="add-new">Add New User</button></span>');
 					window.location.href = '/admin/users?user=new';
 				}
 			},'json'
@@ -283,27 +299,38 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// add new template
-	$(document).on('click', '#admin-page #admin-new-template-form button.add-new', function(){
+	$(document).on('click', '#header-menu #admin-new-template-form button.add-new', function(){
 		$.get( "/admin/templates", function( data ) {
-			$('#admin-new-template-form').html(data);
-			$('form.add-template .name').focus();
+			$('button.add-new').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#content').prepend(data);
+			$('.template-add-form.create-something-form').slideDown(400);
+			$('#header-menu #admin-new-template-form.create-something-new button').addClass('active');
+			$('form.add-template .template-name').focus();
 		});
 	});
 	// cancel template add
-	$(document).on('click','#admin-page form.add-template span.cancel',function(){
-		$('#admin-new-template-form').html('<span class="template-button"><button class="add-new">Add New</button></span>');
+	$(document).on('click','#content form.add-template span.cancel',function(){
+				$(document).find('.template-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.template-add-form.create-something-form').remove();
+					$('#header-menu #admin-new-template-form.create-something-new button').removeClass('active');
+					$('button.add-new').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
 		$('#message-box-json').find('.section').empty();
 		$('#message-box-json').fadeOut();
 	});
 	// add template ajax submit
-	var newTemplateOptions = { 
+	
+	$(document).on('submit','#content form.add-template', function() {
+		var newTemplateOptions = { 
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
 			success:       templateAddSuccess,  // post-submit callback
 			dataType: 'json', 
 			resetForm: false        // reset the form after successful submit 
-		};	
-	$(document).on('submit','#admin-page form.add-template', function() {
-
+		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
@@ -323,20 +350,23 @@ jQuery(document).ready(function($){
 		}
 	}
 	//preview templates on admin page
+	// on list view page
 	$('#admin-page .post-preview').hover(function(){
 		$(this).find('.ss-view').html('<small>Preview Template</small>');
 	},function(){
 		$(this).find('.ss-view').html('');
 	});
-	$(document).on('click', '#admin-page #admin-preview-template-form .preview-template', function(){
-		$(".template-output").show();
-	});
-	$(document).on('click', '#admin-page .close-template-preview', function(){
-		$(".template-output").hide();
-	});
 	$(document).on('click', '#admin-page .post-preview', function(){
 		var templateId = $(this).attr('id');
 		$(document).find("#template-output-"+templateId).toggle();
+	});
+	// on single view page
+	$(document).on('click', '#header-menu #admin-preview-template-form .preview-template', function(){
+		$(".template-output").show();
+	});
+	// close template previews
+	$(document).on('click', '#admin-page .close-template-preview', function(){
+		$(".template-output").hide();
 	});
 	$(document).on('click', '#admin-page .template-output h3', function() {
 		$(this).parent().find('.checklist-checkbox-section').toggle();
@@ -403,7 +433,7 @@ jQuery(document).ready(function($){
 	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
 	$(document).on('click', '#news-page span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
-		console.log(articleId);
+		//console.log(articleId);
 		$.post(
 			$('#news-page form#favorite-article-'+articleId).prop('action'),
 			{
@@ -431,7 +461,7 @@ jQuery(document).ready(function($){
 	$('#header-menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
 	$(document).on('click', '#header-menu span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
-		console.log(articleId);
+		//console.log(articleId);
 		$.post(
 			$('#header-menu form#favorite-article-'+articleId).prop('action'),
 			{
@@ -608,13 +638,13 @@ jQuery(document).ready(function($){
 	   	$(this).addClass('changed-input');
 	}).data('datepicker');
 	// add Delete option to attachments on Edit article page
-	$('#news-page .article-edit-attachment').hover(function(){
+	$('#news-page .post-edit-attachment').hover(function(){
 		$(this).append('<span class="ss-delete"></span>');
 	}, function(){
 		$(this).find('.ss-delete').remove();
 	});
 	// delete attachment with ajax and reload Edit article page
-	$(document).on('click', '#news-page .article-edit-attachment', function() {
+	$(document).on('click', '#news-page .post-edit-attachment', function() {
 		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
 		
 		if(confirmCancel == true) {
@@ -659,11 +689,12 @@ jQuery(document).ready(function($){
 	// load comment form on article single view page.
 	$(document).on('click', '#news-page #news-post-comment-form button.post-comment', function(){
 				
-		var articleSlug = $(document).find('.projects-post').attr('slug');
+		var articleSlug = $(document).find('.news-article').attr('slug');
 		//console.log(articleSlug);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			$('#comments').append(data);
 			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
+			$('#comments .news-article-new-comment.create-something-form').addClass('reply-to-article-form');
 			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
@@ -694,6 +725,7 @@ jQuery(document).ready(function($){
 				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.news-article-new-comment.create-something-form').remove();
 					$('#content #news-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -708,7 +740,7 @@ jQuery(document).ready(function($){
 		success:       postCommentSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
-	$(document).on('submit','#news-page .news-article-new-comment form.add-comment', function() {
+	$(document).on('submit','#news-page .news-article-new-comment.reply-to-article-form form.add-comment', function() {
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
@@ -738,53 +770,29 @@ jQuery(document).ready(function($){
 	// load comment form on reply of comment button click
 	$(document).on('click', '#news-page #comment-post-comment-form button.post-comment', function(){
 		
-		var articleSlug = $(document).find('.projects-post').attr('slug');
+		var articleSlug = $(document).find('.news-article').attr('slug');
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
+		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
 		commentHeight = commentHeight-15;
-		//commentId = commentId.replace('comment-','');
-		//console.log(commentId);
+		// console.log(commentAuthor);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).hide();
-			});
-			$('#'+commentId+' .create-something-new').html(data);
-			//$('#'+commentId+' .create-something-new .create-something-form').css('top',commentHeight+'px');
+			
+			$('#'+commentId).after(data);
 
-			// var commentBoxPos = $('#'+commentId).offset();
-			// $('html, body').animate({
-			// 	scrollTop: commentBoxPos.top-110
-			// }, 2000);
-			$('#'+commentId+' .create-something-new').find('input[name=article-slug]').val(articleSlug);
-			$('form.add-comment .comment-content').focus();
+			$('#content .news-article-new-comment.create-something-form').slideDown(400);
+			$('#content .news-article-new-comment.create-something-form').addClass('reply-to-comment-form');
+			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
+			$('button.post-comment').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new button').addClass('active');
+			$('#content .news-article-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
+			$('#content form.add-comment .comment-content').focus();
 		});
 	});
-	// cancel comment reply
-	$(document).on('click','#news-page #comment-post-comment-form form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
-				$(document).find('#comment-post-comment-form .post-comment').each(function(){
-					$(this).show();
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).show();
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
 	// submit comment on a comment
-	$(document).on('submit','#news-page #comment-post-comment-form form.add-comment', function() {
+	$(document).on('submit','#news-page .news-article-new-comment.reply-to-comment-form form.add-comment', function() {
 		var commentReplyToId = $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
@@ -810,28 +818,29 @@ jQuery(document).ready(function($){
 		else {
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	console.log(data.slug);
+		   	//console.log(data.slug);
 			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
 			if(window.location.search == '?comment=new') window.location.reload(true);
 		}
 	}
 	// edit comment
-	$(document).on('click', '#news-page .comment-edit-button button.edit-comment', function(){
+	$(document).on('click', '#news-page .comment-edit-button a.edit-comment', function(){
 		
-		var articleSlug = $(document).find('.projects-post').attr('slug');
+		var articleSlug = $(document).find('.news-article').attr('slug');
 		
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');
 		//console.log(commentId);
 		///news/article/comment/{{ $subComment->id }}/edit
 		$.get( "/news/article/comment/"+commentId+"/edit", function( data ) {
-			$(document).find('#news-page .comment-edit-button button.edit-comment').each(function(){
+			$(document).find('#news-page .comment-edit-button a.edit-comment').each(function(){
 				$(this).hide();
 			});
 			$(document).find('#comment-post-comment-form .post-comment').each(function(){
 				$(this).hide();
 			});
 			$('#'+commentIdBox+' .comment-contents').html(data);
+			$('#'+commentIdBox+' .edit-something-form').fadeIn();
 			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(articleSlug);
 			$('form.edit-comment .update-comment-content').focus();
 		});
@@ -877,7 +886,7 @@ jQuery(document).ready(function($){
 		else {
 			$('#message-box-json').fadeIn();
 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	console.log(data.comment_id);
+		   	//console.log(data.comment_id);
 			//window.location.href = '/news/article/'+data.slug+'?comment=edit#comment-'+data.comment_id;
 			//if(window.location.search == '?comment=edit') window.location.reload(true);
 		}
@@ -920,7 +929,7 @@ jQuery(document).ready(function($){
 					else {
 						$('#message-box-json').find('.section').empty();
 						$('#message-box-json').fadeOut();
-						console.log(data.image);
+						//console.log(data.image);
 						$(document).find('a[href="'+ data.image +'"]').fadeOut();
 						//window.location.href = data.path;
 					}
@@ -1380,11 +1389,12 @@ jQuery(document).ready(function($){
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
-		console.log(projectSlug);
+		//console.log(projectSlug);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
 
 			$('#comments').append(data);
 			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
+			$('#comments .projects-post-new-comment.create-something-form').addClass('reply-to-project-form');			
 			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
@@ -1416,6 +1426,7 @@ jQuery(document).ready(function($){
 				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.projects-post-new-comment.create-something-form').remove();
 					$('#content #projects-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1430,7 +1441,7 @@ jQuery(document).ready(function($){
 		success:       projectCommentSuccess,  // post-submit callback 
 		resetForm: false        // reset the form after successful submit 
 	};	        
-	$(document).on('submit','#projects-page .projects-post-new-comment form.add-comment', function() {
+	$(document).on('submit','#projects-page .projects-post-new-comment.reply-to-project-form form.add-comment', function() {
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
@@ -1459,49 +1470,25 @@ jQuery(document).ready(function($){
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
+		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).hide();
-			});
-			$('#'+commentId+' .create-something-new').html(data);
-			//$('#'+commentId+' .create-something-new .create-something-form').css('top',commentHeight+'px');
+			$('#'+commentId).append(data);
 
-			// var commentBoxPos = $('#'+commentId).offset();
-			// $('html, body').animate({
-			// 	scrollTop: commentBoxPos.top-110
-			// }, 2000);
-			$('#'+commentId+' .create-something-new').find('input[name=project-slug]').val(projectSlug);
-			$('form.add-comment .comment-content').focus();
+			$('#content .projects-post-new-comment.create-something-form').slideDown(400);
+			$('#content .projects-post-new-comment.create-something-form').addClass('reply-to-comment-form');
+			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
+			$('button.post-comment').each(function(){
+				$(this).prop('disabled',true);
+			});
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new button').addClass('active');
+			$('#content .projects-post-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
+			$('#content form.add-comment .comment-content').focus();
 		});
 	});
-	// cancel comment reply
-	$(document).on('click','#projects-page #comment-post-comment-form form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
-				$(document).find('#comment-post-comment-form .post-comment').each(function(){
-					$(this).show();
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(this).closest('#comment-post-comment-form').html('<span class="comment-reply-button"><button class="post-comment">Reply</button></span>');
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).show();
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
 	// submit comment on a comment
-	$(document).on('submit','#projects-page #comment-post-comment-form form.add-comment', function() {
+	$(document).on('submit','#projects-page .projects-post-new-comment.reply-to-comment-form form.add-comment', function() {
 		var commentReplyToId = $(document).find('#projects-page form.add-comment').closest('.office-post-comment').attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
@@ -1533,7 +1520,7 @@ jQuery(document).ready(function($){
 		}
 	}
 	// edit comment
-	$(document).on('click', '#projects-page .comment-edit-button button.edit-comment', function(){
+	$(document).on('click', '#projects-page .comment-edit-button a.edit-comment', function(){
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
 		
@@ -1542,13 +1529,14 @@ jQuery(document).ready(function($){
 		//console.log(commentId);
 		///news/article/comment/{{ $subComment->id }}/edit
 		$.get( "/projects/post/comment/"+commentId+"/edit", function( data ) {
-			$(document).find('#projects-page .comment-edit-button button.edit-comment').each(function(){
+			$(document).find('#projects-page .comment-edit-button a.edit-comment').each(function(){
 				$(this).hide();
 			});
 			$(document).find('#comment-post-comment-form .post-comment').each(function(){
 				$(this).hide();
 			});
 			$('#'+commentIdBox+' .comment-contents').html(data);
+			$('#'+commentIdBox+' .edit-something-form').fadeIn();
 			$('#'+commentIdBox+' .comment-contents').find('input[name=project-slug]').val(projectSlug);
 			$('form.edit-comment .update-comment-content').focus();
 		});

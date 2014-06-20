@@ -10,7 +10,7 @@
 @if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 		<li>
 			<div class="create-something-new">
-				<button class="add-new"><a class="edit-article edit-link ss-write" href="/news/article/{{ $article->slug }}/edit">Edit Post</a></button>
+				<div class="anchor-button"><a class="edit-article edit-link ss-write" href="/news/article/{{ $article->slug }}/edit">Edit Post</a></div>
 			</div>
 		</li>
 @endif
@@ -91,7 +91,7 @@
 				<div class="comment-contents">
 					<div class="comment-details">
 						<small>
-							<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}</span>
+							<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}</span>
 							<span class="comment-time">on 
 							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
 								{{ $comment->created_at->format('F j g:i a') }}
@@ -100,15 +100,15 @@
 							@endif
 							</span>
 							@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-								<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
+								<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
 							@endif
-						</small>
 						
 						<div class="comment-options">
 							<div id="comment-post-comment-form" class="create-something-new">
 								<span class="comment-reply-button"><button class="post-comment">Reply</button></span>
 							</div>
 						</div>
+						</small>
 					</div>
 					{{ $comment->getCommentAttachments($comment->id) }}
 					<p>{{ display_content($comment->content) }}</p>
@@ -133,7 +133,7 @@
 									@endif
 									</span>
 									@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-										<span class="comment-edit-button"><button class="edit-link edit-comment">Edit</button></span>
+										<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
 									@endif
 								</small>
 							</div>

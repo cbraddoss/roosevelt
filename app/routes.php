@@ -86,6 +86,9 @@ Route::get('/projects/status/{status}', array('as' => 'projects.statusFilter', '
 Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' => 'ProjectsController@typeFilter'));
 Route::get('/projects/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
 Route::get('/projects/post/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
+Route::get('/projects/post/{project}/edit', array('uses' => 'ProjectsController@edit'));
+Route::post('/projects/post/{project}', array('uses' => 'ProjectsController@update'));
+Route::delete('/projects/post/{id}', array('uses' => 'ProjectsController@destroy'));
 Route::get('/projects/post/{project}/comment', array('as' => 'projects.projectComment', 'uses' => 'ProjectCommentsController@show'));
 Route::post('/projects/post/{project}/comment', array('uses' => 'ProjectCommentsController@store'));
 Route::get('/projects/post/comment/{id}/edit', array('uses' => 'ProjectCommentsController@edit'));

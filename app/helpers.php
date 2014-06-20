@@ -161,7 +161,7 @@ function get_project_stage_select($selected = null, $pType = null, $pID = null) 
 		}
 		return $options;
 	}
-	else return;
+	else return '<option>!!Error!!</option>';
 }
 function convert_title_to_path($title) {
 	$title = trim($title);
@@ -246,9 +246,10 @@ function display_pingable() {
 function display_subscribable($selected = null) {
 	$users = User::where('status','!=', 'inactive')->get();
 	$subscribable = '';
+	$subscribed = explode(' ',$selected);
 	// $subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		if($selected == $user->user_path) $subscribable .= '<span class="subscribe-button subscribe subscribe-selected" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		if(in_array($user->user_path, $subscribed)) $subscribable .= '<span class="subscribe-button subscribe subscribe-selected" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 		else $subscribable .= '<span class="subscribe-button subscribe" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 	return $subscribable;
