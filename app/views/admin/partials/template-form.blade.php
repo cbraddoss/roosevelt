@@ -37,10 +37,10 @@
 <div class="new-form-field">
 	<div class="form-textarea-buttons">
 	{{ Form::label('content', 'Add Template code:') }}
-	<span class="textarea-button add-start template-code" id="[[START]]">Start Section</span>
-	<span class="textarea-button add-header template-code" id="[[h]]">Header</span>
-	<span class="textarea-button add-checkbox template-code" id="[[o]]">Checkbox</span>
-	<span class="textarea-button add-end template-code" id="[[END]]">End Section</span>
+	<span class="ss-up textarea-button add-start template-code" id="[[START]]">Start Section</span>
+	<span class="ss-rows textarea-button add-header template-code" id="[[h]]">Header</span>
+	<span class="ss-check textarea-button add-checkbox template-code" id="[[o]]">Checkbox</span>
+	<span class="ss-down textarea-button add-end template-code" id="[[END]]">End Section</span>
 		
 	</div>
 </div>
