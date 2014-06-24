@@ -76,7 +76,7 @@
 		</div>
 		<div class="clear"></div>
 		<h3>Project Checklist:</h3>
-		<h4>{{ ucwords(str_replace('-','', $project->type)) }}</h4>
+		<h4>{{ ucwords(str_replace('-',' ', $project->type)) }}</h4>
 		<div class="project-checklist">
 			{{ $tasks }}
 		</div>

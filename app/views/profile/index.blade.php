@@ -25,53 +25,110 @@
 		<!-- <span class="user-image"><img src="{{ gravatar_url(Auth::user()->email,100) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span> -->
 	</div>
 	<div class="profile-left">
-	<h3>Details</h3>
-	<div class="update-something-form">
-	{{ Form::open( array('class' => 'update-profile', 'route' => 'profile.update', 'method' => 'post', 'id' => Auth::user()->id) ) }}
+		<h3>Details</h3>
+		<div class="update-something-form">
+			{{ Form::open( array('class' => 'update-profile', 'route' => 'profile.update', 'method' => 'post', 'id' => Auth::user()->id) ) }}
 
-	{{ Form::hidden('id', Auth::user()->id) }}
+			{{ Form::hidden('id', Auth::user()->id) }}
 
-	<div class="new-form-field">
-		{{ Form::label('first_name','First Name:') }}
-		{{ Form::text('first_name', Auth::user()->first_name, array('placeholder' => 'First Name', 'class' => 'first-name field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('first_name','First Name:') }}
+				{{ Form::text('first_name', Auth::user()->first_name, array('placeholder' => 'First Name', 'class' => 'first-name field')) }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('last_name','Last Name:') }}
-		{{ Form::text('last_name', Auth::user()->last_name, array('placeholder' => 'Last Name', 'class' => 'last-name field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('last_name','Last Name:') }}
+				{{ Form::text('last_name', Auth::user()->last_name, array('placeholder' => 'Last Name', 'class' => 'last-name field')) }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('email','Email:') }}
-		{{ Auth::user()->email }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('email','Email:') }}
+				{{ Auth::user()->email }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('extension','Extension:') }}
-		{{ Form::text('extension', Auth::user()->extension, array('placeholder' => '555', 'class' => 'extension field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('extension','Extension:') }}
+				{{ Form::text('extension', Auth::user()->extension, array('placeholder' => '555', 'class' => 'extension field')) }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('cell_phone','Cell Phone:') }}
-		{{ Form::text('cell_phone', Auth::user()->cell_phone, array('placeholder' => '555-555-5555', 'class' => 'cell-phone field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('cell_phone','Cell Phone:') }}
+				{{ Form::text('cell_phone', Auth::user()->cell_phone, array('placeholder' => '555-555-5555', 'class' => 'cell-phone field')) }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('password','New Password:') }}
-		{{ Form::password('password', array('placeholder' => 'New Password', 'class' => 'password field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('password','New Password:') }}
+				{{ Form::password('password', array('placeholder' => 'New Password', 'class' => 'password field')) }}
+			</div>
 
-	<div class="new-form-field">
-		{{ Form::label('password_again','New Password Again:') }}
-		{{ Form::password('password_again', array('placeholder' => 'New Password Again', 'class' => 'password_again field')) }}
-	</div>
+			<div class="new-form-field">
+				{{ Form::label('password_again','New Password Again:') }}
+				{{ Form::password('password_again', array('placeholder' => 'New Password Again', 'class' => 'password_again field')) }}
+			</div>
 
-		{{ Form::submit('Save Profile', array('class' => 'save-profile') ) }}
+				{{ Form::submit('Save Profile', array('class' => 'save-profile') ) }}
 
-		<a href="/profile" class="form-button cancel">Cancel</a>
+				<a href="/profile" class="form-button cancel">Cancel</a>
 
-	{{ Form::close() }}
-	</div>
+			{{ Form::close() }}
+		</div>
+		<div id="homer" style="margin-top: 72px;">
+                        <div class="head">
+            
+			    <!-- Hair and top of head -->
+			    <div class="hair1"></div>
+			    <div class="hair2"></div>
+			    <div class="body head-top"></div>
+			    <div class="no-border body head-main"></div>
+
+			    <!-- The 'M' above the ear -->
+			    <div class="no-border m1"></div>
+			    <div class="no-border m2"></div>
+			    <div class="no-border m3"></div>
+			    <div class="no-border m4"></div>
+
+			    <!-- The neck parts -->
+			    <div class="no-border neck1"></div>
+			    <div class="body neck2"></div>
+
+			    <!-- The ear -->
+			    <div class="body ear">
+				<div class="no-border inner1"></div>
+				<div class="no-border inner2"></div>
+				<div class="no-border body clip"></div>
+			    </div>
+
+			    <!-- The mouth -->
+			    <div class="mouth">
+				<div class="mouth5"></div>
+				<div class="mouth2"></div>
+				<div class="mouth1"></div>
+				<div class="mouth7"></div>
+				<div class="no-border mouth3"></div>
+				<div class="no-border mouth4"></div>
+				<div class="no-border mouth6"></div>
+				<div class="no-border mouth8"></div>
+			    </div>
+
+			    <!-- The right eye -->
+			    <div class="right-eye">
+				<div class="no-border right-eye-pupil"></div>
+				<div class="no-border body eyelid-top"></div>
+				<div class="no-border body eyelid-bottom"></div>
+			    </div>
+
+			    <!-- The nose -->
+			    <div class="body nose"></div>
+			    <div class="body nose-tip"></div>
+
+			    <!-- The left eye -->
+			    <div class="left-eye">
+				<div class="no-border left-eye-pupil"></div>
+				<div class="no-border body eyelid-top"></div>
+				<div class="no-border body eyelid-bottom"></div>
+			    </div>
+			</div>
+                    </div>
 	</div>
 	<div class="profile-right">
 	<h3>Vacations</h3>

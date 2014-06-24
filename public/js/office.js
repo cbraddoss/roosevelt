@@ -340,7 +340,7 @@ jQuery(document).ready(function($){
 	});
 	// add template ajax submit
 	
-	$(document).on('click','#content form.add-template button.save', function() {
+	$(document).on('submit','#content form.add-template', function() {
 		var newTemplateOptions = { 
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
 			success:       templateAddSuccess,  // post-submit callback
