@@ -8,38 +8,57 @@
 	<style>
 	body {
 		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
-		background: #eee;
+		background: #fafafa;
 		font-size: 62.5%;
 		color: #000;
+		margin: 0;
+		padding: 0;
 	}
 	.header-div {
 		font-size: 1.6em;
-		width: 620px;
+		width: 100%;
+		height: 45px;
 		padding: 0px;
-		margin: 0 auto;
+		margin: 0;
 		position: relative;
 		z-index: 10;
-		background: #4b83b4; /* Old browsers */
-		background: -moz-linear-gradient(top,  #4b83b4 0%, #3c698c 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4b83b4), color-stop(100%,#3c698c)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%); /* W3C */
-		border: 1px solid #ccc;
+		background: #4b83b4;
+		background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);
+		box-shadow: 1px 1px 3px 0px #000;
+		overflow: hidden;
 	}
 	.logo {
 		display: block;
-		margin: 0 auto;
+		float:left;
+		margin: -16px 0 0 1%;
+		height:61px;
+		overflow: hidden;
 	}
+	/*#company-header {
+	margin-left: 13%;
+	letter-spacing: 0.0625em;
+	font-size: 1em;
+	height:45px;
+	float:left;
+	z-index: 59;
+	color: #fff;
+	position: relative;
+}
+#company-header a.logo {
+	position: fixed;
+	left: 1%;
+	top:-16px;
+	color: #fff;
+	height:61px;
+	overflow: hidden;
+}*/
 	.content-div {
 		font-size: 1.8em;
-		width: 600px;
-		margin: 0px auto 0px;
-		padding: 5px 10px 5px;
+		width: 97%;
+		margin: 0px 0 0px;
+		padding: 5px 1% 5px;
 		text-align:left;
 		background: rgba(255,255,255,0.6);
-		border-bottom: 2px solid #ccc;
 	}
 	.content-div p {
 		display: block;
@@ -49,12 +68,12 @@
 		font-size: 0.8em;
 		font-style: italic;
 		display: block;
-		margin: 10px 0;
+		margin: 20px 0 0;
 	}
 	.activity-div {
 		font-size: 1.6em;
 		letter-spacing: 1px;
-		width: 620px;
+		width: 100%;
 		padding: 0px;
 		margin: 0 auto;
 		position: relative;
@@ -70,59 +89,58 @@
 		letter-spacing: 1px;
 		margin: 5px 0 10px;
 		padding-top: 10px;
-		border-top: 1px dashed #ccc;
-		text-align: center;
+		text-align: left;
+	}
+	.header-div h3 {
+		float:left;
+		display: inline-block;
+		height: 45px;
+		padding: 0px 0 0 10px;
+		margin: 0;
+		width: 60%;
 	}
 	h4 {
-		font-size: 1.1em;
+		font-size: 1em;
 		font-weight: 100;
 		color: #000;
 		letter-spacing: 1px;
 		margin: 10px 0 5px;
 		padding-bottom: 0px;
-		text-align: center;
-
+		text-align: left;
 	}
-	ul { width: 100%; }
+	.activity-div h4 {
+		color: #fff;
+		height: 28px;
+		padding: 7px 1% 0;
+		margin: 20px 0 0;
+		background: #4b83b4;
+		background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);
+		box-shadow: 1px 1px 3px 0px #000;
+	}
+	ul { width: 75%; padding: 0 1%; margin: 0; }
 	ul li {
 		display: inline-block;
-		width: 20%;
+		width: 75px;
 		text-align:center;
+		padding: 10px 0 15px;
+		margin-right: 5px;
 	}
-	ul li a {
-		display: block;
+	.activity-div ul li a {
+		color: #fff;
+		font-size: 1.2em;
 		text-decoration: none;
-		background: #4b83b4; /* Old browsers */
-		background: -moz-linear-gradient(top,  #4b83b4 0%, #3c698c 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4b83b4), color-stop(100%,#3c698c)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #4b83b4 0%,#3c698c 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #4b83b4 0%,#3c698c 100%); /* W3C */
-		padding: 5px;
-		color: #fff;
-		font-weight: 100;
-		border-top: 1px solid rgba(32,32,32,0.1);
-		border-right: 2px solid rgba(32,32,32,0.3);
-		border-bottom: 2px solid rgba(32,32,32,0.3);
-		border-left: 1px solid rgba(32,32,32,0.1);
+		padding: 5px 14px;
+		display: block;
+		margin-bottom: 5px;
+		box-shadow: 1px 1px 2px 0px #000;
+		background: #c60;
+		background: linear-gradient(165deg, #c60 0%,#a40 100%);
+		border-radius: 3px;
 	}
-	ul li a span {
-		padding: 2px 7px 2px;
-		margin: 0;
-		font-size: 0.9em;
-		font-weight:500;
-		color: #fff;
-		text-shadow: 1px 1px 1px #000;
-		border-radius: 20px;
-		background: red; /*rgba(169,83,6, 0.9);*//*rgba(75,131,180,0.9);*/
-		background: #ff9389; /* Old browsers */
-		background: -moz-linear-gradient(top,  #ff9389 0%, #cc0000 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ff9389), color-stop(100%,#cc0000)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #ff9389 0%,#cc0000 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #ff9389 0%,#cc0000 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #ff9389 0%,#cc0000 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #ff9389 0%,#cc0000 100%); /* W3C */
+	.activity-div ul li a:hover {
+		box-shadow: inset 1px 1px 2px 0px #000;
+		background: #a40;
+		background: linear-gradient(165deg, #a40 0%,#c60 100%);
 	}
 	.footer {
 		text-align: center;
@@ -130,13 +148,16 @@
 		padding: 10px;
 		font-size: 1em;
 		font-weight: 100;
+		margin-top: 100px;
 	}
 	</style>
 </head>
 <body>
 <div class="header-div">
-	<a href="http://insideout.com"><img src="https://assets.insideout.com/images/ios-logo2-clear.png" class="logo" alt="InsideOut Solutions"></a>
-	<h3>InsideOut Solutions Employee Hub & Remote Office</h3>
+	<div id="company-logo">
+		<a href="{{ URL::to('/') }}" class="logo"><img src="http://assets.insideout.com/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
+	</div>
+	<h3>InsideOut Solutions<br />Remote Office</h3>
 </div>
 @yield('email-content')
 <div class="footer">

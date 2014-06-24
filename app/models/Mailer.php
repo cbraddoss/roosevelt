@@ -48,10 +48,10 @@ class Mailer {
                 });
             }
             else {
-                $findTasks = find_assigned_count('tasks');
-                $findProjects = find_assigned_count('projects');
-                $findBillables = find_assigned_count('billables');
-                $findHelp = find_assigned_count('help');
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
                 $userSend = User::where('user_path','=',$eUser)->first();
                 $author = User::where('id', '=', $article->author_id)->first();
@@ -109,10 +109,10 @@ class Mailer {
             // send email to comment author
             if($authorCommentOnComment->id != $authorComment->id) {
 
-                $findTasks = find_assigned_count('tasks');
-                $findProjects = find_assigned_count('projects');
-                $findBillables = find_assigned_count('billables');
-                $findHelp = find_assigned_count('help');
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
                 $pingCommentAuthorDetails = array(
                     'title' => $articleWithComment->title,
@@ -138,10 +138,10 @@ class Mailer {
             // send email to article author
             if($authorCommentOnComment->id != $authorArticle->id) {
 
-                $findTasks = find_assigned_count('tasks');
-                $findProjects = find_assigned_count('projects');
-                $findBillables = find_assigned_count('billables');
-                $findHelp = find_assigned_count('help');
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
                 $pingAuthorDetails = array(
                     'title' => $articleWithComment->title,
@@ -168,10 +168,10 @@ class Mailer {
             // send email to article author
             if($authorComment->id != $authorArticle->id) {
 
-                $findTasks = find_assigned_count('tasks');
-                $findProjects = find_assigned_count('projects');
-                $findBillables = find_assigned_count('billables');
-                $findHelp = find_assigned_count('help');
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
                 $pingAuthorDetails = array(
                     'title' => $articleWithComment->title,
@@ -226,10 +226,10 @@ class Mailer {
                 });
             }
             else {
-                $findTasks = find_assigned_count('tasks');
-                $findProjects = find_assigned_count('projects');
-                $findBillables = find_assigned_count('billables');
-                $findHelp = find_assigned_count('help');
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
                 $pingDetails = array(
                     'title' => $articleWithComment->title,

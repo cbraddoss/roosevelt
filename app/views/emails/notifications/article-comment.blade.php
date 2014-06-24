@@ -9,10 +9,10 @@
 <div class="activity-div">
 	<h4>Your Current Activity:</h4>
 	<ul>
-		<li><a href="{{ URL::to('/tasks/') }}">{{ $tasks }} Tasks</a></li>
-		<li><a href="{{ URL::to('/projects/') }}">{{ $projects }} Projects</a></li>
-		<li><a href="{{ URL::to('/billables/') }}">{{ $billables }} Billables</a></li>
-		<li><a href="{{ URL::to('/help/') }}">{{ $help }} Help</a></li>
+		<li>{{ $tasks }} <span>Tasks</span></li>
+		<li>{{ $projects }} <span>Projects</span></li>
+		<li>{{ $billables }} <span>Billables</span></li>
+		<li>{{ $help }} <span>Help</span></li>
 	</ul>
 </div>
 @stop

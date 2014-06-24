@@ -250,11 +250,16 @@ jQuery(document).ready(function($){
 	$('#admin-page form.update-user input.anniversary').datepicker();
 	
 	$(document).on('click','#header-menu #admin-new-user-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/admin/users", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('.user-add-form.create-something-form').slideDown(400);
 			$('#header-menu #admin-new-user-form.create-something-new button').addClass('active');
 			$('form.add-user .first-name').focus();
@@ -300,14 +305,25 @@ jQuery(document).ready(function($){
 	});
 	// add new template
 	$(document).on('click', '#header-menu #admin-new-template-form button.add-new', function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('.template-add-form.create-something-form').slideDown(400);
 			$('#header-menu #admin-new-template-form.create-something-new button').addClass('active');
 			$('form.add-template .template-name').focus();
+			// $('span.cancel').each(function(){
+			// 	$(this).addClass('ss-delete');
+			// });
+			// $('button.save').each(function(){
+			// 	$(this).addClass('ss-uploadcloud');
+			// });
 		});
 	});
 	// cancel template add
@@ -324,7 +340,7 @@ jQuery(document).ready(function($){
 	});
 	// add template ajax submit
 	
-	$(document).on('submit','#content form.add-template', function() {
+	$(document).on('click','#content form.add-template button.save', function() {
 		var newTemplateOptions = { 
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
 			success:       templateAddSuccess,  // post-submit callback
@@ -513,11 +529,16 @@ jQuery(document).ready(function($){
 	});
 	// Add new article
 	$(document).on('click','#header-menu #news-new-article-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/news", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .article-add-form.create-something-form').slideDown(400);
 			$('#header-menu #news-new-article-form.create-something-new button').addClass('active');
 
@@ -693,11 +714,15 @@ jQuery(document).ready(function($){
 	
 	// load comment form on article single view page.
 	$(document).on('click', '#news-page #news-post-comment-form button.post-comment', function(){
-				
+		$('button.post-comment').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#comments').after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		var articleSlug = $(document).find('.news-article').attr('slug');
 		//console.log(articleSlug);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			$('#comments').append(data);
+			$(document).find('.loading-something-new').remove();
 			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
 			$('#comments .news-article-new-comment.create-something-form').addClass('reply-to-article-form');
 			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
@@ -774,17 +799,20 @@ jQuery(document).ready(function($){
 	});
 	// load comment form on reply of comment button click
 	$(document).on('click', '#news-page #comment-post-comment-form button.post-comment', function(){
-		
+		$('button.post-comment').each(function(){
+			$(this).prop('disabled',true);
+		});
 		var articleSlug = $(document).find('.news-article').attr('slug');
 		var commentId = $(this).closest('.office-post-comment').attr('id');
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
 		commentHeight = commentHeight-15;
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		// console.log(commentAuthor);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			
 			$('#'+commentId).after(data);
-
+			$(document).find('.loading-something-new').remove();
 			$('#content .news-article-new-comment.create-something-form').slideDown(400);
 			$('#content .news-article-new-comment.create-something-form').addClass('reply-to-comment-form');
 			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
@@ -798,7 +826,8 @@ jQuery(document).ready(function($){
 	});
 	// submit comment on a comment
 	$(document).on('submit','#news-page .news-article-new-comment.reply-to-comment-form form.add-comment', function() {
-		var commentReplyToId = $(document).find('#news-page form.add-comment').closest('.office-post-comment').attr('id');
+		var commentReplyToId = $(document).find('#news-page .news-article-new-comment.reply-to-comment-form').prev().attr('id');
+		// console.log(commentReplyToId);
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
 		// submit reply to comment
@@ -1190,8 +1219,13 @@ jQuery(document).ready(function($){
 	}
 	// add new Project
 	$(document).on('click','#header-menu #projects-new-project-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/projects", function( data ) {
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .project-add-form.create-something-form').slideDown(400);
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -1392,12 +1426,17 @@ jQuery(document).ready(function($){
 	});
 	// load comment form on project single view page.
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
+		$('button.post-comment').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#comments').after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
 		//console.log(projectSlug);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
 
 			$('#comments').append(data);
+			$(document).find('.loading-something-new').remove();
 			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
 			$('#comments .projects-post-new-comment.create-something-form').addClass('reply-to-project-form');			
 			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
@@ -1469,6 +1508,9 @@ jQuery(document).ready(function($){
 	}
 	//load comment form on reply of comment button click
 	$(document).on('click', '#projects-page #comment-post-comment-form button.post-comment', function(){
+		$('button.post-comment').each(function(){
+			$(this).prop('disabled',true);
+		});
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
 		//console.log(projectSlug);
@@ -1476,11 +1518,12 @@ jQuery(document).ready(function($){
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
-			$('#'+commentId).append(data);
-
+			$('#'+commentId).after(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .projects-post-new-comment.create-something-form').slideDown(400);
 			$('#content .projects-post-new-comment.create-something-form').addClass('reply-to-comment-form');
 			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
@@ -1494,7 +1537,7 @@ jQuery(document).ready(function($){
 	});
 	// submit comment on a comment
 	$(document).on('submit','#projects-page .projects-post-new-comment.reply-to-comment-form form.add-comment', function() {
-		var commentReplyToId = $(document).find('#projects-page form.add-comment').closest('.office-post-comment').attr('id');
+		var commentReplyToId = $(document).find('#projects-page .projects-post-new-comment.reply-to-comment-form').prev().attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
 		// submit reply to comment
@@ -1636,8 +1679,13 @@ jQuery(document).ready(function($){
 	/* Accounts */
 	// add new account
 	$(document).on('click','#header-menu #accounts-new-account-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/accounts", function( data ) {
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .account-add-form.create-something-form').slideDown(400);
 			$('#header-menu #accounts-new-account-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
@@ -1679,8 +1727,13 @@ jQuery(document).ready(function($){
 	/* Billables */
 	// add new billable
 	$(document).on('click','#header-menu #billables-new-billable-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/billables", function( data ) {
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .billable-add-form.create-something-form').slideDown(400);
 			$('#header-menu #billables-new-billable-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
@@ -1722,8 +1775,13 @@ jQuery(document).ready(function($){
 	/* Help */
 	// add new help
 	$(document).on('click','#header-menu #help-new-help-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/help", function( data ) {
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .help-add-form.create-something-form').slideDown(400);
 			$('#header-menu #help-new-help-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
@@ -1765,8 +1823,13 @@ jQuery(document).ready(function($){
 	/* Wiki */
 	// add new wiki
 	$(document).on('click','#header-menu #wiki-new-wiki-form button.add-new',function(){
+		$('button.add-new').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		$.get( "/wiki", function( data ) {
 			$('#content').prepend(data);
+			$(document).find('.loading-something-new').remove();
 			$('#content .wiki-add-form.create-something-form').slideDown(400);
 			$('#header-menu #wiki-new-wiki-form.create-something-new button').addClass('active');
 			$('button.add-new').each(function(){
@@ -1806,7 +1869,8 @@ jQuery(document).ready(function($){
 	});
 
 	/* To-Do List page */
-	$(document).on('change','#todo-page .filter-user', function(){
+	$(document).on('change','#header-menu .filter-user', function(){
+		// $('#header-menu').append('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
 		var authorLink = $(this).val();
 		window.location.href='/to-do/'+authorLink;
 	});

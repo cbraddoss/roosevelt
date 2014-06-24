@@ -23,6 +23,15 @@ function body_class() {
 // 	$currentPageArray = explode('/', $currentPage);
 // 	dd($currentPageArray[0]);
 // }
+function current_ip() {
+	return $_SERVER['REMOTE_ADDR'];
+}
+function current_browser() {
+	$browser = $_SERVER['HTTP_USER_AGENT'];
+	return $browser;
+	//$browser = get_browser(null, true);
+	//return $browser['browser'].' '.$browser['version'].' on '.$browser['platform'];
+}
 function current_page() {
 	$currentPage = $_SERVER['REQUEST_URI'];
 	return $currentPage;
@@ -269,7 +278,7 @@ function find_unread_count($resource) {
 	else return;
 }
 
-function find_assigned_count($resource) {
+function find_assigned_count($resource,$view = null) {
 	$currentUser = current_user_path();
 	// display projects assigned or part of per user not completed yet
 	if($resource == 'projects') {
@@ -277,12 +286,14 @@ function find_assigned_count($resource) {
 					->where('status','=','open')
 					->count();
 		if($projects !=0 ) return '<span id="linked-to-projects" class="linked-to" value="'.$projects.'"><a href="/projects/assigned-to/'.Auth::user()->user_path.'">'.$projects.'</a></span>';
+		elseif($view == 'email') return '<span id="linked-to-projects" class="linked-to" value="0"><a href="/projects/assigned-to/'.Auth::user()->user_path.'">0</a></span>';
 		else return '<span id="linked-to-projects" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display billables assigned per user not completed yet
 	elseif($resource == 'billables') {
 		$billables = '0';
 		if($billables !=0 ) return '<span id="linked-to-billables" class="linked-to" value="'.$billables.'"><a href="/billables/assigned-to/'.Auth::user()->user_path.'">'.$billables.'</a></span>';
+		elseif($view == 'email') return '<span id="linked-to-billables" class="linked-to" value="0"><a href="/billables/assigned-to/'.Auth::user()->user_path.'">0</a></span>';
 		else return '<span id="linked-to-billables" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display upcoming due dates per user for projects and tasks
@@ -302,13 +313,14 @@ function find_assigned_count($resource) {
 	elseif($resource == 'help') {
 		$help = '0';
 		if($help !=0 ) return '<span id="linked-to-help" class="linked-to" value="'.$help.'"><a href="/help/assigned-to/'.Auth::user()->user_path.'">'.$help.'</a></span>';
+		elseif($view == 'email') return '<span id="linked-to-help" class="linked-to" value="0"><a href="/help/assigned-to/'.Auth::user()->user_path.'">0</a></span>';
 		else return '<span id="linked-to-help" class="linked-to" value="0" style="display:none"><a href="#">0</a></span>';
 	}
 	// display taks assigned per user not completed yet
-	// elseif($resource == 'tasks') {
-	// 	$tasks = '0';
-	// 	return '<span class="linked-to" value="'.$tasks.'">'.$tasks.'</span>';
-	// }
+	elseif($resource == 'tasks') {
+		$tasks = '0';
+		return '<span id="linked-to-tasks" class="linked-to" value="'.$tasks.'"><a href="/to-do/'.Auth::user()->user_path.'">'.$tasks.'</a></span>';
+	}
 	else return;
 }
 
