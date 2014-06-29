@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Projects at stage: '. ucwords(str_replace('-',' ', $stage)) }}
+{{ 'Projects at stage: '. convert_path_to_stage($stage) }}
 @stop
 
 @section('header-menu')
@@ -20,7 +20,7 @@
 			<span class="ss-directup"></span>
 			<select class="filter-stage projects-filter">
 				<option value="0">Stage Filter</option>
-				@if(!empty($stage)) {{ get_project_stage_select($stage) }} @else {{ get_project_stage_select() }} @endif
+				{{ $projectStages }}
 			</select>
 		</li>
 	</ul>
@@ -32,7 +32,7 @@
 
 	@if($projects->isEmpty())
 			<div class="projects-post">
-				<h3>There are no projects that are at the <i>{{ ucwords($stage) }}</i> stage.</h3>
+				<h3>There are no projects that are at the <i>{{ convert_path_to_stage($stage) }}</i> stage.</h3>
 				<p></p>
 			</div>
 	@endif

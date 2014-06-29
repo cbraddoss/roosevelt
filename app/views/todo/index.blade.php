@@ -11,7 +11,7 @@
 			<li class="select-dropdown">
 				<span class="ss-dropdown"></span>
 				<span class="ss-directup"></span>
-				<select class="filter-user">
+				<select class="filter-user todo-filter">
 					@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
 				</select>
 			</li>
@@ -21,7 +21,6 @@
 
 @section('page-content')
 <div id="todo-page"  class="inner-page">
-
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
 			<div class="projects-post">

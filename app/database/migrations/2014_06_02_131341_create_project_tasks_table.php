@@ -16,11 +16,11 @@ class CreateProjectTasksTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('project_id');
-			$table->integer('assigned_id');
+			$table->string('section');
+			$table->text('content');
+			$table->enum('checkbox', array('open','closed'));
 			$table->text('notes');
-			$table->string('checklist_stage');
-			$table->dateTime('due_date');
-			$table->enum('stage', array('checked','unchecked'));
+			$table->integer('user_finished_id');
 			$table->timestamps();
 		});
 	}

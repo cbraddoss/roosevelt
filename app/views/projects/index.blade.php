@@ -17,9 +17,9 @@
 			<span class="ss-directup"></span>
 			<select class="filter-status projects-filter">
 				<option value="0">Status Filter</option>
-				@if(!empty($open)) <option value="open" selected>Open</option> @else <option value="open">Open</option> @endif
-				@if(!empty($closed)) <option value="closed" selected>Closed</option> @else <option value="closed">Closed</option> @endif
-				@if(!empty($archived)) <option value="archived" selected>Archived</option> @else <option value="archived">Archived</option> @endif
+				<option value="open">Open</option>
+				<option value="closed">Closed</option>
+				<option value="archived">Archived</option>
 			</select>
 		</li>
 		<li class="select-dropdown">
@@ -27,7 +27,7 @@
 			<span class="ss-directup"></span>
 			<select class="filter-type projects-filter">
 				<option value="0">Type Filter</option>
-				@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
+				{{ $projectTypes }}
 			</select>
 		</li>
 		<li class="select-dropdown">
@@ -35,9 +35,9 @@
 			<span class="ss-directup"></span>
 			<select class="filter-priority projects-filter">
 				<option value="0">Priority Filter</option>
-				@if(!empty($low)) <option value="low" selected>Low</option> @else <option value="low">Low</option> @endif
-				@if(!empty($normal)) <option value="normal" selected>Normal</option> @else <option value="normal">Normal</option> @endif
-				@if(!empty($high)) <option value="high" selected>High</option> @else <option value="high">High</option> @endif
+				<option value="low">Low</option>
+				<option value="normal">Normal</option>
+				<option value="high">High</option>
 			</select>
 		</li>
 		<li class="select-dropdown">
@@ -45,7 +45,7 @@
 			<span class="ss-directup"></span>
 			<select class="filter-user projects-filter">
 				<option value="0">User Filter</option>
-				@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
+				{{ get_user_list_select() }}
 			</select>
 		</li>
 		<li class="select-dropdown">
@@ -53,7 +53,7 @@
 			<span class="ss-directup"></span>
 			<select class="filter-stage projects-filter">
 				<option value="0">Stage Filter</option>
-				@if(!empty($stage)) {{ get_project_stage_select($stage) }} @else {{ get_project_stage_select() }} @endif
+				{{ $projectStages }}
 			</select>
 		</li>
 		<li class="select-date">

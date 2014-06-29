@@ -54,6 +54,7 @@
 			@if(Session::get('flash_message_error'))
 				<div id="message-box">
 					<div class="section">
+						<div class="close-message ss-delete"></div>
 						<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span> {{ Session::get('flash_message_error') }}</span></div>
 					</div>
 				</div>
@@ -61,6 +62,7 @@
 			@if(!$errors->isEmpty())
 				<div id="message-box">
 					<div class="section">
+						<div class="close-message ss-delete"></div>
 						<div class="action-message">
 						@foreach ($errors->all() as $error)
 							<span class="flash-message flash-message-error"><span class="ss-alert"></span>{{ $error }}</span>
@@ -72,6 +74,7 @@
 			@if(Session::get('flash_message_success'))
 				<div id="message-box">
 					<div class="section">
+						<div class="close-message ss-delete"></div>
 						<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span> {{ Session::get('flash_message_success') }}</span></div>
 					</div>
 				</div>
@@ -79,12 +82,14 @@
 			@if(Input::get('user') == 'new')
 			<div id="message-box">
 				<div class="section">
+					<div class="close-message ss-delete"></div>
 					<div class="action-message"><span class="flash-message flash-message-success">User added successfully.</span></div>
 				</div>
 			</div>
 			@endif
 			<div id="message-box-json">
 				<div class="section">
+					<div class="close-message ss-delete"></div>
 					<!-- ajax json responses -->
 				</div>
 			</div>
@@ -140,6 +145,7 @@
 	<div id="page">
 		<div class="section">
 			<div id="content">
+			<span class="loading-something-new none"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>
 				<div id="page-title">
 					@if(current_page() == '/')
 					<h2>Welcome to the IOS Remote Office</h2>

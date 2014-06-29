@@ -36,7 +36,7 @@
 	<span class="ss-directup"></span>
 	<select name="template_id">
 		<option value="">Select Template</option>
-		{{ get_template_list_select() }}
+		{{ $templates }}
 	</select>
 </div>
 {{ Form::hidden('template_name', null, array('class' => 'project-template-name field', 'id' => 'project-template-name')) }}

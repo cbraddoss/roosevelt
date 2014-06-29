@@ -20,7 +20,7 @@
 		<span class="ss-directup"></span>
 		<select class="filter-type projects-filter">
 			<option value="0">Type Filter</option>
-			@if(!empty($type)) {{ get_project_type_select($type) }} @else {{ get_project_type_select() }} @endif
+			{{ $projectTypes }}
 		</select>
 	</li>
 </ul>
@@ -32,7 +32,7 @@
 
 	@if($projects->isEmpty())
 			<div class="projects-post">
-				<h3>There are no projects with a type of <i>{{ $type }}</i>.</h3>
+				<h3>There are no projects with a type of <i>{{ ucwords(str_replace('-',' ',$type)) }}</i>.</h3>
 				<p></p>
 			</div>
 	@endif

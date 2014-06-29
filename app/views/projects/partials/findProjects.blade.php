@@ -82,7 +82,7 @@
 				<div class="select-dropdown">
 					<span class="ss-dropdown"></span>
 					<span class="ss-directup"></span>
-					<select class="change-project-stage-list" name="change-project-stage-list">{{ get_project_stage_select($project->stage, $project->type, $project->id) }}</select>
+					<select class="change-project-stage-list" name="change-project-stage-list">{{ $project->getProjectStages($project->stage, $project->id) }}</select>
 				</div>
 			</p>
 		{{ Form::open( array('id' => 'change-project-stage-'.$project->id, 'class' => 'change-project-stage-form', 'url' => '/projects/listviewupdate/'.$project->id.'/stage', 'method' => 'post') ) }}

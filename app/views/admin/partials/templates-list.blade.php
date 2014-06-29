@@ -1,33 +1,6 @@
 @extends('admin.templates')
 
 @section('admin-template-content')
-<div class="template-key">
-		<h3>Checklist codes:</h3>
-		<p>[[START]] = start a section</p>
-		<p>[[END]] = end a section</p>
-		<p>[[h]] = Header</p>
-		<p>[[o]] = Open checkbox</p>
-		
-		<h3>Example:</h3>
-<pre class="php">
-[[START]]
-[[h]]Design
-[[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Coding
-[[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Pre-Launch
-[[o]]do stuff
-[[END]]
-[[START]]
-[[h]]Launch
-[[o]]do stuff
-[[END]]
-</pre>
-	</div>
 
 	<h3>Active Templates:</h3>
 	@if($templatesActive->isEmpty())
@@ -51,7 +24,7 @@
 			<div class="close-template-preview">X Close</div>
 				<h3>TEMPLATE: {{ $active->name }}</h3>
 				<h4><a href="#">Sample Account</a></h4>
-				{{ $active->convertCode($active->items) }}
+				
 			</div>
 		</div>
 	@endforeach
@@ -78,7 +51,7 @@
 			<div class="close-template-preview">X Close</div>
 				<h3>TEMPLATE: {{ $inactive->name }}</h3>
 				<h4><a href="#">Sample Account</a></h4>
-				{{ $inactive->convertCode($inactive->items) }}
+				
 			</div>
 		</div>
 	@endforeach

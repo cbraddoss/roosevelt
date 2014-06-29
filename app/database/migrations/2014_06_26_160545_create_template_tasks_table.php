@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTemplatesTable extends Migration {
+class CreateTemplateTasksTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,12 @@ class CreateTemplatesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('templates', function(Blueprint $table)
+		Schema::create('template_tasks', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name',120)->unique();
-			$table->string('slug')->unique();
-			$table->enum('type',array('project','billable','invoice','help'));
-			$table->enum('status',array('active', 'inactive'));
+			$table->integer('template_id');
+			$table->string('section');
+			$table->text('content');
 			$table->timestamps();
 		});
 	}
@@ -30,7 +29,7 @@ class CreateTemplatesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('templates');
+		Schema::drop('template_tasks');
 	}
 
 }

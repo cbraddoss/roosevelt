@@ -37,8 +37,11 @@ class ProjectsController extends \BaseController {
 	public function index()
 	{
 		$projects = $this->project->getOpenProjects();
-		if(Request::ajax()) return View::make('projects.partials.new');
-		else return View::make('projects.index', compact('projects'));
+		$templates = $this->template->getActiveTemplates();
+		$projectTypes = $this->project->getTypeSelectList();
+		$projectStages = $this->project->getStagesAllSelectList();
+		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
+		else return View::make('projects.index', compact('projects','projectTypes','projectStages'));
 	}
 
 
@@ -184,7 +187,7 @@ class ProjectsController extends \BaseController {
 		//$tasks = Template::where('slug','=',$project->type)->first();
 		$subscribed = $project->subscribed;
 		$subscribed = explode(' ',$subscribed);
-		$tasks = $this->template->displayChecklist($project->type, $project->id);
+		$tasks = $this->project->displayChecklist($project->id);
 		$comments = $this->projectComment->getComments($project->id);
 		$subComments = $this->projectComment->getSubComments($project->id);
 		if($project) return View::make('projects.single', compact('project','comments','subComments','tasks','subscribed'));
@@ -237,12 +240,13 @@ class ProjectsController extends \BaseController {
 	 * @return Response
 	 */
 	public function stageFilter($stage) {
+		$projectStages = $this->project->getStagesAllSelectList($stage);
 		if($stage != '0') {
-			$projects = Project::where('stage','=',$stage)
+			$projects = Project::where('stage','=',convert_path_to_stage($stage))
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(10);
-			return View::make('projects.filters.stage', compact('projects','stage'));
+			return View::make('projects.filters.stage', compact('projects','stage','projectStages'));
 		}
 		else return Redirect::route('projects');
 	}
@@ -309,17 +313,21 @@ class ProjectsController extends \BaseController {
 	 * @return Response
 	 */
 	public function typeFilter($type) {
-		$templates = Template::where('slug','=',$type)->first();
-		if($templates != null) {
-			if($templates->status == 'inactive') $tStatus = ' (inactive)';
-			else $tStatus = '';
-			if($type != '0') {
-				$projects = Project::where('type','=',$type)
-						->where('status','=','open')
-						->orderBy('due_date','ASC')
-						->paginate(10);
-				if($projects != null) {
-					return View::make('projects.filters.type', compact('projects','tStatus','type'));
+		if($type != '0') {
+			$template = Template::where('slug','=',$type)->first();
+			$projectTypes = $this->project->getTypeSelectList($template->slug);
+			if($template != null) {
+				if($template->status == 'inactive') $tStatus = ' (inactive)';
+				else $tStatus = '';
+				if($type != '0') {
+					$projects = Project::where('type','=',$type)
+							->where('status','=','open')
+							->orderBy('due_date','ASC')
+							->paginate(10);
+					if($projects != null) {
+						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes'));
+					}
+					else return Redirect::route('projects');
 				}
 				else return Redirect::route('projects');
 			}
@@ -351,9 +359,90 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($project)
 	{
-		//
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects/post/'.$project)->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		$validator = Validator::make(Input::all(), array(
+			'title' => 'required|max:120',
+			'content' => 'required',
+			'subscribed' => 'required',
+			'account_id' => 'required|integer',
+			'priority' => 'required|in:low,normal,high',
+			'status' => 'required|in:open,closed,archived',
+			'launch_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'due_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'end_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->withErrors($messages->first());
+		}
+		else {
+			$editProject = Project::find(Input::get('id'));
+
+			$editProject->title = clean_title(Input::get('title'));
+			$editProject->content =  clean_content(Input::get('content'));
+			$editProject->slug = convert_title_to_path(Input::get('title'));
+			$editProject->edit_id = Auth::user()->id;
+			$editProject->priority = Input::get('priority');
+			$editProject->status = Input::get('status');
+			$editProject->subscribed = Input::get('subscribed');
+			$editProjectAssigned = User::where('user_path','=',Input::get('project-assigned-user'))->first();
+			$editProject->assigned_id = $editProjectAssigned->id;
+			$editProject->account_id = Input::get('account_id');
+
+			
+			if($editProject->period == 'ending' && Input::get('launch_date') == '') {
+				return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','The Launch Date field is required.');
+			}
+			elseif($editProject->period == 'ending' && Input::get('due_date') == '') {
+				return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','The Due Date field is required.');
+			}
+			elseif($editProject->period == 'ending') {
+				$editProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('due_date'));
+				$editProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
+			}
+			if($editProject->period == 'recurring' && Input::get('end_date') == '') {
+				return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','The End Date field is required.');
+			}
+			elseif($editProject->period == 'recurring' && Input::get('due_date') == '') {
+				return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','The Due Date field is required.');
+			}
+			elseif($editProject->period == 'recurring') {
+				$editProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+				$editProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('due_date'));
+			}
+			$editProject->start_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$fileNames = array();
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
+					$currentTime = Carbon::now()->timestamp;
+					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
+					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
+				}
+				$editProject->attachment = serialize($fileNames);
+			}
+			try
+			{
+				$editProject->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','Oops, there might be an article with this title already. Try a different title.');
+			}
+
+			//if(!empty($editProject->mentions)) $this->mailer->articlePingEmail($editProject);
+			
+			return Redirect::to('/projects/post/'.$editProject->slug)->withInput()->with('flash_message_success','Project updated successfully!');
+		}
+		
+		return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','Something went wrong. :(');
 	}
 
 	/**
@@ -453,6 +542,9 @@ class ProjectsController extends \BaseController {
 					'sub' => $userRemove,
 					'thispage' => Input::get('thisPage')
 				);
+
+			$project->save();
+			
 			}
 			if(Input::has('subAdd') == 'subadd') {
 				$userAdd = Input::get('value');
@@ -477,9 +569,25 @@ class ProjectsController extends \BaseController {
 					'subName' => $userName,
 					'thispage' => Input::get('thisPage')
 				);
+
+			$project->save();
+			
+			}
+			if(Input::has('updatecheckbox') == 'updatecheckbox') {
+				$checkboxUpdate = Input::get('value');
+				$projectTaskFind = ProjectTask::find($checkboxUpdate);
+
+				if(Input::get('checkboxValue') == 'closed')	$projectTaskFind->checkbox = 'closed';
+				if(Input::get('checkboxValue') == 'open')	$projectTaskFind->checkbox = 'open';
+				$projectTaskFind->user_finished_id = Input::get('user_finished_id');
+
+				$projectTaskFind->save();
+
+				$response = array(
+					'msg' => 'Saved!'
+				);
 			}
 			
-			$project->save();			
 			
 			return Response::json( $response );
 		}

@@ -229,6 +229,12 @@ jQuery(document).ready(function($){
 	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).fadeOut();
 	$('#message-box .action-message .flash-message-error').parent().parent().parent().delay(14000).fadeOut();
 	$('#message-box-json').find('.section').empty();
+	$(document).on('click','#message-box .close-message', function() {
+		$(document).find('#message-box').hide();
+	});
+	$(document).on('click','#message-box-json .close-message', function() {
+		$(document).find('#message-box-json').hide();
+	});
 
 	// keyboard action to cancel user add form
 	$(document).on('keyup','#content form input', function(ev) {
@@ -253,7 +259,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/admin/users", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -308,7 +314,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -532,7 +538,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/news", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -717,7 +723,7 @@ jQuery(document).ready(function($){
 		$('button.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		var articleSlug = $(document).find('.news-article').attr('slug');
 		//console.log(articleSlug);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
@@ -807,7 +813,7 @@ jQuery(document).ready(function($){
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
 		commentHeight = commentHeight-15;
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		// console.log(commentAuthor);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			
@@ -1037,39 +1043,75 @@ jQuery(document).ready(function($){
 	});
 	// Update Projects on List View page with ajax
 	// change project date
-	$('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
-		$('.dropdown-menu').hide();
-		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	var calProjListTemp = new Date();
+	var calProjListNow = new Date(calProjListTemp.getFullYear(), calProjListTemp.getMonth(), calProjListTemp.getDate(), 0, 0, 0, 0);
+	var calProjListPost = $('#content #projects-page p.change-project-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjListNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calProjListPost.hide();
+	   	$('.dropdown-menu').hide();
+	   		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+			
+			var dateLink = new Date(ev.date.valueOf());
+			var yearLink = dateLink.getFullYear();
+			var monthLink = dateLink.getMonth();
+			monthLink = monthLink+1;
+			var dayLink = dateLink.getDate();
+			
+			// set project post date ajax submit options
+			var changeProjectDateOptions = { 
+				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+				success:       projectDateChangeSuccess,  // post-submit callback
+				dataType: 'json',
+				data: { 
+					_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
+					id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
+					value: yearLink+'-'+monthLink+'-'+dayLink,
+					date: 'youbetcha',
+				},
+				type: 'POST',
+				url: $(this).parent().find('form.change-project-date-form').attr('action'),
+				resetForm: false        // reset the form after successful submit 
+			};
+			$(this).find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
+			});
+			$(this).ajaxSubmit(changeProjectDateOptions);
+			return false;
+	}).data('datepicker');
+	// $('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
+	// 	$('.dropdown-menu').hide();
+	// 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		
-		var dateLink = new Date(ev.date.valueOf());
-		var yearLink = dateLink.getFullYear();
-		var monthLink = dateLink.getMonth();
-		monthLink = monthLink+1;
-		var dayLink = dateLink.getDate();
-		//var dateVal = ev;
-		//console.log(yearLink+'-'+monthLink+'-'+dayLink);
-
-		// set project post date ajax submit options
-		var changeProjectDateOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectDateChangeSuccess,  // post-submit callback
-			dataType: 'json',
-			data: { 
-				_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
-				id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
-				value: yearLink+'-'+monthLink+'-'+dayLink,
-				date: 'youbetcha',
-			},
-			type: 'POST',
-			url: $(this).parent().find('form.change-project-date-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
-		};
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-		$(this).ajaxSubmit(changeProjectDateOptions);
-		return false;
-	});
+	// 	var dateLink = new Date(ev.date.valueOf());
+	// 	var yearLink = dateLink.getFullYear();
+	// 	var monthLink = dateLink.getMonth();
+	// 	monthLink = monthLink+1;
+	// 	var dayLink = dateLink.getDate();
+		
+	// 	// set project post date ajax submit options
+	// 	var changeProjectDateOptions = { 
+	// 		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+	// 		success:       projectDateChangeSuccess,  // post-submit callback
+	// 		dataType: 'json',
+	// 		data: { 
+	// 			_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
+	// 			id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
+	// 			value: yearLink+'-'+monthLink+'-'+dayLink,
+	// 			date: 'youbetcha',
+	// 		},
+	// 		type: 'POST',
+	// 		url: $(this).parent().find('form.change-project-date-form').attr('action'),
+	// 		resetForm: false        // reset the form after successful submit 
+	// 	};
+	// 	$(this).find('.changed-input').each(function() {
+	// 		$(this).removeClass('changed-input');
+	// 	});
+	// 	$(this).ajaxSubmit(changeProjectDateOptions);
+	// 	return false;
+	// });
 
 	function projectDateChangeSuccess(data)
 	{
@@ -1180,10 +1222,10 @@ jQuery(document).ready(function($){
 		$(document).find('div#project-'+projectID+' .post-subscribed span[value='+data.sub+']').remove();	
 	}
 	//add project subscribed
-	$(document).on('click','#content .post-subscribed span.ss-plus', function(){
-		$(this).find('select[name=add-project-sub-list]').fadeIn(200);
+	$(document).on('click','#content .post-subscribed div.ss-plus', function(){
+		$(this).find('.select-dropdown').fadeIn(200);
 	});
-	$(document).on('change', '#content .post-subscribed span.ss-plus select[name=add-project-sub-list]', function() {
+	$(document).on('change', '#content .post-subscribed div.ss-plus select[name=add-project-sub-list]', function() {
 		var userSelect = $(this).val();
 		//console.log(userSelect);
 
@@ -1193,14 +1235,14 @@ jQuery(document).ready(function($){
 			success:       projectSubAddSuccess,  // post-submit callback
 			dataType: 'json',
 			data: { 
-				_token: $(this).parent().parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
-				id: $(this).parent().parent().find('form.change-project-sub-form input[name=id]').attr('value'),
+				_token: $(this).parent().parent().parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().parent().find('form.change-project-sub-form input[name=id]').attr('value'),
 				value: userSelect,
 				thisPage: window.location.pathname,
 				subAdd: 'subadd',
 			},
 			type: 'POST',
-			url: $(this).parent().parent().find('form.change-project-sub-form').attr('action'),
+			url: $(this).parent().parent().parent().find('form.change-project-sub-form').attr('action'),
 			resetForm: false        // reset the form after successful submit 
 		};
 		$(this).find('.changed-input').each(function() {
@@ -1214,15 +1256,115 @@ jQuery(document).ready(function($){
 	{
 		var projectID = data.pid;
 		if(data.subName != '') {
-			$(document).find('div#project-'+projectID+' .post-subscribed span').first().before('<span class="ss-delete" value="'+data.sub+'">'+data.subName+'</span>');
+			$(document).find('div#project-'+projectID+' .post-subscribed div').first().before('<div class="user-subscribed ss-delete" value="'+data.sub+'">'+data.subName+'</div>');
 		}
+	}
+	// update checklist progress on single view page.
+	$(document).find('.checklist-section').each(function(){
+		var sectionTotal = parseInt($(this).find('h4.checklist-header .header-task-total').text(),10);
+		//console.log(sectionTotal);
+		$(this).find('input[type=checkbox]').each(function(){
+				//console.log(sectionTotal);
+			var openCheckbox = $(this).is(':checked');
+			if(openCheckbox == false) {
+				sectionTotal--;
+				$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotal);
+			}
+			else $(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotal);
+			//console.log(openCheckbox);
+
+		});
+	});
+	var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
+	$(document).find('#header-menu .post-progress-total').html(totalCheckboxes);
+	// Update checklist items on single view page.
+	$(document).find('h4.section-disabled').each(function(){
+		$(this).parent().find('input').prop('disabled', true);
+	});
+	$(document).find('input[checklist-status=open]').prop('disabled', true);
+	$(document).find('input[checklist-status=open]').first().prop('disabled', false);
+	$(document).find('h4.ss-directright').each(function(){
+		$(this).parent().find('.checklist-checkbox-section').hide();
+	});
+	$(document).on('click','h4.checklist-header',function(){
+		$(this).parent().find('.checklist-checkbox-section').toggle();
+		$(this).toggleClass('ss-dropdown');
+		$(this).toggleClass('ss-directright');
+	});
+	$(document).on('change','#content .office-post-single .checklist-box input[type=checkbox]', function() {
+		//console.log('clicked');
+		$('#message-box-json').fadeOut();
+		var userFinishedName = $(document).find('form.change-project-checkboxes-form input[name=user_finished_name]').val();
+		var userFinishedDate = $(document).find('form.change-project-checkboxes-form input[name=user_finished_date]').val();
+		$(this).addClass('user-checked');
+		var checkboxID = $(this).val();
+		var checkboxPageID = parseInt($(this).attr('checklist-number'));
+		var checkboxCheck = $(this);
+		$(this).removeClass('changed-input');
+		if (checkboxCheck.is(':checked'))
+		{
+			var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
+			sectionTotalUpdate++;
+			$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
+			var checkboxValue = 'closed';
+			$(this).next().append('<span class="checkbox-user-action">['+userFinishedName+'] '+userFinishedDate+'</span>');
+			var nextCheckboxPageID = checkboxPageID+1;
+			if($(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').is(':checked')) {
+				$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+				var nextCheckboxPageID = checkboxPageID+2;
+			}
+			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').closest('.checklist-section').find('h4').removeClass('section-disabled');
+		}
+		else {
+			//var confirmCancel = confirm('Are you sure you want to uncheck this task?');
+		
+			//if(confirmCancel == true) {
+				$(this).next().find('.checkbox-user-action').remove();
+				var checkboxValue = 'open';
+				var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
+				sectionTotalUpdate--;
+				$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
+				//var nextCheckboxPageID = checkboxPageID+1;
+				$(this).parent().parent().next('.checklist-section').find('input[type=checkbox]').each(function(){
+					$(this).prop('disabled', true).addClass('disabled');
+				});
+				$(this).parent().parent().next('.checklist-section').find('.checklist-header').addClass('section-disabled');
+			//}
+		}
+		var changeProjectCheckboxesOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       changeProjectCheckboxesSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).closest('form.change-project-checkboxes-form').find('input[name=_token]').attr('value'),
+				id: $(this).closest('form.change-project-checkboxes-form').find('input[name=id]').attr('value'),
+				value: checkboxID,
+				checkboxValue: checkboxValue,
+				user_finished_id: $(this).closest('form.change-project-checkboxes-form').find('input[name=user_finished_id]').attr('value'),
+				thisPage: window.location.pathname,
+				updatecheckbox: 'updatecheckbox'
+			},
+			type: 'POST',
+			url: $(this).closest('form.change-project-checkboxes-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+
+		$(this).removeClass('changed-input');
+		$(this).ajaxSubmit(changeProjectCheckboxesOptions);
+		return false;
+	});
+	function changeProjectCheckboxesSuccess(data)
+	{
+		// $('#message-box-json').fadeIn();
+		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
 	// add new Project
 	$(document).on('click','#header-menu #projects-new-project-form button.add-new',function(){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/projects", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
@@ -1294,7 +1436,7 @@ jQuery(document).ready(function($){
 			// active search of accounts
 			$(document).on('input','form.add-project .search-accounts', function() {
 				var accountSearch = $(this).val();
-				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/loading-indicator-big.gif" alt="Loading..."> Searching...</span>');
+				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader.gif" alt="Loading..."> Searching...</span>');
 				if(accountSearch.length >= 3) {
 					// search accounts and return a list
 					var accountSearchOptions = { 
@@ -1424,12 +1566,101 @@ jQuery(document).ready(function($){
 		});
 		$(this).closest('form.add-project').find('input.project-subscribed').attr('value',allSelected);
 	});
+	// account active search of edit project page
+	$(document).on('input','form.update-project .search-accounts', function() {
+		var accountSearch = $(this).val();
+		$(document).find('form.update-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader.gif" alt="Searching..."> Searching...</span>');
+		if(accountSearch.length >= 3) {
+			// search accounts and return a list
+			var accountEditSearchOptions = { 
+				target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
+				success:       accountEditSearchSuccess,  // post-submit callback
+				dataType: 'json',
+				data: { 
+					_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
+					title: accountSearch
+				},
+				type: 'POST',
+				url: '/accounts/search/'+accountSearch,
+				resetForm: false        // reset the form after successful submit 
+			};
+			$(this).find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
+			});
+			$(this).ajaxSubmit(accountEditSearchOptions);
+			return false;
+		}
+		else {
+			$(document).find('form.update-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
+		}
+	});
+	$(document).on('click','form.update-project .accounts-search-ajax span', function() {
+		var accountID = parseInt($(this).attr('value'),10);
+		var accountText = $(this).text();
+		$(this).closest('form.update-project').find('input[name=account_name]').val(accountText);
+		$(this).closest('form.update-project').find('input[name=account_id]').attr('value',accountID);
+		$(document).find('form.update-project .accounts-search-ajax').hide();
+	});
+	function accountEditSearchSuccess(data)
+	{
+		if(data.msg == 'found some') {
+			$(document).find('form.update-project .accounts-search-ajax').show().html(data.accounts);
+		}
+		else {
+			$(document).find('form.update-project .accounts-search-ajax').show().html('<span>No accounts found.</span>');
+		}
+	}
+	// change project due date
+	var calProjDueTemp = new Date();
+	var calProjDueNow = new Date(calProjDueTemp.getFullYear(), calProjDueTemp.getMonth(), calProjDueTemp.getDate(), 0, 0, 0, 0);
+	var calProjDuePost = $('#content form.update-project .project-due-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjDueNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calProjDuePost.hide();
+	   	$('.dropdown-menu').hide();
+	}).data('datepicker');
+	// change project launch date
+	var calProjLaunchTemp = new Date();
+	var calProjLaunchNow = new Date(calProjLaunchTemp.getFullYear(), calProjLaunchTemp.getMonth(), calProjLaunchTemp.getDate(), 0, 0, 0, 0);
+	var calProjLaunchPost = $('#content form.update-project .project-launch-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjLaunchNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calProjLaunchPost.hide();
+	   	$('.dropdown-menu').hide();
+	}).data('datepicker');
+	// change project start date
+	var calProjStartTemp = new Date();
+	var calProjStartNow = new Date(calProjStartTemp.getFullYear(), calProjStartTemp.getMonth(), calProjStartTemp.getDate(), 0, 0, 0, 0);
+	var calProjStartPost = $('#content form.update-project .project-start-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjStartNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calProjStartPost.hide();
+	   	$('.dropdown-menu').hide();
+	}).data('datepicker');
+	// change project end date
+	var calProjEndTemp = new Date();
+	var calProjEndNow = new Date(calProjEndTemp.getFullYear(), calProjEndTemp.getMonth(), calProjEndTemp.getDate(), 0, 0, 0, 0);
+	var calProjEndPost = $('#content form.update-project .project-end-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjEndNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	calProjEndPost.hide();
+	   	$('.dropdown-menu').hide();
+	}).data('datepicker');
+	// project comments
 	// load comment form on project single view page.
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
 		$('button.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
 		//console.log(projectSlug);
@@ -1518,7 +1749,7 @@ jQuery(document).ready(function($){
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
@@ -1682,7 +1913,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/accounts", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
@@ -1730,7 +1961,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/billables", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
@@ -1778,7 +2009,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/help", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
@@ -1826,7 +2057,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/wiki", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
@@ -1869,8 +2100,9 @@ jQuery(document).ready(function($){
 	});
 
 	/* To-Do List page */
-	$(document).on('change','#header-menu .filter-user', function(){
-		// $('#header-menu').append('<span class="loading-something-new"><img src="/images/loading-indicator-big.gif" alt="Loading..."></span>');
+	$(document).on('change','#header-menu .filter-user.todo-filter', function(){
+		$('#content').find('.loading-something-new').show().delay(500);
+
 		var authorLink = $(this).val();
 		window.location.href='/to-do/'+authorLink;
 	});
@@ -1913,6 +2145,8 @@ jQuery(document).ready(function($){
 		if($(this).attr('class') == 'filter-stage') return;
 		if($(this).hasClass('news-filter') ) return;
 		if($(this).hasClass('projects-filter') ) return;
+		if($(this).hasClass('todo-filter') ) return;
+		if($(this).hasClass('checklist-checkbox') ) return;
 		if($(this).attr('class') == 'calendar-jump-to-date') return;
 		if($(this).parent().parent().attr('class') == 'login-form') return;
 		if($(this).parent().parent().attr('class') == 'login-remind') return;

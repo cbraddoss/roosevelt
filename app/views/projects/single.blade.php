@@ -15,7 +15,44 @@
 		</li>
 @endif
 		<li>
-			<span class="ss-check">0/4</span>
+@if($project->period == 'ending')
+			<div class="post-dates">
+				<div class="post-date-box">
+					<span class="post-date-icon ss-uploadcloud"></span>
+					
+					<span class="post-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('l - F j, Y') }}</span>
+					
+					<div class="post-date-subbox">
+						@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date) > Carbon::now()->addMonth())
+						<span>(Launch date ~ {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->diffForHumans() }})</span>
+						@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date) > Carbon::now()->addDays(6))
+						<span>(Launch date ~ {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->diffForHumans() }})</span>
+						@else
+						<span>(Launch date is {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->diffForHumans() }})</span>
+						@endif
+					</div>
+				</div>
+			</div>
+@else
+			<div class="post-dates">
+				<div class="post-date-box">
+					<span class="post-date-icon ss-refresh"></span>
+					
+					<span class="post-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('l - F j, Y') }}</span>
+				
+					<div class="post-date-subbox">
+						<span>(Refreshes unless closed out)</span>
+					</div>
+				</div>
+			</div>
+@endif
+		</li>
+		<li>
+			<div class="post-progress">
+				<span class="post-progress-icon ss-check"></span>
+				<span class="post-progress-text">Progress:</span>
+				<span class="post-progress-complete">0</span>/<span class="post-progress-total">0</span>
+			</div>
 		</li>
 	</ul>
 </div>
@@ -25,17 +62,7 @@
 <div id="projects-page"  class="inner-page">
 
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
-		@if($project->period == 'ending')
-		<div class="post-dates">
-			<span class="launch-date">Launch Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j, Y') }}</span>
-			<span class="due-date">The {{ ucwords(str_replace('-','', $project->stage)) }} stage assigned to {{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }} is currently Due on {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j, Y') }}</span>
-		</div>
-		@else
-		<div class="post-dates">
-			<h3>This Project is scheduled to End on {{ $project->end_date->format('F j, Y') }}</h3>
-			<span>(Unless closed out, this project will automatically start over)</span>
-		</div>
-		@endif
+		
 		<div class="post-manager">
 			<h3>Project Manager:</h3>
 			<img src="{{ gravatar_url(User::find($project->author_id)->email,40) }}" alt="{{ User::find($project->author_id)->first_name }} {{ User::find($project->author_id)->last_name }}">
@@ -44,21 +71,34 @@
 		<div class="post-assigned-to">
 			<h3>Assigned to:</h3>
 			<img src="{{ gravatar_url(User::find($project->assigned_id)->email,40) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
-			<p>{{ User::find($project->assigned_id)->first_name . ' ' . User::find($project->assigned_id)->last_name }}</p>
+				<div class="select-dropdown">
+					<span class="ss-dropdown"></span>
+					<span class="ss-directup"></span>
+					<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+				</div>
 		</div>
 		<div class="post-subscribed">
 			<h3>Subscribed <small>(receives email notifications)</small>:</h3>
 		@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 			@foreach($subscribed as $subd)
 			@if(!empty($subd))
-			<span class="ss-delete" value="{{ $subd }}">{{ ucwords(str_replace('-',' ',$subd)) }}</span>
+			<div class="user-subscribed ss-delete" value="{{ $subd }}">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
 			@endif
 			@endforeach
-			<span class="ss-plus"><select class="add-project-sub-list" name="add-project-sub-list"><option value="">Select User</option>{{ get_active_user_list_select() }}</select></span>
+			<div class="user-subscribed ss-plus">
+			<div class="select-dropdown">
+				<span class="ss-dropdown"></span>
+				<span class="ss-directup"></span>
+				<select class="add-project-sub-list" name="add-project-sub-list">
+				<option value="">Select User</option>
+				{{ get_active_user_list_select() }}
+				</select>
+			</div>
+			</div>
 		@else
 			@foreach($subscribed as $subd)
 			@if(!empty($subd))
-			<span>{{ ucwords(str_replace('-',' ',$subd)) }}</span>
+			<div class="user-subscribed">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
 			@endif
 			@endforeach
 		@endif
@@ -72,13 +112,22 @@
 		</div>
 		<div class="post-attachment">
 			<h3>Attachment(s):</h3>
+			@if($project->getAttachments($project->id))
 			{{ $project->getAttachments($project->id) }}
+			@else
+			<p>No attachment(s) found.</p>
+			@endif
 		</div>
 		<div class="clear"></div>
 		<h3>Project Checklist:</h3>
-		<h4>{{ ucwords(str_replace('-',' ', $project->type)) }}</h4>
 		<div class="project-checklist">
+		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}
+			{{ Form::hidden('id', $project->id) }}
+			{{ Form::hidden('user_finished_id', Auth::user()->id) }}
+			{{ Form::hidden('user_finished_name', Auth::user()->first_name.' '.Auth::user()->last_name) }}
+			{{ Form::hidden('user_finished_date', Carbon::now()->format('M d')) }}
 			{{ $tasks }}
+		{{ Form::close() }}
 		</div>
 		<div class="projects-post-sub office-post-sub">
 			<small>Created on: {{ $project->created_at->format('F j, Y') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->author_id), User::find($project->author_id)->first_name.' '.User::find($project->author_id)->last_name) }}</small>

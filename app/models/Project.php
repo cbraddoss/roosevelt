@@ -45,4 +45,131 @@ class Project extends Eloquent {
 
 		return $thumbnailsSend;
 	}
+
+	public function getTypeSelectList($selected = null) {
+		$projectTypes = Template::where('type','=','project')->get();
+		if($projectTypes != null) {
+			$options = '';
+			$optionsLast = '';
+			foreach($projectTypes as $type) {
+				if($type->status == 'inactive') {
+					if($selected == $type->slug) $optionsLast .= '<option value="'.$type->slug.'" selected>' . $type->name.' (i)' . '</option>';
+					else $optionsLast .= '<option value="'.$type->slug.'">' . $type->name.' (i)' . '</option>';
+				}
+				else {
+					if($selected == $type->slug) $options .= '<option value="'.$type->slug.'" selected>'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';
+					else $options .= '<option value="'.$type->slug.'">'.($type->status == 'inactive' ? $type->name.' (i)' : $type->name).'</option>';			
+				}
+			}
+			$options = $options.$optionsLast;
+			return $options;
+		}
+		else return;
+	}
+
+	public function getStagesAllSelectList($selected = null) {
+		$templates = Template::where('type','=','project')->get();
+		$templateSections = array();
+		$options = '';
+		foreach($templates as $template){
+			$templateTasks = TemplateTask::where('template_id','=',$template->id)->get();
+			foreach($templateTasks as $task) {
+				$templateSections[] = $task->section;
+			}
+		}
+		$templateSections = array_unique($templateSections);
+		// dd($templateSections);
+		foreach($templateSections as $stage) {
+			if($selected == convert_stage_to_path($stage)) $options .= '<option value="'.convert_stage_to_path($stage).'" selected>'. $stage .'</option>';
+			else $options .= '<option value="'.convert_stage_to_path($stage).'">'. $stage .'</option>';
+		}
+		return $options;
+	}
+
+	public function getProjectStages($selected = null, $pID) {
+		$projectTasks = ProjectTask::where('project_id','=',$pID)->get();
+		$projectSections = array();
+		$options = '';
+		$projectStage = array();
+		$optionDisabled = '';
+		foreach($projectTasks as $task) {
+			$projectSections[] = $task->section;
+			if($task->checkbox == 'open') $projectStage[$task->section][$task->id] = 'disabled';
+			else $projectStage[$task->section][$task->id] = 'enabled';
+		}
+		$projectSections = array_unique($projectSections);
+		// dd($projectStage);
+		foreach($projectSections as $stage) {
+			if($selected == convert_stage_to_path($stage)) $options .= '<option value="'.convert_stage_to_path($stage).'" selected '.$optionDisabled.'>'. $stage .'</option>';
+			else $options .= '<option value="'.convert_stage_to_path($stage).'" '.$optionDisabled.'>'. $stage .'</option>';
+			if(in_array('disabled',$projectStage[$stage])) $optionDisabled = 'disabled';
+			else $optionDisabled = '';
+		}
+		return $options;
+	}
+
+	public function displayChecklist($id) {
+		$projectTasks = ProjectTask::where('project_id','=',$id)->get();
+		$totalTasks = $projectTasks->count();
+		$totalSections = array();
+		$totalClosed = 0;
+		$projectSections = array();
+		$checkboxes = '';
+		$sectionDisabled = '';
+		$checkboxDisabled = '';
+		$headerArrow = '';
+		$checklistID = 0;
+		$stages = array();
+		$stageCount = 0;
+
+		foreach($projectTasks as $task) {
+			$projectSections[] = $task->section;
+			if($task->checkbox == 'open') $projectStage[$task->section][$task->id] = 'disabled';
+			else {
+				$projectStage[$task->section][$task->id] = 'enabled';
+			}
+			$totalSections[] = $task->section;
+		}
+		$totalSections = array_count_values($totalSections);
+		// dd($totalSections);
+
+		$checkboxes .= '<div class="checklist-box" total-checkboxes="'.$totalTasks.'"><div>';
+		foreach($projectTasks as $task) {
+			$checklistID++;
+			if(in_array($task->section, $stages) !== true) {
+				$stages[] = $task->section;
+				
+				$checkboxes .= '</div>';
+				$checkboxes .= '<div class="checklist-section">';
+				
+				if(in_array('disabled',$projectStage[$task->section])) $headerArrow = 'ss-dropdown';
+				else $headerArrow = 'ss-directright';
+
+				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'">'.$task->section.' <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></h4>';
+				
+				if(in_array('disabled',$projectStage[$task->section])) $sectionDisabled = 'section-disabled';
+				else $sectionDisabled = '';
+				
+				$stageCount++;
+			}
+			if($task->checkbox == 'closed') {
+				$checked = 'checked checklist-status="closed"';
+				if(Carbon::now()->format('Y') != Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('Y')) $taskFinishedYear = ', Y';
+				else $taskFinishedYear = '';
+				$userFinishedDate = Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('M j'.$taskFinishedYear);
+				$userFinished = '<span class="checkbox-user-action">['.User::find($task->user_finished_id)->first_name.' '.User::find($task->user_finished_id)->last_name.'] '.$userFinishedDate.'</span>';
+			}
+			else {
+				$checked = 'checklist-status="open"';
+				$userFinished = '';
+			}
+			$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox '.$checkboxDisabled.'" id="project-task-'.$task->id.'" checklist-number="'.$checklistID.'" name="project-task-'.$task->id.'" value="'.$task->id.'" '.$checked.' '.$checkboxDisabled.' /><label for="project-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.' '.$userFinished.'</label></div>';
+
+			// if(in_array('disabled',$projectStage[$task->section])) $checkboxDisabled = 'disabled';
+			// else $checkboxDisabled = '';
+		}
+		$checkboxes .= '</div>';
+
+		return $checkboxes;
+	}
 }

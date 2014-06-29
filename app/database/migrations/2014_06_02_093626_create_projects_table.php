@@ -19,8 +19,8 @@ class CreateProjectsTable extends Migration {
 			$table->string('slug')->unique;
 			$table->text('content');
 			$table->enum('priority', array('low', 'normal', 'high'));
-			$table->string('stage',60);
-			$table->string('type',60);
+			$table->string('stage',120);
+			$table->string('type',120);
 			$table->enum('status',array('open','closed','archived'));
 			$table->integer('author_id');
 			$table->string('subscribed');

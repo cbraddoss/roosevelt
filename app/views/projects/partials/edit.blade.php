@@ -7,6 +7,7 @@
 @section('page-content')
 {{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
 <div class="update-something-form">
+<h3>Update Project:</h3>
 {{ Form::hidden('id', $project->id) }}
 
 <div class="new-form-field">
@@ -27,9 +28,34 @@
 	{{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
 </div>
 
+<div class="horizontal-rule"><hr /></div>
+
+<div class="new-form-field new-form-field-extras">
+{{ Form::label('assigned_id', 'Assigned To:') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	<select class="project-assigned-user" name="project-assigned-user">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+</div>
+</div>
+
+<div class="new-form-field new-form-field-extras">
+{{ Form::label('stage', 'Current Stage:') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	<select class="change-project-stage-list" name="change-project-stage-list">{{ $project->getProjectStages($project->stage, $project->id) }}</select>
+</div>
+</div>
+
+<div class="new-form-field new-form-field-extras">
+{{ Form::label('due_date', 'Stage Due Date:') }}
+{{ Form::text('due_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m/d/Y'), array('placeholder' => 'Due Date', 'class' => 'datepicker project-due-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+</div>
+<div class="horizontal-rule"><hr /></div>
 <div class="new-form-field new-form-field-extras">
 	<div class="form-account-searchbox">
-		{{ Form::label('account_name', 'Add Account:') }}
+		{{ Form::label('account_name', 'Change Account:') }}
 		{{ Form::text('account_name', Account::find($project->account_id)->name, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
 		{{ Form::hidden('account_id', $project->account_id, array('class' => 'project-account-id field')) }}
 		<div class="accounts-search-ajax"></div>
@@ -38,52 +64,52 @@
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('template_id', 'Project Template:') }}
-<div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	<select name="template_id">
-		<option value="">Select Template</option>
-		{{ get_template_list_select(ucwords(str_replace('-','', $project->type))) }}
-	</select>
-</div>
+<span>{{ucwords(str_replace('-',' ', $project->type))}}</span>
 {{ Form::hidden('template_name', $project->type, array('class' => 'project-template-name field', 'id' => 'project-template-name')) }}
 </div>
 
+@if($project->period == 'recurring')
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('period', 'Is this project recurring?') }}
-<div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	{{ Form::select('period', array('ending' => 'No', 'recurring' => 'Yes') , $project->period) }}
+<span>Yes</span>
 </div>
-</div>
+@endif
 
 @if($project->period == 'ending')
 <div class="new-form-field new-form-field-extras">
-<!-- <span class="label-launch-date">Launch Date:</span> -->
 {{ Form::label('launch_date', 'Launch Date:') }}
 {{ Form::text('launch_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'Launch Date', 'class' => 'datepicker project-launch-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 {{ Form::hidden('start_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'project-start-date field')) }}
 </div>
 @else
 <div class="new-form-field new-form-field-extras">
-<!-- <span class="label-start-date">Start Date:</span> -->
 {{ Form::label('start_date', 'Start Date:') }}
 {{ Form::text('start_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'datepicker project-start-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
-<!-- <span class="label-end-date">End Date:</span> -->
 {{ Form::label('end_date', 'End Date:') }}
 {{ Form::text('end_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'End Date', 'class' => 'datepicker project-end-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 @endif
+
+<div class="horizontal-rule"><hr /></div>
+
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('priority', 'Priority:') }}
 <div class="select-dropdown">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
 	{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , $project->priority) }}
+</div>
+</div>
+
+<div class="new-form-field new-form-field-extras">
+{{ Form::label('status', 'Status:') }}
+<div class="select-dropdown">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	{{ Form::select('status', array('open' => 'Open', 'closed' => 'Closed', 'archived' => 'Archived') , $project->status) }}
 </div>
 </div>
 
@@ -105,7 +131,7 @@
 </div>
 @endif
 
-@if(Auth::user()->userrole == 'admin' || Auth::user()->id == $project->author_id)
+@if(Auth::user()->userrole == 'admin')
 {{ Form::open( array('class' => 'delete-project delete-post', 'url' => '/projects/post/'.$project->id, 'method' => 'delete', 'id' => $project->id) ) }}
 
 {{ Form::hidden('id', $project->id) }}
