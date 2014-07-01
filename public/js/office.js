@@ -1276,7 +1276,10 @@ jQuery(document).ready(function($){
 		});
 	});
 	var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
+	//var totalProgressWidth = 200/totalCheckboxes;
+	// console.log(totalProgress);
 	$(document).find('#header-menu .post-progress-total').html(totalCheckboxes);
+
 	// Update checklist items on single view page.
 	$(document).find('h4.section-disabled').each(function(){
 		$(this).parent().find('input').prop('disabled', true);
@@ -1300,9 +1303,19 @@ jQuery(document).ready(function($){
 		var checkboxID = $(this).val();
 		var checkboxPageID = parseInt($(this).attr('checklist-number'));
 		var checkboxCheck = $(this);
+
+		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
+		var progressComplete = parseInt($(document).find('#header-menu .post-progress-complete').text(),10);
+		var totalProgressWidth = 200/totalCheckboxes;
+		var divProgressWidth = $(document).find('#header-menu .post-progress .post-progress-progress').width();
+
 		$(this).removeClass('changed-input');
 		if (checkboxCheck.is(':checked'))
 		{
+			$(document).find('#header-menu .post-progress').append('<span class="post-progress-progress-done"></span>');
+			$(document).find('#header-menu .post-progress-complete').html(progressComplete+1);
+			$(document).find('#header-menu .post-progress .post-progress-progress-done').css('width',totalProgressWidth+'px');
+			$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+totalProgressWidth+'px');
 			var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 			sectionTotalUpdate++;
 			$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
@@ -1320,6 +1333,9 @@ jQuery(document).ready(function($){
 			//var confirmCancel = confirm('Are you sure you want to uncheck this task?');
 		
 			//if(confirmCancel == true) {
+			$(document).find('#header-menu .post-progress .post-progress-done').first().remove();
+			$(document).find('#header-menu .post-progress-complete').html(progressComplete-1);
+			$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth-totalProgressWidth+'px');
 				$(this).next().find('.checkbox-user-action').remove();
 				var checkboxValue = 'open';
 				var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);

@@ -324,28 +324,43 @@ select {
 }
 #header-menu .post-progress {
 	display: inline-block;
-	width: 100%;
+	width: 200px;
 	height: 25px;
 	text-align: left;
 	border-radius: 3px;
 	color: #fff;
 	text-shadow: 1px 1px 0px #000;
-	padding: 0px 5px 0 35px;
+	padding: 0px 0px 0 0px;
 	margin: 5px 0px 10px 10px;
 	box-shadow: 1px 1px 2px 0px #000;
-	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: linear-gradient(165deg, #aaa 0%,#ccc 100%);
 	position: relative;	
-}
-#header-menu .post-progress span {
-	padding-top: 4px;
-	font-size: 1.2em;
-	display: inline-block;
 }
 #header-menu .post-progress .post-progress-icon:before {
 	font-size: 1.8em;
 	position: absolute;
 	left: 7px;
 	top: 0px;
+}
+#header-menu .post-progress .post-progress-numbers {
+	font-size: 1.4em;
+	position: absolute;
+	left: 35px;
+	top: 2px;
+}
+#header-menu .post-progress .post-progress-progress {
+	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	border-radius: 3px;
+	width: auto;
+	overflow: hidden;
+	width: 14.285714286px;
+}
+#header-menu .post-progress .post-progress-progress-done {
+	padding-top: 4px;
+	font-size: 1.2em;
+	display: inline-block;
+	height: 18px;
+	width: 14.285714286px;
 }
 /* create something new and navigate something buttons */
 #header-menu .create-something-new,

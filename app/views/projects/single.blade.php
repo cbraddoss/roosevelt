@@ -50,8 +50,14 @@
 		<li>
 			<div class="post-progress">
 				<span class="post-progress-icon ss-check"></span>
-				<span class="post-progress-text">Progress:</span>
-				<span class="post-progress-complete">0</span>/<span class="post-progress-total">0</span>
+				<div class="post-progress-numbers">
+					<span class="post-progress-complete">0</span>
+					<span>/</span>
+					<span class="post-progress-total">0</span>
+				</div>
+				<div class="post-progress-progress">
+					<span class="post-progress-progress-done"></span>
+				</div>
 			</div>
 		</li>
 	</ul>
