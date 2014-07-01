@@ -353,6 +353,7 @@ select {
 	border-radius: 3px;
 	width: auto;
 	overflow: hidden;
+	height: 25px;
 	width: 14.285714286px;
 }
 #header-menu .post-progress .post-progress-progress-done {
@@ -361,6 +362,14 @@ select {
 	display: inline-block;
 	height: 18px;
 	width: 14.285714286px;
+}
+#header-menu .post-progress .post-progress-progress-zero {
+	margin-left: 3px;
+	font-size: 1.2em;
+	display: inline-block;
+	height: 25px;
+	width: 1px;
+	background: #aaa;
 }
 /* create something new and navigate something buttons */
 #header-menu .create-something-new,

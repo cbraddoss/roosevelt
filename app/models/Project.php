@@ -172,4 +172,45 @@ class Project extends Eloquent {
 
 		return $checkboxes;
 	}
+
+	public function displayProgress($id) {
+		$projectTasks = ProjectTask::where('project_id','=',$id)->get();
+		$totalTasks = $projectTasks->count();
+		$progress = '';
+		$openTasks = array();
+		$countOpen = 0;
+		
+		foreach($projectTasks as $task) {
+			if($task->checkbox == 'open') {
+				$openTasks[$task->id] = 'open';
+			}
+			else {
+				$openTasks[$task->id] = 'closed';
+				$countOpen++;
+			}
+		}
+		$totalProgressWidth = 200/$totalTasks;
+		$doneProgressWidth = $totalProgressWidth*$countOpen;
+
+			//$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+totalProgressWidth+'px');
+
+		$progress .= '<div class="post-progress">';
+		if($doneProgressWidth == 0) $progress .= '<span class="post-progress-progress-zero"></span>';
+		$progress .= '<span class="post-progress-icon ss-check"></span>';
+		$progress .= '<div class="post-progress-numbers">';
+		$progress .= '<span class="post-progress-complete">'.$countOpen.'</span>';
+		$progress .= '<span>/</span>';
+		$progress .= '<span class="post-progress-total">'.$totalTasks.'</span>';
+		$progress .= '</div>';
+		$progress .= '<div class="post-progress-progress" style="width:'.$doneProgressWidth.'px">';
+
+		for ($i=0; $i < $countOpen; $i++) {
+			$progress .= '<span class="post-progress-progress-done"></span>';
+		}
+		
+		$progress .= '</div>';
+		$progress .= '</div>';
+
+		return $progress;
+	}
 }

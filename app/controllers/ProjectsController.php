@@ -188,9 +188,10 @@ class ProjectsController extends \BaseController {
 		$subscribed = $project->subscribed;
 		$subscribed = explode(' ',$subscribed);
 		$tasks = $this->project->displayChecklist($project->id);
+		$progress = $this->project->displayProgress($project->id);
 		$comments = $this->projectComment->getComments($project->id);
 		$subComments = $this->projectComment->getSubComments($project->id);
-		if($project) return View::make('projects.single', compact('project','comments','subComments','tasks','subscribed'));
+		if($project) return View::make('projects.single', compact('project','comments','subComments','tasks','subscribed','progress'));
 		else return Redirect::route('projects');
 	}
 
