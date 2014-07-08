@@ -143,9 +143,9 @@ class Project extends Eloquent {
 				$checkboxes .= '<div class="checklist-section">';
 				
 				if(in_array('disabled',$projectStage[$task->section])) $headerArrow = 'ss-dropdown';
-				else $headerArrow = 'ss-directright';
+				else $headerArrow = 'ss-directright section-complete';
 
-				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></h4>';
+				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="checklist-header-progress"><span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></span></h4>';
 				
 				if(in_array('disabled',$projectStage[$task->section])) $sectionDisabled = 'section-disabled';
 				else $sectionDisabled = '';

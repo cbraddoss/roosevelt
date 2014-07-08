@@ -1351,7 +1351,7 @@ jQuery(document).ready(function($){
 	});
 	$(document).find('input[checklist-status=open]').prop('disabled', true);
 	$(document).find('input[checklist-status=open]').first().prop('disabled', false);
-	$(document).find('h4.ss-directright').each(function(){
+	$(document).find('h4.section-complete').each(function(){
 		$(this).parent().find('.checklist-checkbox-section').hide();
 	});
 	$(document).on('click','h4.checklist-header',function(){
@@ -1403,6 +1403,8 @@ jQuery(document).ready(function($){
 				else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
 				nextProjectStage = nextProjectStage.replace('[','');
 				nextProjectStage = nextProjectStage.replace(']','');
+				$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
+				$(this).parent().parent().find('.checklist-checkbox-section').hide();
 			}
 			else {
 				nextProjectStage = '';
@@ -1436,6 +1438,7 @@ jQuery(document).ready(function($){
 					else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
 					nextProjectStage = nextProjectStage.replace('[','');
 					nextProjectStage = nextProjectStage.replace(']','');
+					$(this).parent().parent().find('h4.checklist-header').removeClass('section-complete').addClass('ss-dropdown').removeClass('ss-directright');
 				}
 				else {
 					nextProjectStage = $(document).find('h3 .project-stage').text();
@@ -1479,6 +1482,7 @@ jQuery(document).ready(function($){
 	});
 	function changeProjectCheckboxesSuccess(data)
 	{
+		if(data.msg == 'pageneedsreloading') location.reload();
 		// $('#message-box-json').fadeIn();
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}

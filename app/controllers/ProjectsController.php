@@ -604,6 +604,12 @@ class ProjectsController extends \BaseController {
 
 				if(Input::get('checkboxValue') == 'closed')	{
 					$projectTaskFind->checkbox = 'closed';
+					if($projectTaskFind->user_finished_id != 0) {
+						$response = array(
+							'msg' => 'pageneedsreloading'
+						);
+						return Response::json( $response );
+					}
 					$projectTaskFind->user_finished_id = Input::get('user_finished_id');
 				}
 				if(Input::get('checkboxValue') == 'open') {
