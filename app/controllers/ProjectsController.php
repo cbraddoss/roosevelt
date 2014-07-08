@@ -108,7 +108,7 @@ class ProjectsController extends \BaseController {
 				);
 				return Response::json( $response );
 			}
-			$newProject->stage = 'coding';
+			//$newProject->stage = 'coding';
 			$newProject->period = Input::get('period'); 
 			
 			if(Input::get('period') == 'ending' && Input::get('launch_date') == '') {
@@ -154,6 +154,30 @@ class ProjectsController extends \BaseController {
 					'errorMsg' => 'Oops, there might be an article with this title already. Try a different title.'
 				);
 				return Response::json( $response );
+			}
+
+			$templateTasks = TemplateTask::where('template_id','=',Input::get('template_id'))->get();
+			if(!$templateTasks->isEmpty()) {
+				foreach ($templateTasks as $tempTask) {
+					$projectTask = new ProjectTask;
+					$projectTask->project_id = $newProject->id;
+					$projectTask->section = $tempTask->section;
+					$projectTask->content = $tempTask->content;
+					$projectTask->checkbox = 'open';
+					try
+					{
+						$projectTask->save();
+					} catch(Illuminate\Database\QueryException $e)
+					{
+						$response = array(
+							'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+						);
+						return Response::json( $response );
+					}
+				}
+				$firstStage = ProjectTask::where('project_id','=',$newProject->id)->first();
+				$newProject->stage = $firstStage->section;
+				$newProject->save();
 			}
 
 			//if(!empty($newProject->mentions)) $this->mailer->articlePingEmail($newProject);
@@ -578,15 +602,43 @@ class ProjectsController extends \BaseController {
 				$checkboxUpdate = Input::get('value');
 				$projectTaskFind = ProjectTask::find($checkboxUpdate);
 
-				if(Input::get('checkboxValue') == 'closed')	$projectTaskFind->checkbox = 'closed';
-				if(Input::get('checkboxValue') == 'open')	$projectTaskFind->checkbox = 'open';
-				$projectTaskFind->user_finished_id = Input::get('user_finished_id');
+				if(Input::get('checkboxValue') == 'closed')	{
+					$projectTaskFind->checkbox = 'closed';
+					$projectTaskFind->user_finished_id = Input::get('user_finished_id');
+				}
+				if(Input::get('checkboxValue') == 'open') {
+					$projectTaskFind->checkbox = 'open';
+					$projectTaskFind->user_finished_id = 0;
+				}
 
 				$projectTaskFind->save();
-
+				if(Input::get('nextProjectStage') != '') {
+					$project->stage = Input::get('nextProjectStage');
+					$project->save();
+				}
 				$response = array(
 					'msg' => 'Saved!'
 				);
+			}
+			if(Input::has('user') == 'userchange') {
+				$userChange = Input::get('value');
+				$userFind = User::where('user_path','=',$userChange)->first();
+				$userName = $userFind->first_name;
+				$oldUser = $project->$value;
+				$oldSubscribed = $project->subscribed;
+				if(strpos($oldSubscribed,$userFind->user_path) !== false ) $project->subscribed = $oldSubscribed;
+				else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
+				$project->$value = $userFind->id;
+				//if($oldUser != $userFind->id) $this->mailer->projectPingEmail($project,$oldSubscribed);
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'user' => $userChange,
+					'thispage' => Input::get('thisPage')
+				);
+
+			$project->save();
 			}
 			
 			
@@ -604,7 +656,13 @@ class ProjectsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$project = Project::find($id);
+		if(Auth::user()->userrole == 'admin') {
+			$projectTitle = $project->title;
+			$project->delete();
+			return Redirect::to('/projects/')->with('flash_message_error', '<i>' . $projectTitle . '</i> successfully deleted');
+		}
+		else return Redirect::route('projects');
 	}
 
 

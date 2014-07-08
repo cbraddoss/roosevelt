@@ -15,8 +15,8 @@ class CreateProjectsTable extends Migration {
 		Schema::create('projects', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('title', 120)->unique;
-			$table->string('slug')->unique;
+			$table->string('title', 255)->unique;
+			$table->string('slug', 255)->unique;
 			$table->text('content');
 			$table->enum('priority', array('low', 'normal', 'high'));
 			$table->string('stage',120);

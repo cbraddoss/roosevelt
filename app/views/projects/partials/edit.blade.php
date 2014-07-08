@@ -5,9 +5,10 @@
 @stop
 
 @section('page-content')
-{{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
 <div class="update-something-form">
 <h3>Update Project:</h3>
+{{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
+
 {{ Form::hidden('id', $project->id) }}
 
 <div class="new-form-field">
@@ -25,7 +26,7 @@
 		{{ Form::label('subscribe', 'Subscribe Users:') }}
 		{{ display_subscribable($project->subscribed) }}
 	</div>
-	{{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
+	{{ Form::hidden('subscribed', $project->subscribed, array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
 </div>
 
 <div class="horizontal-rule"><hr /></div>
@@ -134,8 +135,8 @@
 @if(Auth::user()->userrole == 'admin')
 {{ Form::open( array('class' => 'delete-project delete-post', 'url' => '/projects/post/'.$project->id, 'method' => 'delete', 'id' => $project->id) ) }}
 
+{{ Form::label('id', 'Admin Alert: Deleting a project should be a last case scenario.')}}
 {{ Form::hidden('id', $project->id) }}
-
 {{ Form::submit('Delete Project', array('class' => 'delete form-button') ) }}
 
 {{ Form::close() }}

@@ -26,60 +26,37 @@ class Template extends Eloquent {
 		else return;
 	}
 
-	// public function convertCode($items) {
-	// 	$newItems = explode("\n",$items);
-	// 	$checklist = '';
-	// 	$checkNum = 1;
-	// 	foreach($newItems as $item) {
-	// 		$item = trim($item);
-	// 		if($item == '[[START]]') $checklist .= '<div class="checklist-section">';
-	// 		$newItemsH = strpos($item, '[[h]]');
-	// 		if($newItemsH !== false) {
-	// 			$checklistParse = str_replace('[[h]]','', $item);
-	// 			$checklistParse = '<h3 id="'.$checklistParse.'" class="checklist-header ss-dropdown">' . $checklistParse . '</h3>';
-	// 			$checklist .= $checklistParse;
-	// 		}
-	// 		$newItemsO = strpos($item, '[[o]]');
-	// 		if($newItemsO !== false) {
-	// 			$checklistParse = str_replace('[[o]]','', $item);
-	// 			$checklistParse = '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox" id="checklist-checkbox-'.$checkNum.'" name="checklist-checkbox-'.$checkNum.'" value="' . $checklistParse . '" /><label for="checklist-checkbox-'.$checkNum.'" class="checklist-checkbox-label custom-checkbox">'.$checklistParse.'</label></div>';
-	// 			$checklist .= $checklistParse;
-	// 		}
-	// 		if($item == '[[END]]') $checklist .= '</div>';
-	// 		$checkNum++;
-	// 	}
+	public function displayChecklist($id) {
+		$templateTasks = TemplateTask::where('template_id','=',$id)->get();
+		$totalTasks = $templateTasks->count();
+		$totalClosed = 0;
+		$templateSections = array();
+		$checkboxes = '';
+		$sectionDisabled = '';
+		$checkboxDisabled = '';
+		$headerArrow = '';
+		$checklistID = 0;
+		$stages = array();
+		$stageCount = 0;
 
-	// 	return $checklist;
-	// }
+		$checkboxes .= '<div class="checklist-box" total-checkboxes="'.$totalTasks.'"><div>';
+		foreach($templateTasks as $task) {
+			$checklistID++;
+			if(in_array($task->section, $stages) !== true) {
+				$stages[] = $task->section;
+				
+				$checkboxes .= '</div>';
+				$checkboxes .= '<div class="checklist-section">';
+				
+				$checkboxes .= '<h4 class="checklist-header ss-dropdown "><span class="checklist-stage">'.$task->section.'</span></h4>';
+				
+				$stageCount++;
+			}
+			$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox" id="template-task-'.$task->id.'" name="template-task-'.$task->id.'" value="'.$task->id.'" /><label for="template-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.'</label></div>';
 
-	// public function displayChecklist($type, $pID) {
-	// 	$template = Template::where('slug','=',$type)->first();
-	// 	$projectTasks = ProjectTask::where('project_id','=',$pID)->get();
-	// 	$items = $template->items;
-	// 	$newItems = explode("\n",$items);
-	// 	$checklist = '';
-	// 	$checkNum = 1;
-	// 	foreach($newItems as $item) {
-	// 		$item = trim($item);
-	// 		if($item == '[[START]]') $checklist .= '<div class="checklist-section">';
-	// 		$newItemsH = strpos($item, '[[h]]');
-	// 		if($newItemsH !== false) {
-	// 			$checklistParse = str_replace('[[h]]','', $item);
-	// 			$checklistParse = '<h3 id="'.$checklistParse.'" class="checklist-header ss-dropdown">' . $checklistParse . '</h3>';
-	// 			$checklist .= $checklistParse;
-	// 		}
-	// 		$newItemsO = strpos($item, '[[o]]');
-	// 		if($newItemsO !== false) {
-	// 			$checklistParse = str_replace('[[o]]','', $item);
-	// 			//if()
-	// 			$checked = '';
-	// 			$checklistParse = '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox" id="checklist-checkbox-'.$checkNum.'" name="checklist-checkbox-'.$checkNum.'" value="' . $checklistParse . '" ' . $checked . ' /><label for="checklist-checkbox-'.$checkNum.'" class="checklist-checkbox-label custom-checkbox">'.$checklistParse.'</label></div>';
-	// 			$checklist .= $checklistParse;
-	// 		}
-	// 		if($item == '[[END]]') $checklist .= '</div>';
-	// 		$checkNum++;
-	// 	}
+		}
+		$checkboxes .= '</div>';
 
-	// 	return $checklist;
-	// }
+		return $checkboxes;
+	}
 }

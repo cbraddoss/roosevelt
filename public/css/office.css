@@ -192,12 +192,14 @@ select {
 }
 #header-menu .page-menu .select-dropdown {
 	height: 25px;
+	width: 100px;
 	margin-top: 5px;
 	border: none;
 }
 #header-menu .page-menu .select-dropdown select {
 	padding-left: 5px;
 	height: 20px;
+	width: 100px;
 	padding-top: 5px;
 	display: block;
 }
@@ -1140,6 +1142,12 @@ select {
 #content .edit-something-form label {
 	width: 150px;
 }
+#content .create-something-form .template-checklist label,
+#content .edit-something-form .template-checklist label,
+#content .update-something-form .template-checklist label {
+	width: 99%;
+	height: 20px;
+}
 #content .create-something-form input,
 #content .create-something-form textarea,
 #content .edit-something-form input,
@@ -1193,6 +1201,33 @@ select {
 }
 #content .project-add-form.create-something-form textarea[name=content] {
 	height: 75px;
+}
+#content .create-something-form .add-template input.template-section {
+	width: 15%;
+}
+#content .create-something-form .add-template input.template-content {
+	width: 55%;
+	margin: 0 0 10px 10px;
+}
+#content .create-something-form .add-template .add-task-one,
+#content .create-something-form .add-template .add-task-five,
+#content .create-something-form .add-template .add-task-ten {
+	margin: 0 10px 20px 0;
+	display: inline-block;
+	width: 50px;
+}
+#content .create-something-form .add-template .add-task-one .template-code,
+#content .create-something-form .add-template .add-task-five .template-code,
+#content .create-something-form .add-template .add-task-ten .template-code {
+	width: 40px;
+	height: 18px;
+	text-align: center;
+	display: block;
+}
+#content .create-something-form .add-template .remove-task {
+	display: inline-block;
+	width: 5%;
+	margin-left: 10px;
 }
 #content .create-something-form .form-subscribe-buttons,
 #content .edit-something-form .form-subscribe-buttons,
@@ -1324,6 +1359,18 @@ select {
 	border: none;
 	margin-left: -5px;
 }
+#content .edit-something-form .delete-post,
+#content .update-something-form .delete-post {
+	margin-top: 50px;
+	float: right;
+}
+#content .edit-something-form .delete-post label,
+#content .update-something-form .delete-post label {
+	color: #000;
+	display: block;
+	width: 180px;
+	font-size: 0.8em;
+}
 #content .edit-something-form .delete-post input[type=submit],
 #content .update-something-form .delete-post input[type=submit] {
 	margin-top: 20px;
@@ -1332,8 +1379,8 @@ select {
 }
 #content .edit-something-form .delete-post input[type=submit]:hover,
 #content .update-something-form .delete-post input[type=submit]:hover {
-	background-color: rgba(204,0,0,0.6);
-	box-shadow: inset 0px 1px 0px 0px rgba(230,0,0,1), inset 0px -1px 0px 0px rgba(230,0,0,1);
+	background-color: linear-gradient(165deg, #990026 0%,#B3002D 100%);
+	box-shadow: inset 1px 1px 1px 0px #000;
 }
 #content .update-something-form .post-edit-attachment {
 	width: 100px;
@@ -1909,8 +1956,11 @@ select {
 	box-shadow: inset -1px 0px 0px 0px #ddd;
 }
 #content .office-post-single .post-manager p {
-	padding: 0 0 1px 0;
+	padding: 3px 0 2px 5px;
 	border: 1px solid #555;
+	text-align: left;
+	font-size: 0.75em;
+	font-weight: bold;
 }
 #content .office-post-single .post-manager span,
 #content .office-post-single .post-assigned-to span {
@@ -1972,6 +2022,14 @@ select {
 #content .projects-post.office-post-single .post-attachment .post-single-attachment {
 	float:none;
 }
+#content .projects-post.office-post-single .post-attachment .post-single-attachment img {
+	width: 100px;
+	padding: 5px;
+	background: #fff;
+}
+#content .projects-post.office-post-single .post-attachment .post-single-attachment.post-pdf-attachment img {
+	width: auto;
+}
 #content .office-post-single .office-post-sub {
 	display: block;
 	clear: both;
@@ -2013,13 +2071,13 @@ select {
 }
 #content .office-post-comment {
 	display: block;
-	min-height: 70px;
+	min-height: 55px;
 	position: relative;
-	padding: 10px 0;
-	border: 1px solid #ddd;
+	padding: 0 0;
+	/*border: 1px solid #ddd;*/
 	border-radius: 3px;
-	background: #fff;
-	margin: 10px 0;
+	/*background: #fff;*/
+	margin: 10px 0 0;
 }
 #content .office-post-sub-comment {
 	margin-left: 52px;
@@ -2034,15 +2092,23 @@ select {
 #content .office-post-comment .comment-contents {
 	display: block;
 	width:auto;
-	margin: 10px 0 10px 50px;
+	padding: 0 0 0px 10px;
+	margin: 10px 0 0px 40px;
 }
 #content .office-post-comment .comment-contents .edit-link {
-	font-size: 1.1em;
+	font-size: 1em;
 	cursor: pointer;
+	display: inline-block;
 	margin-left: 15px;
 }
 #content .office-post-comment .comment-details {
 	display: block;
+	padding-left: 5px;
+	margin-left: 5px;
+	margin-right: 10px;
+	background: rgba(75,131,180,0.5);
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
 }
 #content .office-post-comment .comment-author {
 	display: inline-block;
@@ -2071,10 +2137,16 @@ select {
 }
 #content .office-post-comment .comment-options .post-comment {
 	padding: 2px 6px;
+	margin-top: 4px;
 }
 #content .office-post-comment .comment-contents p {
-	margin:0;
+	margin:0 10px 0 5px;
 	padding-top: 5px;
+	background: #fff;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 /*#content .office-post-comment .comment-contents:before {
 	position: absolute;

@@ -38,6 +38,7 @@ Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' 
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
 Route::post('/admin/templates', array('as' => 'admin.templateNew', 'uses' => 'AdminController@templateNew'));
 Route::post('/admin/templates/{id}', array('as' => 'admin.templateUpdate', 'uses' => 'AdminController@templateUpdate'));
+Route::get('/admin/templates/add-task', array('uses' => 'AdminController@templateAddtask'));
 Route::get('/admin/templates/{template}/edit', array('uses' => 'AdminController@templateEdit'));
 
 /* Profile */

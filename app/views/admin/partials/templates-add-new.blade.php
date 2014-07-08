@@ -17,20 +17,73 @@
 </div>
 
 <div class="new-form-field">
+{{ Form::label('section', 'Task:') }}
+{{ Form::text('section[]', null, array('placeholder' => 'Section', 'class' => 'field template-section')) }}
+{{ Form::text('content[]', null, array('placeholder' => 'Task description', 'class' => 'field template-content')) }}
+<div class="new-form-field remove-task">
 	<div class="form-textarea-buttons">
-	{{ Form::label('content', 'Add Template code:') }}
-	<span class="ss-up textarea-button add-start template-code" id="[[START]]">Start Section</span>
-	<span class="ss-rows textarea-button add-header template-code" id="[[h]]">Header</span>
-	<span class="ss-check textarea-button add-checkbox template-code" id="[[o]]">Checkbox</span>
-	<span class="ss-down textarea-button add-end template-code" id="[[END]]">End Section</span>
-		
+		<span class="textarea-button template-code ss-hyphen"></span>
+	</div>
+</div>
+</div>
+<div class="new-form-field">
+{{ Form::label('section', 'Task:') }}
+{{ Form::text('section[]', null, array('placeholder' => 'Section', 'class' => 'field template-section')) }}
+{{ Form::text('content[]', null, array('placeholder' => 'Task description', 'class' => 'field template-content')) }}
+<div class="new-form-field remove-task">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-hyphen"></span>
+	</div>
+</div>
+</div>
+<div class="new-form-field">
+{{ Form::label('section', 'Task:') }}
+{{ Form::text('section[]', null, array('placeholder' => 'Section', 'class' => 'field template-section')) }}
+{{ Form::text('content[]', null, array('placeholder' => 'Task description', 'class' => 'field template-content')) }}
+<div class="new-form-field remove-task">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-hyphen"></span>
+	</div>
+</div>
+</div>
+<div class="new-form-field">
+{{ Form::label('section', 'Task:') }}
+{{ Form::text('section[]', null, array('placeholder' => 'Section', 'class' => 'field template-section')) }}
+{{ Form::text('content[]', null, array('placeholder' => 'Task description', 'class' => 'field template-content')) }}
+<div class="new-form-field remove-task">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-hyphen"></span>
+	</div>
+</div>
+</div>
+<div class="new-form-field">
+{{ Form::label('section', 'Task:') }}
+{{ Form::text('section[]', null, array('placeholder' => 'Section', 'class' => 'field template-section')) }}
+{{ Form::text('content[]', null, array('placeholder' => 'Task description', 'class' => 'field template-content')) }}
+<div class="new-form-field remove-task">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-hyphen"></span>
+	</div>
+</div>
+</div>
+
+<div class="new-form-field add-task-ten">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-plus">10</span>
+	</div>
+</div>
+<div class="new-form-field add-task-five">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-plus">5</span>
+	</div>
+</div>
+<div class="new-form-field add-task-one">
+	<div class="form-textarea-buttons">
+		<span class="textarea-button template-code ss-plus">1</span>
 	</div>
 </div>
 
-<div class="new-form-field">
-{{ Form::label('items', 'Checklist Template: ') }}
-{{ Form::textarea('items', null, array('placeholder' => 'Add checklist items here.', 'class' => 'template-items field', 'id' => 'template-items')) }}
-</div>
+<div class="clear"></div>
 
 {{ Form::submit('Create', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}
 

@@ -62,7 +62,13 @@
 		<div class="post-manager">
 			<h3>Project Manager:</h3>
 			<img src="{{ gravatar_url(User::find($project->author_id)->email,40) }}" alt="{{ User::find($project->author_id)->first_name }} {{ User::find($project->author_id)->last_name }}">
-			<p>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</p>
+			<div class="select-dropdown">
+					<span class="ss-dropdown"></span>
+					<span class="ss-directup"></span>
+					<select class="change-project-user-list" name="change-project-user-list">
+					<option>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</option>
+					</select>
+				</div>
 		</div>
 		<div class="post-assigned-to">
 			<h3>Assigned to:</h3>
@@ -72,6 +78,9 @@
 					<span class="ss-directup"></span>
 					<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
 				</div>
+			{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
+				{{ Form::hidden('id', $project->id) }}
+			{{ Form::close() }}
 		</div>
 		<div class="post-subscribed">
 			<h3>Subscribed <small>(receives email notifications)</small>:</h3>
@@ -115,7 +124,7 @@
 			@endif
 		</div>
 		<div class="clear"></div>
-		<h3>Project Checklist:</h3>
+		<h3>Project Checklist: <span class="project-stage">[{{ $project->stage }}]</span></h3>
 		<div class="project-checklist">
 		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}

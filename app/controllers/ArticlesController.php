@@ -434,6 +434,7 @@ class ArticlesController extends \BaseController {
 			$article->delete();
 			return Redirect::to('/news/')->with('flash_message_error', '<i>' . $articleTitle . '</i> successfully deleted');
 		}
+		else return Redirect::route('news');
 	}
 
 }

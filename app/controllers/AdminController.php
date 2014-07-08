@@ -169,10 +169,11 @@ class AdminController extends \BaseController {
 	{
 		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/admin/templates/')->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
  
-        $validator = Validator::make(Input::only('name','type','items'), array(
+        $validator = Validator::make(Input::only('name','type','section','content'), array(
 			'name' => 'required|max:120',
 			'type' => 'required|in:project,help,billable,invoice',
-			'items' => 'required'
+			'section' => 'required|array',
+			'content' => 'required|array'
 		));
 
 		if($validator->fails()) {
@@ -187,9 +188,8 @@ class AdminController extends \BaseController {
 			$newTemplate->name =  ucwords(Input::get('name'));
 			$newTemplate->type =  Input::get('type');
 			$newTemplate->status =  'active';
-			$newTemplate->items = clean_content(Input::get('items'));
 			$newTemplate->slug = convert_title_to_path(Input::get('name'));
-
+			// dd(Input::get('content'));
 			try
 			{
 				$newTemplate->save();
@@ -200,6 +200,29 @@ class AdminController extends \BaseController {
 				);
 				return Response::json( $response );
 			}
+
+			$sections = Input::get('section');
+			$contents = Input::get('content');
+			$taskCount = 0;
+			// dd(count($sections));
+			foreach($sections as $section) {
+				$newTask = new TemplateTask;
+				$newTask->template_id = $newTemplate->id;
+				$newTask->section = $sections[$taskCount];
+				$newTask->content = $contents[$taskCount];
+				try
+				{
+					$newTask->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				$taskCount++;
+			}
+
 			$response = array(
 				'msg' => 'Template saved.'
 			);
@@ -219,7 +242,8 @@ class AdminController extends \BaseController {
 	public function templateEdit($template)
 	{
 		$template = Template::where('slug','=',$template)->first();
-		return View::make('admin.partials.template-form', compact('template'));
+		$templateTasks = $this->template->displayChecklist($template->id);
+		return View::make('admin.partials.template-form', compact('template','templateTasks'));
 	}
 
 	public function templateUpdate($templateSlug)
@@ -258,5 +282,7 @@ class AdminController extends \BaseController {
 		}
 		return Redirect::to('/admin/templates/'.$template->slug.'/edit')->with('flash_message_error','Something went wrong. :(');
 	}
-
+	public function templateAddtask() {
+		return View::make('admin.partials.template-tasks');
+	}
 }

@@ -12,8 +12,16 @@ jQuery(document).ready(function($){
 		}, 2000);
 	}
 	if(commentUrlNew == '?comment=new') {
-		$(commentUrlHash).find('.comment-contents').css({
-			'background': 'rgba(75,131,180,0.2)'
+		$(commentUrlHash).find('.comment-details').css({
+			'background': 'rgba(201,99,0,0.5)',
+			'border-top': '1px solid #c60',
+			'border-right': '1px solid #c60',
+			'border-left': '1px solid #c60'
+		});
+		$(commentUrlHash).find('.comment-contents p').css({
+			'border-bottom': '1px solid #c60',
+			'border-right': '1px solid #c60',
+			'border-left': '1px solid #c60'
 		});
 	}
 	//Update active status of a menu link (both top menu bar and user menu bar)
@@ -331,6 +339,34 @@ jQuery(document).ready(function($){
 			// 	$(this).addClass('ss-uploadcloud');
 			// });
 		});
+	});
+	$(document).on('click','#content form.add-template .add-task-one', function() {
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$.get( "/admin/templates/add-task", function( data ) {
+			$(document).find('#content form.add-template .add-task-ten').before(data);
+			//$(document).find('.loading-something-new').remove();
+		});
+	});
+	$(document).on('click','#content form.add-template .add-task-five', function() {
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		for (var i = 1; i <= 5; i++) {
+			$.get( "/admin/templates/add-task", function( data ) {
+				$(document).find('#content form.add-template .add-task-ten').before(data);
+				//$(document).find('.loading-something-new').remove();
+			});
+		};
+	});
+	$(document).on('click','#content form.add-template .add-task-ten', function() {
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		for (var i = 1; i <= 10; i++) {
+			$.get( "/admin/templates/add-task", function( data ) {
+				$(document).find('#content form.add-template .add-task-ten').before(data);
+				//$(document).find('.loading-something-new').remove();
+			});
+		};
+	});
+	$(document).on('click','#content form.add-template .remove-task .ss-hyphen', function() {
+		$(this).parent().parent().parent().remove();
 	});
 	// cancel template add
 	$(document).on('click','#content form.add-template span.cancel',function(){
@@ -1122,7 +1158,7 @@ jQuery(document).ready(function($){
 		$(document).find('div#project-'+projectID).addClass(data.changeclass);
 	}
 	//change project user
-	$(document).on('change', '#content .change-project-user-list', function() {
+	$(document).on('change', '#content .office-post .change-project-user-list', function() {
 		var userSelect = $(this).val();
 		//console.log(userSelect);
 
@@ -1155,7 +1191,7 @@ jQuery(document).ready(function($){
 		window.location.href = data.thispage;	
 	}
 	//change project stage
-	$(document).on('change', '#content .change-project-stage-list', function() {
+	$(document).on('change', '#content .office-post .change-project-stage-list', function() {
 		var stageSelect = $(this).val();
 		//console.log(userSelect);
 
@@ -1188,6 +1224,39 @@ jQuery(document).ready(function($){
 		window.location.href = data.thispage;	
 	}
 	// Projects Single View updating via ajax
+	//change project user
+	$(document).on('change', '#content .office-post-single .change-project-user-list', function() {
+		var userSelect = $(this).val();
+		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
+
+		// set project user ajax submit options
+		var changeSingleProjectUserOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       singleProjectUserChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().parent().find('form.change-project-user-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().find('form.change-project-user-form input[name=id]').attr('value'),
+				value: userSelect,
+				thisPage: window.location.pathname,
+				user: 'userchange',
+			},
+			type: 'POST',
+			url: $(this).parent().parent().find('form.change-project-user-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeSingleProjectUserOptions);
+		return false;
+	});
+
+	function singleProjectUserChangeSuccess(data)
+	{
+		var projectID = data.pid;
+		window.location.href = data.thispage;	
+	}
 	//change project subscribed
 	$(document).on('click', '#content .post-subscribed span.ss-delete', function() {
 		var userSelect = $(this).attr('value');
@@ -1275,11 +1344,7 @@ jQuery(document).ready(function($){
 
 		});
 	});
-	var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
-	//var totalProgressWidth = 200/totalCheckboxes;
-	// console.log(totalProgress);
-	$(document).find('#header-menu .post-progress-total').html(totalCheckboxes);
-
+	
 	// Update checklist items on single view page.
 	$(document).find('h4.section-disabled').each(function(){
 		$(this).parent().find('input').prop('disabled', true);
@@ -1308,7 +1373,7 @@ jQuery(document).ready(function($){
 		var progressComplete = parseInt($(document).find('#header-menu .post-progress-complete').text(),10);
 		var doneProgressWidth = 200/totalCheckboxes;
 		var divProgressWidth = $(document).find('#header-menu .post-progress .post-progress-progress').width();
-
+		var saveTask = '';
 		$(this).removeClass('changed-input');
 		if (checkboxCheck.is(':checked'))
 		{
@@ -1329,47 +1394,88 @@ jQuery(document).ready(function($){
 			}
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').closest('.checklist-section').find('h4').removeClass('section-disabled');
+			if($(this).parent().next('.checklist-checkbox-section').length == 0) {
+				var nextProjectStage = $(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
+				if(nextProjectStage == '') {
+					projectDone = 'closed';
+					$(document).find('h3 .project-stage').html('['+projectDone+']');
+				}
+				else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
+				nextProjectStage = nextProjectStage.replace('[','');
+				nextProjectStage = nextProjectStage.replace(']','');
+			}
+			else {
+				nextProjectStage = '';
+			}
+			saveTask = 'saveTask';
 		}
 		else {
-			//var confirmCancel = confirm('Are you sure you want to uncheck this task?');
-		
-			//if(confirmCancel == true) {
-			$(document).find('#header-menu .post-progress .post-progress-progress-done').first().remove();
-			$(document).find('#header-menu .post-progress-complete').html(progressComplete-1);
-			$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
+			var confirmCancel = confirm('Are you sure you want to uncheck this task?');
+			if(confirmCancel == true) {
+
+				$(document).find('#header-menu .post-progress .post-progress-progress-done').first().remove();
+				$(document).find('#header-menu .post-progress-complete').html(progressComplete-1);
+				$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
 				$(this).next().find('.checkbox-user-action').remove();
 				var checkboxValue = 'open';
 				var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 				sectionTotalUpdate--;
 				$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
-				//var nextCheckboxPageID = checkboxPageID+1;
 				$(this).parent().parent().next('.checklist-section').find('input[type=checkbox]').each(function(){
 					$(this).prop('disabled', true).addClass('disabled');
 				});
 				$(this).parent().parent().next('.checklist-section').find('.checklist-header').addClass('section-disabled');
-			//}
-		}
-		var changeProjectCheckboxesOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       changeProjectCheckboxesSuccess,  // post-submit callback
-			dataType: 'json',
-			data: { 
-				_token: $(this).closest('form.change-project-checkboxes-form').find('input[name=_token]').attr('value'),
-				id: $(this).closest('form.change-project-checkboxes-form').find('input[name=id]').attr('value'),
-				value: checkboxID,
-				checkboxValue: checkboxValue,
-				user_finished_id: $(this).closest('form.change-project-checkboxes-form').find('input[name=user_finished_id]').attr('value'),
-				thisPage: window.location.pathname,
-				updatecheckbox: 'updatecheckbox'
-			},
-			type: 'POST',
-			url: $(this).closest('form.change-project-checkboxes-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
-		};
+				
+				if($(this).parent().next('.checklist-checkbox-section').length == 0) {
+					var nextProjectStage = $(document).find('input[checklist-number='+checkboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
+					console.log(nextProjectStage);
+					if(nextProjectStage == '') {
+						nextProjectStage = $(document).find('h3 .project-stage').text();
+						$(document).find('h3 .project-stage').html('['+nextProjectStage+']');
+					}
+					else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
+					nextProjectStage = nextProjectStage.replace('[','');
+					nextProjectStage = nextProjectStage.replace(']','');
+				}
+				else {
+					nextProjectStage = $(document).find('h3 .project-stage').text();
+				}
 
-		$(this).removeClass('changed-input');
-		$(this).ajaxSubmit(changeProjectCheckboxesOptions);
-		return false;
+				saveTask = 'saveTask';
+			}
+			else {
+				$(this).prop('checked',true);
+				saveTask = '';
+			}
+		}
+		if(saveTask == 'saveTask') {
+			var changeProjectCheckboxesOptions = { 
+				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+				success:       changeProjectCheckboxesSuccess,  // post-submit callback
+				dataType: 'json',
+				data: { 
+					_token: $(this).closest('form.change-project-checkboxes-form').find('input[name=_token]').attr('value'),
+					id: $(this).closest('form.change-project-checkboxes-form').find('input[name=id]').attr('value'),
+					value: checkboxID,
+					checkboxValue: checkboxValue,
+					user_finished_id: $(this).closest('form.change-project-checkboxes-form').find('input[name=user_finished_id]').attr('value'),
+					thisPage: window.location.pathname,
+					updatecheckbox: 'updatecheckbox',
+					nextProjectStage: nextProjectStage,
+				},
+				type: 'POST',
+				url: $(this).closest('form.change-project-checkboxes-form').attr('action'),
+				resetForm: false        // reset the form after successful submit 
+			};
+
+			$(this).removeClass('changed-input');
+			$(this).ajaxSubmit(changeProjectCheckboxesOptions);
+			return false;
+		}
+		else {
+			$(this).removeClass('changed-input');
+			return false;
+		}
 	});
 	function changeProjectCheckboxesSuccess(data)
 	{
@@ -1571,7 +1677,7 @@ jQuery(document).ready(function($){
 		}
 	}
 	// subscribe users to a project
-	$(document).on('click', '.form-subscribe-buttons .subscribe', function(){
+	$(document).on('click', 'form.add-project .form-subscribe-buttons .subscribe', function(){
 		var subscribe = $(this).attr('id');
 		//console.log(ping);
 		var currentSubscribed = $(this).closest('form.add-project').find('input.project-subscribed').attr('value');
@@ -1582,6 +1688,20 @@ jQuery(document).ready(function($){
 			allSelected = subSelected+allSelected;
 		});
 		$(this).closest('form.add-project').find('input.project-subscribed').attr('value',allSelected);
+	});
+	// Edit Project
+	// subscribe users to a project
+	$(document).on('click', 'form.update-project .form-subscribe-buttons .subscribe', function(){
+		var subscribe = $(this).attr('id');
+		//console.log(ping);
+		var currentSubscribed = $(this).closest('form.update-project').find('input.project-subscribed').attr('value');
+		$(this).toggleClass('subscribe-selected');
+		var allSelected = '';
+		$(this).parent().find('.subscribe-selected').each(function(){
+			var subSelected = $(this).attr('id');
+			allSelected = subSelected+allSelected;
+		});
+		$(this).closest('form.update-project').find('input.project-subscribed').attr('value',allSelected);
 	});
 	// account active search of edit project page
 	$(document).on('input','form.update-project .search-accounts', function() {
@@ -1671,6 +1791,12 @@ jQuery(document).ready(function($){
 	   	calProjEndPost.hide();
 	   	$('.dropdown-menu').hide();
 	}).data('datepicker');
+	$(document).on('submit','#content form.delete-project', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this project?');
+		
+		if(confirmCancel == true) return true;
+		else return false;
+	});
 	// project comments
 	// load comment form on project single view page.
 	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){

@@ -45,14 +45,13 @@
 	</div>
 </div>
 
-<div class="new-form-field">
-	{{ Form::label('items', 'Checklist Template:') }}
-	{{ Form::textarea('items', $template->items, array('placeholder' => 'Create new checklist here.', 'class' => 'template-items field', 'id' => 'template-items')) }}
+<div class="new-form-field template-checklist">
+{{ $templateTasks }}
 </div>
 
-	{{ Form::submit('Save Template', array('class' => 'save-template form-button') ) }}
+{{ Form::submit('Save Template', array('class' => 'save-template form-button') ) }}
 
-	<a href="/admin/templates" class="form-button cancel">Cancel</a>
+<a href="/admin/templates" class="form-button cancel">Cancel</a>
 
 {{ Form::close() }}
 </div>
@@ -63,7 +62,7 @@
 <div class="close-template-preview">X Close</div>
 <h2>TEMPLATE: {{ $template->name }}</h2>
 <h4><a href="#">Sample Account</a></h4>
-{{ $template->convertCode($template->items) }}
+{{ $templateTasks }}
 </div>
 </div>
 

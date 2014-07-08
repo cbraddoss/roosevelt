@@ -21,6 +21,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '1',
 			'due_date' => '2014-06-10 08:00:00',
 			'period' => 'ending',
+			'start_date' => '2014-06-01 08:00:00',
 			'end_date' => '2014-06-30 08:00:00',
 			'edit_id' => '1',
 			'created_at' => '2014-06-01 08:00:00'
@@ -41,6 +42,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '2',
 			'due_date' => '2014-06-06 08:00:00',
 			'period' => 'ending',
+			'start_date' => '2014-06-01 08:00:00',
 			'end_date' => '2014-06-30 08:00:00',
 			'edit_id' => '1',
 			'created_at' => '2014-06-01 08:00:00'
@@ -61,6 +63,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '3',
 			'due_date' => '2014-06-03 08:00:00',
 			'period' => 'ending',
+			'start_date' => '2014-06-01 08:00:00',
 			'end_date' => '2014-06-30 08:00:00',
 			'edit_id' => '1',
 			'created_at' => '2014-06-01 08:00:00'
@@ -102,6 +105,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '3',
 			'due_date' => '2014-06-15 08:00:00',
 			'period' => 'ending',
+			'start_date' => '2014-06-01 08:00:00',
 			'end_date' => '2014-06-30 08:00:00',
 			'edit_id' => '1',
 			'created_at' => '2014-06-01 08:00:00'
@@ -122,6 +126,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '1',
 			'due_date' => '2014-05-30 08:00:00',
 			'period' => 'ending',
+			'start_date' => '2014-06-01 08:00:00',
 			'end_date' => '2014-06-30 08:00:00',
 			'edit_id' => '1',
 			'created_at' => '2014-05-01 08:00:00'

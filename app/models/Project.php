@@ -100,8 +100,8 @@ class Project extends Eloquent {
 		$projectSections = array_unique($projectSections);
 		// dd($projectStage);
 		foreach($projectSections as $stage) {
-			if($selected == convert_stage_to_path($stage)) $options .= '<option value="'.convert_stage_to_path($stage).'" selected '.$optionDisabled.'>'. $stage .'</option>';
-			else $options .= '<option value="'.convert_stage_to_path($stage).'" '.$optionDisabled.'>'. $stage .'</option>';
+			if($selected == $stage) $options .= '<option value="'.$stage.'" selected '.$optionDisabled.'>'. $stage .'</option>';
+			else $options .= '<option value="'.$stage.'" '.$optionDisabled.'>'. $stage .'</option>';
 			if(in_array('disabled',$projectStage[$stage])) $optionDisabled = 'disabled';
 			else $optionDisabled = '';
 		}
@@ -145,7 +145,7 @@ class Project extends Eloquent {
 				if(in_array('disabled',$projectStage[$task->section])) $headerArrow = 'ss-dropdown';
 				else $headerArrow = 'ss-directright';
 
-				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'">'.$task->section.' <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></h4>';
+				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></h4>';
 				
 				if(in_array('disabled',$projectStage[$task->section])) $sectionDisabled = 'section-disabled';
 				else $sectionDisabled = '';
@@ -189,8 +189,14 @@ class Project extends Eloquent {
 				$countOpen++;
 			}
 		}
-		$totalProgressWidth = 200/$totalTasks;
-		$doneProgressWidth = $totalProgressWidth*$countOpen;
+		if($totalTasks > 0) {
+			$totalProgressWidth = 200/$totalTasks;
+			$doneProgressWidth = $totalProgressWidth*$countOpen;
+		}
+		else {
+			$totalProgressWidth = 200;
+			$doneProgressWidth = $totalProgressWidth*$countOpen;
+		}
 
 			//$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+totalProgressWidth+'px');
 
