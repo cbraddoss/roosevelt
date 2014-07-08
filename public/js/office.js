@@ -1348,6 +1348,7 @@ jQuery(document).ready(function($){
 	// Update checklist items on single view page.
 	$(document).find('h4.section-disabled').each(function(){
 		$(this).parent().find('input').prop('disabled', true);
+		$(this).parent().find('.checklist-skip-task').prop('disabled', true);
 	});
 	$(document).find('input[checklist-status=open]').prop('disabled', true);
 	$(document).find('input[checklist-status=open]').first().prop('disabled', false);
@@ -1386,23 +1387,22 @@ jQuery(document).ready(function($){
 			sectionTotalUpdate++;
 			$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
 			var checkboxValue = 'closed';
-			$(this).next().append('<span class="checkbox-user-action">['+userFinishedName+'] '+userFinishedDate+'</span>');
+			$(this).next().append('<span class="checkbox-user-action">'+userFinishedName+' - '+userFinishedDate+'</span>');
 			var nextCheckboxPageID = checkboxPageID+1;
 			if($(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').is(':checked')) {
 				$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 				var nextCheckboxPageID = checkboxPageID+2;
 			}
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+			$(this).parent().parent().parent().find('button[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').closest('.checklist-section').find('h4').removeClass('section-disabled');
 			if($(this).parent().next('.checklist-checkbox-section').length == 0) {
 				var nextProjectStage = $(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 				if(nextProjectStage == '') {
 					projectDone = 'closed';
-					$(document).find('h3 .project-stage').html('['+projectDone+']');
+					$(document).find('h3 .project-stage').html(projectDone);
 				}
-				else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
-				nextProjectStage = nextProjectStage.replace('[','');
-				nextProjectStage = nextProjectStage.replace(']','');
+				else $(document).find('h3 .project-stage').html(nextProjectStage);
 				$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
 				$(this).parent().parent().find('.checklist-checkbox-section').hide();
 			}
@@ -1427,17 +1427,15 @@ jQuery(document).ready(function($){
 					$(this).prop('disabled', true).addClass('disabled');
 				});
 				$(this).parent().parent().next('.checklist-section').find('.checklist-header').addClass('section-disabled');
-				
+				$(this).parent().append('<button class="checklist-skip-task form-button" id="project-skip-task-'+checkboxID+'" checklist-number="'+checkboxPageID+'" task-id="'+checkboxID+'">Skip</button>');
 				if($(this).parent().next('.checklist-checkbox-section').length == 0) {
 					var nextProjectStage = $(document).find('input[checklist-number='+checkboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 					console.log(nextProjectStage);
 					if(nextProjectStage == '') {
 						nextProjectStage = $(document).find('h3 .project-stage').text();
-						$(document).find('h3 .project-stage').html('['+nextProjectStage+']');
+						$(document).find('h3 .project-stage').html(nextProjectStage);
 					}
-					else $(document).find('h3 .project-stage').html('['+nextProjectStage+']');
-					nextProjectStage = nextProjectStage.replace('[','');
-					nextProjectStage = nextProjectStage.replace(']','');
+					else $(document).find('h3 .project-stage').html(nextProjectStage);
 					$(this).parent().parent().find('h4.checklist-header').removeClass('section-complete').addClass('ss-dropdown').removeClass('ss-directright');
 				}
 				else {
@@ -1479,6 +1477,78 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 			return false;
 		}
+	});
+	$(document).on('click','#content .office-post-single .checklist-box .checklist-skip-task', function() {
+		//console.log('clicked');
+		$('#message-box-json').fadeOut();
+		var userFinishedName = $(document).find('form.change-project-checkboxes-form input[name=user_finished_name]').val();
+		var userFinishedDate = $(document).find('form.change-project-checkboxes-form input[name=user_finished_date]').val();
+		$(this).parent().find('.checklist-checkbox').addClass('user-checked').attr('checked','checked');
+		var checkboxID = $(this).attr('task-id');
+		var checkboxPageID = parseInt($(this).attr('checklist-number'));
+
+		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
+		var progressComplete = parseInt($(document).find('#header-menu .post-progress-complete').text(),10);
+		var doneProgressWidth = 200/totalCheckboxes;
+		var divProgressWidth = $(document).find('#header-menu .post-progress .post-progress-progress').width();
+		$(this).removeClass('changed-input');
+
+		$(document).find('#header-menu .post-progress .post-progress-progress-zero').first().remove();
+		$(document).find('#header-menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
+		$(document).find('#header-menu .post-progress-complete').html(progressComplete+1);
+		$(document).find('#header-menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
+		$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
+		var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
+		sectionTotalUpdate++;
+		$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
+		var checkboxValue = 'closed';
+		$(this).prev().append('<span class="checkbox-user-action">(skipped) '+userFinishedName+' - '+userFinishedDate+'</span>');
+		var nextCheckboxPageID = checkboxPageID+1;
+		if($(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').is(':checked')) {
+			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+			var nextCheckboxPageID = checkboxPageID+2;
+		}
+		$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+		$(this).parent().parent().parent().find('button[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
+		$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').closest('.checklist-section').find('h4').removeClass('section-disabled');
+		if($(this).parent().next('.checklist-checkbox-section').length == 0) {
+			var nextProjectStage = $(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
+			if(nextProjectStage == '') {
+				projectDone = 'closed';
+				$(document).find('h3 .project-stage').html(projectDone);
+			}
+			else $(document).find('h3 .project-stage').html(nextProjectStage);
+			$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
+			$(this).parent().parent().find('.checklist-checkbox-section').hide();
+		}
+		else {
+			nextProjectStage = '';
+		}
+		
+		var skipProjectCheckboxesOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       changeProjectCheckboxesSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).closest('form.change-project-checkboxes-form').find('input[name=_token]').attr('value'),
+				id: $(this).closest('form.change-project-checkboxes-form').find('input[name=id]').attr('value'),
+				value: checkboxID,
+				checkboxValue: checkboxValue,
+				user_finished_id: $(this).closest('form.change-project-checkboxes-form').find('input[name=user_finished_id]').attr('value'),
+				thisPage: window.location.pathname,
+				updatecheckbox: 'updatecheckbox',
+				addskipnote: 'addskipnote',
+				nextProjectStage: nextProjectStage,
+			},
+			type: 'POST',
+			url: $(this).closest('form.change-project-checkboxes-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+
+		$(this).removeClass('changed-input');
+		$(this).ajaxSubmit(skipProjectCheckboxesOptions);
+		return false;
+		
 	});
 	function changeProjectCheckboxesSuccess(data)
 	{

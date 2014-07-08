@@ -1938,6 +1938,9 @@ select {
 	color: #4B83B4;
 	text-shadow: 1px 1px 1px #fff;
 }
+#content .office-post-single h3 .project-stage {
+	color: #c60;
+}
 #content .office-post-single p {
 	background: #fff;
 	border:1px solid #ddd;
@@ -2057,20 +2060,36 @@ select {
 	background: linear-gradient(to right, rgba(75,131,180,1) 0%, rgba(75,131,180,0.6) 100%);
 }
 #content .office-post-single .checklist-box h4.checklist-header .checklist-header-progress {
-	text-align: right;
+	margin-right: 50%;
+	float: right;
+	padding-right: 10px;
+	font-style: italic;
 }
 #content .office-post-single .checklist-box input[type=checkbox]:checked + label {
 	color: #bbb;
 	text-decoration: line-through;
 }
-#content .office-post-single .checklist-box span {
-	font-style: italic;
+#content .office-post-single .checklist-box span.checkbox-user-action {
+	text-decoration: none !important;
+	display: inline-block;
+	color: #4B83B4;
+	padding-left: 5px;
+	/*font-style: italic;*/
 }
 #content .office-post-single .checklist-box h4.section-disabled {
 	opacity: 0.5;
 }
 #content .office-post-single .checklist-box input[type=checkbox]:disabled + label {
 	opacity: 0.5;
+}
+#content .office-post-single .checklist-box .checklist-skip-task {
+	width: 40px;
+	height: 20px;
+	float: right;
+	font-size: 0.9em;
+}
+#content .office-post-single .checklist-box .checklist-skip-task:disabled {
+	opacity: 0.5;	
 }
 #content h3.comment-on {
 	margin: 10px 0 20px;

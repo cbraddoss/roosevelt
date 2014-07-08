@@ -601,7 +601,10 @@ class ProjectsController extends \BaseController {
 			if(Input::has('updatecheckbox') == 'updatecheckbox') {
 				$checkboxUpdate = Input::get('value');
 				$projectTaskFind = ProjectTask::find($checkboxUpdate);
-
+				if(Input::has('addskipnote') == 'addskipnote') {
+					$projectTaskFind->notes = 'skipped-task';
+				}
+				else $projectTaskFind->notes = 'active-task';
 				if(Input::get('checkboxValue') == 'closed')	{
 					$projectTaskFind->checkbox = 'closed';
 					if($projectTaskFind->user_finished_id != 0) {

@@ -121,6 +121,7 @@ class Project extends Eloquent {
 		$checklistID = 0;
 		$stages = array();
 		$stageCount = 0;
+		$skippedCount = 0;
 
 		foreach($projectTasks as $task) {
 			$projectSections[] = $task->section;
@@ -144,8 +145,8 @@ class Project extends Eloquent {
 				
 				if(in_array('disabled',$projectStage[$task->section])) $headerArrow = 'ss-dropdown';
 				else $headerArrow = 'ss-directright section-complete';
-
-				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="checklist-header-progress"><span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span></span></h4>';
+				//if($task->notes == 'skipped-task')
+				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="checklist-header-progress">[ <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span> ]</span></h4>';
 				
 				if(in_array('disabled',$projectStage[$task->section])) $sectionDisabled = 'section-disabled';
 				else $sectionDisabled = '';
@@ -157,13 +158,17 @@ class Project extends Eloquent {
 				if(Carbon::now()->format('Y') != Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('Y')) $taskFinishedYear = ', Y';
 				else $taskFinishedYear = '';
 				$userFinishedDate = Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('M j'.$taskFinishedYear);
-				$userFinished = '<span class="checkbox-user-action">['.User::find($task->user_finished_id)->first_name.' '.User::find($task->user_finished_id)->last_name.'] '.$userFinishedDate.'</span>';
+				if($task->notes == 'skipped-task') $skippedTask = '(skipped)';
+				else $skippedTask = '';
+				$userFinished = '<span class="checkbox-user-action">'.$skippedTask.' '.User::find($task->user_finished_id)->first_name.' '.User::find($task->user_finished_id)->last_name.' - '.$userFinishedDate.'</span>';
+				$skipTask = '';
 			}
 			else {
 				$checked = 'checklist-status="open"';
 				$userFinished = '';
+				$skipTask = '<button class="checklist-skip-task form-button" id="project-skip-task-'.$task->id.'" checklist-number="'.$checklistID.'" task-id="'.$task->id.'">Skip</button>';
 			}
-			$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox '.$checkboxDisabled.'" id="project-task-'.$task->id.'" checklist-number="'.$checklistID.'" name="project-task-'.$task->id.'" value="'.$task->id.'" '.$checked.' '.$checkboxDisabled.' /><label for="project-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.' '.$userFinished.'</label></div>';
+			$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox '.$checkboxDisabled.'" id="project-task-'.$task->id.'" checklist-number="'.$checklistID.'" name="project-task-'.$task->id.'" value="'.$task->id.'" '.$checked.' '.$checkboxDisabled.' /><label for="project-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.' '.$userFinished.'</label>'.$skipTask.'</div>';
 
 			// if(in_array('disabled',$projectStage[$task->section])) $checkboxDisabled = 'disabled';
 			// else $checkboxDisabled = '';

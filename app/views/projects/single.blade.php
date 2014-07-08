@@ -124,7 +124,7 @@
 			@endif
 		</div>
 		<div class="clear"></div>
-		<h3>Project Checklist: <span class="project-stage">[{{ $project->stage }}]</span></h3>
+		<h3>Project Checklist: <span class="project-stage">{{ $project->stage }}</span></h3>
 		<div class="project-checklist">
 		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}

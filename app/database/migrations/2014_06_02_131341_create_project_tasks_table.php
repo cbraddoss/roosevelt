@@ -19,7 +19,7 @@ class CreateProjectTasksTable extends Migration {
 			$table->string('section');
 			$table->text('content');
 			$table->enum('checkbox', array('open','closed'));
-			$table->text('notes');
+			$table->enum('notes', array('active-task','skipped-task'));
 			$table->integer('user_finished_id');
 			$table->timestamps();
 		});
