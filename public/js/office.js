@@ -1351,7 +1351,9 @@ jQuery(document).ready(function($){
 		$(this).parent().find('.checklist-skip-task').prop('disabled', true);
 	});
 	$(document).find('input[checklist-status=open]').prop('disabled', true);
+	$(document).find('input[checklist-status=open]').next().next().prop('disabled', true);
 	$(document).find('input[checklist-status=open]').first().prop('disabled', false);
+	$(document).find('input[checklist-status=open]').first().next().next().prop('disabled', false);
 	$(document).find('h4.section-complete').each(function(){
 		$(this).parent().find('.checklist-checkbox-section').hide();
 	});
@@ -1393,6 +1395,7 @@ jQuery(document).ready(function($){
 				$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 				var nextCheckboxPageID = checkboxPageID+2;
 			}
+			$(document).find('button[checklist-number='+checkboxPageID+']').remove();
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 			$(this).parent().parent().parent().find('button[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').closest('.checklist-section').find('h4').removeClass('section-disabled');
@@ -1427,7 +1430,10 @@ jQuery(document).ready(function($){
 					$(this).prop('disabled', true).addClass('disabled');
 				});
 				$(this).parent().parent().next('.checklist-section').find('.checklist-header').addClass('section-disabled');
-				$(this).parent().append('<button class="checklist-skip-task form-button" id="project-skip-task-'+checkboxID+'" checklist-number="'+checkboxPageID+'" task-id="'+checkboxID+'">Skip</button>');
+				
+				if($(document).find('button#project-skip-task-'+checkboxID).length == 0) {
+					$(this).parent().append('<button class="checklist-skip-task form-button" id="project-skip-task-'+checkboxID+'" checklist-number="'+checkboxPageID+'" task-id="'+checkboxID+'">Skip</button>');
+				}
 				if($(this).parent().next('.checklist-checkbox-section').length == 0) {
 					var nextProjectStage = $(document).find('input[checklist-number='+checkboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 					console.log(nextProjectStage);
@@ -1524,7 +1530,7 @@ jQuery(document).ready(function($){
 		else {
 			nextProjectStage = '';
 		}
-		
+
 		var skipProjectCheckboxesOptions = { 
 			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
 			success:       changeProjectCheckboxesSuccess,  // post-submit callback
@@ -1553,6 +1559,9 @@ jQuery(document).ready(function($){
 	function changeProjectCheckboxesSuccess(data)
 	{
 		if(data.msg == 'pageneedsreloading') location.reload();
+		if(data.msg == 'skippedtask') {
+			$(document).find('button[checklist-number='+data.projecttaskid+']').remove();
+		}
 		// $('#message-box-json').fadeIn();
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}

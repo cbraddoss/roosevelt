@@ -603,8 +603,12 @@ class ProjectsController extends \BaseController {
 				$projectTaskFind = ProjectTask::find($checkboxUpdate);
 				if(Input::has('addskipnote') == 'addskipnote') {
 					$projectTaskFind->notes = 'skipped-task';
+					$skippedTask = 'skippedtask';
 				}
-				else $projectTaskFind->notes = 'active-task';
+				else {
+					$projectTaskFind->notes = 'active-task';
+					$skippedTask = 'activetask';
+				}
 				if(Input::get('checkboxValue') == 'closed')	{
 					$projectTaskFind->checkbox = 'closed';
 					if($projectTaskFind->user_finished_id != 0) {
@@ -617,6 +621,12 @@ class ProjectsController extends \BaseController {
 				}
 				if(Input::get('checkboxValue') == 'open') {
 					$projectTaskFind->checkbox = 'open';
+					if($projectTaskFind->user_finished_id == 0) {
+						$response = array(
+							'msg' => 'pageneedsreloading'
+						);
+						return Response::json( $response );
+					}
 					$projectTaskFind->user_finished_id = 0;
 				}
 
@@ -626,7 +636,8 @@ class ProjectsController extends \BaseController {
 					$project->save();
 				}
 				$response = array(
-					'msg' => 'Saved!'
+					'msg' => $skippedTask,
+					'projecttaskid' => $projectTaskFind->id
 				);
 			}
 			if(Input::has('user') == 'userchange') {
@@ -647,7 +658,7 @@ class ProjectsController extends \BaseController {
 					'thispage' => Input::get('thisPage')
 				);
 
-			$project->save();
+				$project->save();
 			}
 			
 			
