@@ -2087,6 +2087,13 @@ select {
 	height: 20px;
 	float: right;
 	font-size: 0.9em;
+	color: #333;
+	text-shadow: 1px 1px 0px #fff;
+	box-shadow: 1px 1px 0px 0px #bbb;
+	background: linear-gradient(165deg, #fafafa 0%, #ddd 100%);
+}
+#content .office-post-single .checklist-box .checklist-skip-task:hover {
+	box-shadow: inset 1px 1px 0px 0px #bbb;
 }
 #content .office-post-single .checklist-box .checklist-skip-task:disabled {
 	opacity: 0.5;	
