@@ -1,7 +1,7 @@
 @extends('layout.main')
 
 @section('page-title')
-{{ 'Projects at stage: '. convert_path_to_stage($stage) }}
+{{ 'Project Type - '. ucwords(str_replace('-',' ',$type)) .' at stage: '. convert_path_to_stage($stage) }}
 @stop
 
 @section('header-menu')
@@ -12,6 +12,17 @@
 				<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
 			</div>
 		</li>
+	<li>
+		<span class="page-menu-text">Filtering Type:</span>
+	</li>
+	<li class="select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		<select class="filter-type projects-filter">
+			<option value="0">Type Filter</option>
+			{{ $projectTypes }}
+		</select>
+	</li>
 		<li>
 			<span class="page-menu-text">Filtering Stage:</span>
 		</li>
@@ -22,6 +33,7 @@
 				<option value="0">Stage Filter</option>
 				{{ $projectStages }}
 			</select>
+			<input type="hidden" value="{{ $type }}" />
 		</li>
 	</ul>
 	</div>

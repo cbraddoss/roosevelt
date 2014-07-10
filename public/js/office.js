@@ -1051,7 +1051,8 @@ jQuery(document).ready(function($){
 	// Filter by project stage
 	$(document).on('change','#header-menu .filter-stage.projects-filter', function(){
 		var stageLink = $(this).val();
-		window.location.href='/projects/stage/'+stageLink;
+		var typeLink = $(this).next().val();
+		window.location.href='/projects/type/'+typeLink+'/stage/'+stageLink;
 	});
 	// Filter by project priority
 	$(document).on('change','#header-menu .filter-priority.projects-filter', function(){
@@ -1508,7 +1509,7 @@ jQuery(document).ready(function($){
 		sectionTotalUpdate++;
 		$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
 		var checkboxValue = 'closed';
-		$(this).prev().append('<span class="checkbox-user-action">(skipped) '+userFinishedName+' - '+userFinishedDate+'</span>');
+		$(this).prev().append('<span class="checkbox-user-action"><span class="this-task-skipped">(skipped)</span> '+userFinishedName+' - '+userFinishedDate+'</span>');
 		var nextCheckboxPageID = checkboxPageID+1;
 		if($(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').is(':checked')) {
 			$(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').prop('disabled', false).removeClass('disabled');

@@ -55,14 +55,6 @@ class TemplatesTableSeeder extends Seeder {
 		));
 
 		Template::create(array(
-			'name' => 'Inndx Migration',
-			'slug' => 'inndx-migration',
-			'type' => 'project',
-			'status' => 'active',
-			'created_at' => '2014-06-05 08:00:00',
-		));
-
-		Template::create(array(
 			'name' => 'WordPress Conversion',
 			'slug' => 'wordpress-conversion',
 			'type' => 'project',

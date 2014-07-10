@@ -23,6 +23,15 @@
 			{{ $projectTypes }}
 		</select>
 	</li>
+	<li class="select-dropdown">
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		<select class="filter-stage projects-filter">
+			<option value="0">Stage Filter</option>
+			{{ $projectStages }}
+		</select>
+		<input type="hidden" value="{{ $type }}" />
+	</li>
 </ul>
 </div>
 @stop

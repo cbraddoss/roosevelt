@@ -67,16 +67,17 @@ class Project extends Eloquent {
 		else return;
 	}
 
-	public function getStagesAllSelectList($selected = null) {
-		$templates = Template::where('type','=','project')->get();
+	public function getTypeStagesSelectList($type, $selected = null) {
+		//$templates = Template::find($typeID);
 		$templateSections = array();
 		$options = '';
-		foreach($templates as $template){
+		//foreach($templates as $template){
+			$template = Template::where('slug','=',$type)->first();
 			$templateTasks = TemplateTask::where('template_id','=',$template->id)->get();
 			foreach($templateTasks as $task) {
 				$templateSections[] = $task->section;
 			}
-		}
+		//}
 		$templateSections = array_unique($templateSections);
 		// dd($templateSections);
 		foreach($templateSections as $stage) {
@@ -121,18 +122,30 @@ class Project extends Eloquent {
 		$checklistID = 0;
 		$stages = array();
 		$stageCount = 0;
+		$taskSkipped = array();
+		$totalSkipped = array();
 		$skippedCount = 0;
+		$skippedTaskHeader = '';
 
 		foreach($projectTasks as $task) {
 			$projectSections[] = $task->section;
-			if($task->checkbox == 'open') $projectStage[$task->section][$task->id] = 'disabled';
+			if($task->checkbox == 'open') {
+				$projectStage[$task->section][$task->id] = 'disabled';
+			}
 			else {
 				$projectStage[$task->section][$task->id] = 'enabled';
 			}
+			// if($task->notes == 'skipped-task') {
+			// 	$skippedCount++;
+			// 	$taskSkipped[$task->section]['skipped'] = $skippedCount;
+			// }
+			// else {
+			// 	$taskSkipped[$task->section]['active'] = 'active';
+			// }
 			$totalSections[] = $task->section;
 		}
 		$totalSections = array_count_values($totalSections);
-		// dd($totalSections);
+		// dd(array_count_values($taskSkipped['Code Website']));
 
 		$checkboxes .= '<div class="checklist-box" total-checkboxes="'.$totalTasks.'"><div>';
 		foreach($projectTasks as $task) {
@@ -143,10 +156,15 @@ class Project extends Eloquent {
 				$checkboxes .= '</div>';
 				$checkboxes .= '<div class="checklist-section">';
 				
+				//$totalSkipped = array_count_values($taskSkipped[$task->section]);
+				// dd($taskSkipped[$task->section]);
+				// if(array_key_exists('skipped',$taskSkipped[$task->section])) $skippedTaskHeader = '<span class="this-task-skipped">('.$taskSkipped[$task->section]['skipped'].' skipped)</span>';
+				// else $skippedTaskHeader = '';
+
 				if(in_array('disabled',$projectStage[$task->section])) $headerArrow = 'ss-dropdown';
 				else $headerArrow = 'ss-directright section-complete';
-				//if($task->notes == 'skipped-task')
-				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="checklist-header-progress">[ <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span> ]</span></h4>';
+				
+				$checkboxes .= '<h4 class="checklist-header '.$headerArrow.' '.$sectionDisabled.'"><span class="checklist-stage">'.$task->section.'</span> <span class="checklist-header-progress">[ <span class="header-task-complete">'.$totalClosed.'</span><span>/</span><span class="header-task-total">'.$totalSections[$task->section].'</span> <span>complete</span> ] '.$skippedTaskHeader.'</span></h4>';
 				
 				if(in_array('disabled',$projectStage[$task->section])) $sectionDisabled = 'section-disabled';
 				else $sectionDisabled = '';
@@ -158,7 +176,7 @@ class Project extends Eloquent {
 				if(Carbon::now()->format('Y') != Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('Y')) $taskFinishedYear = ', Y';
 				else $taskFinishedYear = '';
 				$userFinishedDate = Carbon::createFromFormat('Y-m-d H:i:s', $task->updated_at)->format('M j'.$taskFinishedYear);
-				if($task->notes == 'skipped-task') $skippedTask = '(skipped)';
+				if($task->notes == 'skipped-task') $skippedTask = '<span class="this-task-skipped">(skipped)</span>';
 				else $skippedTask = '';
 				$userFinished = '<span class="checkbox-user-action">'.$skippedTask.' '.User::find($task->user_finished_id)->first_name.' '.User::find($task->user_finished_id)->last_name.' - '.$userFinishedDate.'</span>';
 				$skipTask = '';

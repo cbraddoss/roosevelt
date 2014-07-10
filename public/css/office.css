@@ -2098,6 +2098,9 @@ select {
 #content .office-post-single .checklist-box .checklist-skip-task:disabled {
 	opacity: 0.5;	
 }
+#content .office-post-single .checklist-box .this-task-skipped {
+	color: #cc0000;
+}
 #content h3.comment-on {
 	margin: 10px 0 20px;
 }

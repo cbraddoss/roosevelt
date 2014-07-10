@@ -84,8 +84,8 @@ Route::get('/projects/assigned-to/{userpath}', array('as' => 'projects.assignedT
 Route::get('/projects/date/{year}/{month}', array('as' => 'projects.dateFilter', 'uses' => 'ProjectsController@dateFilter'));
 Route::get('/projects/priority/{priority}', array('as' => 'projects.priorityFilter', 'uses' => 'ProjectsController@priorityFilter'));
 Route::get('/projects/status/{status}', array('as' => 'projects.statusFilter', 'uses' => 'ProjectsController@statusFilter'));
+Route::get('/projects/type/{type}/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
 Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' => 'ProjectsController@typeFilter'));
-Route::get('/projects/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
 Route::get('/projects/post/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
 Route::get('/projects/post/{project}/edit', array('uses' => 'ProjectsController@edit'));
 Route::post('/projects/post/{project}', array('uses' => 'ProjectsController@update'));

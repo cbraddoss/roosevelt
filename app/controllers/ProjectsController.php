@@ -39,9 +39,8 @@ class ProjectsController extends \BaseController {
 		$projects = $this->project->getOpenProjects();
 		$templates = $this->template->getActiveTemplates();
 		$projectTypes = $this->project->getTypeSelectList();
-		$projectStages = $this->project->getStagesAllSelectList();
 		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
-		else return View::make('projects.index', compact('projects','projectTypes','projectStages'));
+		else return View::make('projects.index', compact('projects','projectTypes'));
 	}
 
 
@@ -108,7 +107,8 @@ class ProjectsController extends \BaseController {
 				);
 				return Response::json( $response );
 			}
-			//$newProject->stage = 'coding';
+			$templateTaskFirst = TemplateTask::where('template_id','=',Input::get('template_id'))->first();
+			$newProject->stage = $templateTaskFirst->section;
 			$newProject->period = Input::get('period'); 
 			
 			if(Input::get('period') == 'ending' && Input::get('launch_date') == '') {
@@ -180,7 +180,7 @@ class ProjectsController extends \BaseController {
 				$newProject->save();
 			}
 
-			//if(!empty($newProject->mentions)) $this->mailer->articlePingEmail($newProject);
+			//if(!empty($newProject->subscribed)) $this->mailer->articlePingEmail($newProject);
 			
 			$response = array(
 				'slug' => $newProject->slug,
@@ -264,14 +264,16 @@ class ProjectsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function stageFilter($stage) {
-		$projectStages = $this->project->getStagesAllSelectList($stage);
+	public function stageFilter($type, $stage) {
+		$projectTypes = $this->project->getTypeSelectList($type);
+		$projectStages = $this->project->getTypeStagesSelectList($type, $stage);
 		if($stage != '0') {
 			$projects = Project::where('stage','=',convert_path_to_stage($stage))
+					->where('type','=', $type)
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(10);
-			return View::make('projects.filters.stage', compact('projects','stage','projectStages'));
+			return View::make('projects.filters.stage', compact('projects','stage','projectStages','type','projectTypes'));
 		}
 		else return Redirect::route('projects');
 	}
@@ -341,6 +343,7 @@ class ProjectsController extends \BaseController {
 		if($type != '0') {
 			$template = Template::where('slug','=',$type)->first();
 			$projectTypes = $this->project->getTypeSelectList($template->slug);
+			$projectStages = $this->project->getTypeStagesSelectList($template->slug);
 			if($template != null) {
 				if($template->status == 'inactive') $tStatus = ' (inactive)';
 				else $tStatus = '';
@@ -350,7 +353,7 @@ class ProjectsController extends \BaseController {
 							->orderBy('due_date','ASC')
 							->paginate(10);
 					if($projects != null) {
-						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes'));
+						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes','projectStages'));
 					}
 					else return Redirect::route('projects');
 				}

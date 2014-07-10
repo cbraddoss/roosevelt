@@ -38,25 +38,29 @@ class Template extends Eloquent {
 		$checklistID = 0;
 		$stages = array();
 		$stageCount = 0;
-
-		$checkboxes .= '<div class="checklist-box" total-checkboxes="'.$totalTasks.'"><div>';
-		foreach($templateTasks as $task) {
-			$checklistID++;
-			if(in_array($task->section, $stages) !== true) {
-				$stages[] = $task->section;
-				
-				$checkboxes .= '</div>';
-				$checkboxes .= '<div class="checklist-section">';
-				
-				$checkboxes .= '<h4 class="checklist-header ss-dropdown "><span class="checklist-stage">'.$task->section.'</span></h4>';
-				
-				$stageCount++;
-			}
-			$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox" id="template-task-'.$task->id.'" name="template-task-'.$task->id.'" value="'.$task->id.'" /><label for="template-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.'</label></div>';
-
+		if($templateTasks->isEmpty()) {
+			return 'Nothing here';
 		}
-		$checkboxes .= '</div>';
+		else {
+			$checkboxes .= '<div class="checklist-box" total-checkboxes="'.$totalTasks.'"><div>';
+			foreach($templateTasks as $task) {
+				$checklistID++;
+				if(in_array($task->section, $stages) !== true) {
+					$stages[] = $task->section;
+					
+					$checkboxes .= '</div>';
+					$checkboxes .= '<div class="checklist-section">';
+					
+					$checkboxes .= '<h4 class="checklist-header ss-dropdown "><span class="checklist-stage">'.$task->section.'</span></h4>';
+					
+					$stageCount++;
+				}
+				$checkboxes .= '<div class="checklist-checkbox-section"><input type="checkbox" class="checklist-checkbox" id="template-task-'.$task->id.'" name="template-task-'.$task->id.'" value="'.$task->id.'" /><label for="template-task-'.$task->id.'" class="checklist-checkbox-label custom-checkbox">'.$task->content.'</label></div>';
 
-		return $checkboxes;
+			}
+			$checkboxes .= '</div>';
+
+			return $checkboxes;
+		}
 	}
 }

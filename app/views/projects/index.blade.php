@@ -48,14 +48,6 @@
 				{{ get_user_list_select() }}
 			</select>
 		</li>
-		<li class="select-dropdown">
-			<span class="ss-dropdown"></span>
-			<span class="ss-directup"></span>
-			<select class="filter-stage projects-filter">
-				<option value="0">Stage Filter</option>
-				{{ $projectStages }}
-			</select>
-		</li>
 		<li class="select-date">
 			<div class="filter-date projects-filter" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<span>Date Filter:</span>
