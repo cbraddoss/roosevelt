@@ -61,14 +61,21 @@
 		
 		<div class="post-manager">
 			<h3>Project Manager:</h3>
-			<img src="{{ gravatar_url(User::find($project->author_id)->email,40) }}" alt="{{ User::find($project->author_id)->first_name }} {{ User::find($project->author_id)->last_name }}">
+			<img src="{{ gravatar_url(User::find($project->manager_id)->email,40) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}">
+			@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 			<div class="select-dropdown">
-					<span class="ss-dropdown"></span>
-					<span class="ss-directup"></span>
-					<select class="change-project-user-list" name="change-project-user-list">
-					<option>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</option>
-					</select>
-				</div>
+				<span class="ss-dropdown"></span>
+				<span class="ss-directup"></span>
+				<select class="change-project-manager-list" name="change-project-manager-list">
+					{{ get_can_manage_user_list_select(User::find($project->manager_id)->first_name. ' ' .User::find($project->manager_id)->last_name) }}
+				</select>
+			</div>
+			@else
+			<p>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</p>
+			@endif
+			{{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
+				{{ Form::hidden('id', $project->id) }}
+			{{ Form::close() }}
 		</div>
 		<div class="post-assigned-to">
 			<h3>Assigned to:</h3>
@@ -84,13 +91,18 @@
 		</div>
 		<div class="post-subscribed">
 			<h3>Subscribed <small>(receives email notifications)</small>:</h3>
-		@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 			@foreach($subscribed as $subd)
-			@if(!empty($subd))
-			<div class="user-subscribed ss-delete" value="{{ $subd }}">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
-			@endif
+				@if(!empty($subd))
+					@if($project->author_id == Auth::user()->id || $subd == Auth::user()->user_path || Auth::user()->can_manage == 'yes')
+					<div class="user-subscribed ss-delete" value="{{ $subd }}">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
+					@else
+					<div class="user-subscribed">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
+					@endif
+				@endif
 			@endforeach
+		@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 			<div class="user-subscribed ss-plus">
+			</div>
 			<div class="select-dropdown">
 				<span class="ss-dropdown"></span>
 				<span class="ss-directup"></span>
@@ -99,13 +111,6 @@
 				{{ get_active_user_list_select() }}
 				</select>
 			</div>
-			</div>
-		@else
-			@foreach($subscribed as $subd)
-			@if(!empty($subd))
-			<div class="user-subscribed">{{ ucwords(str_replace('-',' ',$subd)) }}</div>
-			@endif
-			@endforeach
 		@endif
 		{{ Form::open( array('id' => 'change-project-sub-'.$project->id, 'class' => 'change-project-sub-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/subscribed', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}
@@ -124,7 +129,11 @@
 			@endif
 		</div>
 		<div class="clear"></div>
-		<h3>Project Checklist: <span class="project-stage">{{ $project->stage }}</span></h3>
+		<div class="project-stage-due-date">
+			<span class="project-stage">{{ $project->stage }}</span>
+			<span>is due on:</span>
+			<span class="project-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j, Y') }}</span>
+		</div>
 		<div class="project-checklist">
 		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}

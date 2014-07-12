@@ -808,7 +808,7 @@ select {
 #message-box-json {
 	/*display: none;*/
 	position: fixed;
-	top:0px;
+	top: 45px;
 	left:-1px;
 	height: 40px;
 	width:100%;
@@ -833,7 +833,7 @@ select {
 	height: 30px;
 	color: #000;
 	border-radius: 3px;
-	background: linear-gradient(to bottom,  #ddd 0%, #aaa 100%);
+	background: rgba(32,32,32,0.5);
 	box-shadow: 1px 1px 3px 0px #333;
 }
 #message-box .action-message span,
@@ -1938,9 +1938,6 @@ select {
 	color: #4B83B4;
 	text-shadow: 1px 1px 1px #fff;
 }
-#content .office-post-single h3 .project-stage {
-	color: #c60;
-}
 #content .office-post-single p {
 	background: #fff;
 	border:1px solid #ddd;
@@ -1957,6 +1954,12 @@ select {
 	text-align: center;
 	border-right: 1px solid #fff;
 	box-shadow: inset -1px 0px 0px 0px #ddd;
+}
+#content .office-post-single .post-manager .select-dropdown,
+#content .office-post-single .post-assigned-to .select-dropdown {
+	width: auto;
+	width: calc(100% - 30px);
+	text-align: left;
 }
 #content .office-post-single .post-manager p {
 	padding: 3px 0 2px 5px;
@@ -1982,26 +1985,51 @@ select {
 	float:left;
 	padding: 0 10px;
 	height: 122px;
+	position: relative;
 }
 #content .office-post-single .post-subscribed .user-subscribed {
 	border-radius: 3px;
-	background: rgba(75,131,180,0.5);
-	padding: 3px;
+	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
+	padding: 3px 3px 0;
 	color: #fff;
-	border: 1px solid rgba(75,131,180,1);
+	/*border: 1px solid rgba(75,131,180,1);*/
+	box-shadow: 1px 1px 0px 0px #333;
 	cursor: pointer;
 	float:left;
 	position: relative;
 	margin: 3px 3px;
+	text-shadow: 1px 1px 0px #000;
 }
 #content .office-post-single .post-subscribed .user-subscribed.ss-delete:before {
-	padding-right: 3px;
+	padding: 0 3px 0 0;
+	vertical-align: middle;
+	height: 22px;
+	line-height: 22px;
 }
-#content .office-post-single .post-subscribed .user-subscribed .select-dropdown {
+#content .office-post-single .post-subscribed .user-subscribed.ss-delete:hover {
+	box-shadow: inset 1px 1px 0px 0px #333;
+	background: linear-gradient(165deg, rgba(75,131,180, 1) 0%, rgba(75,131,180, 0.5) 100%);	
+}
+#content .office-post-single .post-subscribed .user-subscribed.ss-plus {
+	box-shadow: 1px 1px 0px 0px #333;
+	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
+}
+#content .office-post-single .post-subscribed .user-subscribed.ss-plus:hover {
+	box-shadow: inset 1px 1px 0px 0px #333;
+	background: linear-gradient(165deg, rgba(75,131,180, 1) 0%, rgba(75,131,180, 0.5) 100%);
+}
+#content .office-post-single .post-subscribed .user-subscribed.ss-plus:before {
+	padding: 0;
+	vertical-align: middle;
+	height: 22px;
+	line-height: 22px;
+}
+#content .office-post-single .post-subscribed .select-dropdown {
 	display:none;
-	position: absolute;
-	top: 0;
-	margin-left: 8px;
+	width: 130px;
+	margin-top: 4px;
+	padding: 2px 3px 2px;
+	float: left;
 }
 #content .office-post-single .post-content {
 	clear:left;
@@ -2032,6 +2060,19 @@ select {
 }
 #content .projects-post.office-post-single .post-attachment .post-single-attachment.post-pdf-attachment img {
 	width: auto;
+}
+#content .office-post-single h3 .project-stage {
+	color: #c60;
+}
+#content .office-post-single h3 .project-due-date {
+	color: #fff;
+	font-weight: 100;
+	padding: 0 5px;
+	float: right;
+	margin-right: 50%;
+	text-shadow: 1px 1px 0px #000;
+	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
+	border-radius: 3px;
 }
 #content .office-post-single .office-post-sub {
 	display: block;

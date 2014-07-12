@@ -22,6 +22,7 @@ class CreateProjectsTable extends Migration {
 			$table->string('stage',120);
 			$table->string('type',120);
 			$table->enum('status',array('open','closed','archived'));
+			$table->integer('manager_id');
 			$table->integer('author_id');
 			$table->string('subscribed');
 			$table->integer('assigned_id');

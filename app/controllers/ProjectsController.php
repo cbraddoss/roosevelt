@@ -180,7 +180,7 @@ class ProjectsController extends \BaseController {
 				$newProject->save();
 			}
 
-			//if(!empty($newProject->subscribed)) $this->mailer->articlePingEmail($newProject);
+			if(!empty($newProject->subscribed)) $this->mailer->projectNewSubEmail($newProject);
 			
 			$response = array(
 				'slug' => $newProject->slug,
@@ -489,54 +489,112 @@ class ProjectsController extends \BaseController {
 			else $oldValue = $project->$value;
 			// dd(Input::get('value'));
 			if(Input::has('date') == 'youbetcha') {
-				$date = Input::get('value');
-				$date = Carbon::createFromFormat('Y-m-d', $date);
-				$project->$value = $date;
-				$dateSave = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F j');
-				if(Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-now';
-				elseif(Carbon::createFromFormat('Y-m-d H:i:s', $date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-soon';
-				else $classchange = '';
+				$validator = Validator::make(Input::only('value'), array(
+					'value' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+				));
 
-				if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
+				if($validator->fails()) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				else {
+					$date = Input::get('value');
+					$date = Carbon::createFromFormat('m/d/Y', $date);
+					$project->$value = $date;
+					$dateSave = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F j');
+					if(Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-now';
+					elseif(Carbon::createFromFormat('Y-m-d H:i:s', $date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-soon';
+					else $classchange = '';
 
-				$response = array(
-					'msg' => 'Saved!',
-					'pid' => $project->id,
-					'date' => $dateSave,
-					'thispage' => Input::get('thisPage'),
-					'changeclass' => $classchange
-				);
+					if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
+
+					$project->save();
+					
+					//if(!empty($newProject->subscribed)) $this->mailer->projectListDateChangeEmail($newProject);
+
+					$response = array(
+						'msg' => 'Saved!',
+						'pid' => $project->id,
+						'date' => $dateSave,
+						'thispage' => Input::get('thisPage'),
+						'changeclass' => $classchange
+					);
+				}
 			}
 			if(Input::has('user') == 'userchange') {
-				$userChange = Input::get('value');
-				$userFind = User::where('user_path','=',$userChange)->first();
-				$userName = $userFind->first_name;
-				$oldUser = $project->$value;
-				$oldSubscribed = $project->subscribed;
-				if(strpos($oldSubscribed,$userFind->user_path) !== false ) $project->subscribed = $oldSubscribed;
-				else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
-				$project->$value = $userFind->id;
-				//if($oldUser != $userFind->id) $this->mailer->projectPingEmail($project,$oldSubscribed);
+				$validator = Validator::make(Input::only('value'), array(
+					'value' => 'required',
+				));
 
-				$response = array(
-					'msg' => 'Saved!',
-					'pid' => $project->id,
-					'user' => $userChange,
-					'thispage' => Input::get('thisPage')
-				);
+				if($validator->fails()) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				else {
+					$userChange = Input::get('value');
+					$userFind = User::where('user_path','=',$userChange)->first();
+					$userName = $userFind->first_name;
+					$oldUser = $project->$value;
+					$oldSubscribed = $project->subscribed;
+					if(strpos($oldSubscribed,$userFind->user_path) !== false ) $project->subscribed = $oldSubscribed;
+					else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
+					$project->$value = $userFind->id;
+					$currentUser = Auth::user()->id;
+					
+					$project->save();
+					
+					if(!empty($project->assigned_id)) $this->mailer->projectListUserChangeEmail($project, $currentUser);
+
+					$response = array(
+						'msg' => 'Saved!',
+						'pid' => $project->id,
+						'user' => $userChange,
+						'thispage' => Input::get('thisPage')
+					);
+				}
 			}
 			if(Input::has('stage') == 'stagechange') {
-				$stageChange = Input::get('value');
-				$project->$value = $stageChange;
+				$projectTasks = ProjectTask::where('project_id','=',$project->id)->get();
+				$projectSections = array();
+				foreach($projectTasks as $projectTask) {
+					$projectSections[] = $projectTask->section;
+				}
+				$validator = Validator::make(Input::only('value'), array(
+					'value' => 'required',
+				));
 
-				$response = array(
-					'msg' => 'Saved!',
-					'pid' => $project->id,
-					'thispage' => Input::get('thisPage')
-				);
+				if($validator->fails()) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				elseif(!in_array(Input::get('value'),$projectSections)) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				else {
+					$stageChange = Input::get('value');
+					$project->$value = $stageChange;
+
+					$project->save();
+
+					//if(!empty($newProject->subscribed)) $this->mailer->projectListStageChangeEmail($newProject);
+
+					$response = array(
+						'msg' => 'Saved!',
+						'pid' => $project->id,
+						'thispage' => Input::get('thisPage')
+					);
+				}
 			}
 			
-			$project->save();
 			
 			return Response::json( $response );
 		}
@@ -644,6 +702,26 @@ class ProjectsController extends \BaseController {
 				);
 			}
 			if(Input::has('user') == 'userchange') {
+				$userChange = Input::get('value');
+				$userFind = User::where('user_path','=',$userChange)->first();
+				$userName = $userFind->first_name;
+				$oldUser = $project->$value;
+				$oldSubscribed = $project->subscribed;
+				if(strpos($oldSubscribed,$userFind->user_path) !== false ) $project->subscribed = $oldSubscribed;
+				else $project->subscribed = $oldSubscribed.' '.$userFind->user_path;
+				$project->$value = $userFind->id;
+				//if($oldUser != $userFind->id) $this->mailer->projectPingEmail($project,$oldSubscribed);
+
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'user' => $userChange,
+					'thispage' => Input::get('thisPage')
+				);
+
+				$project->save();
+			}
+			if(Input::has('user') == 'managerchange') {
 				$userChange = Input::get('value');
 				$userFind = User::where('user_path','=',$userChange)->first();
 				$userName = $userFind->first_name;

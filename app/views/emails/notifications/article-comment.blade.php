@@ -2,8 +2,7 @@
 
 @section('email-content')
 <div class="content-div">
-	<p>Your article, <b>{{ $title }}</b>, has a new reply by {{ $author }}</p>
-	<p>View the comment here: <a href="{{ $link }}">{{ $title }}</a></p>
+	<p>Your article, <a href="{{ $link }}">{{ $title }}</a>, has a new reply by {{ $author }}</p>
 	<small>This comment was created on {{ $created_at }}</small>
 </div>
 <div class="activity-div">

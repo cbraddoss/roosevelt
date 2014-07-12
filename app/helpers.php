@@ -76,6 +76,16 @@ function get_active_user_list_select($selected = null) {
 	return $options;
 }
 
+function get_can_manage_user_list_select($selected = null) {
+	$users = User::where('can_manage','=','yes')->get();
+	$options = '';
+	foreach($users as $user) {
+		if($selected == $user->first_name.' '.$user->last_name) $options .= '<option value="'.any_user_path($user->id).'" selected>'.$user->first_name.' '.$user->last_name.'</option>';
+		else $options .= '<option value="'.any_user_path($user->id).'">'.$user->first_name.' '.$user->last_name.'</option>';
+	}
+	return $options;
+}
+
 function get_active_account_list($selected = null) {
 	$accounts = Account::where('status','=','active')->get();
 	$options = '';

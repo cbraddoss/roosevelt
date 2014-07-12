@@ -2,6 +2,84 @@
 
 class Mailer {
 
+    public function projectNewSubEmail(Project $project) {
+        $parseUsers = $project->subscribed;
+        $parseUsers = explode(' ',$parseUsers);
+
+        $users = array();
+        foreach($parseUsers as $pUser) {
+            if($pUser == '') unset($pUser);
+            else {
+                $users[] = $pUser;
+            }
+        }
+
+        foreach($users as $eUser) {
+            $findTasks = find_assigned_count('tasks','email');
+            $findProjects = find_assigned_count('projects','email');
+            $findBillables = find_assigned_count('billables','email');
+            $findHelp = find_assigned_count('help','email');
+
+            $userSend = User::where('user_path','=',$eUser)->first();
+            $author = User::where('id', '=', $project->author_id)->first();
+            $pingDetails = array(
+                'title' => $project->title,
+                'author' => $author->first_name . ' ' . $author->last_name,
+                'launch_date' => Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j, Y'),
+                'link' => URL::to( '/projects/post/' . $project->slug ),
+                'created_at' => $project->created_at->format('F j, Y g:i a'),
+                'tasks' => $findTasks,
+                'projects' => $findProjects,
+                'billables' => $findBillables,
+                'help' => $findHelp,
+                );
+
+            $view = 'emails.notifications.project-new-sub';
+            $subject = 'You have been subscribed to a project: ' . $project->title;
+
+            Mail::later(10, $view, $pingDetails, function($message) use($userSend, $subject)
+            {
+                $message->to($userSend->email, $userSend->first_name.' '.$userSend->last_name)
+                        ->subject($subject);
+            });
+        }
+    }
+
+    public function projectListUserChangeEmail(Project $project, $currentUser) {
+
+        $findTasks = find_assigned_count('tasks','email');
+        $findProjects = find_assigned_count('projects','email');
+        $findBillables = find_assigned_count('billables','email');
+        $findHelp = find_assigned_count('help','email');
+
+        $userSend = User::find($project->assigned_id);
+        dd($userSend);
+        $author = User::find($project->author_id);
+        $currentUser = User::find($currentUser);
+        $pingDetails = array(
+            'title' => $project->title,
+            'link' => URL::to( '/projects/post/' . $project->slug ),
+            'current_user' => $currentUser->first_name . ' ' . $currentUser->last_name,
+            'stage' => $project->stage,
+            'due_date' => Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j, Y'),
+            'launch_date' => Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j, Y'),
+            'created_at' => $project->created_at->format('F j, Y g:i a'),
+            'tasks' => $findTasks,
+            'projects' => $findProjects,
+            'billables' => $findBillables,
+            'help' => $findHelp,
+            );
+
+        $view = 'emails.notifications.project-user-assigned';
+        $subject = 'You have been assigned to a project: ' . $project->title;
+
+        Mail::later(10, $view, $pingDetails, function($message) use($userSend, $subject)
+        {
+            $message->to($userSend->email, $userSend->first_name.' '.$userSend->last_name)
+                    ->subject($subject);
+        });
+    }
+
     public function articlePingEmail(Article $article, $previousMentions = '') {
         $parseUsers = $article->mentions;
         $parseUsers = explode(' ',$parseUsers);

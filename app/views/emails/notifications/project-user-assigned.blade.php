@@ -2,7 +2,10 @@
 
 @section('email-content')
 <div class="content-div">
-	<p>You have been pinged by {{ $author }} in a News post: <a href="{{ $link }}">{{ $title }}</a></p>
+	<p>{{ $current_user }} assigned you to a project: <a href="{{ $link }}">{{ $title }}</a></p>
+	<p>The <b>{{ $stage }}</b> stage is due on {{ $due_date }}</p>
+	<p>This project is tentatively scheduled to launch on {{ $launch_date }}</p>
+	<small>Note: You can manage your subscriptions on each project.</small>
 	<small>This post was created on {{ $created_at }}</small>
 </div>
 <div class="activity-div">

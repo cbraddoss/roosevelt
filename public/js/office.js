@@ -1094,9 +1094,9 @@ jQuery(document).ready(function($){
 			var dateLink = new Date(ev.date.valueOf());
 			var yearLink = dateLink.getFullYear();
 			var monthLink = dateLink.getMonth();
-			monthLink = monthLink+1;
+			monthLink = ('0' + (monthLink + 1)).slice(-2);
 			var dayLink = dateLink.getDate();
-			
+			dayLink = ('0' + (dayLink)).slice(-2);
 			// set project post date ajax submit options
 			var changeProjectDateOptions = { 
 				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
@@ -1105,7 +1105,7 @@ jQuery(document).ready(function($){
 				data: { 
 					_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
 					id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
-					value: yearLink+'-'+monthLink+'-'+dayLink,
+					value: monthLink+'/'+dayLink+'/'+yearLink,
 					date: 'youbetcha',
 				},
 				type: 'POST',
@@ -1152,11 +1152,17 @@ jQuery(document).ready(function($){
 
 	function projectDateChangeSuccess(data)
 	{
-		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-expand"></span>');
-		$(document).find('div#project-'+projectID).removeClass('due-soon');
-		$(document).find('div#project-'+projectID).removeClass('due-now');
-		$(document).find('div#project-'+projectID).addClass(data.changeclass);
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			var projectID = data.pid;
+			$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-expand"></span>');
+			$(document).find('div#project-'+projectID).removeClass('due-soon');
+			$(document).find('div#project-'+projectID).removeClass('due-now');
+			$(document).find('div#project-'+projectID).addClass(data.changeclass);
+		}
 	}
 	//change project user
 	$(document).on('change', '#content .office-post .change-project-user-list', function() {
@@ -1188,8 +1194,14 @@ jQuery(document).ready(function($){
 
 	function projectUserChangeSuccess(data)
 	{
-		var projectID = data.pid;
-		window.location.href = data.thispage;	
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			var projectID = data.pid;
+			window.location.href = data.thispage;
+		}
 	}
 	//change project stage
 	$(document).on('change', '#content .office-post .change-project-stage-list', function() {
@@ -1221,10 +1233,49 @@ jQuery(document).ready(function($){
 
 	function projectStageChangeSuccess(data)
 	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			var projectID = data.pid;
+			window.location.href = data.thispage;
+		}
+	}
+	// Projects Single View updating via ajax
+	//change project manager
+	$(document).on('change', '#content .office-post-single .change-project-manager-list', function() {
+		var userSelect = $(this).val();
+		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
+
+		// set project manager ajax submit options
+		var changeSingleProjectManagerOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       singleProjectManagerChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().parent().find('form.change-project-manager-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().find('form.change-project-manager-form input[name=id]').attr('value'),
+				value: userSelect,
+				thisPage: window.location.pathname,
+				user: 'managerchange',
+			},
+			type: 'POST',
+			url: $(this).parent().parent().find('form.change-project-manager-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeSingleProjectManagerOptions);
+		return false;
+	});
+
+	function singleProjectManagerChangeSuccess(data)
+	{
 		var projectID = data.pid;
 		window.location.href = data.thispage;	
 	}
-	// Projects Single View updating via ajax
 	//change project user
 	$(document).on('change', '#content .office-post-single .change-project-user-list', function() {
 		var userSelect = $(this).val();
@@ -1259,7 +1310,7 @@ jQuery(document).ready(function($){
 		window.location.href = data.thispage;	
 	}
 	//change project subscribed
-	$(document).on('click', '#content .post-subscribed span.ss-delete', function() {
+	$(document).on('click', '#content .post-subscribed .ss-delete', function() {
 		var userSelect = $(this).attr('value');
 		//console.log(userSelect);
 
@@ -1289,13 +1340,13 @@ jQuery(document).ready(function($){
 	function projectSubChangeSuccess(data)
 	{
 		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-subscribed span[value='+data.sub+']').remove();	
+		$(document).find('div#project-'+projectID+' .post-subscribed div[value='+data.sub+']').remove();	
 	}
 	//add project subscribed
 	$(document).on('click','#content .post-subscribed div.ss-plus', function(){
-		$(this).find('.select-dropdown').fadeIn(200);
+		$(this).next().toggle();
 	});
-	$(document).on('change', '#content .post-subscribed div.ss-plus select[name=add-project-sub-list]', function() {
+	$(document).on('change', '#content .post-subscribed .select-dropdown select[name=add-project-sub-list]', function() {
 		var userSelect = $(this).val();
 		//console.log(userSelect);
 
@@ -1404,9 +1455,9 @@ jQuery(document).ready(function($){
 				var nextProjectStage = $(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 				if(nextProjectStage == '') {
 					projectDone = 'closed';
-					$(document).find('h3 .project-stage').html(projectDone);
+					$(document).find('.project-stage-due-date .project-stage').html(projectDone);
 				}
-				else $(document).find('h3 .project-stage').html(nextProjectStage);
+				else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
 				$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
 				$(this).parent().parent().find('.checklist-checkbox-section').hide();
 			}
@@ -1439,14 +1490,14 @@ jQuery(document).ready(function($){
 					var nextProjectStage = $(document).find('input[checklist-number='+checkboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 					console.log(nextProjectStage);
 					if(nextProjectStage == '') {
-						nextProjectStage = $(document).find('h3 .project-stage').text();
-						$(document).find('h3 .project-stage').html(nextProjectStage);
+						nextProjectStage = $(document).find('.project-stage-due-date .project-stage').text();
+						$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
 					}
-					else $(document).find('h3 .project-stage').html(nextProjectStage);
+					else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
 					$(this).parent().parent().find('h4.checklist-header').removeClass('section-complete').addClass('ss-dropdown').removeClass('ss-directright');
 				}
 				else {
-					nextProjectStage = $(document).find('h3 .project-stage').text();
+					nextProjectStage = $(document).find('.project-stage-due-date .project-stage').text();
 				}
 
 				saveTask = 'saveTask';
@@ -1522,9 +1573,9 @@ jQuery(document).ready(function($){
 			var nextProjectStage = $(this).parent().parent().parent().find('input[checklist-number='+nextCheckboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
 			if(nextProjectStage == '') {
 				projectDone = 'closed';
-				$(document).find('h3 .project-stage').html(projectDone);
+				$(document).find('.project-stage-due-date .project-stage').html(projectDone);
 			}
-			else $(document).find('h3 .project-stage').html(nextProjectStage);
+			else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
 			$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
 			$(this).parent().parent().find('.checklist-checkbox-section').hide();
 		}
@@ -2381,6 +2432,7 @@ jQuery(document).ready(function($){
 		if($(this).parent().attr('class') == 'office-search') return;
 		if($(this).closest('.template-output').attr('class') == 'template-output') return;
 		if($(this).attr('class') == 'change-project-user-list') return;
+		if($(this).attr('class') == 'change-project-manager-list') return;
 		if($(this).attr('class') == 'change-project-stage-list') return;
 		if($(this).attr('class') == 'add-project-sub-list') return;
 		$(this).addClass('changed-input');
