@@ -1593,15 +1593,16 @@ select {
 	border-radius: 3px;
 	padding: 0px 6px;
 }
-#content .office-post p span.ss-expand {
+#content .office-post p span.project-change-date {
 	display: inline-block;
 	position: absolute;
-	right: 0px;
-	bottom: 20px;
-    -webkit-transform: rotate(-45deg);
-	-moz-transform: rotate(-45deg);
-	-ms-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
+	left: 2px;
+	top: 22px;
+	font-size: 0.75em;
+	color: #fff;
+}
+#content .office-post p span.project-change-date:before {
+	font-weight: 100;
 }
 #content .office-post .post-date {
 	width: 100px;
@@ -1612,8 +1613,8 @@ select {
 }
 #content #projects-page .office-post .post-date,
 #content #todo-page .office-post .post-date {
-	width: 100px;
-	padding-left: 10px;
+	width: 90px;
+	padding-left: 20px;
 	margin-left: -15px;
 	border-right: 1px solid rgba(75,131,180,0.5);
 	cursor: pointer;
@@ -1627,8 +1628,8 @@ select {
 #content #projects-page .office-post.due-now .post-date,
 #content #todo-page .office-post.due-soon .post-date,
 #content #todo-page .office-post.due-now .post-date {
-	width: 100px;
-	padding-left: 10px;
+	width: 90px;
+	padding-left: 20px;
 	margin-top: -1px;
 	margin-left: -15px;
 	border-top-left-radius: 3px;
