@@ -55,7 +55,7 @@
 @stop
 
 @section('page-content')
-<div id="projects-page"  class="inner-page">
+<div id="projects-page"  class="single-page inner-page">
 
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		
@@ -149,15 +149,13 @@
 			<small class="right">
 			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->edit_id), User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name) }}
 			</small>
-			{{ Form::open( array('id' => 'project-subscribed-'.$project->id, 'class' => 'project-subscribed', 'url' => '/projects/listviewupdate/'.$project->id.'/subscribed', 'method' => 'post') ) }}
-				{{ Form::hidden('id', $project->id) }}
-			{{ Form::close() }}
 		</div>
 	</div>
+	
+	<h3 class="comment-on">Project Comments:</h3>
 	<div id="projects-post-comment-form" class="create-something-new">
 		<span class="projects-button"><button class="post-comment">Reply</button></span>
 	</div>
-	<h3 class="comment-on">Project Comments:</h3>
 	<div id="comments"></div>
 	@if($comments->isEmpty())
 		<p>No comments yet. Reply to start a conversation on this project!</p>

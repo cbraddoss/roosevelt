@@ -74,10 +74,10 @@
 			
 		</div>
 	</div>
+	<h3 class="comment-on">Comments on <i>{{ $article->title }}</i>:</h3>
 	<div id="news-post-comment-form" class="create-something-new">
 		<span class="news-button"><button class="post-comment">Reply</button></span>
 	</div>
-	<h3 class="comment-on">Comments on <i>{{ $article->title }}</i>:</h3>
 	<div id="comments"></div>
 	@if($comments->isEmpty())
 		<p>No comments yet. Reply to start a conversation on this article!</p>

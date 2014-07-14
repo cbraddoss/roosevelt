@@ -455,7 +455,14 @@ class ProjectsController extends \BaseController {
 					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
 					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
 				}
-				$editProject->attachment = serialize($fileNames);
+				if(!empty($editProject->attachment)) {
+					$extractAttachment = unserialize($editProject->attachment);
+					$allFiles = array_merge($extractAttachment, $fileNames);
+					//dd($allFiles);
+					$editProject->attachment = serialize($allFiles);
+				}
+				else $editProject->attachment = serialize($fileNames);
+				// $editProject->attachment = serialize($fileNames);
 			}
 			try
 			{
@@ -471,6 +478,39 @@ class ProjectsController extends \BaseController {
 		}
 		
 		return Redirect::to('/projects/post/'.$project.'/edit')->withInput()->with('flash_message_error','Something went wrong. :(');
+	}
+
+	public function removeImage($id,$imageName) {
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$project = Project::find($id);
+			$attachments = $project->attachment;
+			$attachments = unserialize($attachments);
+			$imagePath = Input::get('imagePath');
+			$imageName = $imagePath;
+			$name = array_search($imageName, $attachments);
+			if($name !== false) unset($attachments[$name]);
+			if(empty($attachments)) $project->attachment = '';
+			else $project->attachment = serialize($attachments);
+			try
+				{
+					$project->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'errorMsg' => 'Oops, something went wrong. Please try again.',
+					);
+					return Response::json( $response );
+				}
+
+			$response = array(
+				'image' => $imageName.' deleted.',
+				'path' => '/projects/post/'.$project->slug.'/edit',
+			);
+				
+			return Response::json( $response );
+		}
 	}
 
 	/**

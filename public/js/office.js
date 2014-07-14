@@ -1926,11 +1926,47 @@ jQuery(document).ready(function($){
 	   	calProjEndPost.hide();
 	   	$('.dropdown-menu').hide();
 	}).data('datepicker');
-	$(document).on('submit','#content form.delete-project', function() {
+	$(document).on('submit','#projects-page form.delete-project', function() {
 		var confirmCancel = confirm('Are you sure you want to delete this project?');
 		
 		if(confirmCancel == true) return true;
 		else return false;
+	});
+	// add Delete option to attachments on project edit page
+	$('#projects-page .post-edit-attachment').hover(function(){
+		$(this).append('<span class="ss-delete"></span>');
+	}, function(){
+		$(this).find('.ss-delete').remove();
+	});
+	// delete attachment with ajax on project edit page
+	$(document).on('click', '#projects-page .post-edit-attachment', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
+		
+		if(confirmCancel == true) {
+			var imageName = $(this).find('a img').attr('alt');
+			var imagePath = $(this).find('a').attr('href');
+			var imageId = $(this).parent().parent().find('form.update-project').attr('id');
+			var imageToken = $(this).parent().parent().find('form.update-project input[name=_token]').val();
+			$.post(
+				'/projects/post/'+imageId+'/remove/'+imageName,
+				{
+					"_token": imageToken,
+					"imageName" : imageName,
+					"imagePath" : imagePath,
+					"id" : imageId,
+				}, function (data) {
+					if(data.errorMsg) {
+						$('#message-box-json').fadeIn();
+						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+					}
+					else {
+						$('#message-box-json').find('.section').empty();
+						$('#message-box-json').fadeOut();
+						window.location.href = data.path;
+					}
+				},'json'
+			);
+		}
 	});
 	// project comments
 	// load comment form on project single view page.

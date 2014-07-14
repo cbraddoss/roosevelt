@@ -808,23 +808,25 @@ select {
 #message-box-json {
 	/*display: none;*/
 	position: fixed;
-	top: 45px;
-	left:-1px;
-	height: 40px;
+	top: 0px;
+	left:0px;
+	height: 45px;
 	width:100%;
 	padding: 0;
 	z-index:99;
 	font-size: 2em;
+	background: #fafafa;
 }
 #message-box .close-message,
 #message-box-json .close-message {
 	position:absolute;
 	right: 1%;
-	top: 0px;
+	top: 10px;
 	padding: 5px;
 	color: red;
 	text-shadow: 1px 1px 0px #000;
 	cursor: pointer;
+	z-index: 100;
 }
 #message-box .action-message,
 #message-box-json .action-message {
@@ -832,9 +834,9 @@ select {
 	padding: 5px 1px 0;
 	height: 30px;
 	color: #000;
-	border-radius: 3px;
-	background: rgba(32,32,32,0.5);
-	box-shadow: 1px 1px 3px 0px #333;
+	/*border-radius: 3px;*/
+	/*background: rgba(32,32,32,0.5);*/
+	/*box-shadow: 1px 1px 3px 0px #333;*/
 }
 #message-box .action-message span,
 #message-box-json .action-message span {
@@ -845,15 +847,15 @@ select {
 #message-box .action-message .flash-message-success,
 #message-box-json .action-message .flash-message-success {
 	color: rgba(0,128,0,1);
-	text-shadow:1px 1px 1px #555;
+	text-shadow:1px 1px 1px #000;
 	padding:4px;
 }
 #message-box .action-message .ss-alert,
 #message-box-json .action-message .ss-alert,
 #message-box .action-message .flash-message-error,
 #message-box-json .action-message .flash-message-error {
-	color: rgba(204,0,0,1);
-	text-shadow:1px 1px 1px #555;
+	color: red;
+	text-shadow:1px 1px 1px #000;
 	padding:4px;
 }
 /* Page Content */
@@ -1035,7 +1037,7 @@ select {
 }
 #content #projects-post-comment-form.create-something-new,
 #content #news-post-comment-form.create-something-new {
-	float:right;
+	float: none;
 }
 #content .create-something-new .ss-plus:before,
 #content .create-something-new .ss-write:before,
@@ -1072,6 +1074,10 @@ select {
 #content .create-something-new .anchor-button.active {
 	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 	box-shadow: inset 1px 1px 1px #333;
+}
+#content .create-something-new button.post-comment,
+#content .create-something-new .anchor-button.post-comment {
+	margin: 5px 0 0;
 }
 /*#content .create-something-new button a {
 	text-decoration: none;
@@ -1425,7 +1431,8 @@ select {
 #content .update-something-form .post-edit-attachment .ss-delete,
 #content .edit-something-form .comment-edit-attachment .ss-delete {
 	color: #c60;
-	background: rgba(0,0,0,0.4);
+	text-shadow: 1px 1px 0px #fff;
+	background: rgba(0,0,0,0.8);
 	position: absolute;
 	border-radius: 3px;
 	bottom: 2px;
@@ -1433,14 +1440,14 @@ select {
 	width: 112px;
 	height: 112px;
 	cursor: help;
-	font-size: 7em;
+	font-size: 3em;
 	font-weight: 100;
 }
 #content .update-something-form .post-edit-attachment .ss-delete {
-	bottom: 0px;
+	top: 0px;
 	right: 0px;
-	width: 110px;
-	height: 110px;	
+	width: 50px;
+	height: 50px;	
 }
 #content .profile-left,
 #content .profile-right {
@@ -2061,18 +2068,16 @@ select {
 #content .projects-post.office-post-single .post-attachment .post-single-attachment.post-pdf-attachment img {
 	width: auto;
 }
-#content .office-post-single h3 .project-stage {
-	color: #c60;
+#content .office-post-single .project-stage-due-date {
+	margin: 5px 0;
 }
-#content .office-post-single h3 .project-due-date {
-	color: #fff;
-	font-weight: 100;
-	padding: 0 5px;
-	float: right;
-	margin-right: 50%;
-	text-shadow: 1px 1px 0px #000;
-	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
-	border-radius: 3px;
+#content .office-post-single .project-stage-due-date .project-stage {
+	color: #c60;
+	font-size: 1.4em;
+}
+#content .office-post-single .project-stage-due-date .project-due-date {
+	color: #c60;
+	font-size: 1.4em;
 }
 #content .office-post-single .office-post-sub {
 	display: block;
@@ -2143,7 +2148,10 @@ select {
 	color: #cc0000;
 }
 #content h3.comment-on {
-	margin: 10px 0 20px;
+	margin: 10px 0 10px;
+	padding-top: 10px;
+	border-top: 1px solid #fff;
+	box-shadow: 0px -1px 0px 0px #ccc;
 }
 #content .office-post-comment {
 	display: block;
@@ -2280,6 +2288,8 @@ select {
 #content .comment-pdf-attachment {
 	display: inline-block;
 	float: right;
+	min-height: 100px;
+	background: #fff;
 	margin: 10px;
 	padding: 5px;
 	border-radius: 3px;

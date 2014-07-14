@@ -5,6 +5,7 @@
 @stop
 
 @section('page-content')
+<div id="projects-page"  class="inner-page">
 <div class="update-something-form">
 <h3>Update Project:</h3>
 {{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
@@ -141,6 +142,6 @@
 
 {{ Form::close() }}
 @endif
-
+</div>
 </div>
 @stop

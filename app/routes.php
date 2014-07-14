@@ -89,6 +89,7 @@ Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' 
 Route::get('/projects/post/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
 Route::get('/projects/post/{project}/edit', array('uses' => 'ProjectsController@edit'));
 Route::post('/projects/post/{project}', array('uses' => 'ProjectsController@update'));
+Route::post('/projects/post/{id}/remove/{imageName}', array('uses' => 'ProjectsController@removeImage'));
 Route::delete('/projects/post/{id}', array('uses' => 'ProjectsController@destroy'));
 Route::get('/projects/post/{project}/comment', array('as' => 'projects.projectComment', 'uses' => 'ProjectCommentsController@show'));
 Route::post('/projects/post/{project}/comment', array('uses' => 'ProjectCommentsController@store'));
