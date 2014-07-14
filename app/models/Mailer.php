@@ -53,7 +53,7 @@ class Mailer {
         $findHelp = find_assigned_count('help','email');
 
         $userSend = User::find($project->assigned_id);
-        dd($userSend);
+        // dd($userSend);
         $author = User::find($project->author_id);
         $currentUser = User::find($currentUser);
         $pingDetails = array(
