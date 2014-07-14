@@ -97,6 +97,7 @@ class ProjectsController extends \BaseController {
 			$newProject->status = 'open';
 			$newProject->subscribed = Input::get('subscribed');
 			$newProject->assigned_id = Auth::user()->id;
+			$newProject->manager_id = Auth::user()->id;
 			$newProject->template_id = Input::get('template_id');
 			$newProject->account_id = Input::get('account_id');
 			$newProjectTemplate = Template::find(Input::get('template_id'));
