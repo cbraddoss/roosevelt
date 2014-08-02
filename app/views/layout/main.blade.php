@@ -101,7 +101,7 @@
 			<div id="menu_header">
 				<div class="menu_nav">
 					<ul id="menu_links">
-						<li alt="Dashboard" id="link-dashboard" class="link"><a class="link-href" href="/"><img src="/images/ios-logo-ds.png" alt="InsideOut Solutions Logo" /><span class="link-text">Dashboard</span></a></li>
+						<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/"><span class="link-text">Dashboard</span></a></li>
 						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
 						<ul class="sub_menu_links-hover">
 							<li class="sub-link"><a href="/projects/status/open">Open</a></li>

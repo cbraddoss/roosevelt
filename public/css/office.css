@@ -504,14 +504,14 @@ select {
 	display: block;
 }
 #welcome-box .profile-details a.todo-link {
-	box-shadow: 1px 1px 2px 0px #000;
+	box-shadow: 1px 1px 0px 0px #000;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	border-radius: 3px;
 }
 #welcome-box .profile-details a.todo-link:hover {
-	box-shadow: inset 1px 1px 2px 0px #000;
+	box-shadow: inset 1px 1px 0px 0px #000;
 	background: linear-gradient(165deg, #a40 0%,#c60 100%);
-
+	text-decoration: none;
 }
 #welcome-box .profile-dropdown {
 	float: right;
@@ -615,18 +615,18 @@ select {
 	display: block;
 	text-align:left;
 	padding-bottom: 0px;
-	height: 44px;
-	line-height: 44px;
+	height: 46px;
+	line-height: 46px;
 	vertical-align: middle;
 	padding: 0;
 }
 #menu_header ul#menu_links li.link a.link-href span.link-text {
 	padding-left: 10px;
-	height: 44px;
-	line-height: 44px;
+	height: 46px;
+	line-height: 46px;
 	vertical-align: middle;
 	display: inline-block;
-	margin-top: -20px;
+	margin-top: -15px;
 }
 #menu_header ul#menu_links li.link a.link-href span.invoice-dollar {
 	position: absolute;
@@ -664,31 +664,32 @@ select {
 	text-shadow: 1px 1px 0px #000;
 }
 #menu_header ul#menu_links li.link a:before {
-	font-size:2em;
+	font-size:1.8em;
 	display:inline-block;
 	margin-bottom: 0px;
 	margin-top: 3px;
 }
 #menu_header ul#menu_links li.link span.linked-to {
 	position: absolute;
-	top: 9px;
+	top: 12px;
 	right: 9px;
-	height: 25px;
+	height: 20px;
 	width: 15%;
 	text-align: center;
-	line-height: 23px;
+	line-height: 20px;
 	color: #fff;
 	font-weight: 500;
+	font-size: 0.9em;
 	text-shadow: 1px 1px 0px #000;
 	z-index: 58;
 	background: rgb(175,3,3);
 	background: linear-gradient(135deg, #c60 0%,#a40 100%);
 	border-radius: 3px;
 	border: none;
-	box-shadow: 1px 1px 1px #000;
+	box-shadow: 1px 1px 0px #000;
 }
 #menu_header ul#menu_links li.link span.linked-to:hover {
-	box-shadow: inset 1px 1px 1px #000;
+	box-shadow: inset 1px 1px 0px #000;
 	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 }
 #menu_header ul#menu_links li.link span.linked-to a {
@@ -699,12 +700,6 @@ select {
 }
 #menu_header ul#menu_links li.link span.linked-to a:hover {
 	text-decoration: none;
-}
-#menu_header ul#menu_links li#link-profile a.link-href span.link-text {
-	padding-top: 0px;
-}
-#menu_header ul#menu_links li#link-dashboard a.link-href span.link-text {
-	padding-top: 10px;
 }
 #menu_header ul#menu_links li#link-profile img {
 	display: inline-block;
@@ -806,7 +801,7 @@ select {
 }
 #message-box,
 #message-box-json {
-	/*display: none;*/
+	display: none;
 	position: fixed;
 	top: 0px;
 	left:0px;
@@ -1715,13 +1710,14 @@ select {
 }
 #content .office-post .post-assigned,
 #content .office-post .post-stage,
-#content .office-post .post-priority {
+#content .office-post .post-priority,
+#content .office-post .post-favorite {
 	float: right;
 	height: 100%;
-	width: 6%;
+	width: 70px;
 	vertical-align: middle;
 	cursor: pointer;
-	border-left: 1px solid rgba(75,131,180,0.5);
+	/*border-left: 1px solid rgba(75,131,180,0.5);*/
 	padding: 0 5px;
 	text-align: center;
 	position: relative;
@@ -1733,10 +1729,6 @@ select {
 #content #todo-page .office-post.low-priority .post-stage,
 #content #todo-page .office-post.low-priority .post-priority  {
 	border-left: 1px solid #ddd;
-}
-#content .office-post .post-assigned {
-	text-align: center;
-	width: 10%;
 }
 #content .office-post .post-assigned p {
 	color: #4B83B4;
@@ -1755,7 +1747,7 @@ select {
 }
 #content .office-post .post-assigned p img {
 	display: block;
-	margin: -7px auto 5px;
+	margin: 0px auto 3px;
 }
 #content .office-post .post-assigned p a {
 	color: #4B83B4;
@@ -1817,7 +1809,7 @@ select {
 #content .office-post .post-preview {
 	float: right;
 	height: 100%;
-	width: 5%;
+	width: 70px;
 	vertical-align: middle;
 	cursor: pointer;
 }
@@ -1909,29 +1901,29 @@ select {
 	color: #fff;
 }
 #content .ss-heart {
-	color: #fff;
-	font-size: 1.2em;
+	color: #ddd;
+	font-size: 1.6em;
 	cursor:pointer;
 	position: relative;
 }
 #content .ss-heart:before {
-	color:#999;
-	text-shadow: 1px 1px 0px #ddd;
 	vertical-align: middle;
 	padding:0 5px;
 }
+#content .ss-heart:hover {
+	color: #a40;
+}
 #content .ss-heart.favorited:before {
-	color: #A95306;
-	text-shadow: 1px 1px 0px #000;
+	color: #a40;
 }
 #content .ss-heart .favorite-this {
 	color: #fff;
 	width: 300px;
 	height: 20px;
-	font-size: 0.8em;
+	font-size: 0.5em;
 	position: absolute;
-	top:0px;
-	right: 0px;
+	top: 32px;
+	right: -20px;
 	z-index: 5;
 	text-align: right;
 }
@@ -2226,7 +2218,7 @@ select {
 }
 #content .office-post-comment .comment-contents p {
 	margin:0 10px 0 5px;
-	padding-top: 5px;
+	padding: 5px;
 	background: #fff;
 	border-top-right-radius: 0px;
 	border-top-left-radius: 0px;

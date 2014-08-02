@@ -35,7 +35,11 @@
 
 <div class="new-form-field">
 	{{ Form::label('show_on_calendar', 'Show on Calendar:') }}
+	@if($article->show_on_calendar != '0000-00-00 00:00:00')
 	{{ Form::text('show_on_calendar', Carbon::createFromFormat('Y-m-d H:i:s', $article->show_on_calendar)->format('m/d/Y'), array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+	@else
+	{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+	@endif
 </div>
 
 <div class="new-form-field">

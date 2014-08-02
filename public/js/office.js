@@ -4,7 +4,6 @@ jQuery(document).ready(function($){
 	//Animate scroll to loaded comment id
 	var commentUrlHash = window.location.hash;
 	var commentUrlNew = window.location.search;
-	//console.log(commentUrlNew);
 	var commentGoToPost = $(commentUrlHash).offset();
 	if(commentGoToPost) {
 		$('html, body').animate({
@@ -28,7 +27,6 @@ jQuery(document).ready(function($){
 	var currentPage = window.location.pathname;
 	currentPage = currentPage.replace("/", "");
 	currentPage = currentPage.split('/');
-	// console.log(currentPage);
 	$('#menu_links').find('li.link').each(function(){
 		var linkActiveMain = $(this).attr('id');
 		linkActiveMain = linkActiveMain.replace("link-", "");
@@ -121,11 +119,8 @@ jQuery(document).ready(function($){
 	// Detect window height and change menu to position:absolute, etal
 	var menuHeight = $(document).find('#nav_menu #menu_header .menu_nav #menu_links').height();
 	menuHeight = menuHeight+45+92;
-	// console.log(menuHeight);
 	var windowHeight = $(window).height();
-	// console.log(windowHeight);
 	var documentHeight = $('html').height();
-	// console.log(documentHeight);
 	if(menuHeight >= windowHeight) {
 
 		if(documentHeight < windowHeight) {
@@ -186,52 +181,7 @@ jQuery(document).ready(function($){
 			// });
 		}
 	});
-	// $('#user-menu ul').find('li').each(function(){
-	// 	var linkActiveUser = $(this).attr('id');
-	// 	linkActiveUser = linkActiveUser.replace("link-", "");
-	// 	$(this).removeClass('active');
-	// 	if(currentPage.indexOf(linkActiveUser) >= 0 ) $(this).addClass('active');
-	// });
 
-	// var welcomes = new Array('Welcome','Willkommen','स्वागत','Bienvenue','歡迎光臨','Wëllkomm','Bienvenido','ようこそ','Welcome');
-	// var i = 1;
-	// if(currentPage == '') {
-	// 	function welcomeLoop () {
-	// 	   setTimeout(function () {
-	// 		console.log(welcomes[i]);
-	// 	      $('#user-menu #welcome-name .welcome').html(welcomes[i]);
-	// 	      i++;
-	// 	      if (i < 9) {
-	// 	         welcomeLoop();
-	// 	      }
-	// 	   }, 10000)
-	// 	}
-	// 	welcomeLoop();
-	// }
-
-	//Show/hide task items in sidebar
-	// $('#projects-feed').hide();
-	// $('#leads-feed').hide();
-	// $('#billables-feed').hide();
-	// $('.todo-feed-title').click(function() {
-	// 	$(this).find('.todo-feed').toggle();
-	// 	$(this).find('a.todo-feed-title').toggleClass('active');
-	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
-	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
-	// });
-	// $('#show-leads-list').click(function() {
-	// 	$('#leads-feed').toggle();
-	// 	$(this).find('a.todo-feed-title').toggleClass('active');
-	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
-	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
-	// });
-	// $('#show-projects-list').click(function() {
-	// 	$('#projects-feed').toggle();
-	// 	$(this).find('a.todo-feed-title').toggleClass('active');
-	// 	$(this).find('span.arrow').toggleClass('ss-dropdown');
-	// 	$(this).find('span.arrow').toggleClass('ss-directleft');
-	// });
-	
 	$('#message-box-json').hide();
 	$('#message-box').fadeIn();
 	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).fadeOut();
@@ -493,7 +443,7 @@ jQuery(document).ready(function($){
 	}, function(){
 		$(this).find('span.favorite-this').addClass('none');
 	});
-	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
+	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
 	$(document).on('click', '#news-page span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		//console.log(articleId);
@@ -505,11 +455,11 @@ jQuery(document).ready(function($){
 			}, function (data) {
 				if(data.nofav) {
 					$('#news-page #favorite-'+articleId).removeClass('favorited');
-					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Favorite This Article');
+					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Favorite Article');
 				}
 				else {
 					$('#news-page #favorite-'+articleId).addClass('favorited');
-					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Unfavorite This Article');
+					$('#news-page #favorite-'+articleId).find('.favorite-this').html('Unfavorite Article');
 				}
 			},'json'
 		);
@@ -521,7 +471,7 @@ jQuery(document).ready(function($){
 	}, function(){
 		$(this).find('span.favorite-this').hide();
 	});
-	$('#header-menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite This Article');
+	$('#header-menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
 	$(document).on('click', '#header-menu span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		//console.log(articleId);
@@ -533,11 +483,11 @@ jQuery(document).ready(function($){
 			}, function (data) {
 				if(data.nofav) {
 					$('#header-menu #favorite-'+articleId).removeClass('favorited');
-					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Favorite This Article');
+					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Favorite Article');
 				}
 				else {
 					$('#header-menu #favorite-'+articleId).addClass('favorited');
-					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Unfavorite This Article');
+					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Unfavorite Article');
 				}
 			},'json'
 		);
@@ -907,7 +857,6 @@ jQuery(document).ready(function($){
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');
 		//console.log(commentId);
-		///news/article/comment/{{ $subComment->id }}/edit
 		$.get( "/news/article/comment/"+commentId+"/edit", function( data ) {
 			$(document).find('#news-page .comment-edit-button a.edit-comment').each(function(){
 				$(this).hide();
@@ -1158,7 +1107,7 @@ jQuery(document).ready(function($){
 		}
 		else {
 			var projectID = data.pid;
-			$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="ss-expand"></span>');
+			$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="project-change-date ss-write"></span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
@@ -2120,7 +2069,6 @@ jQuery(document).ready(function($){
 		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
 		var commentId = commentIdBox.replace('comment-','');
 		//console.log(commentId);
-		///news/article/comment/{{ $subComment->id }}/edit
 		$.get( "/projects/post/comment/"+commentId+"/edit", function( data ) {
 			$(document).find('#projects-page .comment-edit-button a.edit-comment').each(function(){
 				$(this).hide();

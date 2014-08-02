@@ -6,7 +6,6 @@
 
 @section('header-menu')
 <div class="page-menu">
-	<!-- <span class="menu-start ss-plus"></span> -->
 	<ul>
 		<li>
 			<div id="projects-new-project-form" class="create-something-new">

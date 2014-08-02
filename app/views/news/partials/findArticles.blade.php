@@ -7,17 +7,22 @@
 			<a href="{{ URL::to('/news/article/'. $article->slug) }}" class="news-link">{{ display_content($article->content, '75') }}</a>
 		</div>
 		
-		<div class="news-article-sub office-post-sub">
-			
-			<small>Posted by {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}</small>
-			<small>
+		
+		<div class="post-assigned">
+			<p>
+				<img src="{{ gravatar_url(User::find($article->author_id)->email,25) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
+				{{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}
+			</p>
+		</div>
+		<div class="post-favorite">
+			<p>
 				@if(strpos($article->favorited, current_user_path()) !== false) <span id="favorite-{{ $article->id }}" class="ss-heart favorited"> @else <span id="favorite-{{ $article->id }}" class="ss-heart"> @endif
-				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span></span>
-			</small>
+				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite Article</span></span>
 			
 			{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 				{{ Form::hidden('favorite', $article->id) }}
 			{{ Form::close() }}
+			</p>
 		</div>
 		@if($article->getCommentsCount($article->id))
 		<div class="post-activity">

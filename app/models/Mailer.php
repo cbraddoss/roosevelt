@@ -15,33 +15,35 @@ class Mailer {
         }
 
         foreach($users as $eUser) {
-            $findTasks = find_assigned_count('tasks','email');
-            $findProjects = find_assigned_count('projects','email');
-            $findBillables = find_assigned_count('billables','email');
-            $findHelp = find_assigned_count('help','email');
+            if($eUser != Auth::user()->user_path) {
+                $findTasks = find_assigned_count('tasks','email');
+                $findProjects = find_assigned_count('projects','email');
+                $findBillables = find_assigned_count('billables','email');
+                $findHelp = find_assigned_count('help','email');
 
-            $userSend = User::where('user_path','=',$eUser)->first();
-            $author = User::where('id', '=', $project->author_id)->first();
-            $pingDetails = array(
-                'title' => $project->title,
-                'author' => $author->first_name . ' ' . $author->last_name,
-                'launch_date' => Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j, Y'),
-                'link' => URL::to( '/projects/post/' . $project->slug ),
-                'created_at' => $project->created_at->format('F j, Y g:i a'),
-                'tasks' => $findTasks,
-                'projects' => $findProjects,
-                'billables' => $findBillables,
-                'help' => $findHelp,
-                );
+                $userSend = User::where('user_path','=',$eUser)->first();
+                $author = User::where('id', '=', $project->author_id)->first();
+                $pingDetails = array(
+                    'title' => $project->title,
+                    'author' => $author->first_name . ' ' . $author->last_name,
+                    'launch_date' => Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j, Y'),
+                    'link' => URL::to( '/projects/post/' . $project->slug ),
+                    'created_at' => $project->created_at->format('F j, Y g:i a'),
+                    'tasks' => $findTasks,
+                    'projects' => $findProjects,
+                    'billables' => $findBillables,
+                    'help' => $findHelp,
+                    );
 
-            $view = 'emails.notifications.project-new-sub';
-            $subject = 'You have been subscribed to a project: ' . $project->title;
+                $view = 'emails.notifications.project-new-sub';
+                $subject = 'You have been subscribed to a project: ' . $project->title;
 
-            Mail::later(10, $view, $pingDetails, function($message) use($userSend, $subject)
-            {
-                $message->to($userSend->email, $userSend->first_name.' '.$userSend->last_name)
-                        ->subject($subject);
-            });
+                Mail::later(10, $view, $pingDetails, function($message) use($userSend, $subject)
+                {
+                    $message->to($userSend->email, $userSend->first_name.' '.$userSend->last_name)
+                            ->subject($subject);
+                });
+            }
         }
     }
 
