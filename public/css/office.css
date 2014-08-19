@@ -1903,7 +1903,7 @@ select {
 #content .ss-heart {
 	color: #ddd;
 	font-size: 1.6em;
-	cursor:pointer;
+	cursor: pointer;
 	position: relative;
 }
 #content .ss-heart:before {
