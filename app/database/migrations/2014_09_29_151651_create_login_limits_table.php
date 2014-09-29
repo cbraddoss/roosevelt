@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLoginLimitTable extends Migration {
+class CreateLoginLimitsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,7 +12,7 @@ class CreateLoginLimitTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('loginlimit', function(Blueprint $table)
+		Schema::create('login_limits', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('ip_address', 16);
@@ -29,7 +29,7 @@ class CreateLoginLimitTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('loginlimit');
+		Schema::drop('login_limits');
 	}
 
 }
