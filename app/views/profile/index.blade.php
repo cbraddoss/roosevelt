@@ -128,7 +128,10 @@
 				<div class="no-border body eyelid-bottom"></div>
 			    </div>
 			</div>
-                    </div>
+        	<div>
+        		<div class="homer-quote">{{ $getHomerQuote }}</div>
+        	</div>
+        </div>
 	</div>
 	<div class="profile-right">
 	<h3>Vacations</h3>

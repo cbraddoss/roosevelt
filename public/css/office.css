@@ -404,10 +404,12 @@ select {
 #header-menu .create-something-new .anchor-button {
 	background: none;
 	background: rgba(255,255,255, 0.25);
-	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);
+	/*background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);*/
+	background: linear-gradient(165deg, #c60 0%,#a40 100%);
 	border: none;
+	border: 1px solid #2C4E68;
 	height: 25px;
-	line-height: 25px;
+	line-height: 20px;
 	vertical-align: middle;
 	color: #fff;
 	font-size: 1.2em;
@@ -419,21 +421,22 @@ select {
 	margin: 5px auto 0;
 	padding: 0px 10px 0px;
 	/*border: 1px solid #ddd;*/
-	box-shadow: 1px 1px 1px #000,
-	-1px -1px 1px #fff;
+	/*box-shadow: 1px 1px 1px #000,*/
+	/*-1px -1px 1px #fff;*/
 	text-shadow: 1px 1px 0px #000;
+	/*text-shadow: none;*/
 }
 #header-menu .create-something-new button:hover,
 #header-menu .navigate-something .anchor-button:hover,
 #header-menu .create-something-new .anchor-button:hover {
-	box-shadow: inset 1px 1px 1px #333;
-	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
+	/*box-shadow: inset 1px 1px 1px #333;*/
+	background: linear-gradient(165deg, #a40 0%,#c60 100%);
 }
 #header-menu .create-something-new button.active,
 #header-menu .navigate-something .anchor-button.active,
 #header-menu .create-something-new .anchor-button.active {
-	background: linear-gradient(135deg, #a40 0%,#c60 100%);
-	box-shadow: inset 1px 1px 1px #333;
+	background: #3c698c;
+	/*box-shadow: inset 1px 1px 1px #333;*/
 }
 #header-menu .create-something-new button a,
 #header-menu .navigate-something .anchor-button a,
@@ -441,7 +444,7 @@ select {
 	text-decoration: none;
 	color: #fff;
 	height: 25px;
-	padding: 0 5px;
+	padding: 0 5px 1px;
 	padding-top: 0px !important;
 	display: inline-block;
 }
@@ -2911,6 +2914,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border: 1px solid #ddd;
 }
 
+/* Homer Simpson */
 #homer *
 {
     position: absolute;
@@ -3493,6 +3497,51 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
     -webkit-transform: rotate(-30deg);
     -ms-transform: rotate(-30deg);
     transform: rotate(-30deg);
+}
+#homer .homer-quote {
+	border: 3px solid #000;
+	border-radius: 15px;
+	background: #fff;
+	padding: 5px;
+	top: -10px;
+	left: 120px;
+	width: 200px;
+}
+#homer .homer-quote:before {
+	content: "";
+position: absolute;
+z-index: -1;
+bottom: -30px;
+left: 0px;
+height: 30px;
+border-right: 60px solid #000;
+background: #000;
+-webkit-border-bottom-right-radius: 80px 50px;
+-moz-border-radius-bottomright: 80px 50px;
+border-bottom-right-radius: 80px 50px;
+-webkit-transform: translate(0, -2px);
+-moz-transform: translate(0, -2px);
+-ms-transform: translate(0, -2px);
+-o-transform: translate(0, -2px);
+transform: translate(0, -2px);
+}
+#homer .homer-quote:after {
+	content: "";
+position: absolute;
+z-index: -1;
+bottom: -30px;
+left: 0px;
+width: 60px;
+height: 30px;
+background: #eee;
+-webkit-border-bottom-right-radius: 40px 50px;
+-moz-border-radius-bottomright: 40px 50px;
+border-bottom-right-radius: 40px 50px;
+-webkit-transform: translate(-30px, -2px);
+-moz-transform: translate(-30px, -2px);
+-ms-transform: translate(-30px, -2px);
+-o-transform: translate(-30px, -2px);
+transform: translate(-30px, -2px);
 }
 
 /* Responsive Tweaks */

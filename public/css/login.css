@@ -171,3 +171,16 @@ ul {
 #login-subtext a:hover {
 	text-decoration: underline;
 }
+
+@media
+	only screen and (max-width: 475px) {
+		#login-box {
+			width: 100%;
+			margin: 0;
+			left: 0;
+			top: 10%;
+		}
+		#login {
+			margin: 0 auto;
+		}
+	}
