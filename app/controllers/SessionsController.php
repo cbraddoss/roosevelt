@@ -10,6 +10,11 @@ class SessionsController extends \BaseController {
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
+    public function index()
+    {
+    	return Redirect::route('login');
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -26,7 +31,6 @@ class SessionsController extends \BaseController {
 			return View::make('sessions.login');
 		}
 		// Redirect to Dashboard.
-		//Todo: redirect to intended() url
 		else return Redirect::intended('/');
 	}
 
@@ -48,19 +52,26 @@ class SessionsController extends \BaseController {
 			$user->ip_address = $ipAddress;
 			$user->save();
 			$loginLimit = LoginLimit::where('ip_address','=', $ipAddress)->first();
-			$loginLimit->attempts = 0;
-			$loginLimit->save();
+			if(!empty($loginLimit)) {
+				$loginLimit->attempts = 0;
+				$loginLimit->save();
+			}
 			return Redirect::intended('/');
 		}
 		else {
 			$loginFailed = LoginLimit::where('ip_address','=', $ipAddress)->first();
 			if(!empty($loginFailed)) {
+				if(!strpos($email, 'insideout.com')) {
+					$loginFailed->attempts = 5;
+					$loginFailed->failed_at = new \DateTime;
+					$loginFailed->save();					
+					return View::make('sessions.timeout');
+				}
 				if(Carbon::createFromFormat('Y-m-d H:i:s', $loginFailed->failed_at) < Carbon::now()->subMinutes(30)) {
 					$loginFailed->attempts = 0;
 					$loginFailed->save();
 				}
 				$loginFailed->attempts = $loginFailed->attempts + 1;
-				$loginFailed->ip_address = $ipAddress;
 				$loginFailed->failed_at = new \DateTime;
 				$loginFailed->save();
 				$attemptsRemaining = 5 - $loginFailed->attempts;
@@ -73,9 +84,13 @@ class SessionsController extends \BaseController {
 				$loginLimit->ip_address = $ipAddress;
 				$loginLimit->failed_at = new \DateTime;
 				$loginLimit->save();
+				if(!strpos($email, 'insideout.com')) {
+					$loginLimit->attempts = 5;
+					$loginLimit->failed_at = new \DateTime;
+					$loginLimit->save();					
+					return View::make('sessions.timeout');
+				}
 			}
-			//dd($authorize);
-			//$flashMessage .= '<br /><span>1 login attempt left.</span>';
 		}
 		return Redirect::back()->withInput()->with('flash_message',$flashMessage);
 	}

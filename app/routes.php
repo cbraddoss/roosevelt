@@ -20,7 +20,7 @@ Route::get('/', array('as' => 'dashboard', 'uses' => 'DashboardController@index'
 /* Login */
 Route::get('login', array('as' => 'login', 'uses' => 'SessionsController@create'));
 Route::get('logout','SessionsController@destroy');
-Route::resource('sessions','SessionsController', array('only' => array('create','store','destroy')));
+Route::resource('sessions','SessionsController', array('only' => array('index','create','store','destroy')));
 
 Route::controller('password', 'RemindersController');
 
