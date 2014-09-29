@@ -18,8 +18,13 @@ class SessionsController extends \BaseController {
 	public function create()
 	{
 		//check if user is not logged in, redirect back to login page
-		if(Auth::guest()) return View::make('sessions.login');
-		
+		if(Auth::guest()) {
+			$ipAddress = $_SERVER['REMOTE_ADDR'];
+			$loginLimit = LoginLimit::where('ip_address','=', $ipAddress)->first();
+			if( !empty($loginLimit) && ($loginLimit->attempts >= 5) && (Carbon::createFromFormat('Y-m-d H:i:s', $loginLimit->failed_at) > Carbon::now()->subMinutes(30)) ) return View::make('sessions.timeout');
+			
+			return View::make('sessions.login');
+		}
 		// Redirect to Dashboard.
 		//Todo: redirect to intended() url
 		else return Redirect::intended('/');
@@ -34,17 +39,45 @@ class SessionsController extends \BaseController {
 	{
 		$email = Input::get('email');
 		$password = Input::get('password');
-
+		$flashMessage = '<span>Username or Password incorrect.</span>';
+		$ipAddress = $_SERVER['REMOTE_ADDR'];
 		$authorize = Auth::attempt( array('email' => $email, 'password' => $password, 'status' => 'active') );
-		if( $authorize )
-		{
+		if( $authorize ) {
 			$user = Auth::user();
 			$user->last_login = new \DateTime;
+			$user->ip_address = $ipAddress;
 			$user->save();
+			$loginLimit = LoginLimit::where('ip_address','=', $ipAddress)->first();
+			$loginLimit->attempts = 0;
+			$loginLimit->save();
 			return Redirect::intended('/');
 		}
-		
-		return Redirect::back()->withInput()->with('flash_message','Password incorrect or email not registered.');
+		else {
+			$loginFailed = LoginLimit::where('ip_address','=', $ipAddress)->first();
+			if(!empty($loginFailed)) {
+				if(Carbon::createFromFormat('Y-m-d H:i:s', $loginFailed->failed_at) < Carbon::now()->subMinutes(30)) {
+					$loginFailed->attempts = 0;
+					$loginFailed->save();
+				}
+				$loginFailed->attempts = $loginFailed->attempts + 1;
+				$loginFailed->ip_address = $ipAddress;
+				$loginFailed->failed_at = new \DateTime;
+				$loginFailed->save();
+				$attemptsRemaining = 5 - $loginFailed->attempts;
+				if($attemptsRemaining <= 3) $flashMessage = $flashMessage.'<br /><span>Attempts remaining: '.$attemptsRemaining.'</span>';
+				return Redirect::back()->withInput()->with('flash_message',$flashMessage);
+			}
+			else {
+				$loginLimit = new LoginLimit;
+				$loginLimit->attempts = 1;
+				$loginLimit->ip_address = $ipAddress;
+				$loginLimit->failed_at = new \DateTime;
+				$loginLimit->save();
+			}
+			//dd($authorize);
+			//$flashMessage .= '<br /><span>1 login attempt left.</span>';
+		}
+		return Redirect::back()->withInput()->with('flash_message',$flashMessage);
 	}
 
 	/**

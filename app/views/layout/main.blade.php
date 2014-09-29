@@ -140,8 +140,8 @@
 					</ul>
 				</div> <!-- .menu_nav -->
 			</div> <!-- #menu_header -->
-		</div> <!-- #nav_menu -->
-	</div>
+		</div> <!-- .section -->
+	</div> <!-- #nav_menu -->
 	<div id="page">
 		<div class="section">
 			<div id="content">

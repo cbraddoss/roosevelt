@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration {
 			$table->enum('status', array('active', 'inactive'));
 			$table->enum('can_manage', array('no','yes'));
 			$table->string('remember_token',100)->nullable();
+			$table->string('ip_address',16);
 			$table->timestamps();
 		});
 	}

@@ -108,7 +108,7 @@ select {
 /* Header */
 #header {
 	/*background: #A95306 url('../images/hawaiian-tile.jpg') top center;*/
-	background: rgba(51,51,51,1);
+	/*background: rgba(51,51,51,1);*/
 	position:fixed;
 	top:0;
 	left:0;
@@ -118,7 +118,7 @@ select {
 	clear:both;
 	box-shadow: 0px 0px 5px 0px #000;
 	background: #4b83b4;
-	background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);
+	/*background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);*/
 }
 .section {
 	width: 100%;
@@ -718,7 +718,7 @@ select {
 	position: absolute;
 	left:100%;
 	top:0px;
-	width: 100px;
+	width: 120px;
 	z-index: 59;
 	background: #4b83b4;
 	background: linear-gradient(to bottom,  #3c698c 50%,#4b83b4 100%);
@@ -743,7 +743,7 @@ select {
 	position: relative;
 	cursor: pointer;
 	font-size: 0.8em;
-	height: 34px;
+	height: 44px;
 	padding: 0px 0 0px 10%;
 	border-bottom: 1px solid #2C4E68;
 	border-top: 1px solid #5D8FBB;
@@ -756,7 +756,7 @@ select {
 	color: #fff;
 	text-shadow: 1px 1px 0px #333;
 	text-decoration: none;
-	height: 42px;
+	height: 34px;
 	display: block;
 }
 #menu_header ul.sub_menu_links-hover li a:hover {
