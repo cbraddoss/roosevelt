@@ -414,7 +414,7 @@ select {
 #header-menu .create-something-new .anchor-button {
 	background: none;
 	background: rgba(255,255,255, 0.25);
-	background: #a40;
+	background: #c60;
 	/*background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);*/
 	/*background: linear-gradient(165deg, #c60 0%,#a40 100%);*/
 	border: none;
