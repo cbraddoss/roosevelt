@@ -91,11 +91,11 @@
 
 							<div class="post-due">
 							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-								<p>Due: Today!</p>
+								<p>Due Today!</p>
 								@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-								<p>Past Due! {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</p>
+								<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(Past Due!)</span></p>
 								@else
-								<p>Due: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</p>
+								<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(due date)</span></p>
 							@endif
 							</div>
 							<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
@@ -117,7 +117,7 @@
 				@foreach($launches as $launch)
 					<div id="project-{{ $launch->id }}" class="project-post office-post">
 						<div class="post-launch-date">
-							<span>Launching: {{ Carbon::createFromFormat('Y-m-d H:i:s', $launch->end_date)->format('F j') }}</span>
+							<span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $launch->end_date)->format('F j') }} <span class="post-launch-date-text">(launch date)</span></span>
 						</div>
 						<h3>{{ link_to('/projects/post/'. $launch->slug, $launch->title, array('class' => 'project-link')) }}</h3>
 					</div>
@@ -135,7 +135,7 @@
 					@else <div id="article-{{ $article->id }}" class="news-article office-post unread">
 					@endif
 						
-						<div class="post-dated">{{ $article->created_at->format('M j') }}</div>
+						<div class="post-dated">{{ $article->created_at->format('F j') }}</div>
 						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
 						
 						<div class="post-favorite">

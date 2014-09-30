@@ -520,10 +520,11 @@ select {
 #welcome-box .profile-details a.todo-link {
 	box-shadow: 1px 1px 0px 0px #000;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #c60;
 	border-radius: 3px;
 }
 #welcome-box .profile-details a.todo-link:hover {
-	box-shadow: inset 1px 1px 0px 0px #000;
+	/*box-shadow: inset 1px 1px 0px 0px #000;*/
 	background: linear-gradient(165deg, #a40 0%,#c60 100%);
 	text-decoration: none;
 }
@@ -699,12 +700,13 @@ select {
 	z-index: 58;
 	background: rgb(175,3,3);
 	background: linear-gradient(135deg, #c60 0%,#a40 100%);
+	background: #c60;
 	border-radius: 3px;
 	border: none;
-	box-shadow: 1px 1px 0px #000;
+	/*box-shadow: 1px 1px 0px #000;*/
 }
 #menu_header ul#menu_links li.link span.linked-to:hover {
-	box-shadow: inset 1px 1px 0px #000;
+	/*box-shadow: inset 1px 1px 0px #000;*/
 	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 }
 #menu_header ul#menu_links li.link span.linked-to a {
@@ -2594,9 +2596,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #quicklinks span.user-todo {
 	padding: 1px 8px;
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 1px;
+	right: 1px;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #c60;
 	/*border: 1px solid #555;*/
 	border-radius: 3px;
 	color: #fff;
@@ -2612,13 +2615,14 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-radius: 3px;
 	border: none;
 	position: absolute;
-	top: 1px;
-	right: 6px;
+	top: 2px;
+	right: 7px;
 	color: #fff;
 	text-shadow: 1px 1px 1px #000;
 	padding: 1px 8px;
 	height: auto;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #c60;
 }
 #dashboard-bottom-half {
 	margin-top: 15px;
@@ -2694,6 +2698,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	line-height: 20px;
 	font-size: 1.1em;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #bbb;
 	border-radius: 3px;
 	color: #fff;
 	text-shadow: 1px 1px 1px #000;
@@ -2702,8 +2707,25 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display: block;
 	width: 100%;
 }
+#dashboard-bottom-half #launch-dashboard-page .office-post .post-launch-date {
+	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #c60;	
+}
+#dashboard-bottom-half #launch-dashboard-page .office-post .post-launch-date .post-launch-date-text {
+	font-size: 0.8em;
+}
 #dashboard-bottom-half #news-dashboard-page .office-post .post-dated {
 	background: linear-gradient(165deg, #4B83B4 0%,#3c698c 100%);
+	background: #bbb;
+}
+#dashboard-bottom-half #news-dashboard-page .office-post.unread .post-dated {
+	background: linear-gradient(165deg, #c60 0%,#a40 100%);
+	background: #800099;
+}
+#dashboard-bottom-half #news-dashboard-page .office-post.unread .post-dated:after {
+	content: '(unread)';
+	padding-left: 10px;
+	font-size: 0.8em;
 }
 #dashboard-bottom-half #news-dashboard-page .office-post .post-author {
 	float:left;
@@ -2728,10 +2750,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #dashboard-bottom-half #projects-dashboard-page .office-post .post-due {
 	background: linear-gradient(165deg, #4B83B4 0%,#3c698c 100%);
+	background: #4B83B4;
 	width: auto;
 }
 #dashboard-bottom-half #projects-dashboard-page .office-post.due-now .post-due {
 	background: linear-gradient(165deg, #FF33FF 0%, #CC00CC 100%);
+	background: #CC00CC;
 	height: 20px;
 	width: auto;
 }
@@ -2743,6 +2767,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #dashboard-bottom-half #projects-dashboard-page .office-post .post-due p {
 	color: #fff !important;
 	margin: 0;
+}
+#dashboard-bottom-half #projects-dashboard-page .office-post .post-due .post-due-text {
+	font-size: 0.8em;
 }
 #dashboard-bottom-half #projects-dashboard-page .office-post .post-stage-dash {
 	float:left;
