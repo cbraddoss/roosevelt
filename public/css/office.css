@@ -2720,7 +2720,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #dashboard-bottom-half #news-dashboard-page .office-post.unread .post-dated {
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	background: #800099;
+	background: #4B83B4;
 }
 #dashboard-bottom-half #news-dashboard-page .office-post.unread .post-dated:after {
 	content: '(unread)';
