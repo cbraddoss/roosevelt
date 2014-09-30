@@ -105,7 +105,8 @@
 	</div>
 @endforeach
 
-@if(current_page() != '/' || current_page() != '/to-do/brad-doss' )
+@if(current_page() != '/')
+ <!-- || current_page() != '/to-do/brad-doss' -->
 	@if($projects->links() != '')
 	<div class="pagination-footer">
 		{{ $projects->links() }}
