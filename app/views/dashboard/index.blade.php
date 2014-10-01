@@ -42,24 +42,24 @@
 	<div id="dashboard-top-half">
 		<div id="quicklinks">
 			<h2 class="dashboard-subtitle">Quick Links:</h2>
-			<p class=""><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List<span class="user-todo" value="">0</span></a></p>
-			<p class=""><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
-			<p class=""><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
-			<p class=""><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
-			<p class=""><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
-			<p class=""><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</p>
-			<p class=""><a href="/accounts" class="ss-buildings ql-address_book">Address Book</a></p>
-			<p class=""><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p>
-			<p class=""><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
-			<p class=""><a href="#" class="ss-globe ql-hosted">Website List</a></p>
-			<p class=""><a href="/tools" class="ss-flask ql-tools">Tools</a></p>
-			<p class=""><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
+			<p><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List<span class="user-todo" value="">0</span></a></p>
+			<p><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
+			<p><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
+			<p><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
+			<p><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
+			<p><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</p>
+			<p><a href="/accounts" class="ss-buildings ql-address_book">Address Book</a></p>
+			<p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p>
+			<p><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
+			<p><a href="#" class="ss-globe ql-hosted">Website List</a></p>
+			<p><a href="/tools" class="ss-flask ql-tools">Tools</a></p>
+			<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
 		</div>
 	</div>
 	<hr class="global-hrule" />
 	<div id="dashboard-bottom-half">
 		<div id="first-third" class="dashboard-third">
-			<h2>Assigned to You:</h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a> @if($projectsCount != 0)<a class="dashboard-list-count" href="/projects/assigned-to/{{ current_user_path() }}"><span>{{ $projectsCount }}</span></a>@endif</h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -89,29 +89,38 @@
 						@endif
 					@endif
 
-							<div class="post-due">
-							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-								<p>Due Today!</p>
-								@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-								<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(Past Due!)</span></p>
-								@else
-								<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(due date)</span></p>
-							@endif
-							</div>
-							<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
-														
-							<div class="post-stage-dash">
-								<span>Stage: {{ $project->stage }}</span>
-							</div>							
+						<div class="post-due">
+						@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
+							<p>Due Today!</p>
+							@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
+							<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(Past Due!)</span></p>
+							@else
+							<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(due date)</span></p>
+						@endif
 						</div>
-						<hr class="list-hrule" />
-					@endforeach
+						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+													
+						<div class="post-stage-dash">
+							<span>Stage: {{ $project->stage }}</span>
+						</div>							
+					</div>
+					<hr class="list-hrule" />
+				@endforeach
 				<!-- @ include('billables.partials.findBillables') -->
-				
+				@if($projects->isEmpty())
+					<p class="nothing-to-show">You are not currently assigned any tasks.</p>
+					<div id="quicklinks" class="quicklinks-again">
+						<h2 class="dashboard-subtitle">Get Involved:</h2>
+						<p><a href="/projects" class="ss-list ql-projects">Projects</a></p>
+						<p><a href="/billable" class="ss-dollarsign ql-billable">Billables</a></p>
+						<p><a href="/help" class="ss-help ql-help">Help</a></p>
+						<p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p>
+					</div>
+				@endif
 			</div>
 		</div>
 		<div id="second-third" class="dashboard-third">
-			<h2>Site Launches:</h2>
+			<h2><a href="/projects/launches">Site Launches:</a> @if($launchesCount != 0)<a class="dashboard-list-count" href="/projects/launches"><span>{{ $launchesCount }}</span></a>@endif</h2>
 			<div id="launch-dashboard-page" class="dashboard-list">
 						
 				@foreach($launches as $launch)
@@ -124,10 +133,17 @@
 					<hr class="list-hrule" />
 				@endforeach
 
+				@if($launches->isEmpty())
+					<p class="nothing-to-show">There are currently no scheduled launches.</p>
+					<div id="quicklinks">
+						<p><a href="/#" class="ss-dislike"></a></p>
+					</div>
+				@endif
+
 			</div>
 		</div>
 		<div id="third-third" class="dashboard-third">
-			<h2>Latest Company News:</h2>
+			<h2><a href="/news">Latest Company News:</a> @if($articlesCount != 0)<a class="dashboard-list-count" href="/news"><span>{{ $articlesCount }}</span></a>@endif</h2>
 			<div id="news-dashboard-page" class="dashboard-list">
 						
 				@foreach($articles as $article)

@@ -217,7 +217,7 @@ function find_unread_count($resource) {
 		$articles = Article::where('created_at','>=',$lastMonth)
 					->where('been_read','not like','%'.$currentUser.'%')
 					->where('status','!=','draft')
-					->get()->count();
+					->count();
 		if($articles != 0) return '<span id="linked-to-news" class="linked-to" value="'.$articles.'"><a href="/news/unread/">'.$articles.'</a></span>';
 	}
 	else return;

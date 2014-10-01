@@ -114,6 +114,23 @@ select {
     background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
     background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
 }
+noscript {
+	position:fixed;
+	top: 0;
+	left: 0;
+	z-index: 999999;
+	width: 100%;
+	height: 100%;
+	background: #fafafa;
+}
+noscript p {
+	color: #333;
+	font-size: 1.4em;
+	padding: 10px;
+}
+noscript span.alert {
+	color: red;
+}
 /* Header */
 #header {
 	/*background: #A95306 url('../images/hawaiian-tile.jpg') top center;*/
@@ -258,10 +275,12 @@ select {
 	position: relative;
 }
 #header-menu .page-meta .ss-heart.favorited {
-	color: #A95306;	
+	color: #c60;
+	text-shadow: none;
 }
 #header-menu .page-meta .ss-heart:hover {
-	color: #A95306;
+	color: #a40;
+	text-shadow: none;
 }
 #header-menu .page-meta .ss-heart .favorite-this {
 	display: none;
@@ -534,7 +553,7 @@ select {
 	padding-left: 5px;
 }
 #welcome-box .profile-dropdown.active {
-	background: rgba(255,255,255, 0.2);
+	/*background: rgba(255,255,255, 0.2);*/
 }
 #welcome-box .profile-dropdown img {
 	background: #fff;
@@ -558,16 +577,17 @@ select {
 	right: 0px;
 	width: 100px;
 	font-size: 1.2em;
-	background: linear-gradient(to bottom,  #4B83B4 0%,#3c698c 100%);
+	/*background: linear-gradient(to bottom,  #4B83B4 0%,#3c698c 100%);*/
 	text-align: right;
 	box-shadow: 2px 2px 2px 0px #555;
 }
 #welcome-box ul.sub_menu_links-hover li {
 	background: rgba(255,255,255, 0.2);
-	border-bottom: 1px solid #2C4E68;
-	border-top: 1px solid rgba(255,255,255, 0.5);
+	background: #333;
+	/*border-bottom: 1px solid #2C4E68;*/
+	/*border-top: 1px solid rgba(255,255,255, 0.5);*/
 	margin: 0;
-	padding: 1px 5%;
+	padding: 3px 5% 5px;
 	width: 90%;
 }
 #welcome-box ul.sub_menu_links-hover li:first-child {
@@ -646,7 +666,7 @@ select {
 }
 #menu_header ul#menu_links li.link a.link-href span.invoice-dollar {
 	position: absolute;
-	left: 15px;
+	left: 14px;
 	color: #333;
 	font-weight: 700;
 	text-shadow: none;
@@ -1061,6 +1081,7 @@ select {
 	background: none;
 	background: rgba(255,255,255, 0.25);
 	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
+	background: #c60;
 	border: none;
 	height: 28px;
 	color: #fff;
@@ -1073,19 +1094,20 @@ select {
 	margin: 5px auto 0;
 	padding: 5px 10px 5px;
 	/*border: 1px solid #ddd;*/
-	box-shadow: 1px 1px 0px #000;
+	/*box-shadow: 1px 1px 0px #000;*/
 	text-shadow: 1px 1px 0px #000;
 	z-index: 60;
 }
 #content .create-something-new button:hover,
 #content .create-something-new .anchor-button:hover {
-	box-shadow: inset 1px 1px 1px #333;
-	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
+	/*box-shadow: inset 1px 1px 1px #333;*/
+	background: linear-gradient(135deg, #a40 0%,#c60 100%);
 }
 #content .create-something-new button.active,
 #content .create-something-new .anchor-button.active {
-	background: linear-gradient(135deg, #a40 0%,#c60 100%);
-	box-shadow: inset 1px 1px 1px #333;
+	background: linear-gradient(165deg,  #3c698c 0%,#4b83b4 100%);
+	background: #3c698c;
+	/*box-shadow: inset 1px 1px 1px #333;*/
 }
 #content .create-something-new button.post-comment,
 #content .create-something-new .anchor-button.post-comment {
@@ -1180,8 +1202,13 @@ select {
 	border-radius: 3px;
 	display: inline-block;
 	width: 99%;
+	color: #333;
+	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);
+	background: #fafafa;
+}
+#content input[type=file] {
 	color: #fff;
-	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);;
+	font-size: 100;
 }
 #content .create-something-form input,
 #content .edit-something-form input,
@@ -1274,7 +1301,7 @@ select {
 	cursor: pointer;
 	color: #555;
 	background: linear-gradient(165deg, #eee 0%, #ccc 100%);
-	box-shadow: 1px 1px 1px 0px #333;
+	/*box-shadow: 1px 1px 1px 0px #333;*/
 	white-space: nowrap;
 }
 #content .create-something-form .form-subscribe-buttons span.subscribe-selected,
@@ -1282,7 +1309,7 @@ select {
 #content .update-something-form .form-subscribe-buttons span.subscribe-selected {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	box-shadow: 1px 1px 1px 0px #333;
+	/*box-shadow: 1px 1px 1px 0px #333;*/
 }
 #content .create-something-form .form-subscribe-buttons span.subscribe:before,
 #content .create-something-form .form-textarea-buttons span.ping:before,
@@ -1308,7 +1335,7 @@ select {
 #content .update-something-form .form-textarea-buttons span.template-code:hover {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	box-shadow: inset 1px 1px 1px 0px #000;
+	/*box-shadow: inset 1px 1px 1px 0px #000;*/
 }
 #content .create-something-form input.search-accounts,
 #content .edit-something-form input.search-accounts,
@@ -1346,7 +1373,7 @@ select {
 	display: inline-block;
 	color: #555;
 	background: linear-gradient(165deg, #eee 0%, #ccc 100%);
-	box-shadow: 1px 1px 1px 0px #333;
+	/*box-shadow: 1px 1px 1px 0px #333;*/
 	border: 1px solid #000;
 	border-radius: 3px;
 	cursor: pointer;
@@ -1356,7 +1383,7 @@ select {
 #content .update-something-form .form-account-searchbox .accounts-search-ajax span:hover {
 	color: #fff;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	box-shadow: inset 1px 1px 1px 0px #333;
+	/*box-shadow: inset 1px 1px 1px 0px #333;*/
 }
 #content .create-something-form .form-account-searchbox .accounts-search-ajax span:before,
 #content .edit-something-form .form-account-searchbox .accounts-search-ajax span:before,
@@ -1394,11 +1421,12 @@ select {
 	margin-top: 20px;
 	float:right;
 	background: linear-gradient(165deg, #B3002D 0%,#990026 100%);
+	background: #B3002D;
 }
 #content .edit-something-form .delete-post input[type=submit]:hover,
 #content .update-something-form .delete-post input[type=submit]:hover {
-	background-color: linear-gradient(165deg, #990026 0%,#B3002D 100%);
-	box-shadow: inset 1px 1px 1px 0px #000;
+	background: linear-gradient(165deg, #66001A 0%,#B3002D 100%);
+	/*box-shadow: inset 1px 1px 1px 0px #000;*/
 }
 #content .update-something-form .post-edit-attachment {
 	width: 100px;
@@ -1948,10 +1976,13 @@ select {
 	vertical-align: middle;
 	padding:0 5px;
 }
-#content .ss-heart:hover {
-	color: #a40;
-}
 #content .ss-heart.favorited:before {
+	color: #c60;
+}
+#content .ss-heart:hover,
+#content .ss-heart:before:hover,
+#content .ss-heart.favorited:before:hover,
+#content .ss-heart.favorited:hover {
 	color: #a40;
 }
 #content .ss-heart .favorite-this {
@@ -2028,10 +2059,11 @@ select {
 #content .office-post-single .post-subscribed .user-subscribed {
 	border-radius: 3px;
 	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
+	background: #4B83B4;
 	padding: 3px 3px 0;
 	color: #fff;
 	/*border: 1px solid rgba(75,131,180,1);*/
-	box-shadow: 1px 1px 0px 0px #333;
+	/*box-shadow: 1px 1px 0px 0px #333;*/
 	cursor: pointer;
 	float:left;
 	position: relative;
@@ -2045,16 +2077,17 @@ select {
 	line-height: 22px;
 }
 #content .office-post-single .post-subscribed .user-subscribed.ss-delete:hover {
-	box-shadow: inset 1px 1px 0px 0px #333;
-	background: linear-gradient(165deg, rgba(75,131,180, 1) 0%, rgba(75,131,180, 0.5) 100%);	
+	/*box-shadow: inset 1px 1px 0px 0px #333;*/
+	background: linear-gradient(165deg, #3c698c 0%, #4B83B4 100%);	
 }
 #content .office-post-single .post-subscribed .user-subscribed.ss-plus {
-	box-shadow: 1px 1px 0px 0px #333;
+	/*box-shadow: 1px 1px 0px 0px #333;*/
 	background: linear-gradient(165deg, rgba(75,131,180, 0.5) 0%, rgba(75,131,180,1) 100%);
+	background: #4B83B4;
 }
 #content .office-post-single .post-subscribed .user-subscribed.ss-plus:hover {
-	box-shadow: inset 1px 1px 0px 0px #333;
-	background: linear-gradient(165deg, rgba(75,131,180, 1) 0%, rgba(75,131,180, 0.5) 100%);
+	/*box-shadow: inset 1px 1px 0px 0px #333;*/
+	background: linear-gradient(165deg, #3c698c 0%, #4B83B4 100%);
 }
 #content .office-post-single .post-subscribed .user-subscribed.ss-plus:before {
 	padding: 0;
@@ -2475,7 +2508,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	text-shadow: 1px 1px 0px #000;
 	width: 180px;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	box-shadow: 1px 1px 1px 0px #000;
+	background: #c60;
+	/*box-shadow: 1px 1px 1px 0px #000;*/
 	border:none;
 	height: 25px;
 	color: #fff;
@@ -2488,14 +2522,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	right: 1%;
 	color: #fff;
 	background: linear-gradient(165deg,  #4b83b4 0%,#3c698c 100%);
+	background: #4B83B4;
 }
 #content input[type=submit]:hover,
 #content .form-button:hover {
 	background: linear-gradient(165deg, #a40 0%,#c60 100%);
-	box-shadow: inset 1px 1px 1px 0px #000;
+	/*box-shadow: inset 1px 1px 1px 0px #000;*/
 }
 #content .cancel:hover {
 	background: linear-gradient(165deg,  #3c698c 0%,#4B83B4 100%);
+	text-decoration: none;
 }
 /* pagination links */
 .pagination-footer {
@@ -2563,6 +2599,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 0px 5px;
 	position: relative;
 }
+#quicklinks.quicklinks-again p {
+	width: 120px !important;
+}
 #quicklinks a {
 	position: relative;
 	height:100%;
@@ -2573,6 +2612,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding:5px;
 	border-radius: 3px;
 	background: linear-gradient(165deg,  #fff 0%,#eee 100%);
+	background: #fff;
 	border: 1px solid #ddd;
 	border-right-color: #bbb;
 	border-bottom-color: #bbb;
@@ -2583,7 +2623,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #000;
 }
 #quicklinks a:hover {
-	background: linear-gradient(165deg,  #ccc 0%,#eee 100%);
+	background: linear-gradient(165deg,  #ddd 0%,#fff 100%);
 }
 #quicklinks span {
 	font-size:0.7em;
@@ -2644,6 +2684,18 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	text-align: center;
 	font-size: 1.3em;
 }
+#dashboard-bottom-half h2 a.dashboard-list-count {
+	font-size: 0.8em;
+	background: #c60;
+	border-radius: 3px;
+	padding: 0px 8px;
+	color: #fff;
+	text-shadow: 1px 1px 1px #000;
+}
+#dashboard-bottom-half h2 a.dashboard-list-count:hover {
+	background: linear-gradient(135deg, #a40 0%,#c60 100%);
+	text-decoration: none;
+}
 #dashboard-bottom-half .dashboard-list .list-hrule {
 	border: 0;
     height: 1px;
@@ -2653,6 +2705,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
     background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc);
     background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
     background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
+}
+#dashboard-bottom-half .dashboard-list .nothing-to-show {
+	border: 1px dotted #ddd;
+	border-radius: 3px;
+	padding: 5px;
+	margin-top: 2.5px;
 }
 #dashboard-bottom-half #launch-dashboard-page .office-post,
 #dashboard-bottom-half #projects-dashboard-page .office-post,
@@ -3754,7 +3812,7 @@ bottom: -30px;
 left: 0px;
 width: 60px;
 height: 30px;
-background: #eee;
+background: #fafafa;
 -webkit-border-bottom-right-radius: 40px 50px;
 -moz-border-radius-bottomright: 40px 50px;
 border-bottom-right-radius: 40px 50px;

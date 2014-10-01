@@ -173,5 +173,6 @@
 @yield('page-js')
 
 @yield('page-foot')
+<noscript><p><span class="alert">Oops:</span> JavaScript appears to be disabled in this browser. <br />Please enable to continue.</p></noscript>
 </body>
 </html>

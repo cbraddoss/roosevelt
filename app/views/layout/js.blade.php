@@ -2,7 +2,6 @@
 <script type="text/javascript" src="/js/jquery.colorbox-min-1.5.9.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript" src="/js/jquery.form.min.js"></script>
-<!-- <script type="text/javascript" src="/js/office.js"></script> -->
 <script type="text/javascript">
 jQuery(document).ready(function($){
 	$("a[href $= 'gif'],a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
@@ -444,7 +443,36 @@ jQuery(document).ready(function($){
 	//     // });
 	// });
 
-	// favorite articles
+	// Favorite Articles
+	// dashboard
+	$('#news-dashboard-page span.ss-heart').hover(function(){
+		$(this).find('span.favorite-this').removeClass('none');
+	}, function(){
+		$(this).find('span.favorite-this').addClass('none');
+	});
+	$('#news-dashboard-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
+	$(document).on('click', '#news-dashboard-page span.ss-heart', function(){
+		var articleId = $(this).find('.favorite-this').attr('favoriteval');
+		//console.log(articleId);
+		$.post(
+			$('#news-dashboard-page form#favorite-article-'+articleId).prop('action'),
+			{
+				"_token" : $('#news-dashboard-page form#favorite-article-'+articleId).find('input[name=_token]').val(),
+				"favorite" : $('#news-dashboard-page form#favorite-article-'+articleId).find('input[name=favorite]').val(),
+			}, function (data) {
+				if(data.nofav) {
+					$('#news-dashboard-page #favorite-'+articleId).removeClass('favorited');
+					$('#news-dashboard-page #favorite-'+articleId).find('.favorite-this').html('Favorite Article');
+				}
+				else {
+					$('#news-dashboard-page #favorite-'+articleId).addClass('favorited');
+					$('#news-dashboard-page #favorite-'+articleId).find('.favorite-this').html('Unfavorite Article');
+				}
+			},'json'
+		);
+		return false;
+	});
+	// news page
 	$('#news-page span.ss-heart').hover(function(){
 		$(this).find('span.favorite-this').removeClass('none');
 	}, function(){
@@ -602,7 +630,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	    $(this).ajaxSubmit(addArticleOptions);
-	    //console.log('submit');
+	    console.log('submit');
 	    return false; 
 	});
 	function afterAddArticleSuccess(data)
@@ -1578,7 +1606,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."> Loading form...</span>');
 		$.get( "/projects", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
