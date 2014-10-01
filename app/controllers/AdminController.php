@@ -243,6 +243,7 @@ class AdminController extends \BaseController {
 	{
 		$template = Template::where('slug','=',$template)->first();
 		$templateTasks = $this->template->displayChecklist($template->id);
+		//$templateTasks = TemplateTask::where('template_id','=',$template->id)->get();
 		return View::make('admin.partials.template-form', compact('template','templateTasks'));
 	}
 
@@ -252,9 +253,8 @@ class AdminController extends \BaseController {
  
         $validator = Validator::make(Input::only('name','type','items','status'), array(
         	'id' => 'same:id',
-			'name' => 'required|max:120',
+        	'name' => 'required|max:120',
 			'type' => 'required|in:project,help,billable,invoice',
-			'items' => 'required',
 			'status' => 'required|in:active,inactive'
 		));
 
@@ -264,11 +264,9 @@ class AdminController extends \BaseController {
 		}
 		else {
 			$template = Template::find(Input::get('id'));
-			
 			$template->name =  ucwords(Input::get('name'));
 			$template->type =  Input::get('type');
 			$template->status =  Input::get('status');
-			$template->items = clean_content(Input::get('items'));
 			$template->slug = convert_title_to_path(Input::get('name'));
 
 			try
@@ -278,6 +276,31 @@ class AdminController extends \BaseController {
 			{
 				return Redirect::to('/admin/templates/'.$template->slug.'/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
+
+			//Updating Checklist items not currently available due to how project checklists are saved and used.
+			//Look into possible options in the future.
+			// $sections = Input::get('section');
+			// $contents = Input::get('content');
+			// $taskCount = 0;
+			// // dd(count($sections));
+			// foreach($sections as $section) {
+			// 	$templateTask = TemplateTask::;
+			// 	$newTask->template_id = $newTemplate->id;
+			// 	$newTask->section = $sections[$taskCount];
+			// 	$newTask->content = $contents[$taskCount];
+			// 	try
+			// 	{
+			// 		$newTask->save();
+			// 	} catch(Illuminate\Database\QueryException $e)
+			// 	{
+			// 		$response = array(
+			// 			'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+			// 		);
+			// 		return Response::json( $response );
+			// 	}
+			// 	$taskCount++;
+			// }
+
 			return Redirect::to('/admin/templates/')->with('flash_message_success', '<i>' . $template->name . '</i> successfully updated!');
 		}
 		return Redirect::to('/admin/templates/'.$template->slug.'/edit')->with('flash_message_error','Something went wrong. :(');

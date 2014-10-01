@@ -62,6 +62,7 @@
 			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a> @if($projectsCount != 0)<a class="dashboard-list-count" href="/projects/assigned-to/{{ current_user_path() }}"><span>{{ $projectsCount }}</span></a>@endif</h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
+					<hr class="list-hrule" />
 				@foreach($projects as $project)
 					@if($project->priority == 'high')
 						@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
@@ -91,18 +92,18 @@
 
 						<div class="post-due">
 						@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-							<p>Due Today!</p>
+							<p><span class="post-due-text">Due Today!</span><br />{{ Carbon::now()->format('M j') }}</p>
 							@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-							<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(Past Due!)</span></p>
+							<p><span class="post-due-text">Due Date</span><br />{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}<br /><span class="post-due-text">(Past Due!)</span></p>
 							@else
-							<p>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text">(due date)</span></p>
+							<p><span class="post-due-text">Due Date</span><br />{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}</p>
 						@endif
 						</div>
 						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 													
-						<div class="post-stage-dash">
+						<!-- <div class="post-stage-dash">
 							<span>Stage: {{ $project->stage }}</span>
-						</div>							
+						</div>	 -->						
 					</div>
 					<hr class="list-hrule" />
 				@endforeach
@@ -123,10 +124,11 @@
 			<h2><a href="/projects/launches">Site Launches:</a> @if($launchesCount != 0)<a class="dashboard-list-count" href="/projects/launches"><span>{{ $launchesCount }}</span></a>@endif</h2>
 			<div id="launch-dashboard-page" class="dashboard-list">
 						
+					<hr class="list-hrule" />
 				@foreach($launches as $launch)
 					<div id="project-{{ $launch->id }}" class="project-post office-post">
 						<div class="post-launch-date">
-							<span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $launch->end_date)->format('F j') }} <span class="post-launch-date-text">(launch date)</span></span>
+							<span><span class="post-launch-date-text">Launch Date</span><br />{{ Carbon::createFromFormat('Y-m-d H:i:s', $launch->end_date)->format('M j') }}</span>
 						</div>
 						<h3>{{ link_to('/projects/post/'. $launch->slug, $launch->title, array('class' => 'project-link')) }}</h3>
 					</div>
@@ -146,12 +148,13 @@
 			<h2><a href="/news">Latest Company News:</a> @if($articlesCount != 0)<a class="dashboard-list-count" href="/news"><span>{{ $articlesCount }}</span></a>@endif</h2>
 			<div id="news-dashboard-page" class="dashboard-list">
 						
+					<hr class="list-hrule" />
 				@foreach($articles as $article)
-					@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post">
-					@else <div id="article-{{ $article->id }}" class="news-article office-post unread">
+					@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post"><div class="post-dated"><span class="post-dated-text">Posted</span><br />{{ $article->created_at->format('M j') }}</div>
+					@else <div id="article-{{ $article->id }}" class="news-article office-post unread"><div class="post-dated"><span class="post-dated-text">Posted</span><br />{{ $article->created_at->format('M j') }}<br /><span class="post-dated-text">Unread</span></div>
 					@endif
 						
-						<div class="post-dated">{{ $article->created_at->format('F j') }}</div>
+						
 						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
 						
 						<div class="post-favorite">
@@ -166,7 +169,7 @@
 							{{ Form::close() }}
 							</p>
 						</div>
-						<div class="post-author">
+						<!-- <div class="post-author">
 								<img src="{{ gravatar_url(User::find($article->author_id)->email,25) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
 								{{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name) }}
 						</div>
@@ -174,7 +177,7 @@
 						<div class="post-activity">
 							<p>{{ link_to('/news/article/'. $article->slug.'#comments', $article->getCommentsCount($article->id), array('class' => 'ss-chat news-link')) }}</p>
 						</div>
-						@endif
+						@endif -->
 					</div>
 					<hr class="list-hrule" />
 				@endforeach

@@ -1,7 +1,7 @@
 <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript" src="/js/jquery.colorbox-min-1.5.9.js"></script>
 <script type="text/javascript" src="/js/bootstrap-datepicker.js"></script>
-<script type="text/javascript" src="/js/jquery.form.min.js"></script>
+<script type="text/javascript" src="/js/jquery.form-3.51.min.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function($){
 	$("a[href $= 'gif'],a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
@@ -296,6 +296,7 @@ jQuery(document).ready(function($){
 			// });
 		});
 	});
+	// add additional tasks to New Template form
 	$(document).on('click','#content form.add-template .add-task-one', function() {
 		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates/add-task", function( data ) {
@@ -321,6 +322,7 @@ jQuery(document).ready(function($){
 			});
 		};
 	});
+	// remove task from New Template form
 	$(document).on('click','#content form.add-template .remove-task .ss-hyphen', function() {
 		$(this).parent().parent().parent().remove();
 	});
@@ -363,6 +365,30 @@ jQuery(document).ready(function($){
 		   	window.location.href = '/admin/templates?template=new';
 		}
 	}
+	// add additional tasks to Edit Template form
+	$(document).on('click','#content form.update-template .add-task-one', function() {
+		$.get( "/admin/templates/add-task", function( data ) {
+			$(document).find('#content form.update-template .add-task-ten').before(data);
+		});
+	});
+	$(document).on('click','#content form.update-template .add-task-five', function() {
+		for (var i = 1; i <= 5; i++) {
+			$.get( "/admin/templates/add-task", function( data ) {
+				$(document).find('#content form.update-template .add-task-ten').before(data);
+			});
+		};
+	});
+	$(document).on('click','#content form.update-template .add-task-ten', function() {
+		for (var i = 1; i <= 10; i++) {
+			$.get( "/admin/templates/add-task", function( data ) {
+				$(document).find('#content form.update-template .add-task-ten').before(data);
+			});
+		};
+	});
+	// remove task from Edit Template form
+	$(document).on('click','#content form.update-template .remove-task .ss-hyphen', function() {
+		$(this).parent().parent().parent().remove();
+	});
 	//preview templates on admin page
 	// on list view page
 	$('#admin-page .post-preview').hover(function(){

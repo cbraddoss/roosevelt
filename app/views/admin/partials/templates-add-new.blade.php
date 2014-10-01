@@ -5,15 +5,19 @@
 <div class="new-form-field">
 {{ Form::label('type', 'Type: ') }}
 	<div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	{{ Form::select('type', array('project' => 'Project', 'billable' => 'Billable', 'invoice' => 'Invoice', 'help' => 'Help') , 'project') }}
-</div>
+		<span class="ss-dropdown"></span>
+		<span class="ss-directup"></span>
+		{{ Form::select('type', array('project' => 'Project', 'billable' => 'Billable', 'invoice' => 'Invoice', 'help' => 'Help') , 'project') }}
+	</div>
 </div>
 
 <div class="new-form-field">
-{{ Form::label('name', 'Title: ') }}
+{{ Form::label('name', 'Name: ') }}
 {{ Form::text('name', null, array('placeholder' => 'Template Name', 'class' => 'template-name field')) }}
+</div>
+
+<div class="new-form-field">
+<i>'<b>Section</b>' field can be repeated to assign multiple tasks to the same section.</i>
 </div>
 
 <div class="new-form-field">

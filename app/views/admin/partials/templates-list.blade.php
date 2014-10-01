@@ -1,6 +1,12 @@
 @extends('admin.templates')
 
 @section('admin-template-content')
+	
+	<div class="office-notice">
+		<h4>Notice:</h4>
+		<span>Changing a template checklist is not currently supported.</span><br />
+		<span>If a checklist needs updated or edited, please mark the template as 'Inactive' first, modify the name (add -old or something), then create a new template with the original name and new checklist items.</span>
+	</div>
 
 	<h3>Active Templates:</h3>
 	@if($templatesActive->isEmpty())
@@ -13,20 +19,8 @@
 			<div class="office-post-sub">
 				<small>Created: {{ $active->created_at->format('M d, Y') }}</small>
 			</div>
-			<div id="{{ $active->id }}" class="post-preview">
-				<p class="ss-view"></p>
-			</div>
 		</div>
-		<div id="template-output-{{ $active->id }}" class="template-output">
-			<div class="page-cover">
-			</div>
-			<div class="template-preview">
-			<div class="close-template-preview">X Close</div>
-				<h3>TEMPLATE: {{ $active->name }}</h3>
-				<h4><a href="#">Sample Account</a></h4>
-				
-			</div>
-		</div>
+		<hr class="global-hrule" />
 	@endforeach
 
 	<h3>Inactive Templates:</h3>
@@ -40,19 +34,7 @@
 			<div class="office-post-sub">
 				<small>Created: {{ $inactive->created_at->format('M d, Y') }}</small>
 			</div>
-			<div id="{{ $inactive->id }}" class="post-preview">
-				<p class="ss-view"></p>
-			</div>
 		</div>
-		<div id="template-output-{{ $inactive->id }}" class="template-output">
-			<div class="page-cover">
-			</div>
-			<div class="template-preview">
-			<div class="close-template-preview">X Close</div>
-				<h3>TEMPLATE: {{ $inactive->name }}</h3>
-				<h4><a href="#">Sample Account</a></h4>
-				
-			</div>
-		</div>
+		<hr class="global-hrule" />
 	@endforeach
 @stop
