@@ -148,9 +148,9 @@
 			<span class="loading-something-new none"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>
 				<div id="page-title">
 					@if(current_page() == '/')
-					<h2>Welcome to the IOS Remote Office</h2>
+					<h1>Welcome to the IOS Remote Office</h1>
 					@else
-					<h2>@yield('page-title')</h2>
+					<h1>@yield('page-title')</h1>
 					@endif
 				</div>
 				@yield('page-content')

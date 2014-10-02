@@ -6,6 +6,8 @@
 jQuery(document).ready(function($){
 	$("a[href $= 'gif'],a[href $= 'jpg'],a[href $= 'jpeg'],a[href $= 'JPG'],a[href $= 'JPEG'],a[href $= 'PNG'],a[href $= 'png']").colorbox({ opacity: '0.6',maxHeight:'80%', maxWidth: '80%' });
 	
+	$('.loading-something-new').hide();
+
 	//Animate scroll to loaded comment id
 	var commentUrlHash = window.location.hash;
 	var commentUrlNew = window.location.search;
@@ -223,7 +225,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/users", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -278,7 +280,7 @@ jQuery(document).ready(function($){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
@@ -298,14 +300,14 @@ jQuery(document).ready(function($){
 	});
 	// add additional tasks to New Template form
 	$(document).on('click','#content form.add-template .add-task-one', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates/add-task", function( data ) {
 			$(document).find('#content form.add-template .add-task-ten').before(data);
 			//$(document).find('.loading-something-new').remove();
 		});
 	});
 	$(document).on('click','#content form.add-template .add-task-five', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		for (var i = 1; i <= 5; i++) {
 			$.get( "/admin/templates/add-task", function( data ) {
 				$(document).find('#content form.add-template .add-task-ten').before(data);
@@ -314,7 +316,7 @@ jQuery(document).ready(function($){
 		};
 	});
 	$(document).on('click','#content form.add-template .add-task-ten', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		for (var i = 1; i <= 10; i++) {
 			$.get( "/admin/templates/add-task", function( data ) {
 				$(document).find('#content form.add-template .add-task-ten').before(data);
@@ -581,13 +583,13 @@ jQuery(document).ready(function($){
 		$(this).find('.post-hover-content').hide();
 	});
 	// Add new article
-	$(document).on('click','#header-menu #news-new-article-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #news-new-article-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/news", function( data ) {
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('#content').prepend(data);
@@ -625,7 +627,7 @@ jQuery(document).ready(function($){
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
 					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -637,7 +639,7 @@ jQuery(document).ready(function($){
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
 					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -770,7 +772,7 @@ jQuery(document).ready(function($){
 		$('button.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		var articleSlug = $(document).find('.news-article').attr('slug');
 		//console.log(articleSlug);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
@@ -860,7 +862,7 @@ jQuery(document).ready(function($){
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
 		commentHeight = commentHeight-15;
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		// console.log(commentAuthor);
 		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
 			
@@ -1628,16 +1630,16 @@ jQuery(document).ready(function($){
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
 	// add new Project
-	$(document).on('click','#header-menu #projects-new-project-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #projects-new-project-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."> Loading form...</span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/projects", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .project-add-form.create-something-form').slideDown(400);
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('#header-menu #projects-new-project-form.create-something-new button').addClass('active');
@@ -1704,7 +1706,7 @@ jQuery(document).ready(function($){
 			// active search of accounts
 			$(document).on('input','form.add-project .search-accounts', function() {
 				var accountSearch = $(this).val();
-				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader.gif" alt="Loading..."> Searching...</span>');
+				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
 				if(accountSearch.length >= 3) {
 					// search accounts and return a list
 					var accountSearchOptions = { 
@@ -1764,7 +1766,7 @@ jQuery(document).ready(function($){
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
 					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -1776,7 +1778,7 @@ jQuery(document).ready(function($){
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
 					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -1851,7 +1853,7 @@ jQuery(document).ready(function($){
 	// account active search of edit project page
 	$(document).on('input','form.update-project .search-accounts', function() {
 		var accountSearch = $(this).val();
-		$(document).find('form.update-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader.gif" alt="Searching..."> Searching...</span>');
+		$(document).find('form.update-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Searching..."> Searching...</span>');
 		if(accountSearch.length >= 3) {
 			// search accounts and return a list
 			var accountEditSearchOptions = { 
@@ -1984,7 +1986,7 @@ jQuery(document).ready(function($){
 		$('button.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		
 		var projectSlug = $(document).find('.projects-post').attr('slug');
 		//console.log(projectSlug);
@@ -2073,7 +2075,7 @@ jQuery(document).ready(function($){
 		var commentHeight = $(this).closest('.office-post-comment').height();
 		commentHeight = commentHeight-15;
 		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		//commentId = commentId.replace('comment-','');
 		//console.log(commentId);
 		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
@@ -2232,17 +2234,17 @@ jQuery(document).ready(function($){
 
 	/* Accounts */
 	// add new account
-	$(document).on('click','#header-menu #accounts-new-account-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #accounts-new-account-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/accounts", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .account-add-form.create-something-form').slideDown(400);
 			$('#header-menu #accounts-new-account-form.create-something-new button').addClass('active');
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 		});
@@ -2257,7 +2259,7 @@ jQuery(document).ready(function($){
 				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.account-add-form.create-something-form').remove();
 					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2269,7 +2271,7 @@ jQuery(document).ready(function($){
 			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.account-add-form.create-something-form').remove();
 					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -2280,17 +2282,17 @@ jQuery(document).ready(function($){
 	
 	/* Billables */
 	// add new billable
-	$(document).on('click','#header-menu #billables-new-billable-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #billables-new-billable-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/billables", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .billable-add-form.create-something-form').slideDown(400);
 			$('#header-menu #billables-new-billable-form.create-something-new button').addClass('active');
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 		});
@@ -2305,7 +2307,7 @@ jQuery(document).ready(function($){
 				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.billable-add-form.create-something-form').remove();
 					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2317,7 +2319,7 @@ jQuery(document).ready(function($){
 			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.billable-add-form.create-something-form').remove();
 					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -2328,17 +2330,17 @@ jQuery(document).ready(function($){
 
 	/* Help */
 	// add new help
-	$(document).on('click','#header-menu #help-new-help-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #help-new-help-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/help", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .help-add-form.create-something-form').slideDown(400);
 			$('#header-menu #help-new-help-form.create-something-new button').addClass('active');
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 		});
@@ -2353,7 +2355,7 @@ jQuery(document).ready(function($){
 				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.help-add-form.create-something-form').remove();
 					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2365,7 +2367,7 @@ jQuery(document).ready(function($){
 			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.help-add-form.create-something-form').remove();
 					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -2376,17 +2378,17 @@ jQuery(document).ready(function($){
 	
 	/* Wiki */
 	// add new wiki
-	$(document).on('click','#header-menu #wiki-new-wiki-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#header-menu #wiki-new-wiki-form a.add-new',function(){
+		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>');
+		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/wiki", function( data ) {
 			$('#content').prepend(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .wiki-add-form.create-something-form').slideDown(400);
 			$('#header-menu #wiki-new-wiki-form.create-something-new button').addClass('active');
-			$('button.add-new').each(function(){
+			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
 		});
@@ -2401,7 +2403,7 @@ jQuery(document).ready(function($){
 				$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.wiki-add-form.create-something-form').remove();
 					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2413,7 +2415,7 @@ jQuery(document).ready(function($){
 			$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.wiki-add-form.create-something-form').remove();
 					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
