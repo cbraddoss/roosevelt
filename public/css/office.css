@@ -572,7 +572,7 @@ noscript span.alert {
 	padding: 10px 5px 0px 5px;
 	background: #333333;
 	height: 50px;
-	background: #fafafa;
+	background: #333333;
 }
 #user-box .profile-dropdown.active {
 	/*background: rgba(255,255,255, 0.2);*/
@@ -581,7 +581,7 @@ noscript span.alert {
 	/*border-radius: 3px;*/
 }
 #user-box .profile-dropdown .arrow-down {
-	color: #333333;
+	color: #ffffff;
 	padding: 0 0px 1px 3px;
 	/*text-shadow: 1px 1px 0px #000;*/
 	font-size: 1em;
@@ -604,7 +604,7 @@ noscript span.alert {
 }
 #user-box ul.sub_menu_links-hover li {
 	/*background: rgba(255,255,255, 0.2);*/
-	background: #fafafa;
+	background: #333333;
 	border: none;
 	/*border-bottom: 1px solid #2C4E68;*/
 	/*border-top: 1px solid rgba(255,255,255, 0.5);*/
@@ -613,7 +613,7 @@ noscript span.alert {
 	/*width: 90%;*/
 }
 #user-box ul.sub_menu_links-hover li a {
-	color: #333333;
+	color: #ffffff;
 }
 #user-box .search-icon {
 	float: right;
@@ -745,18 +745,18 @@ noscript span.alert {
 	box-sizing: border-box;
 	text-align: center;
 	z-index: -1;
-	color: #3c698c;
-	color: rgba(75,131,180,0.5);
+	color: #ffffff;
+	/*color: rgba(75,131,180,0.5);*/
 	margin-bottom: 0px;
 	margin-top: 0px;
 	/*padding: 0 5px 0 10px;*/
 }
-#menu_header ul#menu_links li.link:hover a:before {
+/*#menu_header ul#menu_links li.link:hover a:before {
 	color: #3c698c;
 }
 #menu_header ul#menu_links li.link.active:hover a:before {
 	color: #4B83B4;
-}
+}*/
 #menu_header ul#menu_links li.link span.linked-to {
 	position: absolute;
 	top: 0px;
@@ -1765,7 +1765,7 @@ noscript span.alert {
 	color: #000;
 }
 #content .unread {
-	border-left: 8px solid #A95306;
+	border-left: 8px solid #cc6600;
 	/*border-bottom: 1px solid #A95306;*/
 }
 #content .unread h3 a:after {
@@ -2715,13 +2715,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 /* Dashboard */
 #quicklinks {
 	font-size: 1em;
-	display: block;
-	padding: 10px;
+	position: absolute;
+	top: 90px;
+	left: 0;
+	z-index: 10;
+	padding: 10px 10px 0px 10px;
 	/*border-radius: 3px;*/
 	/*border: 1px solid #ddd;*/
 	/*background: #fff;*/
 	background: #fafafa;
-	width: 100%;
+	width: 250px;
 	box-sizing: border-box;
 	/*height: 75px;*/
 	/*overflow: hidden;*/
@@ -2735,13 +2738,13 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #quicklinks p {
 	font-size: 1.2em;
 	/*display: table-cell;*/
-	display: inline-block;
-	/*float: left;*/
-	width: 10%;
+	/*display: block;*/
+	float: left;
+	width: 100px;
 	box-sizing: border-box;
 	height: 100%;
 	text-align:center;
-	margin: 0 5px 10px 0;
+	margin: 0 10px 10px 0;
 	padding: 0px 0px 0px 0px;
 	position: relative;
 	/*border-right: 1px solid #fafafa;*/
@@ -2815,19 +2818,21 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 1px 8px;
 	height: auto;
 	background: linear-gradient(165deg, #c60 0%,#a40 100%);
-	background: #c60;
+	background: #cc6600;
 }
 #site-launches {
-	background: #3c698c;
+	/*background: #eeeeee;*/
 	width: 100%;
 	box-sizing: border-box;
-	padding: 0px 20px;
+	padding: 0px 20px 0 250px;
+	float: left;
 	height: 60px;
 	overflow: hidden;
 	position: relative;
+	border-bottom: 1px solid #333;
 }
 #site-launches h2 {
-	color: #ffffff;
+	color: #333333;
 	height: 40px;
 	padding: 15px 0 0 30px;
 	font-weight: 100;
@@ -2846,7 +2851,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 50px;
 	margin-left: 10px;
 	padding: 5px 10px;
-	color: #ffffff;
+	color: #333333;
 	text-decoration: none;
 	width: 60px;
 	text-align: center;
@@ -2857,8 +2862,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin: 0;
 	float: left;
 	padding: 0 10px;
-	border-right: 1px solid #000000;
-	color: #ffffff;
+	border-right: 1px solid #333333;
+	color: #333333;
 	width: 15%;
 	box-sizing: border-box;
 	text-align: center;
@@ -2876,21 +2881,24 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display: block;
 	padding: 0;
 	margin: 0;
-	color: #000000;
+	color: #333333;
 }
+
 #dashboard-lists {
 	/*margin-top: 15px;*/
 	width: 100%;
 	box-sizing: border-box;
 	height: 100%;
-	display: block;
-	background: #4B83B4;
+	float:left;
+	padding-left: 250px;
+	/*background: #4B83B4;*/
 }
 #dashboard-lists .dashboard-half {
 	width: 50%;
 	box-sizing: border-box;
 	float: left;
 	padding: 0px 0px;
+	margin-bottom: 20px;
 }
 #dashboard-lists #second-half {
 	/*background: #777777;*/
@@ -2910,12 +2918,37 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #dashboard-lists .office-dashboard-post {
 	padding: 0 10px;
+	position: relative;
+	height: 70px;
+	margin-right: 20px;
+	border-style: solid;
+	border-width: 0px;
+	border-bottom-width: 1px;
+	border-left-width: 8px;
+	border-color: #cccccc;
+}
+#dashboard-lists .office-dashboard-post.unread {
+	border-color: #cc6600;
 }
 #dashboard-lists .office-dashboard-post.due-now {
-	border-left: 8px solid rgba(255,51,255,1);
+	border-color: rgba(255,51,255,1);
 }
 #dashboard-lists .office-dashboard-post.due-soon {
-	border-left: 8px solid rgba(204,0,0,1);
+	border-color: rgba(204,0,0,1);
+}
+#dashboard-lists .office-dashboard-post .post-favorite {
+	position: absolute;
+	top: 10px;
+	right: 5px;
+}
+#dashboard-lists .office-dashboard-post p {
+	margin-bottom: 0px;
+}
+#dashboard-lists .office-dashboard-post .post-dated,
+#dashboard-lists .office-dashboard-post .post-due {
+	background: #eeeeee;
+	margin-left: -10px;
+	padding-left: 10px;
 }
 
 /* Admin Page */
