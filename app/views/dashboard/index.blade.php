@@ -47,12 +47,12 @@
 		<p><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
 		<p><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
 		<p><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</p>
-		<p><a href="/accounts" class="ss-buildings ql-address_book">Address Book</a></p>
-		<!-- <p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p> -->
+		<p><a href="/accounts" class="ss-buildings ql-address_book">Accounts</a></p>
+		<p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p>
 		<p><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
-		<p><a href="#" class="ss-globe ql-hosted">Website List</a></p>
-		<!-- <p><a href="/tools" class="ss-flask ql-tools">Tools</a></p> -->
-		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
+		<p><a href="#" class="ss-globe ql-hosted">Websites</a></p>
+		<p><a href="/tools" class="ss-flask ql-tools">Tools</a></p>
+		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Launches</a></p>
 	</div>
 	<div id="site-launches">
 		<h2 class="ss-uploadcloud">Site Launches:</h2>

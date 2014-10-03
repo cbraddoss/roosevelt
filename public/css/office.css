@@ -19,9 +19,11 @@ body {
 	text-align:left;
 	background: #333333;
 	/*background: #eee url('../images/ticks.png') top left;*/
-	font-family: "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Oswald", "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	color: #000;
 	font-size: 62.5%;
+	font-weight: 300;
+	letter-spacing: 0.0625em;
 	margin:0px;
 	padding:0px;
 	height: 100%;
@@ -982,6 +984,7 @@ noscript span.alert {
 	margin:0;
 	color: #fff;
 	float: left;
+	font-family: "Open Sans", sans-serif;
 	/*text-shadow: 1px 1px 0px #fff;*/
 }
 #content #page-second-title {
@@ -2713,15 +2716,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #quicklinks {
 	font-size: 1em;
 	display: block;
-	padding: 0px 0px 0px 0px;
+	padding: 10px;
 	/*border-radius: 3px;*/
 	/*border: 1px solid #ddd;*/
 	/*background: #fff;*/
-	background: #333333;
+	background: #fafafa;
 	width: 100%;
 	box-sizing: border-box;
-	height: 75px;
-	overflow: hidden;
+	/*height: 75px;*/
+	/*overflow: hidden;*/
 	margin: 0;
 }
 #quicklinks h3.dashboard-subtitle {
@@ -2732,15 +2735,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #quicklinks p {
 	font-size: 1.2em;
 	/*display: table-cell;*/
-	float: left;
+	display: inline-block;
+	/*float: left;*/
 	width: 10%;
 	box-sizing: border-box;
 	height: 100%;
 	text-align:center;
-	margin: 0;
+	margin: 0 5px 0 0;
 	padding: 0px 0px 0px 0px;
 	position: relative;
-	border-right: 1px solid #fafafa;
+	/*border-right: 1px solid #fafafa;*/
 }
 #quicklinks p:last-child {
 	border-right: none;
@@ -2839,12 +2843,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #site-launches .dashboard-launch-count {
 	background: #cc6600;
-	height: 40px;
+	height: 50px;
 	margin-left: 10px;
-	padding: 10px 10px;
+	padding: 5px 10px;
 	color: #ffffff;
 	text-decoration: none;
-	width: 80px;
+	width: 60px;
 	text-align: center;
 	float: left;
 	display: inline-block;
@@ -2857,6 +2861,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #ffffff;
 	width: 15%;
 	box-sizing: border-box;
+	text-align: center;
 }
 #site-launches .office-dashboard-post .post-launch-date {
 	height: 20px;
@@ -2867,7 +2872,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 1.2em;
 	font-weight: 100;
 	height: 40px;
-	line-height: 20px;
+	line-height: 40px;
 	display: block;
 	padding: 0;
 	margin: 0;
@@ -2889,7 +2894,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #dashboard-lists #second-half {
 	/*background: #777777;*/
-	border-left: 1px solid #333333;
+	/*border-left: 1px solid #333333;*/
 }
 #dashboard-lists h2 {
 	/*text-align: center;*/
