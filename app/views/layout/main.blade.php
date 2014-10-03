@@ -15,19 +15,76 @@
 <body class="{{ body_class() }}">
 	<div id="header">
 		<div class="section">
-			<div id="company-header">
+			<div id="nav_menu">
+				<div class="section">
+					<div id="menu_header">
+						<div class="menu_nav">
+							<ul id="menu_links">
+								<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/"><span class="link-text">Dashboard</span></a></li>
+								<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/projects/status/open">Open</a></li>
+									<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
+									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
+								</ul>
+								</li>
+								<!-- <ul class="sub_menu_links">
+									<li class="sub-link"><a href="/projects/status/open">Open</a></li>
+									<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
+									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
+								</ul> -->
+								<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
+								<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
+								<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
+								<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
+								<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span class="link-text">Help</span></a>{{ find_assigned_count('help') }}</li>
+								<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href"><span class="link-text">News</span></a>{{ find_unread_count('articles') }}
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/news/">All</a></li>
+									<li class="sub-link"><a href="/news/unread">Unread</a></li>
+									<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
+									<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
+									<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
+								</ul>
+								</li>
+								<!-- <ul class="sub_menu_links">
+									<li class="sub-link"><a href="/news/">All</a></li>
+									<li class="sub-link"><a href="/news/unread">Your Unread</a></li>
+									<li class="sub-link"><a href="/news/favorites">Your Favorites</a></li>
+									<li class="sub-link"><a href="/news/mentions">Your Mentions</a></li>
+									<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
+								</ul> -->
+								<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
+								<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
+							</ul>
+						</div> <!-- .menu_nav -->
+					</div> <!-- #menu_header -->
+				</div> <!-- .section -->
+			</div> <!-- #nav_menu -->
+			<!-- <div id="company-header">
 				<div id="company-logo">
 					<a href="/" class="logo"><img src="/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
 				</div>
 				<div id="header-menu">
 					@yield('header-menu')
 				</div>
-			</div>			
+			</div> -->
 			
-			<div id="welcome-box">
+			<div id="search-box">
+				<div class="search-details">
+					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." />
+					{{ Form::close() }}
+				</div>
+			</div>
+
+			<div id="user-box">
 				<div class="profile-details">
-					<a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }}</span></a>
+					<a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
 					<a class="todo-link" href="/to-do/{{ Auth::user()->user_path }}"><span class="linked-to" value="">0</span></a>
+				</div>
+				<div class="search-icon">
+					<span class="ss-search"></span>
 				</div>
 				<div class="profile-dropdown">
 					<a href="/profile/" class="profile-dropdown-link"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></a>
@@ -40,14 +97,6 @@
 							@endif
 							<li class="sub-link"><a href="/logout/">Logout</a></li>
 						</ul>
-				</div>
-			</div>
-
-			<div id="search-box">
-				<div class="search-details">
-					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /><span class="ss-search"></span>
-					{{ Form::close() }}
 				</div>
 			</div>
 			
@@ -96,60 +145,17 @@
 
 		</div> <!-- .section -->
 	</div> <!-- #header -->
-	<div id="nav_menu">
-		<div class="section">
-			<div id="menu_header">
-				<div class="menu_nav">
-					<ul id="menu_links">
-						<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/"><span class="link-text">Dashboard</span></a></li>
-						<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
-						<ul class="sub_menu_links-hover">
-							<li class="sub-link"><a href="/projects/status/open">Open</a></li>
-							<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
-							<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
-						</ul>
-						</li>
-						<ul class="sub_menu_links">
-							<li class="sub-link"><a href="/projects/status/open">Open</a></li>
-							<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
-							<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
-						</ul>
-						<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
-						<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
-						<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
-						<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
-						<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span class="link-text">Help</span></a>{{ find_assigned_count('help') }}</li>
-						<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href"><span class="link-text">News</span></a>{{ find_unread_count('articles') }}
-						<ul class="sub_menu_links-hover">
-							<li class="sub-link"><a href="/news/">All</a></li>
-							<li class="sub-link"><a href="/news/unread">Unread</a></li>
-							<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
-							<li class="sub-link"><a href="/news/mentions">Mentions</a></li>
-							<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
-						</ul>
-						</li>
-						<ul class="sub_menu_links">
-							<li class="sub-link"><a href="/news/">All</a></li>
-							<li class="sub-link"><a href="/news/unread">Your Unread</a></li>
-							<li class="sub-link"><a href="/news/favorites">Your Favorites</a></li>
-							<li class="sub-link"><a href="/news/mentions">Your Mentions</a></li>
-							<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
-						</ul>
-						<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
-						<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
-					</ul>
-				</div> <!-- .menu_nav -->
-			</div> <!-- #menu_header -->
-		</div> <!-- .section -->
-	</div> <!-- #nav_menu -->
+	
 	<div id="page">
 		<div class="section">
 			<div id="content">
 			<span class="loading-something-new none"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>
 				<div id="page-title">
 					@if(current_page() == '/')
-					<h1>Welcome to the IOS Remote Office</h1>
+					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
+					<h1>InsideOut Solutions Remote Office</h1>
 					@else
+					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
 					<h1>@yield('page-title')</h1>
 					@endif
 				</div>

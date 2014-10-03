@@ -38,6 +38,22 @@
 
 @section('page-content')
 <div id="dashboard-page" class="inner-page">
+	
+	<div id="quicklinks">
+		<!-- <h3 class="dashboard-subtitle">Quick Links:</h3> -->
+		<p><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List<span class="user-todo" value="">0</span></a></p>
+		<p><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
+		<p><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
+		<p><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
+		<p><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
+		<p><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</p>
+		<p><a href="/accounts" class="ss-buildings ql-address_book">Address Book</a></p>
+		<!-- <p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p> -->
+		<p><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
+		<p><a href="#" class="ss-globe ql-hosted">Website List</a></p>
+		<!-- <p><a href="/tools" class="ss-flask ql-tools">Tools</a></p> -->
+		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
+	</div>
 	<div id="site-launches">
 		<h2 class="ss-uploadcloud">Site Launches:</h2>
 		<a class="dashboard-launch-count" href="/projects/launches"><span>{{ $launchesCount }} Upcoming</span></a>
@@ -57,26 +73,9 @@
 				</div>
 			@endif
 	</div>
-
-	<div id="quicklinks">
-		<!-- <h3 class="dashboard-subtitle">Quick Links:</h3> -->
-		<p><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List<span class="user-todo" value="">0</span></a></p>
-		<p><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
-		<p><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
-		<p><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
-		<p><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></p>
-		<p><a href="/calendar" class="ss-calendar ql-calendar">Calendar</a>{{ find_assigned_count('calendar') }}</p>
-		<p><a href="/accounts" class="ss-buildings ql-address_book">Address Book</a></p>
-		<p><a href="/wiki" class="ss-compose ql-wiki">Wiki</a></p>
-		<p><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
-		<p><a href="#" class="ss-globe ql-hosted">Website List</a></p>
-		<p><a href="/tools" class="ss-flask ql-tools">Tools</a></p>
-		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Site Launches</a></p>
-	</div>
-	
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h3><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a> @if($projectsCount != 0)<a class="dashboard-list-count" href="/projects/assigned-to/{{ current_user_path() }}"><span>{{ $projectsCount }}</span></a>@endif</h3>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -137,12 +136,12 @@
 		</div>
 		
 		<div id="second-half" class="dashboard-half">
-			<h3><a href="/news">Latest Company News:</a> @if($articlesCount != 0)<a class="dashboard-list-count" href="/news"><span>{{ $articlesCount }}</span></a>@endif</h3>
+			<h2><a href="/news">Latest Company News:</a></h2>
 			<div id="news-dashboard-page" class="dashboard-list">
 						
 				@foreach($articles as $article)
 					@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-dashboard-post"><div class="post-dated"><span class="post-dated-text">Posted</span> {{ $article->created_at->format('M j') }}</div>
-					@else <div id="article-{{ $article->id }}" class="news-article -dashboard-post unread"><div class="post-dated"><span class="post-dated-text">Posted</span> {{ $article->created_at->format('M j') }}<br /><span class="post-dated-text">Unread</span></div>
+					@else <div id="article-{{ $article->id }}" class="news-article -dashboard-post unread"><div class="post-dated"><span class="post-dated-text">Posted</span> {{ $article->created_at->format('M j') }}</div>
 					@endif
 						
 						

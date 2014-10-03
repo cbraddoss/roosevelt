@@ -83,7 +83,7 @@ jQuery(document).ready(function($){
 			'visibility': 'hidden'
 		}).hide();
 	});
-	$('#welcome-box div.profile-dropdown').hover(function(){
+	$('#user-box div.profile-dropdown').hover(function(){
 		$(this).addClass('active');
 		$(this).children('ul.sub_menu_links-hover').css({
 			'visibility': 'visible'
@@ -120,7 +120,7 @@ jQuery(document).ready(function($){
 		// do nothing
 	}
 	else {
-		$(document).find('#welcome-box .todo-link span.linked-to').html(todoCount);
+		$(document).find('#user-box .todo-link span.linked-to').html(todoCount);
 		$(document).find('#quicklinks span.user-todo').html(todoCount);
 	}
 
@@ -2434,6 +2434,13 @@ jQuery(document).ready(function($){
 
 	
 	//for search icon popup
+	$(document).on('click', '#user-box .search-icon .ss-search', function() {
+		$('body').toggleClass('search-bar-active');
+		$('#header').toggleClass('search-bar-active');
+		$('#nav_menu').toggleClass('search-bar-active');
+		$('#header #search-box').toggle();
+		$(document).find('#search-box input.search').focus();
+	});
 	// $('#link-search').click( function() {
 	// 	$('#search-box').fadeIn();
 	// 	$('#search-box input.search').focus();
