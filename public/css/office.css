@@ -2741,7 +2741,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	box-sizing: border-box;
 	height: 100%;
 	text-align:center;
-	margin: 0 5px 0 0;
+	margin: 0 5px 10px 0;
 	padding: 0px 0px 0px 0px;
 	position: relative;
 	/*border-right: 1px solid #fafafa;*/
