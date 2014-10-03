@@ -61,15 +61,7 @@
 					</div> <!-- #menu_header -->
 				</div> <!-- .section -->
 			</div> <!-- #nav_menu -->
-			<!-- <div id="company-header">
-				<div id="company-logo">
-					<a href="/" class="logo"><img src="/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
-				</div>
-				<div id="header-menu">
-					@yield('header-menu')
-				</div>
-			</div> -->
-			
+						
 			<div id="search-box">
 				<div class="search-details">
 					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
@@ -158,6 +150,9 @@
 					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
 					<h1>@yield('page-title')</h1>
 					@endif
+				</div>
+				<div id="sub-nav_menu">
+					@yield('header-menu')
 				</div>
 				@yield('page-content')
 			</div> <!-- #content -->
