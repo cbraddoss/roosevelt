@@ -208,7 +208,7 @@ jQuery(document).ready(function($){
 		if ( ev.keyCode == 27 ) {
 			$(document).find('.create-something-form').slideUp(400,function(){
 				$(document).find('.create-something-form').remove();
-				$('#header-menu .create-something-new button').removeClass('active');
+				$('#sub-nav_menu .create-something-new a.anchor-button').removeClass('active');
 				$('button.add-new').each(function(){
 					$(this).prop('disabled', false);
 				});
@@ -221,19 +221,19 @@ jQuery(document).ready(function($){
 	// add datepicker to user form
 	$('#admin-page form.update-user input.anniversary').datepicker();
 	
-	$(document).on('click','#header-menu #admin-new-user-form button.add-new',function(){
+	$(document).on('click','#sub-nav_menu #admin-new-user-form button.add-new',function(){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/users", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('.user-add-form.create-something-form').slideDown(400);
-			$('#header-menu #admin-new-user-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #admin-new-user-form.create-something-new a.anchor-button').addClass('active');
 			$('form.add-user .first-name').focus();
 		});
 	});
@@ -241,7 +241,7 @@ jQuery(document).ready(function($){
 	$(document).on('click','#content .user-add-form span.cancel',function(){
 				$(document).find('.user-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.user-add-form.create-something-form').remove();
-					$('#header-menu #admin-new-user-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #admin-new-user-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -276,19 +276,19 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// add new template
-	$(document).on('click', '#header-menu #admin-new-template-form button.add-new', function(){
+	$(document).on('click', '#sub-nav_menu #admin-new-template-form button.add-new', function(){
 		$('button.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates", function( data ) {
 			$('button.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('.template-add-form.create-something-form').slideDown(400);
-			$('#header-menu #admin-new-template-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #admin-new-template-form.create-something-new a.anchor-button').addClass('active');
 			$('form.add-template .template-name').focus();
 			// $('span.cancel').each(function(){
 			// 	$(this).addClass('ss-delete');
@@ -332,7 +332,7 @@ jQuery(document).ready(function($){
 	$(document).on('click','#content form.add-template span.cancel',function(){
 				$(document).find('.template-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.template-add-form.create-something-form').remove();
-					$('#header-menu #admin-new-template-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #admin-new-template-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -403,7 +403,7 @@ jQuery(document).ready(function($){
 		$(document).find("#template-output-"+templateId).toggle();
 	});
 	// on single view page
-	$(document).on('click', '#header-menu #admin-preview-template-form .preview-template', function(){
+	$(document).on('click', '#sub-nav_menu #admin-preview-template-form .preview-template', function(){
 		$(".template-output").show();
 	});
 	// close template previews
@@ -529,46 +529,46 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// favorite articles
-	$('#header-menu span.ss-heart').hover(function(){
+	$('#sub-nav_menu span.ss-heart').hover(function(){
 		$(this).find('span.favorite-this').show();
 	}, function(){
 		$(this).find('span.favorite-this').hide();
 	});
-	$('#header-menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
-	$(document).on('click', '#header-menu span.ss-heart', function(){
+	$('#sub-nav_menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
+	$(document).on('click', '#sub-nav_menu span.ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		//console.log(articleId);
 		$.post(
-			$('#header-menu form#favorite-article-'+articleId).prop('action'),
+			$('#sub-nav_menu form#favorite-article-'+articleId).prop('action'),
 			{
-				"_token" : $('#header-menu form#favorite-article-'+articleId).find('input[name=_token]').val(),
-				"favorite" : $('#header-menu form#favorite-article-'+articleId).find('input[name=favorite]').val(),
+				"_token" : $('#sub-nav_menu form#favorite-article-'+articleId).find('input[name=_token]').val(),
+				"favorite" : $('#sub-nav_menu form#favorite-article-'+articleId).find('input[name=favorite]').val(),
 			}, function (data) {
 				if(data.nofav) {
-					$('#header-menu #favorite-'+articleId).removeClass('favorited');
-					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Favorite Article');
+					$('#sub-nav_menu #favorite-'+articleId).removeClass('favorited');
+					$('#sub-nav_menu #favorite-'+articleId).find('.favorite-this').html('Favorite Article');
 				}
 				else {
-					$('#header-menu #favorite-'+articleId).addClass('favorited');
-					$('#header-menu #favorite-'+articleId).find('.favorite-this').html('Unfavorite Article');
+					$('#sub-nav_menu #favorite-'+articleId).addClass('favorited');
+					$('#sub-nav_menu #favorite-'+articleId).find('.favorite-this').html('Unfavorite Article');
 				}
 			},'json'
 		);
 		return false;
 	});
 	// filter by type (unread, mentions, favorites, drafts)
-	$(document).on('change','#header-menu .filter-type.news-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-type.news-filter', function(){
 		var typeLink = $(this).val();
 		if(typeLink == 0 || typeLink == '0') window.location.href='/news';
 		else window.location.href='/news/'+typeLink;
 	});
 	// Filter by author
-	$(document).on('change','#header-menu .filter-author.news-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-author.news-filter', function(){
 		var authorLink = $(this).val();
 		window.location.href='/news/author/'+authorLink;
 	});
 	// Filter by date
-	$('#header-menu .page-menu div.filter-date.news-filter').datepicker().on('changeDate', function(ev) {
+	$('#sub-nav_menu .page-menu div.filter-date.news-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -583,19 +583,19 @@ jQuery(document).ready(function($){
 		$(this).find('.post-hover-content').hide();
 	});
 	// Add new article
-	$(document).on('click','#header-menu #news-new-article-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #news-new-article-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/news", function( data ) {
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .article-add-form.create-something-form').slideDown(400);
-			$('#header-menu #news-new-article-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #news-new-article-form.create-something-new a.anchor-button').addClass('active');
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -626,7 +626,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
-					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #news-new-article-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -638,7 +638,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
-					$('#header-menu #news-new-article-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #news-new-article-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -784,7 +784,7 @@ jQuery(document).ready(function($){
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content #news-post-comment-form.create-something-new button').addClass('active');
+			$('#content #news-post-comment-form.create-something-new a.anchor-button').addClass('active');
 			$('#content form.add-comment .comment-content').focus();
 		});
 	});
@@ -797,7 +797,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #news-post-comment-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -809,8 +809,8 @@ jQuery(document).ready(function($){
 		else {
 				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #news-post-comment-form.create-something-new a.anchor-button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -874,7 +874,7 @@ jQuery(document).ready(function($){
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new button').addClass('active');
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new a.anchor-button').addClass('active');
 			$('#content .news-article-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
 			$('#content form.add-comment .comment-content').focus();
 		});
@@ -1040,7 +1040,7 @@ jQuery(document).ready(function($){
 	// 	var monthLink = months[dateLink.getMonth()];
 	// 	window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	// });
-	$('#header-menu div.calendar-jump-to-date.calendar-filter').datepicker().on('changeDate', function(ev) {
+	$('#sub-nav_menu div.calendar-jump-to-date.calendar-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -1056,33 +1056,33 @@ jQuery(document).ready(function($){
 
 	/* Projects Page */
 	// Filter by user
-	$(document).on('change','#header-menu .filter-user.projects-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-user.projects-filter', function(){
 		var authorLink = $(this).val();
 		window.location.href='/projects/assigned-to/'+authorLink;
 	});
 	// Filter by project stage
-	$(document).on('change','#header-menu .filter-stage.projects-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-stage.projects-filter', function(){
 		var stageLink = $(this).val();
 		var typeLink = $(this).next().val();
 		window.location.href='/projects/type/'+typeLink+'/stage/'+stageLink;
 	});
 	// Filter by project priority
-	$(document).on('change','#header-menu .filter-priority.projects-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-priority.projects-filter', function(){
 		var priorityLink = $(this).val();
 		window.location.href='/projects/priority/'+priorityLink;
 	});
 	// Filter by project status
-	$(document).on('change','#header-menu .filter-status.projects-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-status.projects-filter', function(){
 		var statusLink = $(this).val();
 		window.location.href='/projects/status/'+statusLink;
 	});
 	// Filter by project type
-	$(document).on('change','#header-menu .filter-type.projects-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-type.projects-filter', function(){
 		var typeLink = $(this).val();
 		window.location.href='/projects/type/'+typeLink;
 	});
 	// Filter by date
-	$('#header-menu .page-menu div.filter-date.projects-filter').datepicker().on('changeDate', function(ev) {
+	$('#sub-nav_menu .page-menu div.filter-date.projects-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		var dateLink = new Date(ev.date.valueOf());
@@ -1437,18 +1437,18 @@ jQuery(document).ready(function($){
 		var checkboxCheck = $(this);
 
 		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
-		var progressComplete = parseInt($(document).find('#header-menu .post-progress-complete').text(),10);
+		var progressComplete = parseInt($(document).find('#sub-nav_menu .post-progress-complete').text(),10);
 		var doneProgressWidth = 200/totalCheckboxes;
-		var divProgressWidth = $(document).find('#header-menu .post-progress .post-progress-progress').width();
+		var divProgressWidth = $(document).find('#sub-nav_menu .post-progress .post-progress-progress').width();
 		var saveTask = '';
 		$(this).removeClass('changed-input');
 		if (checkboxCheck.is(':checked'))
 		{
-			$(document).find('#header-menu .post-progress .post-progress-progress-zero').first().remove();
-			$(document).find('#header-menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
-			$(document).find('#header-menu .post-progress-complete').html(progressComplete+1);
-			$(document).find('#header-menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
-			$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
+			$(document).find('#sub-nav_menu .post-progress .post-progress-progress-zero').first().remove();
+			$(document).find('#sub-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
+			$(document).find('#sub-nav_menu .post-progress-complete').html(progressComplete+1);
+			$(document).find('#sub-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
+			$(document).find('#sub-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
 			var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 			sectionTotalUpdate++;
 			$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
@@ -1482,9 +1482,9 @@ jQuery(document).ready(function($){
 			var confirmCancel = confirm('Are you sure you want to uncheck this task?');
 			if(confirmCancel == true) {
 
-				$(document).find('#header-menu .post-progress .post-progress-progress-done').first().remove();
-				$(document).find('#header-menu .post-progress-complete').html(progressComplete-1);
-				$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
+				$(document).find('#sub-nav_menu .post-progress .post-progress-progress-done').first().remove();
+				$(document).find('#sub-nav_menu .post-progress-complete').html(progressComplete-1);
+				$(document).find('#sub-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
 				$(this).next().find('.checkbox-user-action').remove();
 				var checkboxValue = 'open';
 				var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
@@ -1558,16 +1558,16 @@ jQuery(document).ready(function($){
 		var checkboxPageID = parseInt($(this).attr('checklist-number'));
 
 		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
-		var progressComplete = parseInt($(document).find('#header-menu .post-progress-complete').text(),10);
+		var progressComplete = parseInt($(document).find('#sub-nav_menu .post-progress-complete').text(),10);
 		var doneProgressWidth = 200/totalCheckboxes;
-		var divProgressWidth = $(document).find('#header-menu .post-progress .post-progress-progress').width();
+		var divProgressWidth = $(document).find('#sub-nav_menu .post-progress .post-progress-progress').width();
 		$(this).removeClass('changed-input');
 
-		$(document).find('#header-menu .post-progress .post-progress-progress-zero').first().remove();
-		$(document).find('#header-menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
-		$(document).find('#header-menu .post-progress-complete').html(progressComplete+1);
-		$(document).find('#header-menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
-		$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
+		$(document).find('#sub-nav_menu .post-progress .post-progress-progress-zero').first().remove();
+		$(document).find('#sub-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
+		$(document).find('#sub-nav_menu .post-progress-complete').html(progressComplete+1);
+		$(document).find('#sub-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
+		$(document).find('#sub-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
 		var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 		sectionTotalUpdate++;
 		$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
@@ -1630,19 +1630,19 @@ jQuery(document).ready(function($){
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
 	// add new Project
-	$(document).on('click','#header-menu #projects-new-project-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #projects-new-project-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/projects", function( data ) {
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .project-add-form.create-something-form').slideDown(400);
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#header-menu #projects-new-project-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #projects-new-project-form.create-something-new a.anchor-button').addClass('active');
 			$('#content form.add-project input[name=title]').focus();
 
 			var calTemp = new Date();
@@ -1765,7 +1765,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
-					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #projects-new-project-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -1777,7 +1777,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
-					$('#header-menu #projects-new-project-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #projects-new-project-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2000,7 +2000,7 @@ jQuery(document).ready(function($){
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content #projects-post-comment-form.create-something-new button').addClass('active');
+			$('#content #projects-post-comment-form.create-something-new a.anchor-button').addClass('active');
 			$('#content form.add-comment .comment-content').focus();
 
 		});
@@ -2014,7 +2014,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #projects-post-comment-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2026,8 +2026,8 @@ jQuery(document).ready(function($){
 		else {
 				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new button').removeClass('active');
+					$('#content #projects-post-comment-form.create-something-new a.anchor-button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new a.anchor-button').removeClass('active');
 					$('button.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2087,7 +2087,7 @@ jQuery(document).ready(function($){
 			$('button.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new button').addClass('active');
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new a.anchor-button').addClass('active');
 			$('#content .projects-post-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
 			$('#content form.add-comment .comment-content').focus();
 		});
@@ -2234,16 +2234,16 @@ jQuery(document).ready(function($){
 
 	/* Accounts */
 	// add new account
-	$(document).on('click','#header-menu #accounts-new-account-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #accounts-new-account-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/accounts", function( data ) {
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .account-add-form.create-something-form').slideDown(400);
-			$('#header-menu #accounts-new-account-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #accounts-new-account-form.create-something-new a.anchor-button').addClass('active');
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -2258,7 +2258,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.account-add-form.create-something-form').remove();
-					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #accounts-new-account-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2270,7 +2270,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.account-add-form.create-something-form').remove();
-					$('#header-menu #accounts-new-account-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #accounts-new-account-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2282,16 +2282,16 @@ jQuery(document).ready(function($){
 	
 	/* Billables */
 	// add new billable
-	$(document).on('click','#header-menu #billables-new-billable-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #billables-new-billable-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/billables", function( data ) {
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .billable-add-form.create-something-form').slideDown(400);
-			$('#header-menu #billables-new-billable-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #billables-new-billable-form.create-something-new a.anchor-button').addClass('active');
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -2306,7 +2306,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.billable-add-form.create-something-form').remove();
-					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #billables-new-billable-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2318,7 +2318,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.billable-add-form.create-something-form').remove();
-					$('#header-menu #billables-new-billable-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #billables-new-billable-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2330,16 +2330,16 @@ jQuery(document).ready(function($){
 
 	/* Help */
 	// add new help
-	$(document).on('click','#header-menu #help-new-help-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #help-new-help-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/help", function( data ) {
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .help-add-form.create-something-form').slideDown(400);
-			$('#header-menu #help-new-help-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #help-new-help-form.create-something-new a.anchor-button').addClass('active');
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -2354,7 +2354,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.help-add-form.create-something-form').remove();
-					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #help-new-help-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2366,7 +2366,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.help-add-form.create-something-form').remove();
-					$('#header-menu #help-new-help-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #help-new-help-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2378,16 +2378,16 @@ jQuery(document).ready(function($){
 	
 	/* Wiki */
 	// add new wiki
-	$(document).on('click','#header-menu #wiki-new-wiki-form a.add-new',function(){
+	$(document).on('click','#sub-nav_menu #wiki-new-wiki-form a.add-new',function(){
 		$('a.add-new').each(function(){
 			$(this).prop('disabled',true);
 		});
-		$('#content').prepend('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/wiki", function( data ) {
-			$('#content').prepend(data);
+			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .wiki-add-form.create-something-form').slideDown(400);
-			$('#header-menu #wiki-new-wiki-form.create-something-new button').addClass('active');
+			$('#sub-nav_menu #wiki-new-wiki-form.create-something-new a.anchor-button').addClass('active');
 			$('a.add-new').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -2402,7 +2402,7 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.wiki-add-form.create-something-form').remove();
-					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #wiki-new-wiki-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2414,7 +2414,7 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.wiki-add-form.create-something-form').remove();
-					$('#header-menu #wiki-new-wiki-form.create-something-new button').removeClass('active');
+					$('#sub-nav_menu #wiki-new-wiki-form.create-something-new a.anchor-button').removeClass('active');
 					$('a.add-new').each(function(){
 						$(this).prop('disabled', false);
 					});
@@ -2425,7 +2425,7 @@ jQuery(document).ready(function($){
 	});
 
 	/* To-Do List page */
-	$(document).on('change','#header-menu .filter-user.todo-filter', function(){
+	$(document).on('change','#sub-nav_menu .filter-user.todo-filter', function(){
 		$('#content').find('.loading-something-new').show().delay(500);
 
 		var authorLink = $(this).val();

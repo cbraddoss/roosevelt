@@ -72,8 +72,8 @@
 
 			<div id="user-box">
 				<div class="profile-details">
-					<a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
-					<a class="todo-link" href="/to-do/{{ Auth::user()->user_path }}"><span class="linked-to" value="">0</span></a>
+					<a class="todo-link" href="/to-do/{{ Auth::user()->user_path }}"><span class="linked-to" value="">0</span></a><a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
+					<span class="todays-date">{{ Carbon::now()->format('F j, 2014') }}</span>
 				</div>
 				<div class="search-icon">
 					<span class="ss-search"></span>

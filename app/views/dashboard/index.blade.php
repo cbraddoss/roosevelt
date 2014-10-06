@@ -40,8 +40,9 @@
 <div id="dashboard-page" class="inner-page">
 	
 	<div id="quicklinks">
-		<!-- <h3 class="dashboard-subtitle">Quick Links:</h3> -->
+		<h2 class="dashboard-subtitle">Quick Links:</h2>
 		<p><a href="/to-do/{{ current_user_path() }}" class="ss-check ql-todo-list">To-Do List<span class="user-todo" value="">0</span></a></p>
+		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Launches<span class="user-todo" value="">{{ $launchesCount }}</span></a></p>
 		<p><a href="#" target="_blank" class="ss-key ql-1password">1Password</a></p>
 		<p><a href="http://my.onsip.com" target="_blank" class="ss-phone ql-voicemail">Voicemail</a></p>
 		<p><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail ql-webmail">Webmail</a></p>
@@ -52,7 +53,6 @@
 		<p><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout ql-webtools">WebTools</a></p>
 		<p><a href="#" class="ss-globe ql-hosted">Websites</a></p>
 		<p><a href="/tools" class="ss-flask ql-tools">Tools</a></p>
-		<p><a href="/projects/launches" class="ss-uploadcloud ql-site-launches">Launches<span class="user-todo" value="">{{ $launchesCount }}</span></a></p>
 	</div>
 	<!-- <div id="site-launches">
 		<h2 class="ss-uploadcloud">Site Launches:</h2>
@@ -75,7 +75,7 @@
 	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h2><a href="/projects/assigned-to/{{ current_user_path() }}"><span class="dashboard-list-count">{{ $projectsCount }}</span>Your To-Do List:</a></h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -104,7 +104,8 @@
 						<div id="project-{{ $project->id }}" class="project-post office-dashboard-post normal-priority">
 						@endif
 					@endif
-
+						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+						
 						<div class="post-due">
 						@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
 							<p><span class="post-due-text">Due Date:</span> {{ Carbon::now()->format('F j') }} <span class="post-due-text-right">Due Today!</span></p>
@@ -117,12 +118,16 @@
 							<span>Stage: {{ $project->stage }}</span>
 						</div>
 						</div>
-						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 													
 						
 					</div>
 				@endforeach
 				<!-- @ include('billables.partials.findBillables') -->
+
+				@if( $projectsCount > 5 )
+					<h4><a href="/projects/assigned-to/{{ current_user_path() }}">View All To-Do List Items...</a></h4>
+				@endif
+
 				@if($projects->isEmpty())
 					<p class="nothing-to-show">You are not currently assigned any tasks.</p>
 					<div id="quicklinks" class="quicklinks-again">
@@ -137,21 +142,22 @@
 		</div>
 		
 		<div id="second-half" class="dashboard-half">
-			<h2><a href="/news"><span class="dashboard-list-count">{{ $articlesCount }}</span>Latest Company News:</a></h2>
+			<h2><a href="/news">Latest Company News:</a></h2>
 			<div id="news-dashboard-page" class="dashboard-list">
 						
 				@foreach($articles as $article)
 					@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-dashboard-post">
 					@else <div id="article-{{ $article->id }}" class="news-article office-dashboard-post unread">
 					@endif
+						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
+						
 						<div class="post-dated">
 						<p><span class="post-dated-text">Posted:</span> {{ $article->created_at->format('F j') }}</p>
 						<div class="post-author">
-								<img src="{{ gravatar_url(User::find($article->author_id)->email,15) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
+								<img src="{{ gravatar_url(User::find($article->author_id)->email,12) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
 								By {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name . ' ' . User::find($article->author_id)->last_name) }}
 						</div>
 						</div>
-						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
 						
 						<div class="post-favorite">
 							<p>

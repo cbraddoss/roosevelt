@@ -25,7 +25,7 @@
 		<!-- <span class="user-image"><img src="{{ gravatar_url(Auth::user()->email,100) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span> -->
 	</div>
 	<div class="profile-left">
-		<h3>Details</h3>
+		<h2>Details</h2>
 		<div class="update-something-form">
 			{{ Form::open( array('class' => 'update-profile', 'route' => 'profile.update', 'method' => 'post', 'id' => Auth::user()->id) ) }}
 
@@ -134,7 +134,7 @@
         </div>
 	</div>
 	<div class="profile-right">
-	<h3>Vacations</h3>
+	<h2>Vacations</h2>
 	<div id="vacations">
 		<div class="field-add-vacation-dates">
 		<div class="update-something-form">
