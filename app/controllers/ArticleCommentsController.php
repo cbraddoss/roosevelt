@@ -56,7 +56,7 @@ class ArticleCommentsController extends \BaseController {
  		
  		$validator = Validator::make(Input::only('content', 'article-id', 'article-slug', 'attachment'), array(
 			'content' => 'required',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 
 		if($validator->fails()) {
@@ -166,7 +166,7 @@ class ArticleCommentsController extends \BaseController {
  		
  		$validator = Validator::make(Input::only('content', 'article-slug', 'attachment'), array(
 			'content' => 'required',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 		
 		$articleSlug = Input::get('article-slug');

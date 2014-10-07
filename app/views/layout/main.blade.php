@@ -151,7 +151,7 @@
 					<h1>@yield('page-title')</h1>
 					@endif
 				</div>
-				<div id="sub-nav_menu">
+				<div id="page-nav_menu">
 					@yield('header-menu')
 				</div>
 				@yield('page-content')

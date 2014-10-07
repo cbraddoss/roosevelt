@@ -61,7 +61,7 @@ class ArticlesController extends \BaseController {
 			'content' => 'required',
 			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'status' => 'required|in:published,sticky,draft',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 
 		if($validator->fails()) {
@@ -322,9 +322,9 @@ class ArticlesController extends \BaseController {
 			'content' => 'required',
 			'show_on_calendar' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'status' => 'required|in:published,sticky,draft',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
-		
+
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			return Redirect::to('/news/article/'.$article.'/edit')->withInput()->withErrors($messages->first());
@@ -343,6 +343,7 @@ class ArticlesController extends \BaseController {
 			if(Input::has('show_on_calendar')) $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
 			if(Input::hasFile('attachment')) {
 				$attachment = Input::file('attachment');
+				dd($attachment);
 				$attachments = array();
 				$fileNames = array();
 				

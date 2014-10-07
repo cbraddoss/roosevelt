@@ -76,7 +76,7 @@ class ProjectsController extends \BaseController {
 			'launch_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'end_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'start_date' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 
 		if($validator->fails()) {
@@ -402,7 +402,7 @@ class ProjectsController extends \BaseController {
 			'launch_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'due_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
 			'end_date' => 'size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 
 		if($validator->fails()) {

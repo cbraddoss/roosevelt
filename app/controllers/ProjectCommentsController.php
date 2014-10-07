@@ -56,7 +56,7 @@ class ProjectCommentsController extends \BaseController {
  		
  		$validator = Validator::make(Input::only('content', 'project-id', 'project-slug', 'attachment'), array(
 			'content' => 'required',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 
 		if($validator->fails()) {
@@ -161,7 +161,7 @@ class ProjectCommentsController extends \BaseController {
  		
  		$validator = Validator::make(Input::only('content', 'project-slug', 'attachment'), array(
 			'content' => 'required',
-			'attachment' => 'mimes:jpg,jpeg,png,gif,pdf',
+			'attachment[]' => 'mimes:jpg,jpeg,png,gif,pdf',
 		));
 		
 		$projectSlug = Input::get('project-slug');

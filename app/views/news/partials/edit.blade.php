@@ -4,6 +4,15 @@
 {{ $article->title }}
 @stop
 
+@section('header-menu')
+<div class="page-menu">
+	<ul>
+		<li>
+			<p>Edit Post:</p>
+		</li>
+	</ul>
+</div>
+@stop
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
