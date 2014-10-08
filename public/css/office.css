@@ -239,6 +239,46 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 .custom-checkbox {
 	background-image:url(../images/klaus.png);
 }
+.tooltip,
+.favorite-this {
+	position: absolute;
+	bottom: 115%;
+	right: -100%;
+	border-radius: 3px;
+	background: #333333;
+	color: #ffffff;
+	text-align: center;
+	padding: 1px 8px;
+	z-index: 99;
+}
+.tooltip:after,
+.favorite-this:after,
+.tooltip:before,
+.favorite-this:before {
+	top: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.tooltip:after,
+.favorite-this:after {
+	border-color: rgba(51, 51, 51, 0);
+	border-top-color: #333333;
+	border-width: 5px;
+	margin-left: -5px;
+}
+.tooltip:before,
+.favorite-this:before {
+	border-color: rgba(51, 51, 51, 0);
+	border-top-color: #333333;
+	border-width: 6px;
+	margin-left: -6px;
+}
 
 /* Header */
 #header {
@@ -794,16 +834,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #FF4D4D;
 }
 #content .office-post .post-favorite .favorite-this {
-	position: absolute;
-	bottom: 100%;
-	right: 0;
-	border: 2px solid #333333;
-	border-radius: 3px;
-	background: #333333;
 	font-size: 0.5em;
-	color: #ffffff;
-	padding: 1px 8px;
-	z-index: 99;
 }
 #content .office-post .post-activity:before {
 	position: absolute;
@@ -821,13 +852,29 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post .post-due-text {
 	padding-right: 5px;
 }
+#content .office-post.due-now .post-due .post-due-bump-date {
+	float: right;
+	color: #FF4D4D;
+	font-size: 24px;
+	margin-right: 10px;
+	cursor: pointer;
+	position: relative;
+}
+#content .office-post.due-now .post-due .post-due-bump-date span {
+	display: none;
+}
+#content .office-post.due-now .post-due .post-due-bump-date:hover span {
+	display: block;
+	font-size: 0.5em;
+}
 #content .office-post .post-due .post-due-text-right {
 	float: right;
 	padding: 5px 10px;
 }
 #content .office-post.due-now .post-due .post-due-text-right {
 	border-radius: 5px;
-	background: #FF4D4D;
+	border: 1px solid #FF4D4D;
+	background: rgba(255, 77, 77, 0.5);
 	color: #ffffff;
 }
 #content .office-post .post-author,

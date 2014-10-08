@@ -111,7 +111,7 @@
 							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
 								<p><span class="post-due-text">Due Date: </span>{{ Carbon::now()->format('F j') }} <span class="post-due-text-right">Due Today!</span></p>
 								@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-								<p><span class="post-due-text">Due Date: </span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text-right">Past Due!</span></p>
+								<p><span class="post-due-text">Due Date: </span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text-right">Past Due!</span><span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span></p>
 								@else
 								<p><span class="post-due-text">Due Date: </span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</p>
 							@endif
