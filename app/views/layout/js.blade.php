@@ -1094,6 +1094,52 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
 	});
+	// Bump Project on List View 1 day with ajax
+	$(document).on('click', '#content .office-post .post-due-bump-date', function() {
+			var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+			
+			var dateLink = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+			var yearLink = dateLink.getFullYear();
+			var monthLink = dateLink.getMonth();
+			monthLink = ('0' + (monthLink + 1)).slice(-2);
+			var dayLink = dateLink.getDate();
+			dayLink = ('0' + (dayLink)).slice(-2);
+			// set project post date ajax submit options
+			var bumpProjectDateOptions = { 
+				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+				success:       projectDateBumpSuccess,  // post-submit callback
+				dataType: 'json',
+				data: { 
+					_token: $(this).parent().parent().find('form.bump-project-date-form input[name=_token]').attr('value'),
+					id: $(this).parent().parent().find('form.bump-project-date-form input[name=id]').attr('value'),
+					value: monthLink+'/'+dayLink+'/'+yearLink,
+					date: 'youbetcha',
+				},
+				type: 'POST',
+				url: $(this).parent().parent().find('form.bump-project-date-form').attr('action'),
+				resetForm: false        // reset the form after successful submit 
+			};
+			$(this).find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
+			});
+			$(this).ajaxSubmit(bumpProjectDateOptions);
+			return false;
+	});
+	function projectDateBumpSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			var projectID = data.pid;
+			$(document).find('div#project-'+projectID+' .post-due .post-due-date').html('<span class="post-due-date">'+data.date+'</span>');
+			$(document).find('div#project-'+projectID).addClass('due-soon');
+			$(document).find('div#project-'+projectID).removeClass('due-now');
+			$(document).find('div#project-'+projectID+' .post-alert').remove();
+			$(document).find('div#project-'+projectID).addClass(data.changeclass);
+		}
+	}
 	// Update Projects on List View page with ajax
 	// change project date
 	var calProjListTemp = new Date();

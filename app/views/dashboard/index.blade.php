@@ -75,7 +75,7 @@
 	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a></h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List @if( $projectsCount >= 5 ) (5 of {{ $projectsCount }})@endif:</a></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -107,17 +107,36 @@
 						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 						
 						<div class="post-meta">
-							<div class="post-due">
+							
 							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-								<p><span class="post-due-text">Due Date: </span>{{ Carbon::now()->format('F j') }} <span class="post-due-text-right">Due Today!</span></p>
+								<div class="post-due">
+									<span class="post-due-text">Due Date: </span>
+									<span class="post-due-date">{{ Carbon::now()->format('F j') }}</span>
+								</div>
+								<div class="post-alert">
+									<span class="post-due-text-right">Due Today!</span>
+									<span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span>
+								</div>
 								@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-								<p><span class="post-due-text">Due Date: </span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }} <span class="post-due-text-right">Past Due!</span><span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span></p>
+								<div class="post-due">
+									<span class="post-due-text">Due Date: </span>
+									<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+								</div>
+								<div class="post-alert">
+									<span class="post-due-text-right">Past Due!</span>
+									<span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span>
+								</div>
 								@else
-								<p><span class="post-due-text">Due Date: </span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</p>
+								<div class="post-due">
+									<span class="post-due-text">Due Date: </span>
+									<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+								</div>
 							@endif
+							{{ Form::open( array('id' => 'bump-project-date-'.$project->id, 'class' => 'bump-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
+								{{ Form::hidden('id', $project->id) }}
+							{{ Form::close() }}
 							<div class="post-stage">
 								<span>Stage: {{ $project->stage }}</span>
-							</div>
 							</div>
 						</div>
 						
@@ -157,7 +176,7 @@
 						
 						<div class="post-meta">
 							<div class="post-date">
-							<span><span class="post-date-text">Posted:</span> {{ $article->created_at->format('F j') }}</span>
+								<span><span class="post-date-text">Posted:</span> {{ $article->created_at->format('F j') }}</span>
 							</div>
 							<div class="post-favorite">
 								<span>
