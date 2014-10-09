@@ -28,10 +28,8 @@ class ProfilesController extends \BaseController {
 	{
 		$user = Auth::user()->id;
 		$homerQuotes = array(
-			'The information superhighway showed the average person what some nerd thinks about Star Trek.',
 			'"To Start Press Any Key". Where\'s the ANY key?',
 			'I’ve gone back in time to when dinosaurs weren’t just confined to zoos.',
-			'Marge, this ticket doesn\'t just give me a seat. It also gives me the right, no, the duty to make a complete ass of myself.',
 			'Bart, with $10,000, we’d be millionaires! We could buy all kinds of useful things like…love!',
 			'All my life I\'ve had one dream, to achieve my many goals.',
 			'No TV and no beer makes Homer something something.',
@@ -41,7 +39,7 @@ class ProfilesController extends \BaseController {
 			'If something\'s hard to do, then it\'s not worth doing.',
 			'D\'oh!'
 			);
-		$getHomerQuote = $homerQuotes[rand(1,12)-1];
+		$getHomerQuote = $homerQuotes[rand(1,10)-1];
 		$vacationsUpcoming = $this->vacations->get_upcoming($user);
 		$vacationsPrevious = $this->vacations->get_previous($user);
 		return View::make('profile.index', compact('vacationsUpcoming','vacationsPrevious','getHomerQuote'));

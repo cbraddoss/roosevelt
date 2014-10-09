@@ -7,14 +7,7 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li><a id="pagelink-profile" href="/profile" class="link">Profile</a></li>
-		<li><a id="pagelink-to-do-brad-doss" href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
-		<li><a id="pagelink-projects-assigned-to-brad-doss" href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="link">Projects</a></li>
-		<li><a id="pagelink-billables-assigned-to-brad-doss" href="/billables/assigned-to/{{ Auth::user()->user_path }}" class="link">Billables</a></li>
-		<li><a id="pagelink-help-assigned-to-brad-doss" href="/help/assigned-to/{{ Auth::user()->user_path }}" class="link">Help</a></li>
-	@if(Auth::user()->userrole == 'admin')
-		<li><a href="/admin/" class="link">Admin</a></li>
-	@endif
+		@include('profile.partials.profile-menu')
 	</ul>
 </div>
 @stop

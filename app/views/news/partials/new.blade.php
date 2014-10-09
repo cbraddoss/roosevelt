@@ -1,5 +1,5 @@
 <div class="article-add-form create-something-form">
-<h3>News Post:</h3>
+<h2>News Post:</h2>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-article', 'url' => '/news/', 'method' => 'post') ) }}
 
 <div class="new-form-field">

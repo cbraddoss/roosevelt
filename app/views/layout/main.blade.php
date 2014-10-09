@@ -71,7 +71,8 @@
 										<li><a href="/profile/" class="sub-link">Profile</a></li>
 										<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
 										@if(Auth::user()->userrole == 'admin')
-										<li class="sub-link"><a href="/admin/">Admin</a></li>
+										<li class="sub-link"><a href="/admin/users/">User Admin</a></li>
+										<li class="sub-link"><a href="/admin/templates">Template Admin</a></li>
 										@endif
 										<li class="sub-link"><a href="/logout/">Logout</a></li>
 									</ul>
@@ -131,7 +132,7 @@
 	<div id="page">
 		<div class="section">
 			<div id="content">
-			<span class="loading-something-new none"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>
+			<span class="loading-something-new none"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>
 				<div id="page-title">
 					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
 					<span class="todays-date">{{ Carbon::now()->format('l, F j, 2014') }}</span>

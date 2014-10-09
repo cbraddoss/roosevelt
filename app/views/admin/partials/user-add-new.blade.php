@@ -1,5 +1,5 @@
 <div class="user-add-form create-something-form">
-
+<h2>New User:</h2>
 {{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => '/admin/users', 'method' => 'post') ) }}
 
 <div class="new-form-field">

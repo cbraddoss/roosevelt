@@ -6,6 +6,9 @@ insideout.com
 Orange: #A95306 - 
 Yellow: #D5A829 - 213,168,41
 Blue: #b5cde0
+
+using these:
+Blue: #4B83B4 - 75,131,180
 Pink/Red: #FF4D4D - 255,77,77
 		  #f4726d
 Green: #2E9999 - 46,153,153
@@ -71,19 +74,20 @@ ul {
 }
 .select-dropdown {
 	overflow: hidden;
-	background: #fff;
-	border: 1px solid #555;
+	background: #fafafa;
+	border: 1px solid #333333;
 	border-radius: 3px;
 	position: relative;
 	cursor: pointer;
-	padding: 0 20px 0 5px;
-	height: 20px;
+	padding: 0px 0px 0px 0px;
+	/*box-shadow: 0px 3px #333333;*/
+	height: 27.5px;
 	display: inline-block;
 }
 .select-dropdown .ss-dropdown:before {
 	position: absolute;
 	right: 5px;
-	bottom: -1px;
+	bottom: 2px;
 	font-size: 0.5em;
 	color: #000;
 	z-index: 1;
@@ -91,14 +95,16 @@ ul {
 .select-dropdown .ss-directup:before {
 	position: absolute;
 	right: 5px;
-	top: 0px;
+	top: 2px;
 	font-size: 0.5em;
 	color: #000;
 	z-index: 1;
 }
 select {
-	color: #000;
-	padding: 0px 20px 0 0;
+	height: 22.5px;
+	color: #333333;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	padding: 2.5px 0px 2.5px 10px;
 	box-shadow: none;
 	border: 0;
 	-webkit-appearance: none;
@@ -111,7 +117,7 @@ select {
 	position: relative;
 	z-index: 2;
 }
-.horizontal-rule {
+/*.horizontal-rule {
 	margin-bottom: 10px;
 }
 .global-hrule {
@@ -122,7 +128,7 @@ select {
     background-image:    -moz-linear-gradient(left, #ccc, #333, #ccc);
     background-image:     -ms-linear-gradient(left, #ccc, #333, #ccc);
     background-image:      -o-linear-gradient(left, #ccc, #333, #ccc);
-}
+}*/
 noscript {
 	position:fixed;
 	top: 0;
@@ -257,9 +263,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	z-index: 1000;
 }
 .tooltip:after,
-.favorite-this:after,
-.tooltip:before,
-.favorite-this:before {
+.favorite-this:after {
 	top: 100%;
 	left: 50%;
 	border: solid transparent;
@@ -268,21 +272,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	width: 0;
 	position: absolute;
 	pointer-events: none;
-}
-
-.tooltip:after,
-.favorite-this:after {
 	border-color: rgba(51, 51, 51, 0);
 	border-top-color: #333333;
 	border-width: 5px;
 	margin-left: -5px;
-}
-.tooltip:before,
-.favorite-this:before {
-	border-color: rgba(51, 51, 51, 0);
-	border-top-color: #333333;
-	border-width: 6px;
-	margin-left: -6px;
 }
 
 /* Header */
@@ -617,7 +610,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: #2E9999;
 	border-radius: 3px;
 	margin: 0px 7.5px;
-	padding: 2.5px 10px 2.5px 30px;
+	padding: 2.5px 10px 2.5px 10px;
 	box-shadow: 0px 3px #333333;
 	float: left;
 	cursor: pointer;
@@ -627,36 +620,48 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #page-nav_menu .add-button.active {
 	background: #FF4D4D;
 }
-#page-nav_menu .add-button .ss-plus:before {
-	position: absolute;
-	left: 7.5px;
-	top: 5px;
-}
 #page-nav_menu ul li {
 	float: left;
 	margin: 10px 7.5px 0 7.5px;
+}
+#page-nav_menu ul li.right {
+	float: right;
 }
 #page-nav_menu ul li:first-child {
 	margin-left: 0;
 }
 #page-nav_menu ul li a {
 	height: 22.5px;
-	color: #ffffff;
-	background: #333333;
-	border-radius: 3px;
+	color: #333333;
 	margin: 0px 7.5px;
 	padding: 2.5px 10px 2.5px 10px;
-	box-shadow: 0px 3px #b5b5b5;
 	float: left;
 	cursor: pointer;
 	position: relative;
 }
+#page-nav_menu ul li a.active {
+	color: #2E9999;
+	font-weight: 400;
+}
+#page-nav_menu ul li a.active:after {
+	top: 50%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(51, 51, 51, 0);
+	border-bottom-color: #fafafa;
+	border-width: 15px;
+	margin-left: -15px;
+}
 #page-nav_menu ul li a:hover {
 	text-decoration: none;
-	background: #FF4D4D;
-}
-#page-nav_menu ul li a.active {
-	background: #FF4D4D;	
+	background: #858585;
+	color: #ffffff;
+	border-radius: 3px;
 }
 /* General Page Styles */
 #content h2 {
@@ -776,11 +781,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	overflow: hidden;
 }
 #content .office-post .nothing-to-show {
-	border: 1px dotted #ddd;
+	/*border: 1px dotted #ddd;*/
 	background: #eeeeee;
 	border-radius: 3px;
-	padding: 5px;
+	padding: 0 10px;
 	margin: 5px 20px 0 0;
+	height: 100%;
+}
+#content .office-post .nothing-to-show p {
+	padding: 10px 0;
 }
 #content .office-post.unread,
 #content .office-post.user-list-standard {
@@ -964,50 +973,17 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 /* Calendar */
 #calendar-page {
 }
+#calendar-page.inner-page {
+	padding: 0;
+}
 .calendar-header {
-	height: 20px;
+	height: 30px;
+	padding: 5px 0;
 	width: 100%;
+	box-sizing: border-box;
 	position: relative;
-}
-.calendar-header .month-arrow {
-	position: absolute;
-	top:5px;
-	font-size:1.8em;
-	height:42px;
-	background: #fafafa;
-	border: 1px solid #aaa;
-	border-right: 1px solid #aaa;
-	border-bottom: 1px solid #aaa;
-	border-top: 1px solid #ddd;
-	border-left: 1px solid #ddd;
-}
-.calendar-header .month-arrow:hover {
-	background: #eee;
-	cursor: pointer;
-}
-.calendar-header .arrow-previous-month {
-	left:0px;
-}
-.calendar-header .arrow-next-month {
-	right:.14%;
-}
-.calendar-header a.show-next-month {
-	color: #000;
-	text-decoration: none;
-	font-size:0.8em;
-	padding: 5px 40px 5px 10px;
-	float:left;
-	z-index: 45;
-	position: relative;
-}
-.calendar-header a.show-previous-month {
-	color: #000;
-	text-decoration: none;
-	font-size:0.8em;
-	padding: 5px 10px 5px 40px;
-	float:right;
-	z-index: 45;
-	position: relative;
+	background: #d5d5d5;
+	color: #333333;
 }
 .calendar-header .month-year h2 {
 	text-align:center;
@@ -1035,36 +1011,21 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-right: 5px;
 }
 .calendar-header .key-desc .key-color.disabled {
-	background: #ddd !important;
+	background: #a5a5a5 !important;
 }
 .calendar-header .key-color {
 	display:inline-block;
-	height:10px;
-	width:10px;
-}
-.calendar-header .key-blue {
-	background: rgba(75,131,180,1);
-	margin-right:2px;
-}
-.calendar-header .key-orange {
-	background: #A95306;
-	margin-right:2px;
-}
-.calendar-header .key-red {
-	background: rgba(204,0,0,1);
-	margin-right:2px;
-}
-.calendar-header .key-green {
-	background: rgb(255, 117, 55);
-	margin-right:2px;
-}
-.calendar-header .key-purple {
-	background: rgba(116,39,155,1);
-	margin-right:2px;
+	height:12.5px;
+	width:12.5px;
+	margin-right: 3px;
+	border-radius: 3px;
 }
 .calendar-header .key-title {
 	font-size:1em;
 	display: inline-block;
+}
+.calendar-header .key-title:hover {
+	color: #2E9999;
 }
 .calendar-days {
 	width: 100%;
@@ -1114,12 +1075,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	position: absolute;
 	top: calc(50% - 31px);
 	top: 0px;
-	/*left: -webkit-calc( 50% - 28px );
-	left: -moz-calc( 50% - 28px );
-	left: calc( 50% - 28px );*/
 	left: 0px;
 	padding: 3px;
-	/*background: rgba(255,255,255, 0.8);*/
 }
 .calendar-days .days-of-month .today {
 	box-shadow: inset -1px -1px 0 0 rgba(32,32,32,0.3);
@@ -1131,34 +1088,47 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 .calendar-days .days-of-month a.calendar-post-title {
 	font-size: 0.9em;
 	line-height: 1.5em;
-	color: #fff;
+	color: #ffffff;
 	text-align:center;
 	text-decoration: none;
-	background: rgba(75,131,180,1);
 	float:left;
 	width: 100%;
 	height:18px;
 	margin: 1px 0 0;
 }
+.calendar-header .key-news,
 .calendar-days .days-of-month a.calendar-post-title.news-article-link {
-	background: #A95306;
+	border-top: 1px solid rgba(75,131,180,1);
+	border-bottom: 1px solid rgba(75,131,180,1);
+	background: rgba(75,131,180, 0.7);
 }
+.calendar-header .key-anniversary,
 .calendar-days .days-of-month a.calendar-post-title.user-anniversary-link {
-	background: rgba(116,39,155,1);
+	border-top: 1px solid rgba(116,39,155,1);
+	border-bottom: 1px solid rgba(116,39,155,1);
+	background: rgba(116,39,155, 0.7);
 }
 .calendar-days .days-of-month a.calendar-post-title.user-anniversary-link:hover {
 	text-decoration: none;
 	cursor: context-menu;
 }
+.calendar-header .key-project,
 .calendar-days .days-of-month a.calendar-post-title.projects-post-link {
-	background: rgba(75,131,180,1);
-	/*background: linear-gradient(to left, rgba(75,131,180,1) 0%, rgba(75,131,180,0.9) 100%);*/
+	border-top: 1px solid rgba(255,117,55,1);
+	border-bottom: 1px solid rgba(255,117,55,1);
+	background: rgba(255,117,55,0.7);
 }
+.calendar-header .key-tasks,
 .calendar-days .days-of-month a.calendar-post-title.user-tasks-link {
-	background: rgba(204,0,0,1);
+	border-top: 1px solid rgba(204,0,0,1);
+	border-bottom: 1px solid rgba(204,0,0,1);
+	background: rgba(204,0,0,0.7);
 }
+.calendar-header .key-vacations,
 .calendar-days .days-of-month a.calendar-post-title.user-vacation-link {
-	background: rgba(255, 117, 55, 1);
+	border-top: 1px solid rgba(46,153,153,1);
+	border-bottom: 1px solid rgba(46,153,153,1);
+	background: rgba(46,153,153,0.7);
 }
 .calendar-days .days-of-month a.calendar-post-title.user-vacation-link-end {
 	padding-right:0px;
@@ -1169,31 +1139,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 .calendar-days .days-of-month a.calendar-post-title:hover {
 	text-decoration: underline;
-}
-.calendar-days .days-of-month a.calendar-post-title.calendar-post-expired.news-article-link {
-	border-top: 1px solid rgba(169,83,6, 1) !important;
-	border-bottom: 1px solid rgba(169,83,6, 1) !important;
-	background: rgba(169,83,6, 0.5) !important;
-}
-.calendar-days .days-of-month a.calendar-post-title.calendar-post-expired.user-anniversary-link {
-	border-top: 1px solid rgba(116,39,155,1) !important;
-	border-bottom: 1px solid rgba(116,39,155,1) !important;
-	background: rgba(116,39,155,0.5) !important;
-}
-.calendar-days .days-of-month a.calendar-post-title.calendar-post-expired.projects-post-link {
-	border-top: 1px solid rgba(75,131,180,1) !important;
-	border-bottom: 1px solid rgba(75,131,180,1) !important;
-	background: rgba(75,131,180,0.5) !important;
-}
-.calendar-days .days-of-month a.calendar-post-title.calendar-post-expired.user-tasks-link {
-	border-top: 1px solid rgba(204,0,0,1) !important;
-	border-bottom: 1px solid rgba(204,0,0,1) !important;
-	background: rgba(204,0,0,0.5) !important;
-}
-.calendar-days .days-of-month a.calendar-post-title.calendar-post-expired.user-vacation-link {
-	border-top: 1px solid rgba(255, 117, 55,1) !important;
-	border-bottom: 1px solid rgba(255, 117, 55,1) !important;
-	background: rgba(255, 117, 55, 0.5) !important;
 }
 .calendar-days .days-of-month .last-month,
 .calendar-days .days-of-month .next-month {
@@ -1228,6 +1173,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #fourOhFour-page p.alert-icon span {
 	font-size:8em;
 	color: #FF4D4D;
+}
+#fourOhFour-page a:hover,
+#fourOhFour-page a span:hover {
+	text-decoration: none;
+	color: #FF4D4D !important;
 }
 /* Footer */
 #footer {
@@ -1738,7 +1688,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-radius: 15px;
 	background: #fff;
 	padding: 5px;
-	top: -10px;
+	top: -20px;
 	left: 120px;
 	width: 200px;
 }

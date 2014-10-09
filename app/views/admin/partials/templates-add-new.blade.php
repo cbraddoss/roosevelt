@@ -1,5 +1,5 @@
 <div class="template-add-form create-something-form">
-<h3>New Template:</h3>
+<h2>New Template:</h2>
 {{ Form::open( array('id' => 'add-new-template', 'files' => true, 'class' => 'add-template', 'url' => '/admin/templates/', 'method' => 'post') ) }}
 
 <div class="new-form-field">

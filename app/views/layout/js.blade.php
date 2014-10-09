@@ -67,6 +67,7 @@ jQuery(document).ready(function($){
 		if(linkActivePage) {
 			if(currentSubPage[1] != null) {
 				linkActivePage = linkActivePage.replace("pagelink-admin-", "");
+				linkActivePage = linkActivePage.replace("pagelink-to-do-", "");
 				$(this).removeClass('active');
 				$(this).addClass('inactive');
 				if(currentSubPage.indexOf(linkActivePage) >= 0 ) {
@@ -243,8 +244,8 @@ jQuery(document).ready(function($){
 		if ( ev.keyCode == 27 ) {
 			$(document).find('.create-something-form').slideUp(400,function(){
 				$(document).find('.create-something-form').remove();
-				$('#page-nav_menu .create-something-new .anchor-button').removeClass('active');
-				$('button.add-new').each(function(){
+				$('#page-nav_menu .create-something-new .add-button').removeClass('active');
+				$('.add-button').each(function(){
 					$(this).prop('disabled', false);
 				});
 			});
@@ -256,19 +257,19 @@ jQuery(document).ready(function($){
 	// add datepicker to user form
 	$('#admin-page form.update-user input.anniversary').datepicker();
 	
-	$(document).on('click','#page-nav_menu #admin-new-user-form button.add-new',function(){
-		$('button.add-new').each(function(){
+	$(document).on('click','#page-nav_menu #admin-new-user-form .add-button',function(){
+		$('.add-button').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/users", function( data ) {
-			$('button.add-new').each(function(){
+			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('.user-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #admin-new-user-form.create-something-new .anchor-button').addClass('active');
+			$('#page-nav_menu #admin-new-user-form.create-something-new .add-button').addClass('active');
 			$('form.add-user .first-name').focus();
 		});
 	});
@@ -276,8 +277,8 @@ jQuery(document).ready(function($){
 	$(document).on('click','#content .user-add-form span.cancel',function(){
 				$(document).find('.user-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.user-add-form.create-something-form').remove();
-					$('#page-nav_menu #admin-new-user-form.create-something-new .anchor-button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('#page-nav_menu #admin-new-user-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -311,19 +312,19 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// add new template
-	$(document).on('click', '#page-nav_menu #admin-new-template-form button.add-new', function(){
-		$('button.add-new').each(function(){
+	$(document).on('click', '#page-nav_menu #admin-new-template-form .add-button', function(){
+		$('.add-button').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates", function( data ) {
-			$('button.add-new').each(function(){
+			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('.template-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #admin-new-template-form.create-something-new .anchor-button').addClass('active');
+			$('#page-nav_menu #admin-new-template-form.create-something-new .add-button').addClass('active');
 			$('form.add-template .template-name').focus();
 			// $('span.cancel').each(function(){
 			// 	$(this).addClass('ss-delete');
@@ -367,8 +368,8 @@ jQuery(document).ready(function($){
 	$(document).on('click','#content form.add-template span.cancel',function(){
 				$(document).find('.template-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.template-add-form.create-something-form').remove();
-					$('#page-nav_menu #admin-new-template-form.create-something-new .anchor-button').removeClass('active');
-					$('button.add-new').each(function(){
+					$('#page-nav_menu #admin-new-template-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -428,33 +429,33 @@ jQuery(document).ready(function($){
 	});
 	//preview templates on admin page
 	// on list view page
-	$('#admin-page .post-preview').hover(function(){
-		$(this).find('.ss-view').html('<small>Preview Template</small>');
-	},function(){
-		$(this).find('.ss-view').html('');
-	});
-	$(document).on('click', '#admin-page .post-preview', function(){
-		var templateId = $(this).attr('id');
-		$(document).find("#template-output-"+templateId).toggle();
-	});
+	// $('#admin-page .post-preview').hover(function(){
+	// 	$(this).find('.ss-view').html('<small>Preview Template</small>');
+	// },function(){
+	// 	$(this).find('.ss-view').html('');
+	// });
+	// $(document).on('click', '#admin-page .post-preview', function(){
+	// 	var templateId = $(this).attr('id');
+	// 	$(document).find("#template-output-"+templateId).toggle();
+	// });
 	// on single view page
-	$(document).on('click', '#page-nav_menu #admin-preview-template-form .preview-template', function(){
-		$(".template-output").show();
-	});
+	// $(document).on('click', '#page-nav_menu #admin-preview-template-form .preview-template', function(){
+	// 	$(".template-output").show();
+	// });
 	// close template previews
-	$(document).on('click', '#admin-page .close-template-preview', function(){
-		$(".template-output").hide();
-	});
-	$(document).on('click', '#admin-page .template-output h3', function() {
-		$(this).parent().find('.checklist-checkbox-section').toggle();
-		$(this).toggleClass('ss-directright');
-		$(this).toggleClass('ss-dropdown');
-	});
-	$(document).on('click', '.form-textarea-buttons .template-code', function(){
-		var ping = $(this).attr('id');
-		//console.log(ping);
-	    $('textarea.template-items').insertAtCaret(ping+'\n');
-	});
+	// $(document).on('click', '#admin-page .close-template-preview', function(){
+	// 	$(".template-output").hide();
+	// });
+	// $(document).on('click', '#admin-page .template-output h3', function() {
+	// 	$(this).parent().find('.checklist-checkbox-section').toggle();
+	// 	$(this).toggleClass('ss-directright');
+	// 	$(this).toggleClass('ss-dropdown');
+	// });
+	// $(document).on('click', '.form-textarea-buttons .template-code', function(){
+	// 	var ping = $(this).attr('id');
+	// 	//console.log(ping);
+	//     $('textarea.template-items').insertAtCaret(ping+'\n');
+	// });
 	/************/
 
 	/* Profile Page */
@@ -618,19 +619,19 @@ jQuery(document).ready(function($){
 		$(this).find('.post-hover-content').hide();
 	});
 	// Add new article
-	$(document).on('click','#page-nav_menu #news-new-article-form a.add-new',function(){
-		$('a.add-new').each(function(){
+	$(document).on('click','#page-nav_menu #news-new-article-form .add-button',function(){
+		$('.add-button').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/news", function( data ) {
-			$('a.add-new').each(function(){
+			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
 			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .article-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #news-new-article-form.create-something-new .anchor-button').addClass('active');
+			$('#page-nav_menu #news-new-article-form.create-something-new .add-button').addClass('active');
 
 			var calTemp = new Date();
 		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
@@ -661,8 +662,8 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.article-add-form.create-something-form').remove();
-					$('#page-nav_menu #news-new-article-form.create-something-new .anchor-button').removeClass('active');
-					$('a.add-new').each(function(){
+					$('#page-nav_menu #news-new-article-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -673,8 +674,8 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.article-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.article-add-form.create-something-form').remove();
-					$('#page-nav_menu #news-new-article-form.create-something-new .anchor-button').removeClass('active');
-					$('a.add-new').each(function(){
+					$('#page-nav_menu #news-new-article-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});
@@ -1711,8 +1712,8 @@ jQuery(document).ready(function($){
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
 	// add new Project
-	$(document).on('click','#page-nav_menu #projects-new-project-form a.add-new',function(){
-		$('a.add-new').each(function(){
+	$(document).on('click','#page-nav_menu #projects-new-project-form .add-button',function(){
+		$('.add-button').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
@@ -1720,10 +1721,10 @@ jQuery(document).ready(function($){
 			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .project-add-form.create-something-form').slideDown(400);
-			$('a.add-new').each(function(){
+			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#page-nav_menu #projects-new-project-form.create-something-new .anchor-button').addClass('active');
+			$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').addClass('active');
 			$('#content form.add-project input[name=title]').focus();
 
 			var calTemp = new Date();
@@ -1846,8 +1847,8 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 					$(document).find('.project-add-form.create-something-form').remove();
-					$('#page-nav_menu #projects-new-project-form.create-something-new .anchor-button').removeClass('active');
-					$('a.add-new').each(function(){
+					$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -1858,8 +1859,8 @@ jQuery(document).ready(function($){
 		else {
 			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
 				$(document).find('.project-add-form.create-something-form').remove();
-					$('#page-nav_menu #projects-new-project-form.create-something-new .anchor-button').removeClass('active');
-					$('a.add-new').each(function(){
+					$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 			});

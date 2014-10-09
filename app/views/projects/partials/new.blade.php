@@ -1,5 +1,5 @@
 <div class="project-add-form create-something-form">
-<h3>New Project:</h3>
+<h2>New Project:</h2>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-project', 'url' => '/projects/', 'method' => 'post') ) }}
 
 <div class="new-form-field">

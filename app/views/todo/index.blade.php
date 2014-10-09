@@ -5,18 +5,18 @@
 @stop
 
 @section('header-menu')
-	<div class="page-menu">
-		<ul>
-			<li><span class="page-menu-text">View: </span></li>
-			<li class="select-dropdown">
-				<span class="ss-dropdown"></span>
-				<span class="ss-directup"></span>
-				<select class="filter-user todo-filter">
-					@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
-				</select>
-			</li>
-		</ul>
-	</div>
+<div class="page-menu">
+	<ul>
+		@include('profile.partials.profile-menu')
+		<li class="select-dropdown">
+			<span class="ss-dropdown"></span>
+			<span class="ss-directup"></span>
+			<select class="filter-user todo-filter">
+				@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
+			</select>
+		</li>
+	</ul>
+</div>
 @stop
 
 @section('page-content')

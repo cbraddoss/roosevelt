@@ -7,29 +7,33 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li>
-			<div id="projects-new-project-form" class="create-something-new">
-				<div class="project-button"><span class="add-button add-new"><span class="ss-plus"></span> Project</span></div>
+		<li><a id="pagelink-to-do-brad-doss" href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
+		<li><a id="pagelink-projects-launches" href="/projects/launches" class="link">Launches</a></li>
+		<li><a id="pagelink-1password" href="/1Password" class="link">1Password</a></li>
+		
+		<li class="right">
+			<div id="news-new-article-form" class="create-something-new">
+				<div class="news-button"><span class="add-button add-new"><span class="ss-plus"></span> News</span></div>
 			</div>
 		</li>
-		<li>
-			<div id="billables-new-billable-form" class="create-something-new">
-				<div class="billable-button"><span class="add-button add-new"><span class="ss-plus"></span> Billable</span></div>
-			</div>
-		</li>
-		<li>
-			<div id="accounts-new-account-form" class="create-something-new">
-				<div class="account-button"><span class="add-button add-new"><span class="ss-plus"></span> Account</span></div>
-			</div>
-		</li>
-		<li>
+		<li class="right">
 			<div id="help-new-help-form" class="create-something-new">
 				<div class="help-button"><span class="add-button add-new"><span class="ss-plus"></span> Help</span></div>
 			</div>
 		</li>
-		<li>
-			<div id="news-new-article-form" class="create-something-new">
-				<div class="news-button"><span class="add-button add-new"><span class="ss-plus"></span> News</span></div>
+		<li class="right">
+			<div id="accounts-new-account-form" class="create-something-new">
+				<div class="account-button"><span class="add-button add-new"><span class="ss-plus"></span> Account</span></div>
+			</div>
+		</li>
+		<li class="right">
+			<div id="billables-new-billable-form" class="create-something-new">
+				<div class="billable-button"><span class="add-button add-new"><span class="ss-plus"></span> Billable</span></div>
+			</div>
+		</li>
+		<li class="right">
+			<div id="projects-new-project-form" class="create-something-new">
+				<div class="project-button"><span class="add-button add-new"><span class="ss-plus"></span> Project</span></div>
 			</div>
 		</li>
 	</ul>
@@ -75,7 +79,7 @@
 	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List: @if( $projectsCount >= 5 ) (5 of {{ $projectsCount }}) @endif</a></h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a><small>@if( $projectsCount >= 5 ) (5 of {{ $projectsCount }}) @endif</small></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -149,7 +153,10 @@
 
 				@if($projects->isEmpty())
 					<div class="project-post office-post">
-						<p class="nothing-to-show">You are not currently assigned any tasks.<br /><br />Consider tackling a <a href="/help">Help</a> post, or adding to the <a href="/wiki">Wiki</a>.</p>
+						<div class="nothing-to-show">
+							<p>You are not currently assigned any tasks.</p>
+							<p>Consider tackling a <a href="/help">Help</a> post, or adding to the <a href="/wiki">Wiki</a>.</p>
+						</div>
 
 					</div>
 					<div id="quicklinks" class="quicklinks-again">
