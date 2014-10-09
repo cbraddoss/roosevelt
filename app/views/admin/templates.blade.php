@@ -7,16 +7,19 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		@if(!strpos(current_page(), 'edit'))
+		<li><a id="pagelink-admin" href="/admin/" class="link">Admin</a></li>
+		<li><a id="pagelink-admin-templates" href="/admin/templates" class="link">Templates</a></li>
+		<li><a id="pagelink-admin-users" href="/admin/users" class="link">Users</a></li>
 		<li>
 			<div id="admin-new-template-form" class="create-something-new">
-				<span class="template-button"><button class="add-new ss-plus">Add New</button></span>
+				<div class="template-button"><span class="add-new add-button"><span class="ss-plus"></span> Template</span></div>
 			</div>
 		</li>
-		@endif
-		<li><a href="/admin/" class="link">Admin</a></li>
-		<li><a href="/admin/users" class="link">Users</a></li>
-		<li><a href="/admin/templates" class="link">Templates</a></li>
+		<li>
+			<div id="admin-new-user-form" class="create-something-new">
+				<div class="admin-button"><span class="add-new add-button"><span class="ss-plus"></span> User</span></div>
+			</div>
+		</li>
 	</ul>
 </div>
 @stop

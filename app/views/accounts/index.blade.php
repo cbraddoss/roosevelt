@@ -7,12 +7,12 @@
 @section('header-menu')
 	<div class="page-menu">
 		<ul>
+			<li><a id="pagelink-accounts-recent" href="/accounts/recent" class="link">Recent</a></li>
 			<li>
-				<div id="accounts-new-account-form" class="create-something-new">
-					<span class="accounts-button"><button class="add-new ss-plus">Add New</button></span>
-				</div>
-			</li>
-			<li></li>
+			<div id="accounts-new-account-form" class="create-something-new">
+				<div class="account-button"><span class="add-new add-button"><span class="ss-plus"></span> Account</span></div>
+			</div>
+		</li>
 		</ul>
 		
 	</div>
@@ -20,7 +20,7 @@
 
 @section('page-content')
 <div id="accounts-page" class="inner-page">
-	
+	<h2>All Accounts:</h2>
     @foreach($accounts as $a)
 	<div id="account-{{ $a->id }}" class="account-entry office-post">
 		<h3>{{ link_to('/accounts/'.$a->link, $a->name) }}</h3>

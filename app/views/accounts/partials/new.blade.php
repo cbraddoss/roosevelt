@@ -1,5 +1,5 @@
 <div class="account-add-form create-something-form">
-<h3>New Account:</h3>
+<h2>New Account:</h2>
 {{ Form::open( array('id' => 'add-new', 'files' => true, 'class' => 'add-billable', 'url' => '/accounts/', 'method' => 'post') ) }}
 
 {{ Form::submit('Create', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}

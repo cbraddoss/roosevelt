@@ -7,15 +7,15 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li></li>
-		<li></li>
+		<li><a id="pagelink-tools" href="/tools/" class="link">Tools</a></li>
+		<li><a id="pagelink-tools-status" href="/tools/status" class="link">Status</a></li>
 	</ul>
 </div>
 @stop
 
 @section('page-content')
 <div id="tools-page"  class="inner-page">
-	<p>Miscellaneous Tools and Links for InsideOut Employees</p>
+	<h2>Miscellaneous Tools and Links for InsideOut Employees</h2>
 
 	<p><a href="#" target="_blank">1Password</a></p>
 

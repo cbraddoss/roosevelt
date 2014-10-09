@@ -115,6 +115,7 @@ Route::get('/billables', function(){
 })->before('auth');
 
 Route::get('/invoices', function(){
+	if(Request::ajax()) return View::make('invoices.partials.new');
 	return View::make('invoices.index');
 })->before('auth');
 

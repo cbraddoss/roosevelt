@@ -7,12 +7,12 @@
 @section('header-menu')
 	<div class="page-menu">
 		<ul>
+			<li><a id="pagelink-billables-open" href="/billables/status/open" class="link">Open</a></li>
 			<li>
 				<div id="billables-new-billable-form" class="create-something-new">
-					<span class="billables-button"><button class="add-new ss-plus">Add New</button></span>
+					<div class="billables-button"><span class="add-new add-button"><span class="ss-plus"></span> Billable</span></div>
 				</div>
 			</li>
-			<li></li>
 		</ul>
 	</div>
 @stop
@@ -20,5 +20,8 @@
 @section('page-content')
 <div id="billables-page"  class="inner-page">
 	
+	<h2>Internet gremlins are still assembling this page.</h2>
+	<p>Check back soon.</p>
+
 </div>
 @stop

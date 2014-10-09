@@ -273,9 +273,9 @@ function user_last_login($login) {
 	//$login = new DateTime($login);
 	if(!empty($login)) {
 		$login = Carbon::createFromFormat('Y-m-d H:i:s', $login)->format('F j, Y');
-		return 'Last Login:<br/> '.$login;
+		return $login;
 	}
-	else return 'Login: null';
+	else return 'No Login Activity';
 }
 // Save for later
 // function link_to_task(Task $task) {

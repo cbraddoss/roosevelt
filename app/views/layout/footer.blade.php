@@ -1,3 +1,5 @@
+	<div class="clear"></div>
+
 	<div id="footer_sub">
 		<div class="footer_info">
 			<p>Proudly brought to you by the <a href="mailto:devteam@insideout.com">Dev Team</a> @ <a href="http://insideout.com">InsideOut Solutions</a></p>

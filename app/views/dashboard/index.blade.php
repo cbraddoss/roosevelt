@@ -9,27 +9,27 @@
 	<ul>
 		<li>
 			<div id="projects-new-project-form" class="create-something-new">
-			<span class="project-button"><a class="anchor-button add-new"><span class="ss-plus"></span> Project</a></span>
+				<div class="project-button"><span class="add-button add-new"><span class="ss-plus"></span> Project</span></div>
 			</div>
 		</li>
 		<li>
 			<div id="billables-new-billable-form" class="create-something-new">
-			<span class="billable-button"><a class="anchor-button add-new"><span class="ss-plus"></span> Billable</a></span>
+				<div class="billable-button"><span class="add-button add-new"><span class="ss-plus"></span> Billable</span></div>
 			</div>
 		</li>
 		<li>
 			<div id="accounts-new-account-form" class="create-something-new">
-			<span class="account-button"><a class="anchor-button add-new"><span class="ss-plus"></span> Account</a></span>
+				<div class="account-button"><span class="add-button add-new"><span class="ss-plus"></span> Account</span></div>
 			</div>
 		</li>
 		<li>
 			<div id="help-new-help-form" class="create-something-new">
-			<span class="help-button"><a class="anchor-button add-new"><span class="ss-plus"></span> Help</a></span>
+				<div class="help-button"><span class="add-button add-new"><span class="ss-plus"></span> Help</span></div>
 			</div>
 		</li>
 		<li>
 			<div id="news-new-article-form" class="create-something-new">
-			<span class="news-button"><a class="anchor-button add-new"><span class="ss-plus"></span> News</a></span>
+				<div class="news-button"><span class="add-button add-new"><span class="ss-plus"></span> News</span></div>
 			</div>
 		</li>
 	</ul>
@@ -75,7 +75,7 @@
 	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List @if( $projectsCount >= 5 ) (5 of {{ $projectsCount }})@endif:</a></h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List: @if( $projectsCount >= 5 ) (5 of {{ $projectsCount }}) @endif</a></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)
@@ -104,30 +104,30 @@
 						<div id="project-{{ $project->id }}" class="project-post office-post">
 						@endif
 					@endif
-						<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
-						
-						<div class="post-meta">
-							
+												
 							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-								<div class="post-due">
+								<div class="post-alert post-tooltip post-meta">
+									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
+									<span class="post-due-text-right">Due Today!</span>
+								</div>
+								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>
 									<span class="post-due-date">{{ Carbon::now()->format('F j') }}</span>
 								</div>
-								<div class="post-alert">
-									<span class="post-due-text-right">Due Today!</span>
-									<span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span>
+							@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
+								<div class="post-alert post-tooltip post-meta">
+									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
+									<span class="post-due-text-right">Past Due!</span>
 								</div>
-								@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-								<div class="post-due">
+								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>
 									<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
 								</div>
-								<div class="post-alert">
-									<span class="post-due-text-right">Past Due!</span>
-									<span class="post-due-bump-date ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></span>
-								</div>
-								@else
-								<div class="post-due">
+							@else
+								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>
 									<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
 								</div>
@@ -135,10 +135,9 @@
 							{{ Form::open( array('id' => 'bump-project-date-'.$project->id, 'class' => 'bump-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
 								{{ Form::hidden('id', $project->id) }}
 							{{ Form::close() }}
-							<div class="post-stage">
+							<div class="post-stage post-detail post-detail-last">
 								<span>Stage: {{ $project->stage }}</span>
 							</div>
-						</div>
 						
 					</div>
 				@endforeach
@@ -172,39 +171,35 @@
 					@if(strpos($article->been_read,current_user_path()) !== false) <div id="article-{{ $article->id }}" class="news-article office-post">
 					@else <div id="article-{{ $article->id }}" class="news-article office-post unread">
 					@endif
-						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
-						
-						<div class="post-meta">
-							<div class="post-date">
-								<span><span class="post-date-text">Posted:</span> {{ $article->created_at->format('F j') }}</span>
-							</div>
-							<div class="post-favorite">
-								<span>
-									@if(strpos($article->favorited, current_user_path()) !== false) <span id="favorite-{{ $article->id }}" class="ss-heart favorited">
-									@else <span id="favorite-{{ $article->id }}" class="ss-heart">
-									@endif
-									<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite Article</span></span>
-								
-								{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
-									{{ Form::hidden('favorite', $article->id) }}
-								{{ Form::close() }}
-								</span>
-							</div>
+						<div class="post-favorite post-meta post-tooltip">
+								@if(strpos($article->favorited, current_user_path()) !== false)
+								<span id="favorite-{{ $article->id }}" class="ss-heart favorited tooltip-hover">
+								@else
+								<span id="favorite-{{ $article->id }}" class="ss-heart tooltip-hover">
+								@endif
+								<span favoriteval="{{ $article->id }}" class="favorite-this tooltip">Favorite Article</span></span>
 							
-							@if($article->getCommentsCount($article->id))
-							<div class="post-activity">
-								<span>{{ link_to('/news/article/'. $article->slug.'#comments', $article->getCommentsCount($article->id), array('class' => 'ss-chat news-link')) }}</span>
-							</div>
-							@endif
-							<div class="post-author">
-									<span>
-										<img src="{{ gravatar_url(User::find($article->author_id)->email,15) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
-										By {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name . ' ' . User::find($article->author_id)->last_name) }}
-									</span>
-							</div>
-							
-							
+							{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
+								{{ Form::hidden('favorite', $article->id) }}
+							{{ Form::close() }}
 						</div>
+						@if($article->getCommentsCount($article->id))
+						<div class="post-activity post-meta post-tooltip">
+							<a href="/news/article/{{ $article->slug }}#comments" class="tooltip-hover ss-chat"><span class="tooltip">{{ $article->getCommentsCount($article->id) }}<br />Replies</span></a>
+						</div>
+						@endif
+						
+						<h3>{{ link_to('/news/article/'. $article->slug, $article->title, array('class' => 'news-link')) }}</h3>
+						<div class="post-date post-detail">
+							<span><span class="post-date-text">Posted:</span> {{ $article->created_at->format('F j') }}</span>
+						</div>
+						<div class="post-author post-detail post-detail-last">
+								<span>
+									<img src="{{ gravatar_url(User::find($article->author_id)->email,15) }}" alt="{{ User::find($article->author_id)->first_name }} {{ User::find($article->author_id)->last_name }}">
+									By {{ link_to('/news/author/'.any_user_path($article->author_id), User::find($article->author_id)->first_name . ' ' . User::find($article->author_id)->last_name) }}
+								</span>
+						</div>
+						
 					</div>
 				@endforeach
 				

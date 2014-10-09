@@ -15,6 +15,15 @@
 <body class="{{ body_class() }}">
 	<div id="header">
 		<div class="section">
+
+			<div id="search-box">
+				<div class="search-details">
+					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
+					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." />
+					{{ Form::close() }}
+				</div>
+			</div>
+
 			<div id="nav_menu">
 				<div class="section">
 					<div id="menu_header">
@@ -56,41 +65,22 @@
 								</ul> -->
 								<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
 								<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
+								<li alt="Search" id="link-search" class="link"><a href="#" class="ss-search link-href"><span class="link-text">Search</span></a></li>
+								<li alt="Profile" id="link-profile" class="link"><a href="/profile" class="link-href"><img class="link-image" src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span class="link-text">{{ Auth::user()->first_name }}</span></a><span class="linked-to" value=""><a href="/to-do/{{ current_user_path() }}"></a></span>
+									<ul class="sub_menu_links-hover">
+										<li><a href="/profile/" class="sub-link">Profile</a></li>
+										<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
+										@if(Auth::user()->userrole == 'admin')
+										<li class="sub-link"><a href="/admin/">Admin</a></li>
+										@endif
+										<li class="sub-link"><a href="/logout/">Logout</a></li>
+									</ul>
+								</li>
 							</ul>
 						</div> <!-- .menu_nav -->
 					</div> <!-- #menu_header -->
 				</div> <!-- .section -->
 			</div> <!-- #nav_menu -->
-						
-			<div id="search-box">
-				<div class="search-details">
-					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." />
-					{{ Form::close() }}
-				</div>
-			</div>
-
-			<div id="user-box">
-				<div class="profile-details">
-					<a class="todo-link" href="/to-do/{{ Auth::user()->user_path }}"><span class="linked-to" value="">0</span></a><a href="/profile/" class="profile-link"><span class="link-text">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span></a>
-					<span class="todays-date">{{ Carbon::now()->format('F j, 2014') }}</span>
-				</div>
-				<div class="search-icon">
-					<span class="ss-search"></span>
-				</div>
-				<div class="profile-dropdown">
-					<a href="/profile/" class="profile-dropdown-link"><img src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></a>
-					<a href="/profile/" class="profile-dropdown-link"><span class="arrow-down ss-navigatedown"></span></a>
-						<ul class="sub_menu_links-hover">
-							<li><a href="/profile/" class="sub-link">Profile</a></li>
-							<li><a href="/to-do/{{ Auth::user()->user_path }}" class="sub-link">To-Do List</a></li>
-							@if(Auth::user()->userrole == 'admin')
-							<li class="sub-link"><a href="/admin/">Admin</a></li>
-							@endif
-							<li class="sub-link"><a href="/logout/">Logout</a></li>
-						</ul>
-				</div>
-			</div>
 			
 			@if(Session::get('flash_message_error'))
 				<div id="message-box">
@@ -143,11 +133,11 @@
 			<div id="content">
 			<span class="loading-something-new none"><img src="/images/ajax-snake-loader.gif" alt="Loading..."></span>
 				<div id="page-title">
-					@if(current_page() == '/')
 					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
+					<span class="todays-date">{{ Carbon::now()->format('l, F j, 2014') }}</span>
+					@if(current_page() == '/')
 					<h1>InsideOut Solutions Remote Office</h1>
 					@else
-					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
 					<h1>@yield('page-title')</h1>
 					@endif
 				</div>
