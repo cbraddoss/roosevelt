@@ -9,7 +9,7 @@
 	<ul>
 		<ul>
 			<li><a id="pagelink-invoices-open" href="/invoices/status/open" class="link">Open</a></li>
-			<li>
+			<li class="right">
 				<div id="invoices-new-invoice-form" class="create-something-new">
 					<div class="invoices-button"><span class="add-new add-button"><span class="ss-plus"></span> Invoice</span></div>
 				</div>

@@ -31,7 +31,7 @@
 </div>
 </div>
 
-{{ Form::submit('Add User', array('class' => 'save', 'id' => 'add-new-submit') ) }}
+{{ Form::submit('Add User', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}
 
 <span id="add-new" class="cancel form-button">Cancel</span>
 

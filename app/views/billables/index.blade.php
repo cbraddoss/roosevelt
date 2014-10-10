@@ -8,7 +8,7 @@
 	<div class="page-menu">
 		<ul>
 			<li><a id="pagelink-billables-open" href="/billables/status/open" class="link">Open</a></li>
-			<li>
+			<li class="right">
 				<div id="billables-new-billable-form" class="create-something-new">
 					<div class="billables-button"><span class="add-new add-button"><span class="ss-plus"></span> Billable</span></div>
 				</div>

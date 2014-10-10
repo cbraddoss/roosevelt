@@ -8,7 +8,7 @@
 <div class="page-menu">
 	<ul>
 		@include('profile.partials.profile-menu')
-		<li class="select-dropdown">
+		<li class="right select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
 			<select class="filter-user todo-filter">

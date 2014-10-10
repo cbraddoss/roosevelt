@@ -4,8 +4,9 @@
 	
 	<div class="office-notice">
 		<h4>Notice:</h4>
-		<span>Changing a template checklist is not currently supported.</span><br />
-		<span>If a checklist needs updated or edited, please mark the template as 'Inactive' first, modify the name (add -old or something), then create a new template with the original name and new checklist items.</span>
+		<span>Adding sections to a checklist is not currently supported.</span><br />
+		<span>Only editing current section titles and current task content is supported.</span><br />
+		<span>If new tasks need to be added (rather than changed), please mark the template as 'Inactive' first, modify the name (add -old or something), then create a new template with the original name and new checklist items.</span>
 	</div>
 
 	<h2>Active Templates:</h2>

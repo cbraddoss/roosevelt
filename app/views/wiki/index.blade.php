@@ -8,7 +8,7 @@
 <div class="page-menu">
 	<ul>
 		<li><a id="pagelink-wiki-security" href="/wiki/security" class="link">Security</a></li>
-		<li>
+		<li class="right">
 			<div id="wiki-new-wiki-form" class="create-something-new">
 				<div class="wiki-button"><span class="add-new add-button"><span class="ss-plus"></span> Wiki Post</span></div>
 			</div>

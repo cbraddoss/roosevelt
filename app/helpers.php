@@ -190,9 +190,9 @@ function find_mentions($content) {
 function display_pingable() {
 	$users = User::where('status','!=', 'inactive')->get();
 	$pingable = '';
-	$pingable .= '<span class="textarea-button ping ss-users" id="@insideout ">InsideOut</span>';
+	$pingable .= '<span class="textarea-button form-action-button ping ss-users" id="@insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		$pingable .= '<span class="textarea-button ping ss-user" id="@' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		$pingable .= '<span class="textarea-button form-action-button ping ss-user" id="@' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 	return $pingable;
 }
@@ -203,8 +203,8 @@ function display_subscribable($selected = null) {
 	$subscribed = explode(' ',$selected);
 	// $subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		if(in_array($user->user_path, $subscribed)) $subscribable .= '<span class="subscribe-button subscribe subscribe-selected ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
-		else $subscribable .= '<span class="subscribe-button subscribe ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		if(in_array($user->user_path, $subscribed)) $subscribable .= '<span class="subscribe-button form-action-button subscribe subscribe-selected ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		else $subscribable .= '<span class="subscribe-button form-action-button subscribe ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 	return $subscribable;
 }

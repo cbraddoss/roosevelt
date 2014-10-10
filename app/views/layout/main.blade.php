@@ -19,7 +19,8 @@
 			<div id="search-box">
 				<div class="search-details">
 					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-					<input type="text" class="search" name="s" id="s" placeholder="Search the Office..." />
+					<input type="text" class="search" name="s" id="s" placeholder="Internet gremlins are still building the search functionality. Check back soon." />
+					<!-- <input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /> -->
 					{{ Form::close() }}
 				</div>
 			</div>
@@ -32,7 +33,7 @@
 								<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/"><span class="link-text">Dashboard</span></a></li>
 								<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
 								<ul class="sub_menu_links-hover">
-									<li class="sub-link"><a href="/projects/status/open">Open</a></li>
+									<li class="sub-link"><a href="/projects">Open</a></li>
 									<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
 									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
 								</ul>

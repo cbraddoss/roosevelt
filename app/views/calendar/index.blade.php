@@ -7,14 +7,14 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li><a href="/calendar/{{ $previousMonthYear }}" class="add-button show-previous-month"><span class="ss-navigateleft"></span>{{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></li>
+		<li><a href="/calendar/{{ $previousMonthYear }}" class="add-button show-previous-month"><span class="ss-navigateleft"></span> {{ preg_replace('/\d{4}\//','', $previousMonthYear) }}</a></li>
 		<li><a href="/calendar/" class="add-button calendar-today">Go To Today</a></li>
 		<li>
 			<div class="calendar-jump-to-date filter-date calendar-filter" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<div><span class="jump-date add-button"><span class="ss-calendar"></span> Jump To</span></div>
 			</div>
 		</li>
-		<li class="right"><a href="/calendar/{{ $nextMonthYear }}" class="add-button show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }}<span class="ss-navigateright"></span></a></li>
+		<li class="right"><a href="/calendar/{{ $nextMonthYear }}" class="add-button show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }} <span class="ss-navigateright"></span></a></li>
 	</ul>
 </div>
 @stop

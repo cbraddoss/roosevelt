@@ -336,33 +336,50 @@ jQuery(document).ready(function($){
 	});
 	// add additional tasks to New Template form
 	$(document).on('click','#content form.add-template .add-task-one', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$(this).closest('.new-form-field').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		$.get( "/admin/templates/add-task", function( data ) {
-			$(document).find('#content form.add-template .add-task-ten').before(data);
-			//$(document).find('.loading-something-new').remove();
+			$(document).find('#content form.add-template .add-task-buttons').before(data);
+			$(document).find('#content form.add-template .loading-something-new').remove();
 		});
 	});
 	$(document).on('click','#content form.add-template .add-task-five', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$(this).closest('.new-form-field').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		for (var i = 1; i <= 5; i++) {
 			$.get( "/admin/templates/add-task", function( data ) {
-				$(document).find('#content form.add-template .add-task-ten').before(data);
-				//$(document).find('.loading-something-new').remove();
+				$(document).find('#content form.add-template .add-task-buttons').before(data);
+			$(document).find('#content form.add-template .loading-something-new').remove();
 			});
 		};
 	});
 	$(document).on('click','#content form.add-template .add-task-ten', function() {
-		//$(document).find('#content form.add-template .add-task-one .template-code').append('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$(this).closest('.new-form-field').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 		for (var i = 1; i <= 10; i++) {
 			$.get( "/admin/templates/add-task", function( data ) {
-				$(document).find('#content form.add-template .add-task-ten').before(data);
-				//$(document).find('.loading-something-new').remove();
+				$(document).find('#content form.add-template .add-task-buttons').before(data);
+			$(document).find('#content form.add-template .loading-something-new').remove();
 			});
 		};
 	});
+	$(document).on('click','#content form.add-template .add-task', function() {
+		$(this).closest('.new-form-field').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+		$.get( "/admin/templates/add-task", function( data ) {
+			$(document).find('#content form.add-template .loading-something-new').after(data);
+			$(document).find('#content form.add-template .loading-something-new').remove();
+		});
+	});
 	// remove task from New Template form
-	$(document).on('click','#content form.add-template .remove-task .ss-hyphen', function() {
-		$(this).parent().parent().parent().remove();
+	$(document).on('mouseover','#content form.add-template .remove-task', function() {
+		$(this).closest('.new-form-field').prev().css('background','#333333');
+		$(this).closest('.new-form-field').prev().prev().css('background','#333333');
+	});
+	$(document).on('mouseout','#content form.add-template .remove-task', function() {
+		$(this).closest('.new-form-field').prev().css('background','#555555');
+		$(this).closest('.new-form-field').prev().prev().css('background','#555555');
+	});
+	$(document).on('click','#content form.add-template .remove-task', function() {
+		$(this).closest('.new-form-field').prev().remove();
+		$(this).closest('.new-form-field').prev().remove();
+		$(this).closest('.new-form-field').remove();
 	});
 	// cancel template add
 	$(document).on('click','#content form.add-template span.cancel',function(){
@@ -404,29 +421,29 @@ jQuery(document).ready(function($){
 		}
 	}
 	// add additional tasks to Edit Template form
-	$(document).on('click','#content form.update-template .add-task-one', function() {
-		$.get( "/admin/templates/add-task", function( data ) {
-			$(document).find('#content form.update-template .add-task-ten').before(data);
-		});
-	});
-	$(document).on('click','#content form.update-template .add-task-five', function() {
-		for (var i = 1; i <= 5; i++) {
-			$.get( "/admin/templates/add-task", function( data ) {
-				$(document).find('#content form.update-template .add-task-ten').before(data);
-			});
-		};
-	});
-	$(document).on('click','#content form.update-template .add-task-ten', function() {
-		for (var i = 1; i <= 10; i++) {
-			$.get( "/admin/templates/add-task", function( data ) {
-				$(document).find('#content form.update-template .add-task-ten').before(data);
-			});
-		};
-	});
-	// remove task from Edit Template form
-	$(document).on('click','#content form.update-template .remove-task .ss-hyphen', function() {
-		$(this).parent().parent().parent().remove();
-	});
+	// $(document).on('click','#content form.update-template .add-task-one', function() {
+	// 	$.get( "/admin/templates/add-task", function( data ) {
+	// 		$(document).find('#content form.update-template .add-task-buttons').before(data);
+	// 	});
+	// });
+	// $(document).on('click','#content form.update-template .add-task-five', function() {
+	// 	for (var i = 1; i <= 5; i++) {
+	// 		$.get( "/admin/templates/add-task", function( data ) {
+	// 			$(document).find('#content form.update-template .add-task-buttons').before(data);
+	// 		});
+	// 	};
+	// });
+	// $(document).on('click','#content form.update-template .add-task-ten', function() {
+	// 	for (var i = 1; i <= 10; i++) {
+	// 		$.get( "/admin/templates/add-task", function( data ) {
+	// 			$(document).find('#content form.update-template .add-task-buttons').before(data);
+	// 		});
+	// 	};
+	// });
+	// // remove task from Edit Template form
+	// $(document).on('click','#content form.update-template .remove-task', function() {
+	// 	$(this).closest('.new-form-field').prev().css('background','#d5d5d5');
+	// });
 	//preview templates on admin page
 	// on list view page
 	// $('#admin-page .post-preview').hover(function(){

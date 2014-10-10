@@ -8,13 +8,13 @@
 </div>
 
 <div class="new-form-field">
-	<div class="form-textarea-buttons">
-	{{ Form::label('content', 'Ping a user:') }}
-		<!-- <span class="ss-link textarea-button make-link"></span>
-		<span class="textarea-button make-bold">Bold</span>
-		<span class="textarea-button make-italic">Italic</span>
-		<span class="textarea-button-divider"></span> -->
-		{{ display_pingable() }}
+	<div class="form-textarea-buttons form-action-buttons">
+{{ Form::label('content', 'Ping a user:') }}
+{{ display_pingable() }}
+<!-- <span class="ss-link textarea-button make-link"></span>
+<span class="textarea-button make-bold">Bold</span>
+<span class="textarea-button make-italic">Italic</span>
+<span class="textarea-button-divider"></span> -->
 	</div>
 </div>
 

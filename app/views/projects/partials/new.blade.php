@@ -13,18 +13,18 @@
 </div>
 
 <div class="new-form-field new-form-field-extras">
-	<div class="form-subscribe-buttons">
-		{{ Form::label('subscribe', 'Subscribe Users:') }}
-		{{ display_subscribable(Auth::user()->user_path) }}
+	<div class="form-subscribe-buttons form-action-buttons">
+{{ Form::label('subscribe', 'Subscribe Users:') }}
+{{ display_subscribable(Auth::user()->user_path) }}
 	</div>
-	{{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed')) }}
+{{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
 	<div class="form-account-searchbox">
-		{{ Form::label('account_name', 'Add Account:') }}
-		{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
-		{{ Form::hidden('account_id', null, array('class' => 'project-account-id field')) }}
+{{ Form::label('account_name', 'Add Account:') }}
+{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
+{{ Form::hidden('account_id', null, array('class' => 'project-account-id field')) }}
 		<div class="accounts-search-ajax"></div>
 	</div>
 </div>
@@ -36,7 +36,7 @@
 	<span class="ss-directup"></span>
 	<select name="template_id">
 		<option value="">Select Template</option>
-		{{ $templates }}
+{{ $templates }}
 	</select>
 </div>
 {{ Form::hidden('template_name', null, array('class' => 'project-template-name field', 'id' => 'project-template-name')) }}
@@ -47,7 +47,7 @@
 <div class="select-dropdown">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
-	{{ Form::select('period', array('ending' => 'No', 'recurring' => 'Yes') , 'ending') }}
+{{ Form::select('period', array('ending' => 'No', 'recurring' => 'Yes') , 'ending') }}
 </div>
 </div>
 
@@ -74,7 +74,7 @@
 <div class="select-dropdown">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
-	{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}
+{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , 'normal') }}
 </div>
 </div>
 

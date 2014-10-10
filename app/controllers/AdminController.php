@@ -242,8 +242,8 @@ class AdminController extends \BaseController {
 	public function templateEdit($template)
 	{
 		$template = Template::where('slug','=',$template)->first();
-		$templateTasks = $this->template->displayChecklist($template->id);
-		//$templateTasks = TemplateTask::where('template_id','=',$template->id)->get();
+		//$templateTasks = $this->template->displayChecklist($template->id);
+		$templateTasks = TemplateTask::where('template_id','=',$template->id)->get();
 		return View::make('admin.partials.template-form', compact('template','templateTasks'));
 	}
 
@@ -277,29 +277,27 @@ class AdminController extends \BaseController {
 				return Redirect::to('/admin/templates/'.$template->slug.'/edit')->withInput()->with('flash_message_error','Oops, something went wrong. Please try again.');
 			}
 
-			//Updating Checklist items not currently available due to how project checklists are saved and used.
-			//Look into possible options in the future.
-			// $sections = Input::get('section');
-			// $contents = Input::get('content');
-			// $taskCount = 0;
-			// // dd(count($sections));
-			// foreach($sections as $section) {
-			// 	$templateTask = TemplateTask::;
-			// 	$newTask->template_id = $newTemplate->id;
-			// 	$newTask->section = $sections[$taskCount];
-			// 	$newTask->content = $contents[$taskCount];
-			// 	try
-			// 	{
-			// 		$newTask->save();
-			// 	} catch(Illuminate\Database\QueryException $e)
-			// 	{
-			// 		$response = array(
-			// 			'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
-			// 		);
-			// 		return Response::json( $response );
-			// 	}
-			// 	$taskCount++;
-			// }
+			//Adding Checklist items not currently available due to how project checklists are saved and used.
+			
+			$sections = Input::get('section');
+			$contents = Input::get('content');
+			while($section = current($sections)) {
+				$editTemplateTask = TemplateTask::where('id','=',key($sections))->first();
+				//dd($contents[key($sections)]);
+				$editTemplateTask->section = $sections[key($sections)];
+				$editTemplateTask->content = $contents[key($sections)];
+				try
+				{
+					$editTemplateTask->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				next($sections);
+			}
 
 			return Redirect::to('/admin/templates/')->with('flash_message_success', '<i>' . $template->name . '</i> successfully updated!');
 		}

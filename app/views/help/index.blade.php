@@ -8,10 +8,10 @@
 	<div class="page-menu">
 		<ul>
 			<li><a id="pagelink-help-open" href="/help/status/open" class="link">Open</a></li>
-			<li>
+			<li class="right">
 				<div id="help-new-help-form" class="create-something-new">
-				<div class="help-button"><span class="add-new add-button"><span class="ss-plus"></span> Help</span></div>
-			</div>
+					<div class="help-button"><span class="add-new add-button"><span class="ss-plus"></span> Help</span></div>
+				</div>
 			</li>
 		</ul>
 	</div>

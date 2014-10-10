@@ -8,11 +8,11 @@
 	<div class="page-menu">
 		<ul>
 			<li><a id="pagelink-accounts-recent" href="/accounts/recent" class="link">Recent</a></li>
-			<li>
-			<div id="accounts-new-account-form" class="create-something-new">
-				<div class="account-button"><span class="add-new add-button"><span class="ss-plus"></span> Account</span></div>
-			</div>
-		</li>
+			<li class="right">
+				<div id="accounts-new-account-form" class="create-something-new">
+					<div class="account-button"><span class="add-new add-button"><span class="ss-plus"></span> Account</span></div>
+				</div>
+			</li>
 		</ul>
 		
 	</div>
