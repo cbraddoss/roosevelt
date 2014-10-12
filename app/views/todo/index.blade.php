@@ -1,7 +1,11 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ $user->first_name.' '.$user->last_name.' - To-Do List' }}
+@section('page-h1')
+{{ 'To-Do List' }}
+@stop
+
+@section('page-h2')
+{{ $user->first_name.' '.$user->last_name.'\'s To-Do List' }}
 @stop
 
 @section('header-menu')
@@ -21,6 +25,7 @@
 
 @section('page-content')
 <div id="todo-page"  class="inner-page">
+	<h2>@yield('page-h2')</h2>
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
 			<div class="projects-post">

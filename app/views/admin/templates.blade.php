@@ -1,7 +1,11 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ 'Admin - Template Management' }}
+@section('page-h1')
+{{ 'Admin' }}
+@stop
+
+@section('page-h2')
+{{ 'Template Management' }}
 @stop
 
 @section('header-menu')

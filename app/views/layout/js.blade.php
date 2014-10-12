@@ -18,17 +18,18 @@ jQuery(document).ready(function($){
 		}, 2000);
 	}
 	if(commentUrlNew == '?comment=new') {
-		$(commentUrlHash).find('.comment-details').css({
-			'background': 'rgba(201,99,0,0.5)',
-			'border-top': '1px solid #c60',
-			'border-right': '1px solid #c60',
-			'border-left': '1px solid #c60'
-		});
-		$(commentUrlHash).find('.comment-contents p').css({
-			'border-bottom': '1px solid #c60',
-			'border-right': '1px solid #c60',
-			'border-left': '1px solid #c60'
-		});
+		$(commentUrlHash).addClass('office-post-comment-new');
+		// $(commentUrlHash).find('.comment-details').css({
+		// 	'background': 'rgba(201,99,0,0.5)',
+		// 	'border-top': '1px solid #c60',
+		// 	'border-right': '1px solid #c60',
+		// 	'border-left': '1px solid #c60'
+		// });
+		// $(commentUrlHash).find('.comment-contents p').css({
+		// 	'border-bottom': '1px solid #c60',
+		// 	'border-right': '1px solid #c60',
+		// 	'border-left': '1px solid #c60'
+		// });
 	}
 	//Update active status of a menu link (both top menu bar and user menu bar)
 	var currentPage = window.location.pathname;
@@ -68,9 +69,16 @@ jQuery(document).ready(function($){
 			if(currentSubPage[1] != null) {
 				linkActivePage = linkActivePage.replace("pagelink-admin-", "");
 				linkActivePage = linkActivePage.replace("pagelink-to-do-", "");
+				linkActivePage = linkActivePage.replace("pagelink-projects-", "");
+				linkActivePage = linkActivePage.replace("pagelink-news-", "");
+				//console.log(linkActivePage);
 				$(this).removeClass('active');
 				$(this).addClass('inactive');
 				if(currentSubPage.indexOf(linkActivePage) >= 0 ) {
+					$(this).addClass('active');
+					$(this).removeClass('inactive');
+				}
+				if(currentSubPage[1] == 'status' && currentSubPage[2] == 'open' && linkActivePage == 'pagelink-projects') {
 					$(this).addClass('active');
 					$(this).removeClass('inactive');
 				}
@@ -773,9 +781,9 @@ jQuery(document).ready(function($){
 	}).data('datepicker');
 	// add Delete option to attachments on Edit article page
 	$('#news-page .post-edit-attachment').hover(function(){
-		$(this).append('<span class="ss-delete"></span>');
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
 	}, function(){
-		$(this).find('.ss-delete').remove();
+		$(this).find('.delete-attachment').remove();
 	});
 	// delete attachment with ajax and reload Edit article page
 	$(document).on('click', '#news-page .post-edit-attachment', function() {
@@ -821,8 +829,8 @@ jQuery(document).ready(function($){
 	});
 	
 	// load comment form on article single view page.
-	$(document).on('click', '#news-page #news-post-comment-form button.post-comment', function(){
-		$('button.post-comment').each(function(){
+	$(document).on('click', '#news-page #news-post-comment-form .post-comment', function(){
+		$('.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
@@ -834,10 +842,10 @@ jQuery(document).ready(function($){
 			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
 			$('#comments .news-article-new-comment.create-something-form').addClass('reply-to-article-form');
 			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
-			$('button.post-comment').each(function(){
+			$('.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content #news-post-comment-form.create-something-new .anchor-button').addClass('active');
+			$('#content #news-post-comment-form.create-something-new .add-button').addClass('active');
 			$('#content form.add-comment .comment-content').focus();
 		});
 	});
@@ -850,8 +858,8 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('button.post-comment').each(function(){
+					$('#content #news-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -862,9 +870,9 @@ jQuery(document).ready(function($){
 		else {
 				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('button.post-comment').each(function(){
+					$('#content #news-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -906,8 +914,8 @@ jQuery(document).ready(function($){
 	    $('textarea.comment-content').insertAtCaret(ping);
 	});
 	// load comment form on reply of comment button click
-	$(document).on('click', '#news-page #comment-post-comment-form button.post-comment', function(){
-		$('button.post-comment').each(function(){
+	$(document).on('click', '#news-page #comment-post-comment-form .post-comment', function(){
+		$('.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
 		var articleSlug = $(document).find('.news-article').attr('slug');
@@ -924,10 +932,10 @@ jQuery(document).ready(function($){
 			$('#content .news-article-new-comment.create-something-form').slideDown(400);
 			$('#content .news-article-new-comment.create-something-form').addClass('reply-to-comment-form');
 			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
-			$('button.post-comment').each(function(){
+			$('.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new .anchor-button').addClass('active');
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new .add-button').addClass('active');
 			$('#content .news-article-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
 			$('#content form.add-comment .comment-content').focus();
 		});
@@ -1040,10 +1048,10 @@ jQuery(document).ready(function($){
 	});
 	// add option to delete attachment
 	$(document).on('mouseenter', '#news-page .comment-edit-attachment', function(){
-		$(this).append('<span class="ss-delete"></span>');
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
 	});
 	$(document).on('mouseleave', '#news-page .comment-edit-attachment', function(){
-		$(this).find('.ss-delete').remove();
+		$(this).find('.delete-attachment').remove();
 	});
 	// delete comment attachment with ajax
 	$(document).on('click', '#news-page .comment-edit-attachment', function() {
@@ -2045,9 +2053,9 @@ jQuery(document).ready(function($){
 	});
 	// add Delete option to attachments on project edit page
 	$('#projects-page .post-edit-attachment').hover(function(){
-		$(this).append('<span class="ss-delete"></span>');
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
 	}, function(){
-		$(this).find('.ss-delete').remove();
+		$(this).find('.delete-attachment').remove();
 	});
 	// delete attachment with ajax on project edit page
 	$(document).on('click', '#projects-page .post-edit-attachment', function() {
@@ -2292,10 +2300,10 @@ jQuery(document).ready(function($){
 	}
 	// add option to delete attachment
 	$(document).on('mouseenter', '#projects-page .comment-edit-attachment', function(){
-		$(this).append('<span class="ss-delete"></span>');
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
 	});
 	$(document).on('mouseleave', '#projects-page .comment-edit-attachment', function(){
-		$(this).find('.ss-delete').remove();
+		$(this).find('.delete-attachment').remove();
 	});
 	// delete comment attachment with ajax
 	$(document).on('click', '#projects-page .comment-edit-attachment', function() {
@@ -2573,7 +2581,7 @@ jQuery(document).ready(function($){
 
 	/* To-Do List page */
 	$(document).on('change','#page-nav_menu .filter-user.todo-filter', function(){
-		$('#content').find('.loading-something-new').show().delay(500);
+		//$('#content').find('.loading-something-new').show().delay(500);
 
 		var authorLink = $(this).val();
 		window.location.href='/to-do/'+authorLink;

@@ -1,21 +1,18 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ 'Projects - Assigned To: '.$user->first_name.' '.$user->last_name }}
+@section('page-h1')
+{{ 'Projects' }}
+@stop
+
+@section('page-h2')
+Projects for {{ $user->first_name.' '.$user->last_name }}
 @stop
 
 @section('header-menu')
 	<div class="page-menu">
 	<ul>
-		<li>
-			<div id="projects-new-project-form" class="create-something-new">
-				<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
-			</div>
-		</li>
-		<li>
-			<span class="page-menu-text">Filtering User:</span>
-		</li>
-		<li class="select-dropdown">
+		@include('projects.partials.projects-menu')
+		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
 			<select class="filter-user projects-filter">
@@ -29,7 +26,7 @@
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-
+	<h2>@yield('page-h2')</h2>
 	@if($projects->isEmpty())
 			<div class="projects-post">
 				<h3><i>{{ $user->first_name.' '.$user->last_name }}</i> is not assigned to any projects.</h3>

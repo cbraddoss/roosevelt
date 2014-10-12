@@ -1,13 +1,27 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ $project->title }}
+@section('page-h1')
+{{ 'Projects' }}
+@stop
+
+@section('page-h2')
+{{ 'Edit ' . $project->title }}
+@stop
+
+@section('header-menu')
+<div class="page-menu">
+	<ul>
+		<li>
+			<a class="">Last Edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name }}</a>
+		</li>
+	</ul>
+</div>
 @stop
 
 @section('page-content')
-<div id="projects-page"  class="inner-page">
+<div id="projects-page" class="inner-page edit-page">
+	<h2>@yield('page-h2')</h2>
 <div class="update-something-form">
-<h3>Update Project:</h3>
 {{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $project->id) }}
@@ -23,30 +37,28 @@
 </div>
 
 <div class="new-form-field new-form-field-extras">
-	<div class="form-subscribe-buttons">
-		{{ Form::label('subscribe', 'Subscribe Users:') }}
-		{{ display_subscribable($project->subscribed) }}
-	</div>
-	{{ Form::hidden('subscribed', $project->subscribed, array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
+<div class="form-subscribe-buttons form-action-buttons">
+{{ Form::label('subscribe', 'Subscribe Users:') }}
+{{ display_subscribable($project->subscribed) }}
 </div>
-
-<div class="horizontal-rule"><hr /></div>
+{{ Form::hidden('subscribed', $project->subscribed, array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
+</div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('assigned_id', 'Assigned To:') }}
 <div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	<select class="project-assigned-user" name="project-assigned-user">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+<select class="project-assigned-user" name="project-assigned-user">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
 </div>
 </div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('stage', 'Current Stage:') }}
 <div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	<select class="change-project-stage-list" name="change-project-stage-list">{{ $project->getProjectStages($project->stage, $project->id) }}</select>
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+<select class="change-project-stage-list" name="change-project-stage-list">{{ $project->getProjectStages($project->stage, $project->id) }}</select>
 </div>
 </div>
 
@@ -54,19 +66,19 @@
 {{ Form::label('due_date', 'Stage Due Date:') }}
 {{ Form::text('due_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m/d/Y'), array('placeholder' => 'Due Date', 'class' => 'datepicker project-due-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
-<div class="horizontal-rule"><hr /></div>
+
 <div class="new-form-field new-form-field-extras">
-	<div class="form-account-searchbox">
-		{{ Form::label('account_name', 'Change Account:') }}
-		{{ Form::text('account_name', Account::find($project->account_id)->name, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
-		{{ Form::hidden('account_id', $project->account_id, array('class' => 'project-account-id field')) }}
-		<div class="accounts-search-ajax"></div>
-	</div>
+<div class="form-account-searchbox">
+{{ Form::label('account_name', 'Change Account:') }}
+{{ Form::text('account_name', Account::find($project->account_id)->name, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
+{{ Form::hidden('account_id', $project->account_id, array('class' => 'project-account-id field')) }}
+<div class="accounts-search-ajax"></div>
+</div>
 </div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('template_id', 'Project Template:') }}
-<span>{{ucwords(str_replace('-',' ', $project->type))}}</span>
+<label>{{ ucwords(str_replace('-',' ', $project->type)) }}</label>
 {{ Form::hidden('template_name', $project->type, array('class' => 'project-template-name field', 'id' => 'project-template-name')) }}
 </div>
 
@@ -95,23 +107,21 @@
 </div>
 @endif
 
-<div class="horizontal-rule"><hr /></div>
-
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('priority', 'Priority:') }}
 <div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , $project->priority) }}
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+{{ Form::select('priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low') , $project->priority) }}
 </div>
 </div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('status', 'Status:') }}
 <div class="select-dropdown">
-	<span class="ss-dropdown"></span>
-	<span class="ss-directup"></span>
-	{{ Form::select('status', array('open' => 'Open', 'closed' => 'Closed', 'archived' => 'Archived') , $project->status) }}
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+{{ Form::select('status', array('open' => 'Open', 'closed' => 'Closed', 'archived' => 'Archived') , $project->status) }}
 </div>
 </div>
 
@@ -128,17 +138,16 @@
 
 @if(!empty($project->attachment))
 <div class="new-form-field edit-attachments">
-	<p>Current Attachment(s):</p>
-	{{ $project->getAttachments($project->id,'post-edit-attachment') }}
+<p>Current Attachment(s):</p>
+{{ $project->getAttachments($project->id,'post-edit-attachment') }}
 </div>
 @endif
 
 @if(Auth::user()->userrole == 'admin')
 {{ Form::open( array('class' => 'delete-project delete-post', 'url' => '/projects/post/'.$project->id, 'method' => 'delete', 'id' => $project->id) ) }}
 
-{{ Form::label('id', 'Admin Alert: Deleting a project should be a last case scenario.')}}
 {{ Form::hidden('id', $project->id) }}
-{{ Form::submit('Delete Project', array('class' => 'delete form-button') ) }}
+{{ Form::submit('Delete Project (please use sparingly)', array('class' => 'delete form-button') ) }}
 
 {{ Form::close() }}
 @endif

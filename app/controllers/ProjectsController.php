@@ -315,14 +315,15 @@ class ProjectsController extends \BaseController {
 		$archived = '';
 		if($status == 'open' || $status == 'closed' || $status == 'archived') {
 			if($status == 'open') {
-				$projects = Project::where('status','=',$status)
-						->orderBy('due_date','ASC')
-						->paginate(10);
+				// $projects = Project::where('status','=',$status)
+				// 		->orderBy('due_date','ASC')
+				// 		->paginate(10);
+				return Redirect::route('projects');
 			}
 			else {
 				$projects = Project::where('status','=',$status)
 						->orderBy('created_at','DESC')
-						->paginate(10);
+						->paginate(20);
 			}
 			if($projects != null) {
 				if($status == 'open') $open = $status;

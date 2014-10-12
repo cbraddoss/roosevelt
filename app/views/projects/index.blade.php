@@ -1,20 +1,17 @@
 @extends('layout.main')
 
-@section('page-title')
+@section('page-h1')
 {{ 'Projects' }}
+@stop
+
+@section('page-h2')
+{{ 'Open Projects' }}
 @stop
 
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li><a id="pagelink-projects" href="/projects/status/open" class="link">Open</a></li>
-		<li><a id="pagelink-projects-{{ Carbon::now()->format('F') }}" href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}" class="link">Due {{ Carbon::now()->format('F') }}</a></li>
-		<li><a id="pagelink-projects-{{ Auth::user()->user_path }}" href="/projects/assigned-to/{{ Auth::user()->user_path }}" class="link">Your Projects</a></li>
-		<li class="right">
-			<div id="projects-new-project-form" class="create-something-new">
-				<div class="admin-button"><span class="projects-button add-button"><span class="ss-plus"> Add New</span></span></div>
-			</div>
-		</li>
+		@include('projects.partials.projects-menu')
 		<li class="select-date right">
 			<div class="filter-date projects-filter add-button" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<span class="ss-calendar"></span> <span>Date Filter</span>
@@ -62,8 +59,7 @@
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-	
-	<h2>Open Projects:</h2>
+	<h2>@yield('page-h2')</h2>
 
 	@include('projects.partials.findProjects')
 

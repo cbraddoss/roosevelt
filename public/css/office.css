@@ -576,6 +576,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 0px 20px 20px;
 	position: relative;
 }
+.edit-page {
+	background: #555555;
+}
 /* Page Title Header */
 #content #page-title {
 	background: #4B83B4;
@@ -619,7 +622,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding-left: 10px;
 	font-family: "Oswald", "Open Sans", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-#page-nav_menu .add-button {
+#page-nav_menu .add-button,
+#content .add-button {
 	text-decoration: none;
 	height: 22.5px;
 	color: #ffffff;
@@ -632,11 +636,22 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	cursor: pointer;
 	position: relative;
 }
+#content .add-button {
+	float: none;
+	margin: 0px 0 20px 0;
+	display: inline-block;
+}
 #page-nav_menu .add-button:hover,
-#page-nav_menu .add-button.active {
+#page-nav_menu .add-button.active,
+#content .add-button:hover,
+#content .add-button.active {
 	margin-top: 1px;
 	box-shadow: 0px 2px #333333;
 	background: #FF4D4D;
+}
+#content .add-button:hover,
+#content .add-button.active {
+	margin-bottom: 19px;
 }
 #page-nav_menu ul li {
 	float: left;
@@ -659,7 +674,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #page-nav_menu ul li a.active {
 	color: #2E9999;
-	font-weight: 400;
+	font-weight: 300;
 }
 #page-nav_menu ul li a.active:after {
 	top: 50%;
@@ -686,6 +701,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 1.5em;
 	color: #333333;
 	margin: 10px 0;
+}
+#content .edit-page h2 {
+	color: #ffffff;
+	margin-top: 0;
+	padding-top: 10px;
 }
 #content h3 {
 	font-size: 1.3em;
@@ -781,7 +801,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	box-sizing: border-box;
 	height: 100%;
 	padding: 20px;
-	margin: 0 0px -20px -20px;
+	margin: 0;
 }
 #content .create-something-form h2,
 #content .update-something-form h2 {
@@ -794,7 +814,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .new-form-field label {
 	width: 200px;
 	height: 25px;
-	padding: 5px 10px;
+	padding: 5px 10px 5px 0px;
 	vertical-align: top;
 	display: inline-block;
 }
@@ -846,6 +866,38 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .new-form-field.add-task-buttons .tooltip {
 	left: -50% !important;
+}
+#content .update-something-form .edit-attachments {
+	padding-top: 30px;
+	position: relative;
+}
+#content .update-something-form .edit-attachments p {
+	background: #353535;
+	padding: 10px;
+	border-radius: 3px;
+}
+#content .update-something-form .edit-attachments .post-edit-attachment {
+	position: relative;
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	margin: 10px 10px 10px 0;
+	border: 1px solid #353535;
+	border-radius: 3px;
+	box-shadow: 0px 3px #353535;
+}
+#content .update-something-form .edit-attachments .post-edit-attachment a .post-attachment {
+	width: 100%;
+	height: auto;
+}
+#content .update-something-form .edit-attachments .delete-attachment {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 46px 34px 5px;
+	color: #FF4D4D;
+	font-size: 48px;
+	cursor: pointer;
 }
 /*#content input[type=file]::-webkit-file-upload-button {
 	visibility: hidden;
@@ -903,13 +955,26 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	float: right;
 	background: #a5a5a5;
 }
+#content .delete-post {
+	width: 100%;
+	height: 80px;
+}
+#content .form-button.delete {
+	float: right;
+	background: #555555;
+	color: #555555;
+	box-shadow: 1px 2px #656565;
+	margin-top: 60px !important;
+}
 #content .form-button:hover {
 	background: #FF4D4D;
+	color: #ffffff;
 	box-shadow: 0 2px #333333;
 	margin: 1px 7.5px 0 0;
 }
 /* General List Styles */
-#content .office-post {
+#content .office-post,
+#content .office-post-comment {
 	padding: 0px 10px;
 	position: relative;
 	height: 85px;
@@ -919,7 +984,19 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-left-width: 8px;
 	border-color: #c5c5c5;
 }
-#content .office-post:nth-child(2n) {
+#content .office-post-comment {
+	height: auto;
+	padding: 10px;
+}
+#content .office-post-comment.office-post-sub-comment {
+	margin-left: 40px;
+}
+#content .office-post-comment.office-post-comment-new {
+	border-color: #4B83B4;
+	background: rgba(75,131,180,0.2);
+}
+#content .office-post:nth-child(2n),
+#content .office-post-comment:nth-child(2n) {
 	background: #e5e5e5;
 }
 #content .office-post h3 {
@@ -928,6 +1005,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 25px;
 	line-height: 25px;
 	overflow: hidden;
+	position: relative;
 }
 #content .office-post .nothing-to-show {
 	/*border: 1px dotted #ddd;*/
@@ -939,6 +1017,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post .nothing-to-show p {
 	padding: 10px 0;
+}
+#content .office-post.sticky .sticky-icon {
+	position: absolute;
+	top: 0px;
+	left: -21px;
+	font-size: 1.1em;
+	color: #FF4D4D;
+}
+#content .office-post.sticky {
+	border-color: #E6E600;
 }
 #content .office-post.unread,
 #content .office-post.user-list-standard {
@@ -1006,6 +1094,21 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-right: 10px;
 	margin-top: 5px;
 }
+#content .office-post-single {
+
+}
+#content .office-post-single .post-single-attachment {
+	float: right;
+	margin: 0 0 10px 10px;
+	border: 1px solid #353535;
+}
+#content .office-post-single .office-post-sub {
+	clear: both;
+	background: #e5e5e5;
+	padding: 5px;
+	margin-top: 10px;
+	border-left: 8px solid #d5d5d5;
+}
 /* Dashboard */
 #quicklinks {
 	position: relative;
@@ -1068,8 +1171,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #profile-page .profile-left,
 #profile-page .profile-right {
 	width: 48%;
-	margin: 0 1%;
+	margin: 0;
 	float:left;
+}
+#profile-page .profile-left {
+	margin-right: 2%;
 }
 #profile-page .vacation-box .vacation-details {
 	width: 145px;

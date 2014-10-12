@@ -1,6 +1,6 @@
 @extends('admin.users')
 
-@section('page-title')
+@section('page-h2')
 {{ 'User: ' . $user->first_name . ' ' . $user->last_name }}
 @stop
 

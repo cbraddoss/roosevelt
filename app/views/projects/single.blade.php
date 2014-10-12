@@ -1,18 +1,18 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ $project->title .' <small>(Project)</small>' }}
+@section('page-h1')
+{{ 'Projects' }}
+@stop
+
+@section('page-h2')
+{{ $project->title }}
 @stop
 
 @section('header-menu')
 <div class="page-menu">
 	<ul>
 @if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-		<li>
-			<div class="create-something-new">
-				<div class="anchor-button"><a class="edit-project edit-link ss-write" href="/projects/post/{{ $project->slug }}/edit">Edit Post</a></div>
-			</div>
-		</li>
+		<li class="right"><a class="edit-project edit-link link" href="/projects/post/{{ $project->slug }}/edit">Edit Project</a></li>
 @endif
 		<li>
 @if($project->period == 'ending')
@@ -56,6 +56,7 @@
 
 @section('page-content')
 <div id="projects-page"  class="single-page inner-page">
+	<h2>@yield('page-h2')</h2>
 
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		

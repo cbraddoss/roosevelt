@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>@yield('page-title') :: InsideOut Solutions Employee Hub & Remote Office</title>
+	<title>@yield('page-h2') :: InsideOut Solutions Employee Hub & Remote Office</title>
 	
 	@include('layout.css')
 
@@ -38,11 +38,6 @@
 									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
 								</ul>
 								</li>
-								<!-- <ul class="sub_menu_links">
-									<li class="sub-link"><a href="/projects/status/open">Open</a></li>
-									<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
-									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
-								</ul> -->
 								<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
 								<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
 								<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
@@ -57,13 +52,6 @@
 									<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
 								</ul>
 								</li>
-								<!-- <ul class="sub_menu_links">
-									<li class="sub-link"><a href="/news/">All</a></li>
-									<li class="sub-link"><a href="/news/unread">Your Unread</a></li>
-									<li class="sub-link"><a href="/news/favorites">Your Favorites</a></li>
-									<li class="sub-link"><a href="/news/mentions">Your Mentions</a></li>
-									<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
-								</ul> -->
 								<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
 								<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
 								<li alt="Search" id="link-search" class="link"><a href="#" class="ss-search link-href"><span class="link-text">Search</span></a></li>
@@ -133,14 +121,13 @@
 	<div id="page">
 		<div class="section">
 			<div id="content">
-			<span class="loading-something-new none"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>
 				<div id="page-title">
 					<img class="logo" src="/images/ios-logo-ds.png" alt="IOS Remote Office" />
 					<span class="todays-date">{{ Carbon::now()->format('l, F j, 2014') }}</span>
 					@if(current_page() == '/')
 					<h1>InsideOut Solutions Remote Office</h1>
 					@else
-					<h1>@yield('page-title')</h1>
+					<h1>@yield('page-h1')</h1>
 					@endif
 				</div>
 				<div id="page-nav_menu">

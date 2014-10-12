@@ -343,7 +343,7 @@ class ArticlesController extends \BaseController {
 			if(Input::has('show_on_calendar')) $article->show_on_calendar = Carbon::createFromFormat('m/d/Y', Input::get('show_on_calendar'));
 			if(Input::hasFile('attachment')) {
 				$attachment = Input::file('attachment');
-				dd($attachment);
+				//dd($attachment);
 				$attachments = array();
 				$fileNames = array();
 				

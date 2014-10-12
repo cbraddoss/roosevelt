@@ -1,24 +1,21 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ 'Projects - Due in '. $date  }}
+@section('page-h1')
+{{ 'Projects' }}
+@stop
+
+@section('page-h2')
+{{ 'Projects Due '. $date  }}
 @stop
 
 @section('header-menu')
 	<div class="page-menu">
 	<ul>
-		<li>
-			<div id="projects-new-project-form" class="create-something-new">
-				<span class="projects-button"><button class="add-new ss-plus">Add New</button></span>
-			</div>
-		</li>
-		<li>
-			<span class="page-menu-text">Filtering Date:</span>
-		</li>
-		<li>
-			<div class="filter-date projects-filter" data-date=" {{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
-				<span>@if(!empty($date)) {{ $date }} @elseDate Filter: @endif</span>
+		@include('projects.partials.projects-menu')
+		<li class="right">
+			<div class="filter-date projects-filter add-button" data-date=" {{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<span class="ss-calendar"></span>
+				<span>@if(!empty($date)) {{ $date }} @else Date Filter: @endif</span>
 			</div>
 		</li>
 	</ul>
@@ -27,7 +24,7 @@
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-
+	<h2>@yield('page-h2')</h2>
 	@if($projects->isEmpty())
 			<div class="projects-post">
 				<h3>No projects due in <i>{{ $date }}</i>.</h3>

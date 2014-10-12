@@ -1,7 +1,11 @@
 @extends('layout.main')
 
-@section('page-title')
+@section('page-h1')
 {{ 'Tools' }}
+@stop
+
+@section('page-h2')
+{{ 'Tools and Links for InsideOut Employees' }}
 @stop
 
 @section('header-menu')
@@ -15,19 +19,19 @@
 
 @section('page-content')
 <div id="tools-page"  class="inner-page">
-	<h2>Miscellaneous Tools and Links for InsideOut Employees</h2>
+	<h2>@yield('page-h2')</h2>
 
-	<p><a href="#" target="_blank">1Password</a></p>
+	<div class="link-box"><a href="#" target="_blank">1Password</a></div>
 
-	<p><a href="http://status.apps.rackspace.com/" target="_blank">Rackspace Apps Status</a> <small>(includes Email server status)</small></p>
-	<p><a href="https://status.rackspace.com/" target="_blank">Rackspace Servers Status</a></p>
+	<div class="link-box"><a href="http://status.apps.rackspace.com/" target="_blank">Rackspace Email/Apps Status</a></div>
+	<div class="link-box"><a href="https://status.rackspace.com/" target="_blank">Rackspace Servers Status</a></div>
 
-	<p><a href="https://dropbox.com" target="_blank">Dropbox: InsideOut Fileshare</a> <small>(requires username and password)</small></p>
-	<p><a href="http://my.onsip.com" target="_blank">Voicemail</a> <small>(requires username and password)</small></p>
-	<p><a href="http://webmail.insideout.com/" target="_blank">Webmail</a> <small>(requires username and password)</small></p>
-	<p><a href="http://login.insideout.com/admin/" target="_blank">Client WebTools</a> <small>(requires username and password)</small></p>
-	<p><a href="#" target="_blank">Plugin Repo</a></p>
-	<p><a href="#" target="_blank">WordPress Version Checker</a></p>
-	<p><a href="#" target="_blank">Hosted Sites</a></p>
+	<div class="link-box"><a href="https://dropbox.com" target="_blank">Dropbox: InsideOut Fileshare</a></div>
+	<div class="link-box"><a href="http://my.onsip.com" target="_blank">Voicemail</a></div>
+	<div class="link-box"><a href="http://webmail.insideout.com/" target="_blank">Webmail</a></div>
+	<div class="link-box"><a href="http://login.insideout.com/admin/" target="_blank">Client WebTools</a></div>
+	<div class="link-box"><a href="#" target="_blank">Plugin Repo</a></div>
+	<div class="link-box"><a href="#" target="_blank">WordPress Version Checker</a></div>
+	<div class="link-box"><a href="#" target="_blank">Hosted Sites</a></div>
 </div>
 @stop

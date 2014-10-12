@@ -1,7 +1,14 @@
 @extends('layout.main')
 
+@section('page-h1')
+{{ 'Calendar - '. $selectedMonth .' '. $selectedYear }}
+@stop
+
+@section('page-h2')
+{{ 'Calendar - '. $selectedMonth .' '. $selectedYear }}
+@stop
+
 @section('page-title')
-{{ 'Calendar - '. $selectedMonth .' - '. $selectedYear }}
 @stop
 
 @section('header-menu')

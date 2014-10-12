@@ -1,7 +1,23 @@
 @extends('layout.main')
 
-@section('page-title')
+@section('page-h1')
+{{ 'Error Page' }}
+@stop
+
+@section('page-h2')
 {{ 'Page Missing - 404' }}
+@stop
+
+@section('header-menu')
+<div class="page-menu">
+	<ul>
+		<li>
+			<div class="report-something-new">
+				<a class="add-button" href="mailto:devteam@insideout.com?subject=Remote Office 404 - Page: {{ current_page() }}"><span class="ss-mail"></span> Report 404</a>
+			</div>
+		</li>
+	</ul>
+</div>
 @stop
 
 @section('page-content')

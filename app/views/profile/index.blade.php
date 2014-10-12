@@ -1,6 +1,10 @@
 @extends('layout.main')
 
-@section('page-title')
+@section('page-h1')
+{{ 'Profile' }}
+@stop
+
+@section('page-h2')
 {{ Auth::user()->first_name }}{{ '\'s Profile' }}
 @stop
 
@@ -14,6 +18,7 @@
 
 @section('page-content')
 <div id="profile-page"  class="inner-page">
+	<h2>@yield('page-h2')</h2>
 
 	<div id="profile-header">
 		<!-- <span class="user-image"><img src="{{ gravatar_url(Auth::user()->email,100) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"></span> -->
@@ -37,7 +42,7 @@
 
 			<div class="new-form-field">
 				{{ Form::label('email','Email:') }}
-				{{ Auth::user()->email }}
+				<label>{{ Auth::user()->email }}</label>
 			</div>
 
 			<div class="new-form-field">
@@ -60,7 +65,7 @@
 				{{ Form::password('password_again', array('placeholder' => 'New Password Again', 'class' => 'password_again field')) }}
 			</div>
 
-				{{ Form::submit('Save Profile', array('class' => 'save-profile') ) }}
+				{{ Form::submit('Save Profile', array('class' => 'save-profile form-button') ) }}
 
 				<a href="/profile" class="form-button cancel">Cancel</a>
 
@@ -132,7 +137,6 @@
 	<div id="vacations">
 		<div class="field-add-vacation-dates">
 		<div class="update-something-form">
-			<h4>Add Dates:</h4>
 			{{ Form::open( array('class' => 'add-vacation-profile', 'route' => 'profile.vacation', 'method' => 'post', 'id' => Auth::user()->id) ) }}
 			{{ Form::hidden('user_id', Auth::user()->id) }}
 			
@@ -152,7 +156,7 @@
 			{{ Form::label('end_date', 'To:') }}
 			{{ Form::text('end_date', null, array('placeholder' => 'End Date', 'class' => 'datepicker vacation-date-add', 'id' => 'vacation-date-end')) }}
 			</div>
-			{{ Form::submit('Add Vacation', array('class' => 'save-vacation-profile') ) }}
+			{{ Form::submit('Add Vacation', array('class' => 'save-vacation-profile form-button') ) }}
 			{{ Form::close() }}
 		</div>
 		</div>

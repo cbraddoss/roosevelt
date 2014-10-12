@@ -1,21 +1,26 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ $article->title }}
+@section('page-h1')
+{{ 'Company News' }}
+@stop
+
+@section('page-h2')
+{{ 'Edit ' . $article->title }}
 @stop
 
 @section('header-menu')
 <div class="page-menu">
 	<ul>
 		<li>
-			<p>Edit Post:</p>
+			<a class="">Last Edit: {{ $article->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($article->edit_id)->first_name.' '.User::find($article->edit_id)->last_name }}</a>
 		</li>
 	</ul>
 </div>
 @stop
 
 @section('page-content')
-<div id="news-page"  class="inner-page">
+<div id="news-page"  class="inner-page edit-page">
+	<h2>@yield('page-h2')</h2>
 <div class="update-something-form">
 {{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 

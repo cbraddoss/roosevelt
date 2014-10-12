@@ -1,6 +1,6 @@
 @extends('admin.templates')
 
-@section('page-title')
+@section('page-h2')
 {{ 'Template: ' . $template->name }}
 @stop
 

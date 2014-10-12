@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('page-title')
+@section('page-h2')
 {{ 'Dashboard' }}
 @stop
 

@@ -1,38 +1,24 @@
 @extends('layout.main')
 
-@section('page-title')
-{{ 'Company News - Unread Articles'  }}
+@section('page-h1')
+{{ 'Company News' }}
+@stop
+
+@section('page-h2')
+{{ 'Your Unread Articles'  }}
 @stop
 
 @section('header-menu')
-	<div class="page-menu">
+<div class="page-menu">
 	<ul>
-		<li>
-			<div id="news-new-article-form" class="create-something-new">
-				<span class="news-button"><button class="add-new ss-plus">Add New</button></span>
-			</div>
-		</li>
-		<li>
-			<span class="page-menu-text">Filtering Your Unread</span>
-		</li>
-		<li class="select-dropdown">
-			<span class="ss-dropdown"></span>
-			<span class="ss-directup"></span>
-			<select class="filter-type news-filter">
-				<option value="0">Type Filter</option>
-				<option value="unread" selected>Unread</option>
-				<option value="mentions">Mentions</option>
-				<option value="favorites">Favorites</option>
-				<option value="drafts">Drafts</option>
-			</select>
-		</li>
+		@include('news.partials.news-menu')
 	</ul>
-	</div>
+</div>
 @stop
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
-
+	<h2>@yield('page-h2')</h2>
 	@if($articles->isEmpty())
 			<div class="news-article">
 				<h3>No unread articles found.</h3>
