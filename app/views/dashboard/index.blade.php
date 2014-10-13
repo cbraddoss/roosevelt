@@ -114,6 +114,9 @@
 									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
 									<span class="post-due-text-alert">Due Today!</span>
 								</div>
+								@if($project->priority == 'high')
+								<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
+								@endif
 								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>
@@ -124,12 +127,18 @@
 									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
 									<span class="post-due-text-alert">Past Due!</span>
 								</div>
+								@if($project->priority == 'high')
+								<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
+								@endif
 								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>
 									<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
 								</div>
 							@else
+								@if($project->priority == 'high')
+								<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
+								@endif
 								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 								<div class="post-due post-detail">
 									<span class="post-due-text">Due Date: </span>

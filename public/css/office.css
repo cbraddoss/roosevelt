@@ -1096,14 +1096,17 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	opacity: 0.7;
 }
 #content .office-post.high-priority {
-	background: rgba(255,77,77,0.1);
+	/*background: rgba(255,77,77,0.1);*/
+	border-right: 8px solid #A61919;
 }
 #content .office-post.high-priority .high-priority-alert {
-	position: absolute;
-	top: 1px;
-	left: 1px;
+	float: right;
+	margin: 25px 10px 0 0;
 	color: #A61919;
 	z-index: 1;
+}
+#content .office-post.high-priority .high-priority-alert:before {
+	font-size: 24px;
 }
 #content .office-post .post-meta {
 	float: right;

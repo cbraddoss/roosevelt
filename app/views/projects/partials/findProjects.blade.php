@@ -7,13 +7,10 @@
 @if($project->priority == 'high')
 	@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-now">
-		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-soon">
-		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@else
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority">
-		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@endif
 @elseif($project->priority == 'low')
 	@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
@@ -124,6 +121,10 @@
 		<div class="post-attachment">
 			<p class="ss-attach"></p>
 		</div>
+		@endif
+
+		@if($project->priority == 'high')
+		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 		@endif
 
 		<div class="post-end-date">
