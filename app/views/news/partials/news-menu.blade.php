@@ -5,7 +5,7 @@
 <li><a id="pagelink-news-drafts" href="/news/drafts" class="link">Drafts</a></li>
 <li class="right">
 	<div id="news-new-article-form" class="create-something-new">
-		<span class="news-button"><span class="add-button ss-plus">Add New</button></span>
+		<span class="news-button"><span class="add-button ss-plus"> Add New</button></span>
 	</div>
 </li>
 <li class="right">

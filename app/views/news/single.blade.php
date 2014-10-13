@@ -74,10 +74,12 @@
 			
 		</div>
 	</div>
-	<h3 class="comment-on">Comments on <i>{{ $article->title }}</i>:</h3>
+	
 	<div id="news-post-comment-form" class="create-something-new">
 		<div class="news-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
 	</div>
+	<h3 class="comment-on">Comments on <i>{{ $article->title }}</i>:</h3>
+	
 	<div id="comments"></div>
 	@if($comments->isEmpty())
 		<p>No comments yet. Reply to start a conversation on this article!</p>
@@ -85,8 +87,8 @@
 		@foreach($comments as $comment)
 			@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 				<div id="comment-{{ $comment->id }}" class="news-article-comment current-user-comment office-post-comment">
-				<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
-			@else <div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+				<img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+			@else <div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
 			@endif
 				<div class="comment-contents">
 					<div class="comment-details">
@@ -118,8 +120,8 @@
 				@if($subComment->reply_to_id == $comment->id)
 					@if(Auth::user()->user_path == User::find($subComment->author_id)->user_path) 
 						<div id="comment-{{ $subComment->id }}" class="news-article-comment current-user-comment office-post-comment office-post-sub-comment">
-						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
-					@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment office-post-sub-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,30) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+					@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment office-post-sub-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
 					@endif
 						<div class="comment-contents">
 							<div class="comment-details">

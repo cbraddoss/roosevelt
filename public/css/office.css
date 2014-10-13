@@ -75,12 +75,12 @@ ul {
 .select-dropdown {
 	overflow: hidden;
 	background: #fafafa;
-	border: 1px solid #333333;
+	border: 1px solid rgba(51,51,51,0.5);
 	border-radius: 3px;
 	position: relative;
 	cursor: pointer;
 	padding: 0px 0px 0px 0px;
-	box-shadow: 0px 2px #333333;
+	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
 	height: 27.5px;
 	display: inline-block;
 }
@@ -630,8 +630,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: #2E9999;
 	border-radius: 3px;
 	margin: 0px 7.5px;
-	padding: 2.5px 10px 2.5px 10px;
-	box-shadow: 0px 3px #333333;
+	padding: 2.5px 10px 5px 10px;
+	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 	float: left;
 	cursor: pointer;
 	position: relative;
@@ -646,12 +646,13 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .add-button:hover,
 #content .add-button.active {
 	margin-top: 1px;
-	box-shadow: 0px 2px #333333;
+	height: 21.5px;
+	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
 	background: #FF4D4D;
 }
 #content .add-button:hover,
 #content .add-button.active {
-	margin-bottom: 19px;
+	margin-bottom: 20px;
 }
 #page-nav_menu ul li {
 	float: left;
@@ -733,22 +734,28 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .link-box a {
 	position: relative;
-	height: 100%;
+	height: 60px;
 	display: block;
 	text-decoration: none;
 	color: #ffffff;
-	padding: 5px 0;
-	background: #333333;
+	padding: 5px 0 10px;
+	background: #555555;
 	border-radius: 3px;
-	box-shadow: 0px 3px #b5b5b5;
+	box-shadow: inset 0px -5px rgba(51,51,51,0.7);
 }
 #content .link-box a:before {
 	font-size: 24px;
 	display:block;
 	color: #ffffff;
 }
+#content .link-box:hover {
+	/*padding-top: 2px;*/
+}
 #content .link-box a:hover {
-	background: #555555;
+	margin-top: 2px;
+	height: 58px;
+	background: #FF4D4D;
+	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 }
 #content .link-box span {
 	font-size:0.7em;
@@ -810,6 +817,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .new-form-field {
 	border-radius: 3px;
+	width: 100%;
+	display: block;
+}
+#content .create-something-form .new-form-field:first-child {
+	margin-bottom: 10px;
 }
 #content .new-form-field label {
 	width: 200px;
@@ -828,10 +840,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border: none;
 	border-radius: 3px;
 	margin: 5px 0;
-	width: 65%;
+	width: calc(100% - 230px);
 }
 #content .new-form-field textarea {
+	margin-top: 10px;
 	height: 200px;
+}
+#content .new-form-field .select-dropdown,
+#content .new-form-field input[type=file] {
+	margin-top: 5px;
 }
 #content .new-form-field .form-action-buttons .form-action-button,
 #content .new-form-field .accounts-search-ajax span.accounts-searched {
@@ -840,18 +857,19 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border: none;
 	border-radius: 3px;
 	padding: 5px 8px;
-	margin: 0 5px 0 0;
-	box-shadow: 0px 3px #858585;
+	margin: 5px 5px 0 0;
+	box-shadow: inset 0px -3px #858585;
 	font-size: 0.9em;
 	color: #333333;
 	cursor: pointer;
+	height: 20px;
 }
 #content .new-form-field .form-action-buttons .form-action-button:hover,
 #content .new-form-field .form-action-buttons .subscribe-selected,
 #content .new-form-field .accounts-search-ajax span.accounts-searched:hover {
 	background: #FF4D4D;
 	color: #ffffff;
-	box-shadow: 0px 3px #333333;
+	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 }
 #content .new-form-field .accounts-search-ajax {
 	margin-left: 220px;
@@ -882,13 +900,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 100px;
 	display: inline-block;
 	margin: 10px 10px 10px 0;
-	border: 1px solid #353535;
-	border-radius: 3px;
-	box-shadow: 0px 3px #353535;
+	/*box-shadow: 0px 3px #353535;*/
 }
 #content .update-something-form .edit-attachments .post-edit-attachment a .post-attachment {
 	width: 100%;
 	height: auto;
+	border: 1px solid #353535;
 }
 #content .update-something-form .edit-attachments .delete-attachment {
 	position: absolute;
@@ -941,15 +958,20 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #ffffff;
 	background: #2E9999;
 	border-radius: 3px;
-	margin: 0px 7.5px 1px 0;
-	padding: 5px 20px 5px 20px;
-	box-shadow: 0px 3px #333333;
+	margin: 5px 7.5px 1px 0;
+	padding: 5px 20px 2.5px 20px;
+	height: 22.5px;
+	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 	cursor: pointer;
 	position: relative;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	white-space: normal;
+}
+#content input.form-button {
+	height: 30px;
+	padding-top: 0px;
 }
 #content .form-button.cancel {
 	float: right;
@@ -969,8 +991,13 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .form-button:hover {
 	background: #FF4D4D;
 	color: #ffffff;
-	box-shadow: 0 2px #333333;
-	margin: 1px 7.5px 0 0;
+	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
+	margin: 6px 7.5px 1px 0;
+	height: 21.5px;
+}
+#content input.form-button:hover {
+	height: 29px;
+	padding-top: 1px;
 }
 /* General List Styles */
 #content .office-post,
@@ -1100,6 +1127,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .post-single-attachment {
 	float: right;
 	margin: 0 0 10px 10px;
+}
+#content .office-post-single .post-single-attachment img {
 	border: 1px solid #353535;
 }
 #content .office-post-single .office-post-sub {
