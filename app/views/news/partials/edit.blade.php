@@ -20,54 +20,55 @@
 
 @section('page-content')
 <div id="news-page"  class="inner-page edit-page">
-	<h2>@yield('page-h2')</h2>
+<h2>@yield('page-h2')</h2>
+
 <div class="update-something-form">
 {{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $article->id) }}
 
 <div class="new-form-field">
-	{{ Form::label('title', 'Title:') }}
-	{{ Form::text('title', $article->title, array('class' => 'article-title field')) }}
+{{ Form::label('title', 'Title:') }}
+{{ Form::text('title', $article->title, array('class' => 'article-title field')) }}
 </div>
 
 <div class="new-form-field">
-<div class="form-textarea-buttons">
-	<!-- <span class="ss-link textarea-button make-link"></span>
-	<span class="textarea-button make-bold">Bold</span>
-	<span class="textarea-button make-italic">Italic</span>
-	<span class="textarea-button-divider"></span> -->
-	{{ Form::label('content', 'Ping a user:') }}
-	{{ display_pingable() }}
+<div class="form-textarea-buttons form-action-buttons">
+{{ Form::label('content', 'Ping a user:') }}
+{{ display_pingable() }}
+<!-- <span class="ss-link textarea-button make-link"></span>
+<span class="textarea-button make-bold">Bold</span>
+<span class="textarea-button make-italic">Italic</span>
+<span class="textarea-button-divider"></span> -->
 </div>
 </div>
 
 <div class="new-form-field">
-	{{ Form::label('content', 'Content:') }}
-	{{ Form::textarea('content', $article->content, array('class' => 'article-content field', 'id' => 'article-content')) }}
+{{ Form::label('content', 'Content:') }}
+{{ Form::textarea('content', $article->content, array('class' => 'article-content field', 'id' => 'article-content')) }}
 </div>
 
 <div class="new-form-field">
-	{{ Form::label('show_on_calendar', 'Show on Calendar:') }}
-	@if($article->show_on_calendar != '0000-00-00 00:00:00')
-	{{ Form::text('show_on_calendar', Carbon::createFromFormat('Y-m-d H:i:s', $article->show_on_calendar)->format('m/d/Y'), array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
-	@else
-	{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
-	@endif
+{{ Form::label('show_on_calendar', 'Show on Calendar:') }}
+@if($article->show_on_calendar != '0000-00-00 00:00:00')
+{{ Form::text('show_on_calendar', Carbon::createFromFormat('Y-m-d H:i:s', $article->show_on_calendar)->format('m/d/Y'), array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+@else
+{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+@endif
 </div>
 
 <div class="new-form-field">
-	{{ Form::label('attachment[]', 'Attach file(s):') }}
-	{{ Form::file('attachment[]',array('multiple')) }}
+{{ Form::label('attachment[]', 'Attach file(s):') }}
+{{ Form::file('attachment[]',array('multiple')) }}
 </div>
 
 <div class="new-form-field">
-	{{ Form::label('status', 'Article Status:') }}
-	<span class="select-dropdown">
-		<span class="ss-dropdown"></span>
-		<span class="ss-directup"></span>
-		{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , $article->status) }}
-	</span>
+{{ Form::label('status', 'Article Status:') }}
+<span class="select-dropdown">
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+{{ Form::select('status', array('published' => 'Publish', 'sticky' => 'Publish as Sticky', 'draft' => 'Save as Draft') , $article->status) }}
+</span>
 </div>
 
 {{ Form::submit('Save Article', array('class' => 'save form-button', 'id' => 'update-article-submit') ) }}
@@ -78,8 +79,8 @@
 
 @if(!empty($article->attachment))
 <div class="new-form-field edit-attachments">
-	<p>Current Attachment(s):</p>
-	{{ $article->getAttachments($article->id,'post-edit-attachment') }}
+<p>Current Attachment(s):</p>
+{{ $article->getAttachments($article->id,'post-edit-attachment') }}
 </div>
 @endif
 

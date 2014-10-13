@@ -112,7 +112,7 @@
 							@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
 								<div class="post-alert post-tooltip post-meta">
 									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
-									<span class="post-due-text-right">Due Today!</span>
+									<span class="post-due-text-alert">Due Today!</span>
 								</div>
 								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 								<div class="post-due post-detail">
@@ -122,7 +122,7 @@
 							@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
 								<div class="post-alert post-tooltip post-meta">
 									<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span></a>
-									<span class="post-due-text-right">Past Due!</span>
+									<span class="post-due-text-alert">Past Due!</span>
 								</div>
 								<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
 								<div class="post-due post-detail">

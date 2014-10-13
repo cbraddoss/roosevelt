@@ -11,10 +11,24 @@
 @section('header-menu')
 <div class="page-menu">
 	<ul>
+@if($article->status == 'sticky')
 		<li>
-			<div class="page-meta">
-				@if(strpos($article->favorited, current_user_path()) !== false) <span id="favorite-{{ $article->id }}" class="ss-heart favorited"> @else <span id="favorite-{{ $article->id }}" class="ss-heart"> @endif
-				<span favoriteval="{{ $article->id }}" class="favorite-this none">Favorite This Article</span></span>
+			<div class="page-meta post-attachment post-tooltip">
+				<a class="tooltip-hover ss-pinboard ss-social"><span class="tooltip">Sticky Post</span></a>
+			</div>
+		</li>
+@endif
+		<li>
+			<div class="page-meta post-favorite post-tooltip">
+				@if(strpos($article->favorited, current_user_path()) !== false)
+				<a id="favorite-{{ $article->id }}" class="ss-heart favorited tooltip-hover">
+					<span favoriteval="{{ $article->id }}" class="favorite-this none tooltip">Unfavorite Article</span>
+				</a>
+				@else
+				<span id="favorite-{{ $article->id }}" class="ss-heart tooltip-hover">
+					<span favoriteval="{{ $article->id }}" class="favorite-this none tooltip">Favorite Article</span>
+				</span>
+				@endif
 				
 				{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 					{{ Form::hidden('favorite', $article->id) }}
@@ -23,29 +37,40 @@
 		</li>
 @if(strpos($article->mentions, Auth::user()->user_path) !== false)
 		<li>
-			<div class="page-meta">
-				<span>@</span>
+			<div class="page-meta post-tooltip">
+				<a class="tooltip-hover"><span class="tooltip">Mentioned!</span>@</a>
+			</div>
+		</li>
+@else
+		<li>
+			<div class="page-meta post-activity post-tooltip">
+				<span class="tooltip-hover"><span class="tooltip">No Mentions</span>@</span>
 			</div>
 		</li>
 @endif
 @if($article->getCommentsCount($article->id))
 		<li>
-			<div class="page-meta">
-				{{ link_to('/news/article/'. $article->slug.'#comments', $article->getCommentsCount($article->id), array('class' => 'ss-chat news-link')) }}
+			<div class="page-meta post-activity post-tooltip">
+			<a href="/news/article/{{ $article->slug . '#comments' }}" class="ss-chat tooltip-hover news-link"><span class="tooltip">{{ $article->getCommentsCount($article->id) }} Comments</span></a>
 			</div>
 		</li>
-@endif
-@if($article->status == 'sticky')
+@else
 		<li>
-			<div class="page-meta">
-				<span class="ss-pinboard ss-social"></span>
+			<div class="page-meta post-tooltip">
+				<span class="tooltip-hover ss-chat"><span class="tooltip">No Comments</span></span>
 			</div>
 		</li>
 @endif
 @if($article->getAttachments($article->id))
 		<li>
-			<div class="page-meta">
-				<span class="ss-attach"></span>
+			<div class="page-meta post-tooltip">
+				<a class="tooltip-hover ss-attach"><span class="tooltip">Attachment</span></a>
+			</div>
+		</li>
+@else
+		<li>
+			<div class="page-meta post-tooltip">
+				<span class="tooltip-hover ss-attach"><span class="tooltip">No Attachments</span></span>
 			</div>
 		</li>
 @endif
@@ -91,8 +116,16 @@
 			@else <div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
 			@endif
 				<div class="comment-contents">
+					{{ $comment->getCommentAttachments($comment->id) }}
+					<p>{{ display_content($comment->content) }}</p>
 					<div class="comment-details">
 						<div>
+							<div class="comment-options">
+								<div id="comment-post-comment-form" class="create-something-new">
+									<div class="comment-reply-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
+								</div>
+							</div>
+
 							<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}</span>
 							<span class="comment-time">on 
 							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
@@ -100,20 +133,14 @@
 							@else
 								{{ $comment->created_at->format('F j, Y g:i a') }}
 							@endif
-							</span>
+							</span> | 
+							<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $comment->id }}">Permalink</a></span> | 
 							@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 								<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
 							@endif
 						
-						<div class="comment-options">
-							<div id="comment-post-comment-form" class="create-something-new">
-								<div class="comment-reply-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
-							</div>
-						</div>
 						</div>
 					</div>
-					{{ $comment->getCommentAttachments($comment->id) }}
-					<p>{{ display_content($comment->content) }}</p>
 				</div>
 			</div>
 			@foreach($subComments as $subComment)
@@ -124,6 +151,8 @@
 					@else <div id="comment-{{ $subComment->id }}" class="news-article-comment office-post-comment office-post-sub-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
 					@endif
 						<div class="comment-contents">
+							{{ $subComment->getCommentAttachments($subComment->id) }}
+							<p>{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
 								<div>
 									<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}</span>
@@ -133,14 +162,13 @@
 									@else
 										{{ $subComment->created_at->format('F j, Y g:i a') }}
 									@endif
-									</span>
+									</span> | 
+									<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $comment->id }}">Permalink</a></span> | 
 									@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 										<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
 									@endif
 								</div>
 							</div>
-							{{ $subComment->getCommentAttachments($subComment->id) }}
-							<p>{{ display_content($subComment->content) }}</p>
 						</div>
 					</div>
 				@endif

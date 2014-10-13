@@ -7,10 +7,13 @@
 @if($project->priority == 'high')
 	@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-now">
+		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority due-soon">
+		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@else
 	<div id="project-{{ $project->id }}" class="project-post office-post high-priority">
+		<span class="ss-alert high-priority-alert tooltip-hover"><span class="tooltip">High<br />Priority</span></span>
 	@endif
 @elseif($project->priority == 'low')
 	@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') <= Carbon::now()->format('Y-m-d'))
@@ -31,36 +34,58 @@
 @endif
 @endif
 
-		<div class="post-date">
 		@if(!empty($closed))
-			<p>Done:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('M j') }}</p>
+		<div class="post-date">
+			<p>Done:<br />{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('F j') }}</p>
+		</div>
 		@elseif(!empty($archived))
-			<p>Done:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('M j') }}</p>
+		<div class="post-date">
+			<p>Done:<br />{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->updated_at)->format('F j') }}</p>
+		</div>
 		@else
 			@if(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') == Carbon::now()->format('Y-m-d'))
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>Today<span class="project-change-date ss-write"></span></p>
+		<div class="post-date">
+			<div class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
+				<span class="project-change-date ss-write"></span>
+				Due Date: <br /><span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+				</div>
+			<div class="post-alert">
+				<span class="post-due-text-alert post-tooltip">
+					<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span> Due Today!</a>
+				</span>
+							{{ Form::open( array('id' => 'bump-project-date-'.$project->id, 'class' => 'bump-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
+								{{ Form::hidden('id', $project->id) }}
+							{{ Form::close() }}
+			</div>
+		</div>
 			@elseif(Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('Y-m-d') < Carbon::now()->format('Y-m-d'))
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Past Due!<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}<span class="project-change-date ss-write"></span></p>
+		<div class="post-date">
+			<div class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
+				Due Date: <br /><span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+				<span class="project-change-date ss-write"></span>
+			</div>
+			<div class="post-alert">
+				<span class="post-due-text-alert post-tooltip">
+					<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span> Past Due!</a>
+				</span>
+							{{ Form::open( array('id' => 'bump-project-date-'.$project->id, 'class' => 'bump-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
+								{{ Form::hidden('id', $project->id) }}
+							{{ Form::close() }}
+			</div>
+		</div>
 			@else
-			<p class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">Due:<br>{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('M j') }}<span class="project-change-date ss-write"></span></p>
+		<div class="post-date">
+			<div class="change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
+				Due Date: <br /><span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+				<span class="project-change-date ss-write"></span>
+			</div>
+		</div>
 			@endif
 		@endif
 		{{ Form::open( array('id' => 'change-project-date-'.$project->id, 'class' => 'change-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
-		</div>
-		<div class="post-end-date">
-			@if($project->period == 'recurring')
-			<span>Start Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('M j') }} - End Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
-			@else
-			<span>Launching: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
-			@endif
-		</div>
-		<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
-		<div class="post-hover-content">
-			<a href="{{ URL::to('/projects/post/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
-		</div>
-		
+
 		<div class="post-assigned">
 			<p class="change-project-user">
 				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
@@ -75,10 +100,9 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
-
 		<div class="post-stage">
 			<p class="change-project-stage">
-				<span>Stage:</span>
+				<span class="post-stage-text">Stage:</span>
 				<div class="select-dropdown">
 					<span class="ss-dropdown"></span>
 					<span class="ss-directup"></span>
@@ -101,6 +125,23 @@
 			<p class="ss-attach"></p>
 		</div>
 		@endif
+
+		<div class="post-end-date">
+			@if($project->period == 'recurring')
+			<span>Start Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('M j') }} - End Date: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('M j') }}</span>
+			@else
+			<span>Launching: {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j') }}</span>
+			@endif
+		</div>
+
+		<h3>{{ link_to('/projects/post/'. $project->slug, $project->title, array('class' => 'project-link')) }}</h3>
+		<div class="post-content">
+			<a href="{{ URL::to('/projects/post/'. $project->slug) }}" class="project-link">{{ display_content($project->content, '75') }}</a>
+		</div>
+		
+		
+
+		
 		
 	</div>
 @endforeach

@@ -629,17 +629,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #ffffff;
 	background: #2E9999;
 	border-radius: 3px;
-	margin: 0px 7.5px;
+	margin: 0px 5px;
 	padding: 2.5px 10px 5px 10px;
 	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 	float: left;
 	cursor: pointer;
 	position: relative;
-}
-#content .add-button {
-	float: none;
-	margin: 0px 0 20px 0;
-	display: inline-block;
 }
 #page-nav_menu .add-button:hover,
 #page-nav_menu .add-button.active,
@@ -649,10 +644,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 21.5px;
 	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
 	background: #FF4D4D;
-}
-#content .add-button:hover,
-#content .add-button.active {
-	margin-bottom: 20px;
 }
 #page-nav_menu ul li {
 	float: left;
@@ -696,6 +687,36 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: #858585;
 	color: #ffffff;
 	border-radius: 3px;
+}
+#page-nav_menu .page-meta {
+	margin-left: 10px;
+	font-size: 1.3em;
+	padding: 0 10px;
+	color: #858585;
+}
+#page-nav_menu .page-meta a {
+	color: #2E9999;
+	padding: 0 0 5px 0;
+	margin: 0;
+}
+#page-nav_menu .page-meta a:hover {
+	background: none;
+	color: #2E9999;
+}
+#page-nav_menu .page-meta .ss-heart {
+	color: #858585;
+}
+#page-nav_menu .page-meta .ss-heart.favorited {
+	color: #2E9999;
+}
+#page-nav_menu .page-meta .tooltip {
+	top: calc(100% - 10px);
+	width: 400px;
+	text-align:left;
+	margin-left: -40px;
+	background: none;
+	color: #333333;
+	font-size: 0.7em;
 }
 /* General Page Styles */
 #content h2 {
@@ -814,6 +835,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .update-something-form h2 {
 	color: #ffffff;
 	margin-top: 0;
+}
+#content .create-something-form h3,
+#content .update-something-form h3 {
+	color: #ffffff;
 }
 #content .new-form-field {
 	border-radius: 3px;
@@ -1069,10 +1094,20 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post.user-list-inactive {
 	opacity: 0.7;
 }
+#content .office-post.high-priority {
+	background: rgba(255,77,77,0.1);
+}
+#content .office-post.high-priority .high-priority-alert {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+	color: #A61919;
+	z-index: 1;
+}
 #content .office-post .post-meta {
 	float: right;
 	position: relative;
-	margin-top: 15px;
+	margin-top: 25px;
 	margin-right: 20px;
 	text-align: center;
 }
@@ -1109,7 +1144,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post .post-due-text {
 	padding-right: 5px;
 }
-#content .office-post.due-now .post-alert .post-due-text-right {
+#content .office-post.due-now .post-alert .post-due-text-alert {
 	background-color: #FAF2DB;
 	color: #333333;
 	border: 1px solid #D3C691;
@@ -1121,6 +1156,90 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-right: 10px;
 	margin-top: 5px;
 }
+/* Projects List View */
+#content #projects-page .project-post,
+#content #todo-page .project-post {
+	padding-left: 170px;
+	position: relative;
+}
+#content #projects-page .project-post .post-date,
+#content #todo-page .project-post .post-date {
+	position: absolute;
+	left: 5px;
+	top: 0;
+	padding: 5px;
+	width: 150px;
+	height: 100%;
+}
+#content #projects-page .project-post .post-date .change-project-date,
+#content #todo-page .project-post .post-date .change-project-date {
+	cursor: pointer;
+	text-align: center;
+	width: 100%;
+}
+#content #projects-page .project-post .post-date .project-change-date,
+#content #todo-page .project-post .post-date .project-change-date {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	color: #2E9999;
+	font-size: 24px;
+}
+#content #projects-page .project-post .post-date .change-project-date:hover,
+#content #todo-page .project-post .post-date .change-project-date:hover {
+	background: rgba(51,51,51,0.2);
+	color: #ffffff;
+	border-radius: 3px;
+}
+#content #projects-page .project-post .post-alert,
+#content #todo-page .project-post .post-alert {
+	margin: 5px 0 0;
+	width: 100%;
+	display: block;
+}
+#content #projects-page .project-post .post-alert a,
+#content #todo-page .project-post .post-alert a {
+	color: #333333;
+}
+#content #projects-page .project-post .post-alert .post-due-text-alert,
+#content #todo-page .project-post .post-alert .post-due-text-alert {
+	margin: 0 auto;
+	padding: 5px 0 0;
+	display: block;
+	text-align: center;
+}
+#content #projects-page .project-post .post-end-date,
+#content #todo-page .project-post .post-end-date {
+
+}
+#content #projects-page .project-post .post-assigned,
+#content #projects-page .project-post .post-stage,
+#content #todo-page .project-post .post-assigned,
+#content #todo-page .project-post .post-stage {
+	float: right;
+	margin: 10px 0 0 10px;
+	text-align: center;
+}
+#content #projects-page .project-post .post-stage .change-project-stage .post-stage-text,
+#content #todo-page .project-post .post-stage .change-project-stage .post-stage-text {
+	margin-bottom: 10px;
+	display: block;
+}
+#content #projects-page .project-post .post-due-bump-date,
+#content #todo-page .project-post .post-due-bump-date {
+	display: inline-block;
+}
+#content #projects-page .project-post .post-due-bump-date:before,
+#content #todo-page .project-post .post-due-bump-date:before {
+	font-size: 16px;
+	color: #2E9999;
+	vertical-align: middle;
+}
+#content #projects-page .project-post .post-due-bump-date:hover,
+#content #todo-page .project-post .post-due-bump-date:hover {
+	text-decoration: none;
+}
+/* Post Single View */
 #content .office-post-single {
 
 }
@@ -1137,6 +1256,38 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 5px;
 	margin-top: 10px;
 	border-left: 8px solid #d5d5d5;
+}
+#content .post-comment.add-button {
+	margin: 10px 0 20px 0;
+	float: right;
+}
+#content .post-comment.add-button:hover,
+#content .post-comment.add-button.active {
+	margin-top: 11px;
+}
+#content .single-page .comment-details {
+	font-size: 0.9em;
+	padding: 10px 0 5px;
+}
+#content .single-page .comment-details .add-button {
+	font-size: 0.9em;
+	height: 15px;
+	margin-top: 0;
+}
+#content .single-page .comment-details .add-button:hover {
+	margin-top: 1px;
+}
+#content .single-page .comment-details .edit-comment {
+	cursor: pointer;
+}
+#content .single-page .office-post-comment .comment-single-attachment {
+	float: right;
+	margin: 0 0 10px 10px;
+}
+#content .single-page .office-post-comment .comment-single-attachment img {
+	border: 1px solid #333333;
+	width: 150px;
+	height: auto;
 }
 /* Dashboard */
 #quicklinks {
@@ -1200,7 +1351,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #profile-page .profile-left,
 #profile-page .profile-right {
 	width: 48%;
-	margin: 0;
+	margin: 0 0 20px 0;
 	float:left;
 }
 #profile-page .profile-left {
@@ -1210,16 +1361,44 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	width: 145px;
 	height: 100px;
 	text-align: center;
-	float: left;
+	display: inline-block;
 	margin: 5px 10px;
-	border: 1px solid #ddd;
+	border: 1px solid #858585;
 	border-radius: 3px;
 }
 #profile-page .vacation-box .vacation-details span {
 	display: block;
 }
+#profile-page .vacation-box .vacation-details .update-something-form {
+	padding: 5px;
+	height: auto;
+}
+#profile-page .update-something-form .vacation-box h3 {
+	background: #333333;
+	padding: 5px;
+	border-radius: 3px;
+}
+#profile-page .vacation-box .vacation-details .update-something-form .delete-post {
+	height: auto;
+}
+#profile-page .vacation-box .vacation-details .delete {
+	float: left;
+	margin-left: 25px;
+	background: #FF4D4D;
+	color: #ffffff;
+	box-shadow: inset 0 -3px rgba(51,51,51,0.5);
+	margin-top: 10px !important;
+}
+#profile-page .vacation-box .vacation-details .delete:hover {
+	margin-top: 11px !important;
+	height: 29px;
+	box-shadow: inset 0 -2px rgba(51,51,51,0.5);
+}
 
 /* Admin Page */
+#content #admin-page .office-post .post-meta {
+	margin-top: 15px;
+}
 
 /* Calendar */
 #calendar-page {
@@ -1458,6 +1637,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
     width: 94px;
     height: 133px;
     margin: 0 auto;
+    border-bottom: 2px solid #333333;
 }
 #homer .head * {
     border: 1px solid #110b00;

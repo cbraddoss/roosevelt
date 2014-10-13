@@ -562,13 +562,13 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// news page
-	$('#news-page span.ss-heart').hover(function(){
-		$(this).find('span.favorite-this').removeClass('none');
+	$('#news-page .ss-heart').hover(function(){
+		$(this).find('.favorite-this').removeClass('none');
 	}, function(){
-		$(this).find('span.favorite-this').addClass('none');
+		$(this).find('.favorite-this').addClass('none');
 	});
-	$('#news-page span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
-	$(document).on('click', '#news-page span.ss-heart', function(){
+	$('#news-page .ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
+	$(document).on('click', '#news-page .ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		//console.log(articleId);
 		$.post(
@@ -590,13 +590,13 @@ jQuery(document).ready(function($){
 		return false;
 	});
 	// favorite articles
-	$('#page-nav_menu span.ss-heart').hover(function(){
-		$(this).find('span.favorite-this').show();
+	$('#page-nav_menu .ss-heart').hover(function(){
+		$(this).find('.favorite-this').show();
 	}, function(){
-		$(this).find('span.favorite-this').hide();
+		$(this).find('.favorite-this').hide();
 	});
-	$('#page-nav_menu span.ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
-	$(document).on('click', '#page-nav_menu span.ss-heart', function(){
+	$('#page-nav_menu .ss-heart.favorited').find('.favorite-this').html('Unfavorite Article');
+	$(document).on('click', '#page-nav_menu .ss-heart', function(){
 		var articleId = $(this).find('.favorite-this').attr('favoriteval');
 		//console.log(articleId);
 		$.post(
@@ -1191,6 +1191,7 @@ jQuery(document).ready(function($){
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .post-due .post-due-date').html('<span class="post-due-date">'+data.date+'</span>');
+			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br />'+data.date+'<span class="project-change-date ss-write"></span>');
 			$(document).find('div#project-'+projectID).addClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-alert').remove();
@@ -1201,7 +1202,7 @@ jQuery(document).ready(function($){
 	// change project date
 	var calProjListTemp = new Date();
 	var calProjListNow = new Date(calProjListTemp.getFullYear(), calProjListTemp.getMonth(), calProjListTemp.getDate(), 0, 0, 0, 0);
-	var calProjListPost = $('#content #projects-page p.change-project-date').datepicker({
+	var calProjListPost = $('#content .office-post .change-project-date').datepicker({
 		onRender: function(date) {
 			return date.valueOf() < calProjListNow.valueOf() ? 'disabled' : '';
 		}
@@ -1222,13 +1223,13 @@ jQuery(document).ready(function($){
 				success:       projectDateChangeSuccess,  // post-submit callback
 				dataType: 'json',
 				data: { 
-					_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
-					id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
+					_token: $(this).parent().parent().find('form.change-project-date-form input[name=_token]').attr('value'),
+					id: $(this).parent().parent().find('form.change-project-date-form input[name=id]').attr('value'),
 					value: monthLink+'/'+dayLink+'/'+yearLink,
 					date: 'youbetcha',
 				},
 				type: 'POST',
-				url: $(this).parent().find('form.change-project-date-form').attr('action'),
+				url: $(this).parent().parent().find('form.change-project-date-form').attr('action'),
 				resetForm: false        // reset the form after successful submit 
 			};
 			$(this).find('.changed-input').each(function() {
@@ -1237,7 +1238,7 @@ jQuery(document).ready(function($){
 			$(this).ajaxSubmit(changeProjectDateOptions);
 			return false;
 	}).data('datepicker');
-	// $('#content p.change-project-date').datepicker().on('changeDate', function(ev) {
+	// $('#content .change-project-date').datepicker().on('changeDate', function(ev) {
 	// 	$('.dropdown-menu').hide();
 	// 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
 		
@@ -1277,7 +1278,7 @@ jQuery(document).ready(function($){
 		}
 		else {
 			var projectID = data.pid;
-			$(document).find('div#project-'+projectID+' .post-date p').html('Due:<br>'+data.date+'<span class="project-change-date ss-write"></span>');
+			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br />'+data.date+'<span class="project-change-date ss-write"></span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);

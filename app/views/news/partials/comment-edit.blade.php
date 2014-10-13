@@ -2,7 +2,7 @@
 {{ Form::open( array('id' => 'edit-comment-'.$comment->id, 'files' => true, 'class' => 'edit-comment', 'url' => '/news/article/comment/'. $comment->id, 'method' => 'post') ) }}
 	
 <div class="new-form-field">
-	<div class="form-textarea-buttons">
+	<div class="form-textarea-buttons form-action-buttons">
 		{{ Form::label('content', 'Ping a user:') }}
 		{{ display_pingable() }}
 	</div>

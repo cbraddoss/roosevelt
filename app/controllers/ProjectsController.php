@@ -550,7 +550,7 @@ class ProjectsController extends \BaseController {
 					elseif(Carbon::createFromFormat('Y-m-d H:i:s', $date)->subWeek()->format('Y-m-d') <= Carbon::now()->format('Y-m-d')) $classchange = 'due-soon';
 					else $classchange = '';
 
-					if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
+					//if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
 
 					$project->save();
 					
