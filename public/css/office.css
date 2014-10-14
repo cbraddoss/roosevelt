@@ -1107,6 +1107,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post.high-priority .high-priority-alert:before {
 	font-size: 24px;
 }
+#content .office-post.normal-priority,
+#content .office-post.low-priority {
+	padding-right: 18px;
+}
 #content .office-post .post-meta {
 	float: right;
 	position: relative;
@@ -1332,6 +1336,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #projects-page .project-post .post-due-bump-date:hover,
 #content #todo-page .project-post .post-due-bump-date:hover {
 	text-decoration: none;
+}
+#content #projects-page .project-post select.change-project-stage-list,
+#content #todo-page .project-post select.change-project-stage-list {
+	width: 125px;
 }
 /* Post Single View */
 #content .office-post-single {
