@@ -1293,6 +1293,45 @@ jQuery(document).ready(function($){
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
 		}
 	}
+	//subscribe to project notifications
+	$(document).on('click', '#content .project-post .subscribe-to', function(){
+		var projectId = $(this).attr('subscribeval');
+		//console.log(projectId);
+
+		// set project user ajax submit options
+		var changeYourProjectSubOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       projectYourSubChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().find('form.subscribe-to-project-form input[name=_token]').attr('value'),
+				id: $(this).parent().find('form.subscribe-to-project-form input[name=id]').attr('value'),
+				value: projectId,
+				thisPage: window.location.pathname,
+				subscribeTo: 'updatesub',
+			},
+			type: 'POST',
+			url: $(this).parent().find('form.subscribe-to-project-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeYourProjectSubOptions);
+		return false;
+	});
+
+	function projectYourSubChangeSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$(document).find('.post-subscribed #subscribe-'+data.pid).addClass('subscribed-to');
+			$(document).find('.post-subscribed #subscribe-'+data.pid).html('<span class="tooltip">Subscribed<br />to Project</span>');
+		}
+	}
 	//change project user
 	$(document).on('change', '#content .office-post .change-project-user-list', function() {
 		var userSelect = $(this).val();

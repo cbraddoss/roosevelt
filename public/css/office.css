@@ -1054,9 +1054,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post h3 {
 	margin: 0px 0;
-	padding: 7.5px 0px;
+	padding: 5px 0px 12.5px;
 	height: 25px;
-	line-height: 25px;
+	line-height: 18px;
 	overflow: hidden;
 	position: relative;
 }
@@ -1101,9 +1101,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post.high-priority .high-priority-alert {
 	float: right;
-	margin: 25px 10px 0 0;
+	margin: 30px 20px 0 0;
 	color: #A61919;
-	z-index: 1;
 }
 #content .office-post.high-priority .high-priority-alert:before {
 	font-size: 24px;
@@ -1120,7 +1119,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 24px;
 	display: inline-block;
 	vertical-align: middle;
-	color: #858585;
+	color: #a5a5a5;
 }
 #content .office-post .post-meta a:before {
 	color: rgba(46,153,153,0.8);
@@ -1166,6 +1165,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding-left: 170px;
 	position: relative;
 }
+#content #projects-page .project-post h3,
+#content #todo-page .project-post h3 {
+	padding: 7.5px 0;
+	line-height: 30px;
+}
 #content #projects-page .project-post .post-date,
 #content #todo-page .project-post .post-date {
 	position: absolute;
@@ -1184,10 +1188,14 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #projects-page .project-post .post-date .project-change-date,
 #content #todo-page .project-post .post-date .project-change-date {
 	position: absolute;
-	top: 10px;
-	left: 10px;
+	top: 5px;
+	left: 5px;
 	color: #2E9999;
 	font-size: 24px;
+}
+#content #projects-page .project-post .post-date .change-project-date .tooltip,
+#content #todo-page .project-post .post-date .change-project-date .tooltip {
+	top: -38px;
 }
 #content #projects-page .project-post .post-date .change-project-date:hover,
 #content #todo-page .project-post .post-date .change-project-date:hover {
@@ -1214,7 +1222,38 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content #projects-page .project-post .post-end-date,
 #content #todo-page .project-post .post-end-date {
-
+	padding-top: 2px;
+}
+#content #projects-page .project-post .post-activity,
+#content #projects-page .project-post .post-attachment,
+#content #todo-page .project-post .post-activity,
+#content #todo-page .project-post .post-attachment,
+#content #projects-page .project-post .post-subscribed,
+#content #todo-page .project-post .post-subscribed {
+	float: right;
+	margin: 30px 20px 0 0;
+	cursor: pointer;
+	color: #a5a5a5;
+}
+#content #projects-page .project-post .post-activity a:hover,
+#content #projects-page .project-post .post-attachment a:hover,
+#content #todo-page .project-post .post-activity a:hover,
+#content #todo-page .project-post .post-attachment a:hover,
+#content #projects-page .project-post .post-subscribed a:hover,
+#content #todo-page .project-post .post-subscribed a:hover {
+	text-decoration: none;
+}
+#content #projects-page .project-post .post-activity .post-icon:before,
+#content #projects-page .project-post .post-attachment .post-icon:before,
+#content #todo-page .project-post .post-activity .post-icon:before,
+#content #todo-page .project-post .post-attachment .post-icon:before,
+#content #projects-page .project-post .post-subscribed .post-icon:before,
+#content #todo-page .project-post .post-subscribed .post-icon:before {
+	font-size: 24px;
+}
+#content #projects-page .project-post .post-subscribed .subscribed-to,
+#content #todo-page .project-post .post-subscribed .subscribed-to {
+	color: #FF4D4D;
 }
 #content #projects-page .project-post .post-assigned,
 #content #projects-page .project-post .post-stage,
@@ -1336,7 +1375,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-right: 20px;
 }
 #dashboard-lists .office-post .post-meta {
-	margin-top: 25px;
+	margin: 25px 10px 0 0;
 }
 #dashboard-lists .office-post .tooltip {
 	top: -44px;
@@ -1344,6 +1383,14 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #dashboard-lists .office-post .post-favorite .favorite-this {
 	top: -44px;
 	margin-left: -82.5px;
+}
+#dashboard-lists .office-post.high-priority .high-priority-alert {
+	float: right;
+	margin: 25px 10px 0 0;
+	color: #A61919;
+}
+#dashboard-lists .office-post .post-due-bump-date {
+	margin: 25px 10px 0 0;
 }
 #dashboard-lists .office-post .favorite-this:after,
 #dashboard-lists .office-post .favorite-this:before {

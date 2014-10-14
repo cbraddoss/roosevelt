@@ -565,6 +565,30 @@ class ProjectsController extends \BaseController {
 					);
 				}
 			}
+			if(Input::has('subscribeTo') == 'updatesub') {
+				$validator = Validator::make(Input::only('value'), array(
+					'value' => 'required',
+				));
+				if($validator->fails()) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				else {
+					$oldSubscribed = $project->subscribed;
+					$currentUserToSub = Auth::user()->user_path;
+					if(strpos($oldSubscribed, $currentUserToSub) !== false ) $project->subscribed = $oldSubscribed;
+					else $project->subscribed = $oldSubscribed.' '.$currentUserToSub;
+					$project->save();
+					$response = array(
+						'msg' => 'Saved!',
+						'pid' => $project->id,
+						'subd' => 'success',
+						'thispage' => Input::get('thisPage')
+					);
+				}
+			}
 			if(Input::has('user') == 'userchange') {
 				$validator = Validator::make(Input::only('value'), array(
 					'value' => 'required',

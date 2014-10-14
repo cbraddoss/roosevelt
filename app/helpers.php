@@ -208,6 +208,14 @@ function display_subscribable($selected = null) {
 	}
 	return $subscribable;
 }
+function find_subscribed($projectID,$user) {
+	$projectSubd = Project::find($projectID);
+	$subd = $projectSubd->subscribed;
+	$subd = explode(' ',$subd);
+	if(in_array($user,$subd)) return true;
+	else return false;
+	return false;
+}
 
 
 function find_unread_count($resource) {
