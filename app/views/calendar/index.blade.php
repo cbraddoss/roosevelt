@@ -22,32 +22,26 @@
 			</div>
 		</li>
 		<li class="right"><a href="/calendar/{{ $nextMonthYear }}" class="add-button show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }} <span class="ss-navigateright"></span></a></li>
+		
+		<li class="select-dropdown right">
+			<span class="ss-dropdown"></span>
+			<span class="ss-directup"></span>
+			<select class="show-hide-calendar">
+				<option value="show-all">Show All</option>
+				<option value="news-article-link">News Article</option>
+				<option value="projects-post-link">Project Launches</option>
+				<option value="tasks-link">Personal Tasks</option>
+				<option value="user-vacation-link">Employee Vacations</option>
+				<option value="user-anniversary-link">Employee Anniversary</option>
+				<option value="hide-all">Hide All</option>
+			</select>
+		</li>
 	</ul>
 </div>
 @stop
 
 @section('page-content')
 <div id="calendar-page"  class="inner-page">
-	
-	<div class="calendar-header">
-		
-
-		<div class="month-year">
-			<div class="calendar-key">
-				<div id="key-news-article" class="key-desc" toggleval="news-article-link"><span class="key-color key-news"></span><span class="key-title">News Article</span></div>
-				<div id="key-projects" class="key-desc" toggleval="projects-post-link"><span class="key-color key-project"></span><span class="key-title">Project Launches</span></div>
-				<div id="key-tasks" class="key-desc" toggleval="tasks-link"><span class="key-color key-tasks"></span><span class="key-title">Personal Tasks</span></div>
-				<div id="key-employee-vacations" class="key-desc" toggleval="user-vacation-link"><span class="key-color key-vacations"></span><span class="key-title">Employee Vacations</span></div>
-				<div id="key-employee-anniversary" class="key-desc" toggleval="user-anniversary-link"><span class="key-color key-anniversary"></span><span class="key-title">Employee Anniversary</span></div>
-				<div class="key-desc"><small>[click to show/hide]</small></div>
-			</div>
-		</div>
-
-		
-
-
-
-	</div>
 
 	<div class="calendar-days">
 

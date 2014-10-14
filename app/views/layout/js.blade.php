@@ -1109,12 +1109,21 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	});
-	$(document).on('click', '#calendar-page .key-desc', function() {
-		var toggleThis = $(this).attr('toggleval');
-		$(this).find('.key-color').toggleClass('disabled');
+	// $(document).on('click', '#page-nav_menu .key-desc', function() {
+	// 	var toggleThis = $(this).attr('toggleval');
+	// 	$(this).find('.key-color').toggleClass('disabled');
+	// 	$('#calendar-page').find('.'+toggleThis).toggle();
+	// });
+	$(document).on('change', '#page-nav_menu .show-hide-calendar', function() {
+		var toggleThis = $(this).val();
 		$('#calendar-page').find('.'+toggleThis).toggle();
+		if(toggleThis == 'show-all') $('#calendar-page').find('.calendar-post-title').show();
+		if(toggleThis == 'hide-all') $('#calendar-page').find('.calendar-post-title').hide();
 	});
-
+	var calendarPageHeight = $(window).height();
+	calendarPageHeight = calendarPageHeight-172;
+	$(document).find('#content #calendar-page .days-of-month').css('height',calendarPageHeight+'px');
+	
 	/* Projects Page */
 	// Filter by user
 	$(document).on('change','#page-nav_menu .filter-user.projects-filter', function(){
@@ -2624,6 +2633,7 @@ jQuery(document).ready(function($){
 		if($(this).attr('class') == 'filter-priority') return;
 		if($(this).attr('class') == 'filter-user') return;
 		if($(this).attr('class') == 'filter-stage') return;
+		if($(this).hasClass('show-hide-calendar')) return;
 		if($(this).hasClass('news-filter') ) return;
 		if($(this).hasClass('projects-filter') ) return;
 		if($(this).hasClass('todo-filter') ) return;
