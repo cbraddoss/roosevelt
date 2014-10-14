@@ -1288,11 +1288,61 @@ jQuery(document).ready(function($){
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('<span class="tooltip">Change<br />Due Date</span>Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
-			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date').html('<span class="tooltip-hover"><span class="tooltip">Change<br />Due Date</span><span class="post-due-date ss-calendar">'+data.date+'</span></span>');
+			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date .project-due-date-text ').html('<span class="tooltip">Change<br />Due Date</span><span class="post-due-date ss-calendar">'+data.date+'</span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-due-text-alert').remove();
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
+		}
+	}
+	// change project launch date on single view page
+	var calProjLaunchTemp = new Date();
+	var calProjLaunchNow = new Date(calProjLaunchTemp.getFullYear(), calProjLaunchTemp.getMonth(), calProjLaunchTemp.getDate(), 0, 0, 0, 0);
+	var calProjLaunchPost = $('#content .change-project-launch-date').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < calProjLaunchNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	//calProjLaunchPost.hide();
+	   	$('.dropdown-menu').hide();
+	   		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+			
+			var dateLink = new Date(ev.date.valueOf());
+			var yearLink = dateLink.getFullYear();
+			var monthLink = dateLink.getMonth();
+			monthLink = ('0' + (monthLink + 1)).slice(-2);
+			var dayLink = dateLink.getDate();
+			dayLink = ('0' + (dayLink)).slice(-2);
+			// set project post date ajax submit options
+			var changeProjectLaunchDateOptions = { 
+				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+				success:       projectLaunchChangeSuccess,  // post-submit callback
+				dataType: 'json',
+				data: { 
+					_token: $(this).parent().parent().find('form.change-project-launch-date-form input[name=_token]').attr('value'),
+					id: $(this).parent().parent().find('form.change-project-launch-date-form input[name=id]').attr('value'),
+					value: monthLink+'/'+dayLink+'/'+yearLink,
+					date: 'changelaunch',
+				},
+				type: 'POST',
+				url: $(this).parent().parent().find('form.change-project-launch-date-form').attr('action'),
+				resetForm: false        // reset the form after successful submit 
+			};
+			$(this).find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
+			});
+			$(this).ajaxSubmit(changeProjectLaunchDateOptions);
+			return false;
+	}).data('datepicker');
+	function projectLaunchChangeSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			var projectID = data.pid;
+			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-launch-date .project-launch-date-text').html('<span class="tooltip">Change<br />Launch</span><span class="post-launch-date ss-uploadcloud"> '+data.date+'</span>');
 		}
 	}
 	//subscribe to project notifications

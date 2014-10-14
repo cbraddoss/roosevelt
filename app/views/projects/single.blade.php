@@ -74,25 +74,10 @@
 			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->edit_id), User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name) }}
 			</small>
 		</div>
-		<div class="post-manager">
-			<h3>Project Manager:</h3>
-			<img src="{{ gravatar_url(User::find($project->manager_id)->email,25) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}">
-			@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
-			<div class="select-dropdown">
-				<span class="ss-dropdown"></span>
-				<span class="ss-directup"></span>
-				<select class="change-project-manager-list" name="change-project-manager-list">
-					{{ get_can_manage_user_list_select(User::find($project->manager_id)->first_name. ' ' .User::find($project->manager_id)->last_name) }}
-				</select>
-			</div>
-			@else
-			<span>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</span>
-			@endif
-			{{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
-				{{ Form::hidden('id', $project->id) }}
-			{{ Form::close() }}
+		<div class="post-project-account">
+			<h3 class="ss-buildings"> Account:</h3>
+			<h4><a href="/accounts/{{ Account::find($project->account_id)->link }}">{{ Account::find($project->account_id)->name }}</a></h4>
 		</div>
-		
 		<div class="post-subscribed">
 			<h3 class="ss-send"> Subscribed: <small>(receives email notifications)</small></h3>
 			@foreach($subscribed as $subd)
@@ -121,11 +106,11 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<h3>Project Phase:</h3>
+			<!-- <h3>Project Phase:</h3> -->
 			<span class="project-stage ss-location">{{ $project->stage }}</span>
 			
 			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
-				<span class="tooltip-hover">
+				<span class="project-due-date-text tooltip-hover">
 					<span class="tooltip">Change<br />Due Date</span>
 					<span class="post-due-date ss-calendar">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
 				</span>
@@ -134,18 +119,21 @@
 				{{ Form::close() }}
 			</div>
 			<div class="post-assigned-to">
-					<span class="tooltip-hover"><span class="tooltip">Change<br />User</span><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /></span>
-					<div class="select-dropdown">
-						<span class="ss-dropdown"></span>
-						<span class="ss-directup"></span>
-						<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
-					</div>
-				{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
-					{{ Form::hidden('id', $project->id) }}
-				{{ Form::close() }}
-			</div>
+<span class="tooltip-hover"><span class="tooltip">Change<br />User</span><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /></span>
+<div class="select-dropdown">
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+<select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
+</div>
+{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
+{{ Form::hidden('id', $project->id) }}
+{{ Form::close() }}
+</div>
+</div>
+<div class="project-stage-due-date">
 <div class="post-priority">
-<span class="ss-alert priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span><div class="select-dropdown">
+<span class="ss-alert priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span>
+<div class="select-dropdown">
 <span class="ss-dropdown"></span>
 <span class="ss-directup"></span>
 {{ Form::select('change-project-priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low'), $project->priority) }}
@@ -154,7 +142,35 @@
 {{ Form::hidden('id', $project->id) }}
 {{ Form::close() }}
 </div>
+		<div class="post-manager">
+			<!-- <h3>Project Manager:</h3> -->
+			<span class="ss-users manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
+@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
+<div class="select-dropdown">
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+<select class="change-project-manager-list" name="change-project-manager-list">
+{{ get_can_manage_user_list_select(User::find($project->manager_id)->first_name. ' ' .User::find($project->manager_id)->last_name) }}
+</select>
+</div>
+@else
+<span>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</span>
+@endif
+{{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
+{{ Form::hidden('id', $project->id) }}
+{{ Form::close() }}
 		</div>
+			<div class="project-launch-date change-project-launch-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
+				<span class="project-launch-date-text tooltip-hover">
+					<span class="tooltip">Change<br />Launch</span>
+					<span class="post-launch-date ss-uploadcloud"> {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j') }}</span>
+				</span>
+				{{ Form::open( array('id' => 'change-project-launch-date-'.$project->id, 'class' => 'change-project-launch-date-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/end_date', 'method' => 'post') ) }}
+					{{ Form::hidden('id', $project->id) }}
+				{{ Form::close() }}
+			</div>
+		</div>
+
 		<div class="project-checklist">
 		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}

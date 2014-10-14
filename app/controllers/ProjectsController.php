@@ -682,6 +682,37 @@ class ProjectsController extends \BaseController {
 			if(empty($project)) return Redirect::to('/project');
 			else $oldValue = $project->$value;
 			// dd(Input::get('value'));
+			if(Input::has('date') == 'launchdate') {
+				$validator = Validator::make(Input::only('value'), array(
+					'value' => 'required|size:10|regex:/^(\\d{2})(\\/)(\\d{2})(\\/)(\\d{4})/i',
+				));
+
+				if($validator->fails()) {
+					$response = array(
+						'errorMsg' => 'An error occurred. Please try again or contact the DevTeam.'
+					);
+					return Response::json( $response );
+				}
+				else {
+					$date = Input::get('value');
+					$date = Carbon::createFromFormat('m/d/Y', $date);
+					$project->$value = $date;
+					$dateSave = Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('F j');
+
+					//if($dateSave == Carbon::now()->format('F j')) $dateSave = 'Today';
+
+					$project->save();
+					
+					//if(!empty($newProject->subscribed)) $this->mailer->projectListDateChangeEmail($newProject);
+
+					$response = array(
+						'msg' => 'Saved!',
+						'pid' => $project->id,
+						'date' => $dateSave,
+						'thispage' => Input::get('thisPage')
+					);
+				}
+			}
 			if(Input::has('subRemove') == 'subremove') {
 				$userRemove = Input::get('value');
 				$oldSubscribed = $project->subscribed;
