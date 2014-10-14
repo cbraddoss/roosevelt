@@ -719,6 +719,45 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #333333;
 	font-size: 0.7em;
 }
+#page-nav_menu .post-dates .post-date-box {
+	border-left: 8px solid #FF4D4D;
+	background: rgba(255,77,77,0.1);
+	padding: 0 10px 0px;
+	margin-top: -10px;
+	height: 50px;
+}
+#page-nav_menu .post-dates .post-date-icon:before {
+	font-size: 42px;
+	color: #FF4D4D;
+	float: left;
+}
+#page-nav_menu .post-dates .post-date-box .post-date {
+	margin: 0px 0 0 60px;
+	padding-top: 2.5px;
+	display: block;
+}
+#page-nav_menu .post-dates .post-date-box .post-date-subbox {
+	margin-left: 60px;
+	display: block;
+}
+#page-nav_menu .post-progress {
+	border-left: 8px solid #2E9999;
+	background: rgba(46,153,153,0.1);
+	height: 50px;
+	margin-top: -10px;
+	padding: 0 10px;
+}
+#page-nav_menu .post-progress div {
+	display: inline-block;
+	font-size: 1.6em;
+	margin-top: 7.5px;
+	letter-spacing: 0.25em;
+}
+#page-nav_menu .post-progress .post-progress-icon:before {
+	font-size: 24px;
+	color: #2E9999;
+	margin-right: 10px;
+}
 /* General Page Styles */
 #content h2 {
 	font-size: 1.5em;
@@ -824,6 +863,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 20px;
 }
 #content .update-something-form {
+	background: #555555;
+	color: #ffffff;
+	width: 100%;
+	box-sizing: border-box;
+	height: 100%;
+	padding: 20px;
+	margin: 0;
+}
+#content .edit-something-form {
 	background: #555555;
 	color: #ffffff;
 	width: 100%;
@@ -1358,6 +1406,62 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .post-single-attachment img {
 	border: 1px solid #353535;
 }
+#content .office-post-single .post-manager,
+#content .office-post-single .post-subscribed {
+	border-left: 8px solid #4B83B4;
+	width: 50%;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 5px 10px 7.5px;
+	margin: 10px 0;
+	float: left;
+}
+#content .office-post-single .post-manager h3,
+#content .office-post-single .post-subscribed h3 {
+	margin-top: 0;
+}
+#content .office-post-single .post-subscribed .user-subscribed {
+	background: rgba(75,131,180,0.6);
+	border-radius: 3px;
+	color: #ffffff;
+	display: inline-block;
+	padding: 3px 10px;
+	box-shadow: inset 0 -3px rgba(51,51,51,0.5);
+}
+#content .office-post-single .post-subscribed .user-subscribed:before {
+	vertical-align: middle;
+	margin-right: 5px
+}
+#content .office-post-single .post-subscribed .select-dropdown {
+	overflow: visible;
+}
+#content .office-post-single .project-stage-due-date {
+	border-left: 8px solid #FF4D4D;
+	width: 100%;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 5px 10px 5px;
+	margin: 10px 0 20px;
+	font-size: 1.2em;
+}
+#content .office-post-single .project-stage-due-date .project-stage,
+#content .office-post-single .project-stage-due-date .project-due-date {
+	margin-top: 5px;
+	display: block;
+}
+#content .office-post-single .project-stage-due-date .project-stage:before,
+#content .office-post-single .project-stage-due-date .project-due-date:before {
+	font-size: 24px;
+	color: #FF4D4D;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+#content .office-post-single .project-stage-due-date .post-assigned-to {
+	margin-top: 5px;
+}
+#content .office-post-single .project-stage-due-date .post-assigned-to img {
+	margin: 0 5px 0 0;
+}
 #content .office-post-single .office-post-sub {
 	clear: both;
 	background: #e5e5e5;
@@ -1365,6 +1469,45 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-top: 10px;
 	border-left: 8px solid #d5d5d5;
 }
+/* Project Checklists */
+#content .office-post-single .checklist-section {
+	width: 100%;
+	box-sizing: border-box;
+}
+#content .office-post-single .checklist-section h4 {
+	border-left: 8px solid #FF4D4D;
+	padding: 10px;
+	font-size: 1.2em;
+	background: #e5e5e5;
+}
+#content .office-post-single .checklist-section h4.section-complete {
+	border-color: #a5a5a5;
+	background: #e5e5e5;
+	opacity: 0.7;
+}
+#content .office-post-single .checklist-section h4:before {
+	font-size: 24px;
+	vertical-align: middle;
+	margin-right: 10px;
+	cursor: pointer;
+}
+#content .office-post-single .checklist-section .checklist-checkbox-section {
+	padding: 10px;
+}
+#content .office-post-single .checklist-section .checklist-checkbox-section label {
+	padding-left: 30px;
+}
+#content .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:checked + label {
+	opacity: 0.7;
+	text-decoration: line-through;
+}
+#content .office-post-single .checklist-section .checklist-checkbox-section .checklist-skip-task {
+	float: right;
+	font-size: 0.9em;
+	padding-top: 0;
+	background: rgba(46,153,153,0.5);
+}
+
 #content .post-comment.add-button {
 	margin: 10px 0 20px 0;
 	float: right;
@@ -1396,6 +1539,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border: 1px solid #333333;
 	width: 150px;
 	height: auto;
+}
+#content .single-page .office-post-comment .comment-meta {
+	display: block;
+	width: 100%;
+	clear: both;
 }
 /* Dashboard */
 #quicklinks {

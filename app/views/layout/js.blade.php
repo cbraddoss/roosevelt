@@ -2138,8 +2138,8 @@ jQuery(document).ready(function($){
 	});
 	// project comments
 	// load comment form on project single view page.
-	$(document).on('click', '#projects-page #projects-post-comment-form button.post-comment', function(){
-		$('button.post-comment').each(function(){
+	$(document).on('click', '#projects-page #projects-post-comment-form .post-comment', function(){
+		$('.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
 		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
@@ -2153,10 +2153,10 @@ jQuery(document).ready(function($){
 			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
 			$('#comments .projects-post-new-comment.create-something-form').addClass('reply-to-project-form');			
 			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
-			$('button.post-comment').each(function(){
+			$('.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#content #projects-post-comment-form.create-something-new .anchor-button').addClass('active');
+			$('#content #projects-post-comment-form.create-something-new .add-button').addClass('active');
 			$('#content form.add-comment .comment-content').focus();
 
 		});
@@ -2170,8 +2170,8 @@ jQuery(document).ready(function($){
 			if(confirmCancel == true) {
 				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('button.post-comment').each(function(){
+					$('#content #projects-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2182,9 +2182,9 @@ jQuery(document).ready(function($){
 		else {
 				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
 					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new .anchor-button').removeClass('active');
-					$('button.post-comment').each(function(){
+					$('#content #projects-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('#content #comment-post-comment-form.create-something-new .add-button').removeClass('active');
+					$('.post-comment').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
@@ -2220,8 +2220,8 @@ jQuery(document).ready(function($){
 		}
 	}
 	//load comment form on reply of comment button click
-	$(document).on('click', '#projects-page #comment-post-comment-form button.post-comment', function(){
-		$('button.post-comment').each(function(){
+	$(document).on('click', '#projects-page #comment-post-comment-form .post-comment', function(){
+		$('.post-comment').each(function(){
 			$(this).prop('disabled',true);
 		});
 		
@@ -2240,10 +2240,10 @@ jQuery(document).ready(function($){
 			$('#content .projects-post-new-comment.create-something-form').slideDown(400);
 			$('#content .projects-post-new-comment.create-something-form').addClass('reply-to-comment-form');
 			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
-			$('button.post-comment').each(function(){
+			$('.post-comment').each(function(){
 				$(this).prop('disabled',true);
 			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new .anchor-button').addClass('active');
+			$('#'+commentId).find('#comment-post-comment-form.create-something-new .add-button').addClass('active');
 			$('#content .projects-post-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
 			$('#content form.add-comment .comment-content').focus();
 		});

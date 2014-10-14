@@ -27,8 +27,8 @@
 <div class="edit-comment-attachments">
 	{{ $comment->getCommentAttachments($comment->id,'comment-edit-attachment') }}
 </div>
+@endif
 
 {{ Form::close() }}
 
-@endif
 </div>

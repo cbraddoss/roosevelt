@@ -119,7 +119,7 @@
 					{{ $comment->getCommentAttachments($comment->id) }}
 					<p>{{ display_content($comment->content) }}</p>
 					<div class="comment-details">
-						<div>
+						<div class="comment-meta">
 							<div class="comment-options">
 								<div id="comment-post-comment-form" class="create-something-new">
 									<div class="comment-reply-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
@@ -154,7 +154,7 @@
 							{{ $subComment->getCommentAttachments($subComment->id) }}
 							<p>{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
-								<div>
+								<div class="comment-meta">
 									<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}</span>
 									<span class="comment-time">on 
 									@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
@@ -163,7 +163,7 @@
 										{{ $subComment->created_at->format('F j, Y g:i a') }}
 									@endif
 									</span> | 
-									<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $comment->id }}">Permalink</a></span> | 
+									<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $subComment->id }}">Permalink</a></span> | 
 									@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
 										<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
 									@endif
