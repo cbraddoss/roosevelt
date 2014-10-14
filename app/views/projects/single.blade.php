@@ -60,8 +60,6 @@
 		<div class="post-attachment">
 			@if($project->getAttachments($project->id))
 			{{ $project->getAttachments($project->id) }}
-			@else
-			<p>No attachment(s) found.</p>
 			@endif
 		</div>
 		<div class="post-content">
@@ -88,7 +86,7 @@
 				</select>
 			</div>
 			@else
-			<p>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</p>
+			<span>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</span>
 			@endif
 			{{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
 				{{ Form::hidden('id', $project->id) }}

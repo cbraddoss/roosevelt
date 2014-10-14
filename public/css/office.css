@@ -1409,12 +1409,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .post-manager,
 #content .office-post-single .post-subscribed {
 	border-left: 8px solid #4B83B4;
-	width: 50%;
+	width: 25%;
 	box-sizing: border-box;
+	min-height: 85px;
 	background: #e5e5e5;
 	padding: 5px 10px 7.5px;
 	margin: 10px 0;
 	float: left;
+}
+#content .office-post-single .post-subscribed{
+	width: 75%;
 }
 #content .office-post-single .post-manager h3,
 #content .office-post-single .post-subscribed h3 {
@@ -1500,6 +1504,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:checked + label {
 	opacity: 0.7;
 	text-decoration: line-through;
+}
+#content .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:disabled + label {
+	opacity: 0.7;
+	cursor: not-allowed;
 }
 #content .office-post-single .checklist-section .checklist-checkbox-section .checklist-skip-task {
 	float: right;
