@@ -1479,6 +1479,39 @@ jQuery(document).ready(function($){
 		var projectID = data.pid;
 		window.location.href = data.thispage;	
 	}
+	//change project priority
+	$(document).on('change', '#content .office-post-single select[name=change-project-priority]', function() {
+		var stageSelect = $(this).val();
+		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
+
+		// set project priority ajax submit options
+		var changeSingleProjectStageOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       singleProjectStageChangeSuccess,  // post-submit callback
+			dataType: 'json',
+			data: { 
+				_token: $(this).parent().parent().find('form.change-project-priority-form input[name=_token]').attr('value'),
+				id: $(this).parent().parent().find('form.change-project-priority-form input[name=id]').attr('value'),
+				value: stageSelect,
+				thisPage: window.location.pathname,
+				priority: 'prioritychange',
+			},
+			type: 'POST',
+			url: $(this).parent().parent().find('form.change-project-priority-form').attr('action'),
+			resetForm: false        // reset the form after successful submit 
+		};
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+		$(this).ajaxSubmit(changeSingleProjectStageOptions);
+		return false;
+	});
+
+	function singleProjectStageChangeSuccess(data)
+	{
+		var projectID = data.pid;
+		window.location.href = data.thispage;	
+	}
 	//change project subscribed
 	$(document).on('click', '#content .post-subscribed .ss-delete', function() {
 		var userSelect = $(this).attr('value');
@@ -1596,17 +1629,17 @@ jQuery(document).ready(function($){
 
 		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
 		var progressComplete = parseInt($(document).find('#page-nav_menu .post-progress-complete').text(),10);
-		var doneProgressWidth = 200/totalCheckboxes;
-		var divProgressWidth = $(document).find('#page-nav_menu .post-progress .post-progress-progress').width();
+		//var doneProgressWidth = 200/totalCheckboxes;
+		//var divProgressWidth = $(document).find('#page-nav_menu .post-progress .post-progress-progress').width();
 		var saveTask = '';
 		$(this).removeClass('changed-input');
 		if (checkboxCheck.is(':checked'))
 		{
-			$(document).find('#page-nav_menu .post-progress .post-progress-progress-zero').first().remove();
-			$(document).find('#page-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
+			//$(document).find('#page-nav_menu .post-progress .post-progress-progress-zero').first().remove();
+			//$(document).find('#page-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
 			$(document).find('#page-nav_menu .post-progress-complete').html(progressComplete+1);
-			$(document).find('#page-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
-			$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
+			//$(document).find('#page-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
+			//$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
 			var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 			sectionTotalUpdate++;
 			$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
@@ -1640,9 +1673,9 @@ jQuery(document).ready(function($){
 			var confirmCancel = confirm('Are you sure you want to uncheck this task?');
 			if(confirmCancel == true) {
 
-				$(document).find('#page-nav_menu .post-progress .post-progress-progress-done').first().remove();
+				// $(document).find('#page-nav_menu .post-progress .post-progress-progress-done').first().remove();
 				$(document).find('#page-nav_menu .post-progress-complete').html(progressComplete-1);
-				$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
+				//$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth-doneProgressWidth+'px');
 				$(this).next().find('.checkbox-user-action').remove();
 				var checkboxValue = 'open';
 				var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
@@ -1717,15 +1750,15 @@ jQuery(document).ready(function($){
 
 		var totalCheckboxes = parseInt($(document).find('.checklist-box').attr('total-checkboxes'),10);
 		var progressComplete = parseInt($(document).find('#page-nav_menu .post-progress-complete').text(),10);
-		var doneProgressWidth = 200/totalCheckboxes;
-		var divProgressWidth = $(document).find('#page-nav_menu .post-progress .post-progress-progress').width();
+		//var doneProgressWidth = 200/totalCheckboxes;
+		//var divProgressWidth = $(document).find('#page-nav_menu .post-progress .post-progress-progress').width();
 		$(this).removeClass('changed-input');
 
-		$(document).find('#page-nav_menu .post-progress .post-progress-progress-zero').first().remove();
-		$(document).find('#page-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
+		// $(document).find('#page-nav_menu .post-progress .post-progress-progress-zero').first().remove();
+		// $(document).find('#page-nav_menu .post-progress-progress').append('<span class="post-progress-progress-done"></span>');
 		$(document).find('#page-nav_menu .post-progress-complete').html(progressComplete+1);
-		$(document).find('#page-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
-		$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
+		//$(document).find('#page-nav_menu .post-progress .post-progress-progress-done').css('width',doneProgressWidth+'px');
+		//$(document).find('#page-nav_menu .post-progress .post-progress-progress').css('width',divProgressWidth+doneProgressWidth+'px');
 		var sectionTotalUpdate = parseInt($(this).closest('.checklist-section').find('h4 span.header-task-complete').text(),10);
 		sectionTotalUpdate++;
 		$(this).closest('.checklist-section').find('h4 span.header-task-complete').html(sectionTotalUpdate);
@@ -2687,6 +2720,7 @@ jQuery(document).ready(function($){
 		if($(this).closest('.template-output').attr('class') == 'template-output') return;
 		if($(this).attr('class') == 'change-project-user-list') return;
 		if($(this).attr('class') == 'change-project-manager-list') return;
+		if($(this).attr('name') == 'change-project-priority') return;
 		if($(this).attr('class') == 'change-project-stage-list') return;
 		if($(this).attr('class') == 'add-project-sub-list') return;
 		$(this).addClass('changed-input');

@@ -212,32 +212,32 @@ class Project extends Eloquent {
 				$countOpen++;
 			}
 		}
-		if($totalTasks > 0) {
-			$totalProgressWidth = 200/$totalTasks;
-			$doneProgressWidth = $totalProgressWidth*$countOpen;
-		}
-		else {
-			$totalProgressWidth = 200;
-			$doneProgressWidth = $totalProgressWidth*$countOpen;
-		}
+		//if($totalTasks > 0) {
+		//	$totalProgressWidth = 200/$totalTasks;
+		//	$doneProgressWidth = $totalProgressWidth*$countOpen;
+		//}
+		//else {
+		//	$totalProgressWidth = 200;
+		//	$doneProgressWidth = $totalProgressWidth*$countOpen;
+		//}
 
 			//$(document).find('#header-menu .post-progress .post-progress-progress').css('width',divProgressWidth+totalProgressWidth+'px');
 
 		$progress .= '<div class="post-progress">';
-		if($doneProgressWidth == 0) $progress .= '<span class="post-progress-progress-zero"></span>';
+		//if($doneProgressWidth == 0) $progress .= '<span class="post-progress-progress-zero"></span>';
 		$progress .= '<span class="post-progress-icon ss-check"></span>';
-		$progress .= '<div class="post-progress-numbers">';
+		$progress .= '<div class="post-progress-numbers"> [ ';
 		$progress .= '<span class="post-progress-complete">'.$countOpen.'</span>';
 		$progress .= '<span>/</span>';
 		$progress .= '<span class="post-progress-total">'.$totalTasks.'</span>';
-		$progress .= '</div>';
-		$progress .= '<div class="post-progress-progress" style="width:'.$doneProgressWidth.'px">';
+		$progress .= ' complete ]</div>';
+		//$progress .= '<div class="post-progress-progress" style="width:'.$doneProgressWidth.'px">';
 
-		for ($i=0; $i < $countOpen; $i++) {
-			$progress .= '<span class="post-progress-progress-done"></span>';
-		}
+		//for ($i=0; $i < $countOpen; $i++) {
+		//	$progress .= '<span class="post-progress-progress-done"></span>';
+		//}
 		
-		$progress .= '</div>';
+		//$progress .= '</div>';
 		$progress .= '</div>';
 
 		return $progress;

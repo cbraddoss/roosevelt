@@ -94,7 +94,7 @@
 		</div>
 		
 		<div class="post-subscribed">
-			<h3>Subscribed <small>(receives email notifications)</small>:</h3>
+			<h3 class="ss-send"> Subscribed: <small>(receives email notifications)</small></h3>
 			@foreach($subscribed as $subd)
 				@if(!empty($subd))
 					@if($project->author_id == Auth::user()->id || $subd == Auth::user()->user_path || Auth::user()->can_manage == 'yes')
@@ -121,7 +121,7 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<h4>Project Phase:</h4>
+			<h3>Project Phase:</h3>
 			<span class="project-stage ss-location">{{ $project->stage }}</span>
 			
 			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
@@ -134,7 +134,7 @@
 				{{ Form::close() }}
 			</div>
 			<div class="post-assigned-to">
-				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
+					<span class="tooltip-hover"><span class="tooltip">Change<br />User</span><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /></span>
 					<div class="select-dropdown">
 						<span class="ss-dropdown"></span>
 						<span class="ss-directup"></span>
@@ -144,6 +144,16 @@
 					{{ Form::hidden('id', $project->id) }}
 				{{ Form::close() }}
 			</div>
+<div class="post-priority">
+<span class="ss-alert priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span><div class="select-dropdown">
+<span class="ss-dropdown"></span>
+<span class="ss-directup"></span>
+{{ Form::select('change-project-priority', array('high' => 'High', 'normal' => 'Normal', 'low' => 'Low'), $project->priority) }}
+</div>
+{{ Form::open( array('id' => 'change-project-priority-'.$project->id, 'class' => 'change-project-priority-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/priority', 'method' => 'post') ) }}
+{{ Form::hidden('id', $project->id) }}
+{{ Form::close() }}
+</div>
 		</div>
 		<div class="project-checklist">
 		{{ Form::open( array('id' => 'change-project-checkboxes-'.$project->id, 'class' => 'change-project-checkboxes-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/checkboxes', 'method' => 'post') ) }}

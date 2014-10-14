@@ -787,6 +787,20 @@ class ProjectsController extends \BaseController {
 
 				$project->save();
 			}
+			if(Input::has('priority') == 'prioritychange') {
+				$priorityChange = Input::get('value');
+				$oldPriority = $project->$value;
+				$project->$value = $priorityChange;
+				
+				$response = array(
+					'msg' => 'Saved!',
+					'pid' => $project->id,
+					'user' => $priorityChange,
+					'thispage' => Input::get('thisPage')
+				);
+
+				$project->save();
+			}
 			if(Input::has('user') == 'managerchange') {
 				$userChange = Input::get('value');
 				$userFind = User::where('user_path','=',$userChange)->first();
