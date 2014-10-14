@@ -1211,7 +1211,7 @@ jQuery(document).ready(function($){
 	// change project date
 	var calProjListTemp = new Date();
 	var calProjListNow = new Date(calProjListTemp.getFullYear(), calProjListTemp.getMonth(), calProjListTemp.getDate(), 0, 0, 0, 0);
-	var calProjListPost = $('#content .office-post .change-project-date').datepicker({
+	var calProjListPost = $('#content .change-project-date').datepicker({
 		onRender: function(date) {
 			return date.valueOf() < calProjListNow.valueOf() ? 'disabled' : '';
 		}
@@ -1287,9 +1287,11 @@ jQuery(document).ready(function($){
 		}
 		else {
 			var projectID = data.pid;
-			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
+			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('<span class="tooltip">Change<br />Due Date</span>Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
+			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date').html('<span class="tooltip-hover"><span class="tooltip">Change<br />Due Date</span><span class="post-due-date ss-calendar">'+data.date+'</span></span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
+			$(document).find('div#project-'+projectID+' .post-due-text-alert').remove();
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
 		}
 	}

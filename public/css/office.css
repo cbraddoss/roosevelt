@@ -763,6 +763,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 1.5em;
 	color: #333333;
 	margin: 10px 0;
+	font-weight: 500;
 }
 #content .edit-page h2 {
 	color: #ffffff;
@@ -773,6 +774,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 1.3em;
 	color: #333333;
 	margin: 10px 0;
+	font-weight: 500;
+}
+#content h3 a {
+	font-weight: 300;
 }
 #content p {
 	margin: 0px;
@@ -1399,6 +1404,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single {
 
 }
+#content .office-post-single  h3,
+#content .office-post-single  h4 {
+	font-weight: 500;
+}
 #content .office-post-single .post-single-attachment {
 	float: right;
 	margin: 0 0 10px 10px;
@@ -1453,8 +1462,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-top: 5px;
 	display: block;
 }
+#content .office-post-single .project-stage-due-date .project-due-date {
+	cursor: pointer;
+}
 #content .office-post-single .project-stage-due-date .project-stage:before,
-#content .office-post-single .project-stage-due-date .project-due-date:before {
+#content .office-post-single .project-stage-due-date .project-due-date .post-due-date:before {
 	font-size: 24px;
 	color: #FF4D4D;
 	margin-right: 10px;

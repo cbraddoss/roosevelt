@@ -46,7 +46,7 @@
 				<span class="tooltip">Change<br />Due Date</span>
 				<span class="project-change-date ss-calendar"></span>
 				Due Date: <br /><span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
-				</div>
+			</div>
 			<div class="post-alert">
 				<span class="post-due-text-alert post-tooltip">
 					<a class="post-due-bump-date tooltip-hover ss-addcalendar"><span class="tooltip">Bump to Tomorrow</span> Due Today!</a>

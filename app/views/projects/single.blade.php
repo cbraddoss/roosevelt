@@ -124,8 +124,15 @@
 			<h4>Project Phase:</h4>
 			<span class="project-stage ss-location">{{ $project->stage }}</span>
 			
-			<span class="project-due-date ss-calendar">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j, Y') }}</span>
-		
+			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
+				<span class="tooltip-hover">
+					<span class="tooltip">Change<br />Due Date</span>
+					<span class="post-due-date ss-calendar">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+				</span>
+				{{ Form::open( array('id' => 'change-project-date-'.$project->id, 'class' => 'change-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
+					{{ Form::hidden('id', $project->id) }}
+				{{ Form::close() }}
+			</div>
 			<div class="post-assigned-to">
 				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
 					<div class="select-dropdown">
