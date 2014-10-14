@@ -1200,7 +1200,7 @@ jQuery(document).ready(function($){
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .post-due .post-due-date').html('<span class="post-due-date">'+data.date+'</span>');
-			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br />'+data.date+'<span class="project-change-date ss-write"></span>');
+			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
 			$(document).find('div#project-'+projectID).addClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-alert').remove();
@@ -1287,7 +1287,7 @@ jQuery(document).ready(function($){
 		}
 		else {
 			var projectID = data.pid;
-			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br />'+data.date+'<span class="project-change-date ss-write"></span>');
+			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
