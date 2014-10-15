@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.1.*",
 		"intervention/image": "1.*",
-        "hipchat/hipchat-php": ">=1.0.0"
+        "hipchat/hipchat-php": ">=1.0.0",
+	    "mailgun/mailgun-php": "1.*"
 	},
 	"autoload": {
 		"classmap": [

@@ -174,6 +174,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 		'Carbon'		  => 'Carbon\Carbon',
 		'Image'			  => 'Intervention\Image\Facades\Image',
+		'Mailgun'		  => 'Mailgun\Mailgun',
 
 	),
 

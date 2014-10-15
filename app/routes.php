@@ -128,6 +128,24 @@ Route::get('/wiki', function(){
 	if(Request::ajax()) return View::make('wiki.partials.new');
 	else return View::make('wiki.index');
 })->before('auth');
+Route::get('/emails', function(){
+	$mgClient = new Mailgun('key-8f6lpwb2tgnp3se2b6fli18r23ndpkt9');
+	$mgDomain = 'iout.co';
+	$queryString = array('event' => 'stored');
+	$result = $mgClient->get("$mgDomain/events", $queryString);
+	$mgKey = $result->http_response_body->items[0]->storage->key;
+		
+	//dd($mgKey);
+	try {
+		$email = $mgClient->get("domains/$mgDomain/messages/$mgKey");
+		dd($email);
+	} catch(Mailgun \ Connection \ Exceptions \ MissingEndpoint $e)
+	{
+		return 'no emails';
+	}
+	//$deleteStored = $mgClient->delete("domains/$mgDomain/messages/$mgKey");
+		
+})->before('auth');
 // End dummy pages section
 
 /* Custom 404 Page */

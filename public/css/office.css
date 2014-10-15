@@ -1434,7 +1434,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-top: 0;
 }
 #content .office-post-single .post-project-account h4 {
-	font-size: 1.2em;
+	font-size: 1.3em;
 	font-weight: 300;
 }
 #content .office-post-single .post-subscribed .user-subscribed {
@@ -1467,12 +1467,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .project-stage-due-date {
 	border-left: 8px solid #FF4D4D;
 	width: 50%;
-	height: 130px;
+	height: 160px;
 	float: left;
 	box-sizing: border-box;
 	background: #e5e5e5;
 	padding: 5px 10px 5px;
 	margin: 10px 0 20px;
+}
+#content .office-post-single .project-stage-due-date h3 {
+	margin-top: 0;
 }
 #content .office-post-single .project-stage-due-date select {
 	width: 125px;
@@ -1520,6 +1523,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .project-checklist {
 	display: block;
 	clear: both;
+	border-bottom: 3px solid #d5d5d5;
+	margin-bottom: 5px;
+	padding-bottom: 10px;
 }
 #content .office-post-single .checklist-section {
 	width: 100%;
@@ -1567,7 +1573,12 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .checklist-section .checklist-header-progress {
 	font-size: 0.8em;
 }
-
+/* Post Comments */
+/*#content .comment-on {
+	border-left: 8px solid #858585;
+	background: #e5e5e5;
+	padding: 10px 5px;
+}*/
 #content .post-comment.add-button {
 	margin: 10px 0 20px 0;
 	float: right;

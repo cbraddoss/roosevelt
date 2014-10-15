@@ -106,7 +106,7 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<!-- <h3>Project Phase:</h3> -->
+			<h3><small>Current Phase:</small></h3>
 			<span class="project-stage ss-location">{{ $project->stage }}</span>
 			
 			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
@@ -130,7 +130,9 @@
 {{ Form::close() }}
 </div>
 </div>
+
 <div class="project-stage-due-date">
+			<h3><small>Other Details:</small></h3>
 <div class="post-priority">
 <span class="ss-alert priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span>
 <div class="select-dropdown">
@@ -143,7 +145,6 @@
 {{ Form::close() }}
 </div>
 		<div class="post-manager">
-			<!-- <h3>Project Manager:</h3> -->
 			<span class="ss-users manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
 @if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 <div class="select-dropdown">
