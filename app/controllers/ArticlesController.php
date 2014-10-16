@@ -107,9 +107,21 @@ class ArticlesController extends \BaseController {
 
 			if(!empty($newArticle->mentions)) $this->mailer->articlePingEmail($newArticle);
 			
+			$hcMessage = '';
+			$hcMessage .= User::find($newArticle->author_id)->first_name.' '.User::find($newArticle->author_id)->last_name.' has posted a News article:<br />';
+			$hcMessage .= '<a href="/news/article/'.$newArticle->slug.'">'. $newArticle->title.'</a>';
+			$hcMessageSend = hipchat_message($hcMessage);
+			if($hcMessageSend != 'messageSent') {
+				$response = array(
+					'slug' => $newProject->slug,
+					'msg' => 'Article created successfully! (Note: '.$hcMessageSend.')'
+				);
+				return Response::json( $response );
+			}
+
 			$response = array(
 				'slug' => $newArticle->slug,
-				'msg' => 'Article saved.'
+				'msg' => 'Article created successfully!'
 			);
 			return Response::json( $response );
 		}

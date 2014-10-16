@@ -88,6 +88,7 @@ class ProfilesController extends \BaseController {
 			$user->user_path = lcfirst(Input::get('first_name')) . '-' . lcfirst(Input::get('last_name'));
 			$user->extension =  Input::get('extension');
 			$user->cell_phone =  Input::get('cell_phone');
+			$user->hipchat_mention = hipchat_mention_name($user->email);
 			//if($user->save()) return Redirect::to('/profile')->with('flash_message_success','Profile successfully updated!');
 			try
 			{

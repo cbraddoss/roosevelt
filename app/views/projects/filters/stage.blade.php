@@ -38,7 +38,8 @@
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($projects) }} of {{ $projectsCount }}]</small></h2>
 	@if($projects->isEmpty())
 			<div class="projects-post">
 				<h3>There are no projects that are at the <i>{{ convert_path_to_stage($stage) }}</i> stage.</h3>

@@ -46,6 +46,15 @@
 			</div>
 
 			<div class="new-form-field">
+				{{ Form::label('hipchat_mention','HipChat Nickname:') }}
+				@if(empty(Auth::user()->hipchat_mention))
+				{{ Form::label('hipchat_mention', 'Resave Profile to update.') }}
+				@else
+				{{ Form::label('hipchat_mention', '@'.Auth::user()->hipchat_mention) }}
+				@endif
+			</div>
+
+			<div class="new-form-field">
 				{{ Form::label('extension','Extension:') }}
 				{{ Form::text('extension', Auth::user()->extension, array('placeholder' => '555', 'class' => 'extension field')) }}
 			</div>

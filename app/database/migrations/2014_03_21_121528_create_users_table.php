@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration {
 			$table->enum('userrole', array('admin', 'standard','non-standard'));
 			$table->string('first_name', 50);
 			$table->string('last_name', 50);
+			$table->string('hipchat_mention', 50);
 			$table->dateTime('anniversary');
 			$table->string('extension', 40)->nullable();
 			$table->string('cell_phone', 40)->nullable();

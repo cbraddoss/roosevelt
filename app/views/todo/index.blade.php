@@ -25,7 +25,8 @@
 
 @section('page-content')
 <div id="todo-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($projects) }} of {{ $projectsCount }}]</small></h2> <!-- add total count for other sections -->
 	@if($projects->isEmpty())
 		<h3>Projects:</h3>
 			<div class="projects-post">

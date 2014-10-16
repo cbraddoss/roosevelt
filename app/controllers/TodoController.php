@@ -23,10 +23,13 @@ class TodoController extends \BaseController {
 		$projects = Project::where('status','=','open')
 					->where('assigned_id','=', $user->id)
 					->orderBy('due_date','ASC')
-					->paginate(100);
+					->paginate(10);
+		$projectsCount = Project::where('status','=','open')
+						->where('assigned_id','=', $user->id)
+						 ->count();
 		$billables = '';
 		$helps = '';
-		return View::make('todo.index',compact('user','projects','billables','helps'));
+		return View::make('todo.index',compact('user','projects','billables','helps','projectsCount'));
 	}
 
 	public function noUser() {

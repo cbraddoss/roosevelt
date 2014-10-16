@@ -59,7 +59,8 @@
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($projects) }} of {{ $projectsCount }}]</small></h2>
 
 	@include('projects.partials.findProjects')
 

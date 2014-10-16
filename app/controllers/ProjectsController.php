@@ -39,8 +39,10 @@ class ProjectsController extends \BaseController {
 		$projects = $this->project->getOpenProjects();
 		$templates = $this->template->getActiveTemplates();
 		$projectTypes = $this->project->getTypeSelectList();
+		$projectsCount = Project::where('status','=','open')
+						 ->count();
 		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
-		else return View::make('projects.index', compact('projects','projectTypes'));
+		else return View::make('projects.index', compact('projects','projectTypes','projectsCount'));
 	}
 
 
@@ -183,6 +185,19 @@ class ProjectsController extends \BaseController {
 
 			if(!empty($newProject->subscribed)) $this->mailer->projectNewSubEmail($newProject);
 			
+			$hcMessage = '';
+			$hcMessage .= 'A new project, <a href="/projects/post/'.$newProject->slug.'">'. $newProject->title.'</a>, has been created for <b>'.Account::find($newProject->account_id)->name.'</b>.<br />';
+			$hcMessage .= 'This project is scheduled to launch on <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->end_date)->format('F j').'</b>.<br />';
+			$hcMessage .= 'The current stage, <b>'.$newProject->stage.'</b>, is assigned to <b>@'.User::find($newProject->assigned_id)->hipchat_mention.'</b> and is due on <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->due_date)->format('F j').'</b>.';
+			$hcMessageSend = hipchat_message($hcMessage);
+			if($hcMessageSend != 'messageSent') {
+				$response = array(
+					'slug' => $newProject->slug,
+					'msg' => 'Project created successfully! (Note: '.$hcMessageSend.')'
+				);
+				return Response::json( $response );
+			}
+
 			$response = array(
 				'slug' => $newProject->slug,
 				'msg' => 'Project created successfully!'
@@ -234,7 +249,10 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(10);
-				return View::make('projects.filters.user', compact('projects','user'));
+				$projectsCount = Project::where('assigned_id','=',$user->id)
+							   ->where('status','=','open')
+							   ->count();
+				return View::make('projects.filters.user', compact('projects','user','projectsCount'));
 			}
 			else return Redirect::route('projects');
 		}
@@ -256,8 +274,12 @@ class ProjectsController extends \BaseController {
 					->where('due_date','<', $dateMax)
 					->orderBy('due_date','ASC')
 					->paginate(10);
+		$projectsCount = Project::where('due_date','>=', $date)
+						 ->where('status','=','open')
+						 ->where('due_date','<', $dateMax)
+						 ->count();
 		$date = $date->format('F, Y');
-		return View::make('projects.filters.date', compact('projects','date'));
+		return View::make('projects.filters.date', compact('projects','date','projectsCount'));
 	}
 
 	/**
@@ -274,7 +296,11 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(10);
-			return View::make('projects.filters.stage', compact('projects','stage','projectStages','type','projectTypes'));
+			$projectsCount = Project::where('stage','=',convert_path_to_stage($stage))
+							 ->where('type','=', $type)
+							 ->where('status','=','open')
+							 ->count();
+			return View::make('projects.filters.stage', compact('projects','stage','projectStages','type','projectTypes','projectsCount'));
 		}
 		else return Redirect::route('projects');
 	}
@@ -293,11 +319,14 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(10);
+			$projectsCount = Project::where('priority','=',$priority)
+							 ->where('status','=','open')
+							 ->count();
 			if($projects != null) {
 				if($priority == 'low') $low = $priority;
 				if($priority == 'normal') $normal = $priority;
 				if($priority == 'high') $high = $priority;
-				return View::make('projects.filters.priority', compact('projects','low','normal','high','priority'));
+				return View::make('projects.filters.priority', compact('projects','low','normal','high','priority','projectsCount'));
 			}
 			else return Redirect::route('projects');
 		}
@@ -323,13 +352,15 @@ class ProjectsController extends \BaseController {
 			else {
 				$projects = Project::where('status','=',$status)
 						->orderBy('created_at','DESC')
-						->paginate(20);
+						->paginate(10);
+				$projectsCount = Project::where('status','=',$status)
+								 ->count();
 			}
 			if($projects != null) {
 				if($status == 'open') $open = $status;
 				if($status == 'closed') $closed = $status;
 				if($status == 'archived') $archived = $status;
-				return View::make('projects.filters.status', compact('projects','open','closed','archived','status'));
+				return View::make('projects.filters.status', compact('projects','open','closed','archived','status','projectsCount'));
 			}
 			else return Redirect::route('projects');
 		}
@@ -354,8 +385,11 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(10);
+					$projectsCount = Project::where('type','=',$type)
+									 ->where('status','=','open')
+									 ->count();
 					if($projects != null) {
-						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes','projectStages'));
+						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes','projectStages','projectsCount'));
 					}
 					else return Redirect::route('projects');
 				}

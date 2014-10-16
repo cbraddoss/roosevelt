@@ -216,7 +216,41 @@ function find_subscribed($projectID,$user) {
 	else return false;
 	return false;
 }
+function hipchat_message($message, $room = 'Developer Talk', $color = 'purple') {
+	$token = 'af008533a3040e34fcea88cea6336d'; //notification only token
+	$hc = new HipChat\HipChat($token);
+	$hcMessage = $message;
+	try {
+	 	$hc->message_room($room, 'Remote Office', ' <img src="https://dujrsrsgsd3nh.cloudfront.net/img/emoticons/156684/officebot-1413401780.png" width="30" height="30">: '.$hcMessage, true, $color);
+	} catch (HipChat\HipChat_Exception $e) {
+		return 'HipChat notification failed.';
+	}
+	return 'messageSent';
+}
 
+function hipchat_users() {
+	$token = '27264256b6dac89bef0a7f41ddf221'; //admin token
+	$hc = new HipChat\HipChat($token);
+	$hcUsers = $hc->get_users();
+	$userOutput = '';
+	foreach ($hcUsers as $user) {
+		$userOutput .= "Nickname $user->mention_name<br />";
+		$userOutput .= " - Name: $user->name<br />";
+		$userOutput .= " - Email: $user->email<br />";
+		$user_data = $hc->get_user($user->user_id);
+		$userOutput .= " - Status: ".$user_data->status."<br />";
+	}
+
+}
+function hipchat_mention_name($email) {
+	$token = '27264256b6dac89bef0a7f41ddf221'; //admin token
+	$hc = new HipChat\HipChat($token);
+	$hcUsers = $hc->get_users();
+	$userOutput = '';
+	foreach ($hcUsers as $user) {
+		if($user->email == $email) return $user->mention_name;
+	}
+}
 
 function find_unread_count($resource) {
 	$currentUser = current_user_path();

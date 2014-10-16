@@ -26,7 +26,8 @@ Projects for {{ $user->first_name.' '.$user->last_name }}
 
 @section('page-content')
 <div id="projects-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($projects) }} of {{ $projectsCount }}]</small></h2>
 	@if($projects->isEmpty())
 			<div class="projects-post">
 				<h3><i>{{ $user->first_name.' '.$user->last_name }}</i> is not assigned to any projects.</h3>

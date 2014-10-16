@@ -26,6 +26,15 @@
 </div>
 
 <div class="new-form-field">
+	{{ Form::label('hipchat_mention','HipChat Nickname:') }}
+	@if(empty($user->hipchat_mention))
+	{{ Form::label('hipchat_mention', 'Resave User to generate.') }}
+	@else
+	{{ Form::label('hipchat_mention', '@'.$user->hipchat_mention) }}
+	@endif
+</div>
+
+<div class="new-form-field">
 	{{ Form::label('anniversary','Anniversary:') }}
 	@if($user->anniversary == '0000-00-00 00:00:00') {{ Form::text('anniversary', null, array('placeholder' => Carbon::now()->format('m/d/Y'), 'class' => 'datepicker anniversary field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 	@else {{ Form::text('anniversary', Carbon::createFromFormat('Y-m-d H:i:s', $user->anniversary)->format('m/d/Y'), array('placeholder' => Carbon::now()->format('m/d/Y'), 'class' => 'datepicker anniversary field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}

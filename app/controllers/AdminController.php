@@ -76,6 +76,7 @@ class AdminController extends \BaseController {
 			$user->status =  Input::get('status');
 			$user->userrole =  Input::get('userrole');
 			$user->can_manage = Input::get('can_manage');
+			$user->hipchat_mention = hipchat_mention_name($user->email);
 			if(Input::get('anniversary') != '') $user->anniversary = Carbon::createFromFormat('m/d/Y', Input::get('anniversary'));
 			try
 			{
