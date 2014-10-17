@@ -1920,8 +1920,8 @@ jQuery(document).ready(function($){
 			$('form.add-project .projects-title').focus();
 			$('form.add-project .project-start-date').hide();
 			$('form.add-project label[for=start_date]').hide();
-			$('form.add-project .project-end-date').hide();
-			$('form.add-project label[for=end_date]').hide();
+			$('form.add-project label[for=recur_cycle]').hide();
+			$('form.add-project .project-recur-cycle').hide();
 			$(document).on('change','form.add-project select[name=period]', function() {
 				var periodValue = $(this).val();
 				if(periodValue == 'recurring') {
@@ -1930,15 +1930,15 @@ jQuery(document).ready(function($){
 					$('form.add-project .project-launch-date').val('');
 					$('form.add-project .project-start-date').fadeIn(200);
 					$('form.add-project label[for=start_date]').fadeIn(200);
-					$('form.add-project .project-end-date').fadeIn(200);
-					$('form.add-project label[for=end_date]').fadeIn(200);
+					$('form.add-project .project-recur-cycle').fadeIn(200);
+					$('form.add-project label[for=recur_cycle]').fadeIn(200);
 				}
 				else {
 					$('form.add-project .project-end-date').val('');
 					$('form.add-project .project-start-date').hide();
 					$('form.add-project label[for=start_date]').hide();
-					$('form.add-project .project-end-date').hide();
-					$('form.add-project label[for=end_date]').hide();
+					$('form.add-project label[for=recur_cycle]').hide();
+					$('form.add-project .project-recur-cycle').hide();
 					$('form.add-project .project-launch-date').fadeIn(200);	
 					$('form.add-project label[for=launch_date]').fadeIn(200);				
 				}

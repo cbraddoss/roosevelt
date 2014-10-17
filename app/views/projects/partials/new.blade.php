@@ -23,7 +23,7 @@
 <div class="new-form-field new-form-field-extras">
 	<div class="form-account-searchbox">
 {{ Form::label('account_name', 'Add Account:') }}
-{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
+{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts by entering at least 3 characters...', 'class' => 'search-accounts field')) }}
 {{ Form::hidden('account_id', null, array('class' => 'project-account-id field')) }}
 		<div class="accounts-search-ajax"></div>
 	</div>
@@ -65,8 +65,19 @@
 
 <div class="new-form-field new-form-field-extras">
 <!-- <span class="label-end-date">End Date:</span> -->
-{{ Form::label('end_date', 'End Date:') }}
-{{ Form::text('end_date', null, array('placeholder' => 'End Date', 'class' => 'datepicker project-end-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::label('recur_cycle', 'Recur Cycle:') }}
+<div class="select-dropdown project-recur-cycle">
+	<span class="ss-dropdown"></span>
+	<span class="ss-directup"></span>
+	<select id="recur_cycle" name="recur_cycle">
+		<option value=''>Select Cycle</option>
+		<option value="monthly">Monthly</option>
+		<option value="biweekly">Bi-Weekly</option>
+		<option value="weekly">Weekly</option>
+		<option value="daily">Daily</option>
+	</select>
+</div>
+{{ Form::hidden('end_date', null, array('placeholder' => 'End Date', 'class' => 'datepicker project-end-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">

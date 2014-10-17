@@ -30,6 +30,7 @@ class CreateProjectsTable extends Migration {
 			$table->integer('account_id');
 			$table->dateTime('due_date');
 			$table->enum('period',array('ending','recurring'));
+			$table->enum('recur_cycle', array('monthly','biweekly','weekly','daily'))->nullable();
 			$table->dateTime('start_date');
 			$table->dateTime('end_date');
 			$table->text('attachment');

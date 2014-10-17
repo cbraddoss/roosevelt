@@ -124,15 +124,33 @@ class ProjectsController extends \BaseController {
 				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
 				$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('launch_date'));
 			}
-			if(Input::get('period') == 'recurring' && Input::get('end_date') == '') {
+			if(Input::get('period') == 'recurring' && Input::get('recur_cycle') == '') {
 				$response = array(
-					'errorMsg' => 'The End Date field is required.'
+					'errorMsg' => 'The Recur Cycle field is required.'
 				);
 				return Response::json( $response );
 			}
 			elseif(Input::get('period') == 'recurring') {
-				$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
-				$newProject->due_date = Carbon::createFromFormat('m/d/Y', Input::get('end_date'));
+				$newProject->recur_cycle = Input::get('recur_cycle');
+				if($newProject->recur_cycle == 'monthly') {
+					$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'))->addMonth();
+				}
+				elseif($newProject->recur_cycle == 'biweekly') {
+					$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'))->addWeeks(2);
+				}
+				elseif($newProject->recur_cycle == 'weekly') {
+					$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'))->addWeek();
+				}
+				elseif($newProject->recur_cycle == 'daily') {
+					$newProject->end_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'))->addDay();
+				}
+				else {
+					$response = array(
+						'errorMsg' => 'The Recur Cycle field is required.'
+					);
+					return Response::json( $response );
+				}
+				$newProject->due_date = $newProject->end_date;
 			}
 			$newProject->start_date = Carbon::createFromFormat('m/d/Y', Input::get('start_date'));
 			if(Input::hasFile('attachment')) {
@@ -185,18 +203,24 @@ class ProjectsController extends \BaseController {
 
 			if(!empty($newProject->subscribed)) $this->mailer->projectNewSubEmail($newProject);
 			
-			$hcMessage = '';
-			$hcMessage .= 'A new project, <a href="/projects/post/'.$newProject->slug.'">'. $newProject->title.'</a>, has been created for <b>'.Account::find($newProject->account_id)->name.'</b>.<br />';
-			$hcMessage .= 'This project is scheduled to launch on <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->end_date)->format('F j').'</b>.<br />';
-			$hcMessage .= 'The current stage, <b>'.$newProject->stage.'</b>, is assigned to <b>@'.User::find($newProject->assigned_id)->hipchat_mention.'</b> and is due on <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->due_date)->format('F j').'</b>.';
-			$hcMessageSend = hipchat_message($hcMessage);
-			if($hcMessageSend != 'messageSent') {
-				$response = array(
-					'slug' => $newProject->slug,
-					'msg' => 'Project created successfully! (Note: '.$hcMessageSend.')'
-				);
-				return Response::json( $response );
-			}
+			//if($newProject->period == 'ending') {
+				$hcMessage = '';
+				$hcMessage .= 'New Project started!<br />';
+				$hcMessage .= 'Project: <a href="' . URL::to( '/projects/post/' . $newProject->slug ) . '">' . $newProject->title . '</a><br />';
+				$hcMessage .= 'Account: <b>' . Account::find($newProject->account_id)->name . '</b>.<br />';
+				$hcMessage .= 'Launch Date: <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->end_date)->format('F j').'</b>.<br />';
+				$hcMessage .= 'Current Stage: <b>'.$newProject->stage.'</b><br />';
+				$hcMessage .= 'Assigned to: <b>@'.User::find($newProject->assigned_id)->hipchat_mention.'</b><br />';
+				$hcMessage .= 'Due Date: <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->due_date)->format('F j').'</b>.';
+				$hcMessageSend = hipchat_message($hcMessage);
+				if($hcMessageSend != 'messageSent') {
+					$response = array(
+						'slug' => $newProject->slug,
+						'msg' => 'Project created successfully! (Note: '.$hcMessageSend.')'
+					);
+					return Response::json( $response );
+				}
+			//}
 
 			$response = array(
 				'slug' => $newProject->slug,
@@ -248,7 +272,7 @@ class ProjectsController extends \BaseController {
 				$projects = Project::where('assigned_id','=',$user->id)
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
-							->paginate(10);
+							->paginate(20);
 				$projectsCount = Project::where('assigned_id','=',$user->id)
 							   ->where('status','=','open')
 							   ->count();
@@ -273,7 +297,7 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->where('due_date','<', $dateMax)
 					->orderBy('due_date','ASC')
-					->paginate(10);
+					->paginate(20);
 		$projectsCount = Project::where('due_date','>=', $date)
 						 ->where('status','=','open')
 						 ->where('due_date','<', $dateMax)
@@ -295,7 +319,7 @@ class ProjectsController extends \BaseController {
 					->where('type','=', $type)
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
-					->paginate(10);
+					->paginate(20);
 			$projectsCount = Project::where('stage','=',convert_path_to_stage($stage))
 							 ->where('type','=', $type)
 							 ->where('status','=','open')
@@ -318,7 +342,7 @@ class ProjectsController extends \BaseController {
 			$projects = Project::where('priority','=',$priority)
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
-					->paginate(10);
+					->paginate(20);
 			$projectsCount = Project::where('priority','=',$priority)
 							 ->where('status','=','open')
 							 ->count();
@@ -352,7 +376,7 @@ class ProjectsController extends \BaseController {
 			else {
 				$projects = Project::where('status','=',$status)
 						->orderBy('created_at','DESC')
-						->paginate(10);
+						->paginate(20);
 				$projectsCount = Project::where('status','=',$status)
 								 ->count();
 			}
@@ -384,7 +408,7 @@ class ProjectsController extends \BaseController {
 					$projects = Project::where('type','=',$type)
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
-							->paginate(10);
+							->paginate(20);
 					$projectsCount = Project::where('type','=',$type)
 									 ->where('status','=','open')
 									 ->count();

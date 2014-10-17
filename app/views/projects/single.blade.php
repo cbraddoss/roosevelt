@@ -100,7 +100,7 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<h3 class="ss-location"><small> Current Stage:</small></h3>
+			<h3 class="ss-location"><small> Stage:</small></h3>
 			<span class="project-stage">{{ $project->stage }}</span>
 			</div>
 
