@@ -216,7 +216,7 @@ function find_subscribed($projectID,$user) {
 	else return false;
 	return false;
 }
-function hipchat_message($message, $room = 'Developer Talk', $color = 'purple') {
+function hipchat_message($message, $room = 'Roosevelt', $color = 'purple') {
 	$token = 'af008533a3040e34fcea88cea6336d'; //notification only token
 	$hc = new HipChat\HipChat($token);
 	$hcMessage = $message;

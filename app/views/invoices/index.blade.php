@@ -27,7 +27,7 @@
 <div id="invoices-page"  class="inner-page">
 	<h2>@yield('page-h2')</h2>
 
-	<h3>Internet gremlins are still assembling this page.</h3>
+	<h3>The gremlins are still assembling this page.</h3>
 	<p>Check back soon.</p>
 
 </div>

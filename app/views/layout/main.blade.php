@@ -19,7 +19,7 @@
 			<div id="search-box">
 				<div class="search-details">
 					{{ Form::open( array('class' => 'office-search', 'url' => '/search', 'method' => 'post') ) }}
-					<input type="text" class="search" name="s" id="s" placeholder="Internet gremlins are still building the search functionality. Check back soon." />
+					<input type="text" class="search" name="s" id="s" placeholder="The gremlins are still building the search functionality. Check back soon." />
 					<!-- <input type="text" class="search" name="s" id="s" placeholder="Search the Office..." /> -->
 					{{ Form::close() }}
 				</div>
@@ -33,19 +33,32 @@
 								<li alt="Dashboard" id="link-dashboard" class="link"><a class="ss-home link-href" href="/"><span class="link-text">Dashboard</span></a></li>
 								<li alt="Projects" id="link-projects" class="link"><a href="/projects" class="ss-list link-href"><span class="link-text">Projects</span></a>{{ find_assigned_count('projects') }}
 								<ul class="sub_menu_links-hover">
-									<li class="sub-link"><a href="/projects">Open</a></li>
+									<li class="sub-link"><a href="/projects">All Open</a></li>
 									<li class="sub-link"><a href="/projects/date/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->format('F') }}">Due {{ Carbon::now()->format('F') }}</a></li>
 									<li class="sub-link"><a href="/projects/assigned-to/{{ Auth::user()->user_path }}">Your Projects</a></li>
 								</ul>
 								</li>
-								<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}</li>
+								<li alt="Billable Updates" id="link-billables" class="link"><a href="/billables" class="ss-dollarsign link-href"><span class="link-text">Billables</span></a>{{ find_assigned_count('billables') }}
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/billables">All Open</a></li>
+									<li class="sub-link"><a href="/billables/stage/in-production">In Production</a></li>
+									<li class="sub-link"><a href="/billables/assigned-to/{{ Auth::user()->user_path }}">Your Billables</a></li>
+								</ul>
+								</li>
 								<li alt="Invoices" id="link-invoices" class="link"><a href="/invoices" class="ss-file link-href"><span class="invoice-dollar">$</span><span class="link-text">Invoices</span></a></li>
-								<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a></li>
+								<li alt="Accounts" id="link-accounts" class="link"><a href="/accounts" class="ss-buildings link-href"><span class="link-text">Accounts</span></a>
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/accounts">All Active</a></li>
+									<li class="sub-link"><a href="/accounts/type/hosting">Hosting Client</a></li>
+									<li class="sub-link"><a href="/accounts/type/promo">Promo Client</a></li>
+									<li class="sub-link"><a href="/accounts/type/print">Print Client</a></li>
+								</ul>
+								</li>
 								<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
 								<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span class="link-text">Help</span></a>{{ find_assigned_count('help') }}</li>
 								<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href"><span class="link-text">News</span></a>{{ find_unread_count('articles') }}
 								<ul class="sub_menu_links-hover">
-									<li class="sub-link"><a href="/news/">All</a></li>
+									<li class="sub-link"><a href="/news/">All Articles</a></li>
 									<li class="sub-link"><a href="/news/unread">Unread</a></li>
 									<li class="sub-link"><a href="/news/favorites">Favorites</a></li>
 									<li class="sub-link"><a href="/news/mentions">Mentions</a></li>

@@ -57,29 +57,32 @@
 
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		
-		<div class="post-attachment">
-			@if($project->getAttachments($project->id))
-			{{ $project->getAttachments($project->id) }}
-			@endif
-		</div>
 		<div class="post-content">
+		<h3 class="ss-crosshair"> Project Scope:</h3>
 			<p>{{ display_content($project->content) }}</p>
+			<div class="post-project-attachment">
+				@if($project->getAttachments($project->id))
+				<h3 class="ss-attach"> Attachment(s):</h3>
+				{{ $project->getAttachments($project->id) }}
+				@endif
+			</div>
 		</div>
-		<div class="projects-post-sub office-post-sub">
-			<small>Created on: {{ $project->created_at->format('F j, Y') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->author_id), User::find($project->author_id)->first_name.' '.User::find($project->author_id)->last_name) }}</small> | 
-			@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-			<small><a class="edit-project edit-link link" href="/projects/post/{{ $project->slug }}/edit">Edit Project</a></small>
-			@endif
-			<small class="right">
-			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->edit_id), User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name) }}
-			</small>
-		</div>
+		
 		<div class="post-project-account">
 			<h3 class="ss-buildings"> Account:</h3>
 			<h4><a href="/accounts/{{ Account::find($project->account_id)->link }}">{{ Account::find($project->account_id)->name }}</a></h4>
 		</div>
 		<div class="post-subscribed">
-			<h3 class="ss-send"> Subscribed: <small>(receives email notifications)</small></h3>
+			<h3 class="ss-send"> Subscribed:
+					<div class="select-dropdown">
+						<span class="ss-dropdown"></span>
+						<span class="ss-directup"></span>
+						<select class="add-project-sub-list" name="add-project-sub-list">
+						<option value="">Select User</option>
+						{{ get_active_user_list_select() }}
+						</select>
+					</div>
+			</h3>
 			@foreach($subscribed as $subd)
 				@if(!empty($subd))
 					@if($project->author_id == Auth::user()->id || $subd == Auth::user()->user_path || Auth::user()->can_manage == 'yes')
@@ -89,16 +92,7 @@
 					@endif
 				@endif
 			@endforeach
-		@if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
-			<div class="select-dropdown">
-				<span class="ss-dropdown"></span>
-				<span class="ss-directup"></span>
-				<select class="add-project-sub-list" name="add-project-sub-list">
-				<option value="">Select User</option>
-				{{ get_active_user_list_select() }}
-				</select>
-			</div>
-		@endif
+		<br class="clear" />
 		{{ Form::open( array('id' => 'change-project-sub-'.$project->id, 'class' => 'change-project-sub-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/subscribed', 'method' => 'post') ) }}
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
@@ -106,20 +100,27 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<h3><small>Current Phase:</small></h3>
-			<span class="project-stage ss-location">{{ $project->stage }}</span>
-			
+			<h3 class="ss-location"><small> Current Stage:</small></h3>
+			<span class="project-stage">{{ $project->stage }}</span>
+			</div>
+
+		<div class="project-stage-due-date">
+			<h3 class="ss-calendar"><small> Due Date:</small></h3>
 			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
 				<span class="project-due-date-text tooltip-hover">
 					<span class="tooltip">Change<br />Due Date</span>
-					<span class="post-due-date ss-calendar">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
+					<span class="post-due-date">{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('F j') }}</span>
 				</span>
 				{{ Form::open( array('id' => 'change-project-date-'.$project->id, 'class' => 'change-project-date-form', 'url' => '/projects/listviewupdate/'.$project->id.'/due_date', 'method' => 'post') ) }}
 					{{ Form::hidden('id', $project->id) }}
 				{{ Form::close() }}
 			</div>
+			</div>
+
+		<div class="project-stage-due-date">
 			<div class="post-assigned-to">
-<span class="tooltip-hover"><span class="tooltip">Change<br />User</span><img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /></span>
+			<h3><img src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /><small> Assigned To:</small></h3>
+<span class="tooltip-hover"><span class="tooltip">Change<br />User</span></span>
 <div class="select-dropdown">
 <span class="ss-dropdown"></span>
 <span class="ss-directup"></span>
@@ -129,12 +130,12 @@
 {{ Form::hidden('id', $project->id) }}
 {{ Form::close() }}
 </div>
-</div>
+		</div>
 
-<div class="project-stage-due-date">
-			<h3><small>Other Details:</small></h3>
-<div class="post-priority">
-<span class="ss-alert priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span>
+		<div class="project-stage-due-date">
+			<h3 class="ss-alert"><small> Priority:</small></h3>
+			<div class="post-priority">
+<span class="priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span>
 <div class="select-dropdown">
 <span class="ss-dropdown"></span>
 <span class="ss-directup"></span>
@@ -143,9 +144,13 @@
 {{ Form::open( array('id' => 'change-project-priority-'.$project->id, 'class' => 'change-project-priority-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/priority', 'method' => 'post') ) }}
 {{ Form::hidden('id', $project->id) }}
 {{ Form::close() }}
-</div>
-		<div class="post-manager">
-			<span class="ss-users manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
+			</div>
+			</div>
+
+		<div class="project-stage-due-date">
+			<h3><img src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
+			<div class="post-manager">
+<span class="manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
 @if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
 <div class="select-dropdown">
 <span class="ss-dropdown"></span>
@@ -160,11 +165,15 @@
 {{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
 {{ Form::hidden('id', $project->id) }}
 {{ Form::close() }}
-		</div>
+			</div>
+			</div>
+
+		<div class="project-stage-due-date">
+			<h3 class="ss-uploadcloud"><small> Launching:</small></h3>
 			<div class="project-launch-date change-project-launch-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
 				<span class="project-launch-date-text tooltip-hover">
 					<span class="tooltip">Change<br />Launch</span>
-					<span class="post-launch-date ss-uploadcloud"> {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j') }}</span>
+					<span class="post-launch-date"> {{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('F j') }}</span>
 				</span>
 				{{ Form::open( array('id' => 'change-project-launch-date-'.$project->id, 'class' => 'change-project-launch-date-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/end_date', 'method' => 'post') ) }}
 					{{ Form::hidden('id', $project->id) }}
@@ -181,7 +190,15 @@
 			{{ $tasks }}
 		{{ Form::close() }}
 		</div>
-		
+		<div class="projects-post-sub office-post-sub">
+			<small>Created on: {{ $project->created_at->format('F j, Y') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->author_id), User::find($project->author_id)->first_name.' '.User::find($project->author_id)->last_name) }}</small> | 
+			@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
+			<small><a class="edit-project edit-link link" href="/projects/post/{{ $project->slug }}/edit">Edit Project</a></small>
+			@endif
+			<small class="right">
+			Last edit: {{ $project->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/projects/assigned-to/'.any_user_path($project->edit_id), User::find($project->edit_id)->first_name.' '.User::find($project->edit_id)->last_name) }}
+			</small>
+		</div>
 	</div>
 	<div id="projects-post-comment-form" class="create-something-new">
 		<div class="projects-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>

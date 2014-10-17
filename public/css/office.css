@@ -1081,7 +1081,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 /* General List Styles */
 #content .office-post,
 #content .office-post-comment {
-	padding: 0px 10px;
+	padding: 5px 10px;
 	position: relative;
 	height: 85px;
 	margin: 0 0px 0px 0px;
@@ -1089,6 +1089,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-width: 0px;
 	border-left-width: 8px;
 	border-color: #c5c5c5;
+	background: #f5f5f5;
 }
 #content .office-post-comment {
 	height: auto;
@@ -1114,7 +1115,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	position: relative;
 }
 #content .office-post .nothing-to-show {
-	/*border: 1px dotted #ddd;*/
 	background: #eeeeee;
 	border-radius: 3px;
 	padding: 0 10px;
@@ -1149,7 +1149,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	opacity: 0.7;
 }
 #content .office-post.high-priority {
-	/*background: rgba(255,77,77,0.1);*/
 	border-right: 8px solid #A61919;
 }
 #content .office-post.high-priority .high-priority-alert {
@@ -1270,8 +1269,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 /* Projects List View */
 #content #projects-page .project-post,
 #content #todo-page .project-post {
-	padding-left: 170px;
 	position: relative;
+	padding: 10px 10px 10px 180px;
 }
 #content #projects-page .project-post h3,
 #content #todo-page .project-post h3 {
@@ -1282,7 +1281,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #todo-page .project-post .post-date {
 	position: absolute;
 	left: 5px;
-	top: 0;
+	top: 5px;
 	padding: 5px;
 	width: 150px;
 	height: 100%;
@@ -1331,10 +1330,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display: block;
 	text-align: left;
 	position: relative;
-}
-#content #projects-page .project-post .post-end-date,
-#content #todo-page .project-post .post-end-date {
-	padding-top: 2px;
 }
 #content #projects-page .project-post .post-activity,
 #content #projects-page .project-post .post-attachment,
@@ -1415,103 +1410,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single .post-single-attachment img {
 	border: 1px solid #353535;
 }
-#content .office-post-single .post-project-account,
-#content .office-post-single .post-subscribed {
-	border-left: 8px solid #4B83B4;
-	width: 25%;
-	box-sizing: border-box;
-	min-height: 85px;
-	background: #e5e5e5;
-	padding: 5px 10px 7.5px;
-	margin: 10px 0;
-	float: left;
-}
-#content .office-post-single .post-subscribed {
-	width: 75%;
-}
-#content .office-post-single .post-project-account h3,
-#content .office-post-single .post-subscribed h3 {
-	margin-top: 0;
-}
-#content .office-post-single .post-project-account h4 {
-	font-size: 1.3em;
-	font-weight: 300;
-}
-#content .office-post-single .post-subscribed .user-subscribed {
-	background: rgba(75,131,180,0.6);
-	border-radius: 3px;
-	color: #ffffff;
-	float: left;
-	margin:0 10px 0 0;
-	padding: 3px 10px;
-	box-shadow: inset 0 -3px rgba(51,51,51,0.5);
-	cursor: pointer;
-	height: 22.5px;
-}
-#content .office-post-single .post-subscribed .user-subscribed:before {
-	vertical-align: middle;
-	margin-right: 5px
-}
-#content .office-post-single .post-subscribed .user-subscribed:hover {
-	box-shadow: inset 0 -2px rgba(51,51,51,0.5);
-	height: 21.5px;
-	margin-top: 2px;
-	background: #FF4D4D;
-}
-#content .office-post-single .post-subscribed .user-subscribed:hover:before {
-	text-shadow: 1px 1px #333333;
-}
-#content .office-post-single .post-subscribed .select-dropdown {
-	overflow: visible;
-}
-#content .office-post-single .project-stage-due-date {
-	border-left: 8px solid #FF4D4D;
-	width: 50%;
-	height: 160px;
-	float: left;
-	box-sizing: border-box;
-	background: #e5e5e5;
-	padding: 5px 10px 5px;
-	margin: 10px 0 20px;
-}
-#content .office-post-single .project-stage-due-date h3 {
-	margin-top: 0;
-}
-#content .office-post-single .project-stage-due-date select {
-	width: 125px;
-}
-#content .office-post-single .project-stage-due-date .project-stage,
-#content .office-post-single .project-stage-due-date .project-due-date,
-#content .office-post-single .project-stage-due-date .project-launch-date {
-	margin-top: 5px;
-	display: block;
-	font-size: 1.2em;
-}
-#content .office-post-single .project-stage-due-date .project-due-date,
-#content .office-post-single .project-stage-due-date .project-launch-date {
-	cursor: pointer;
-}
-#content .office-post-single .project-stage-due-date .project-stage:before,
-#content .office-post-single .project-stage-due-date .project-due-date .post-due-date:before,
-#content .office-post-single .project-stage-due-date .project-launch-date .post-launch-date:before {
-	font-size: 24px;
-	color: #FF4D4D;
-	margin-right: 10px;
-	vertical-align: middle;
-}
-#content .office-post-single .project-stage-due-date .post-priority .priority-icon:before,
-#content .office-post-single .project-stage-due-date .post-manager .manager-icon:before {
-	font-size: 24px;
-	color: #FF4D4D;
-	margin-right: 10px;
-}
-#content .office-post-single .project-stage-due-date .post-assigned-to,
-#content .office-post-single .project-stage-due-date .post-priority {
-	margin-top: 5px;
-}
-#content .office-post-single .project-stage-due-date .post-assigned-to img {
-	margin: 0 5px 0 0;
-}
 #content .office-post-single .office-post-sub {
 	clear: both;
 	background: #e5e5e5;
@@ -1519,66 +1417,212 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-top: 10px;
 	border-left: 8px solid #d5d5d5;
 }
+/* Project Singe View */
+#content #projects-page .office-post-single .post-content {
+	border-left: 8px solid #4B83B4;
+	width: 68%;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 10px 10px;
+	margin: 0px 2% 20px 0;
+	float: left;
+	min-height: 200px;
+}
+#content #projects-page .office-post-single .post-project-attachment {
+	margin-top: 40px;
+}
+#content #projects-page .office-post-single .post-single-attachment {
+	float: none;
+	display: block;
+	margin: 5px 0;
+}
+#content #projects-page .office-post-single .post-single-attachment img {
+	width: 75px;
+	height: auto;
+	margin-right: 10px;
+}
+#content #projects-page .office-post-single .post-pdf-attachment img {
+	width: 32px;
+	border: none;
+	vertical-align: middle;
+}
+#content #projects-page .office-post-single .post-project-account,
+#content #projects-page .office-post-single .post-subscribed {
+	border-left: 8px solid #4B83B4;
+	width: 30%;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 10px 10px 5px;
+	margin: 0px 0 0px;
+	float: left;
+}
+#content #projects-page .office-post-single .post-project-account {
+	min-height: 80px;	
+}
+#content #projects-page .office-post-single .post-subscribed {
+	min-height: 120px;
+	margin-bottom: 20px;
+}
+#content #projects-page .office-post-single .post-project-account h3,
+#content #projects-page .office-post-single .post-subscribed h3,
+#content #projects-page .office-post-single .post-content h3 {
+	margin-top: 0;
+}
+#content #projects-page .office-post-single .post-project-account h4 {
+	font-size: 1.3em;
+	font-weight: 300;
+}
+#content #projects-page .office-post-single .post-subscribed a {
+	display: block;
+}
+#content #projects-page .office-post-single .post-subscribed .user-subscribed {
+	background: rgba(75,131,180,0.4);
+	border: 1px solid #4B83B4;
+	border-radius: 3px;
+	color: #ffffff;
+	display: inline-block;
+	margin: 0px 10px 5px 0;
+	padding: 2px 5px;
+	font-size: 0.9em;
+	cursor: pointer;
+	position: relative;
+}
+#content #projects-page .office-post-single .post-subscribed .user-subscribed:before {
+	vertical-align: middle;
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	border-radius: 3px;
+	visibility: hidden;
+}
+#content #projects-page .office-post-single .post-subscribed .user-subscribed:hover {
+	background: rgba(255,77,77,0.4);
+	border-color: #FF4D4D;
+}
+#content #projects-page .office-post-single .post-subscribed .user-subscribed:hover:before {
+	color: #4B83B4;
+	visibility: visible;
+}
+#content #projects-page .office-post-single .post-subscribed .select-dropdown {
+	overflow: visible;
+	font-size: 0.7em;
+}
+#content #projects-page .office-post-single .project-stage-due-date {
+	border-left: 8px solid #FF4D4D;
+	width: 16.6666666666666%;
+	height: 90px;
+	min-width: 175px;
+	float: left;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 5px 18px 5px 10px;
+	margin: 0px 0 20px;
+	position: relative;
+	text-align: center;
+}
+#content #projects-page .office-post-single .project-stage-due-date h3 {
+	margin-top: 5px;
+	vertical-align: middle;
+}
+#content #projects-page .office-post-single .project-stage-due-date h3:before,
+#content #projects-page .office-post-single .project-stage-due-date h3 img {
+	vertical-align: middle;
+	color: #FF4D4D;
+}
+#content #projects-page .office-post-single .project-stage-due-date select {
+	width: 125px;
+}
+#content #projects-page .office-post-single .project-stage-due-date .project-stage,
+#content #projects-page .office-post-single .project-stage-due-date .project-due-date,
+#content #projects-page .office-post-single .project-stage-due-date .project-launch-date {
+	margin-top: 5px;
+	display: block;
+	font-size: 1.2em;
+}
+#content #projects-page .office-post-single .project-stage-due-date .project-due-date,
+#content #projects-page .office-post-single .project-stage-due-date .project-launch-date {
+	cursor: pointer;
+}
+#content #projects-page .office-post-single .project-stage-due-date .project-stage:before,
+#content #projects-page .office-post-single .project-stage-due-date .project-due-date .post-due-date:before,
+#content #projects-page .office-post-single .project-stage-due-date .project-launch-date .post-launch-date:before {
+	font-size: 24px;
+	color: #FF4D4D;
+	margin-right: 10px;
+	vertical-align: middle;
+}
+#content #projects-page .office-post-single .project-stage-due-date .project-due-date .post-due-date:hover,
+#content #projects-page .office-post-single .project-stage-due-date .project-launch-date .post-launch-date:hover {
+	background: rgba(51,51,51,0.1);
+	border-radius: 3px;
+	padding: 0px 10px;
+}
+#content #projects-page .office-post-single .project-stage-due-date .post-priority .priority-icon:before,
+#content #projects-page .office-post-single .project-stage-due-date .post-manager .manager-icon:before {
+	font-size: 24px;
+	color: #FF4D4D;
+	margin-right: 10px;
+}
+#content #projects-page .office-post-single .project-stage-due-date .post-assigned-to,
+#content #projects-page .office-post-single .project-stage-due-date .post-priority {
+	margin-top: 5px;
+}
+#content #projects-page .office-post-single .project-stage-due-date .post-assigned-to img {
+	/*margin: 0 5px 0 0;*/
+}
 /* Project Checklists */
-#content .office-post-single .project-checklist {
+#content #projects-page .office-post-single .project-checklist {
 	display: block;
 	clear: both;
-	border-bottom: 3px solid #d5d5d5;
 	margin-bottom: 5px;
-	padding-bottom: 10px;
 }
-#content .office-post-single .checklist-section {
+#content #projects-page .office-post-single .checklist-section {
 	width: 100%;
 	box-sizing: border-box;
 }
-#content .office-post-single .checklist-section h4 {
+#content #projects-page .office-post-single .checklist-section h4 {
 	border-left: 8px solid #FF4D4D;
 	padding: 10px;
 	font-size: 1.2em;
 	background: #e5e5e5;
 	cursor: pointer;
 }
-#content .office-post-single .checklist-section h4.section-complete {
+#content #projects-page .office-post-single .checklist-section h4.section-complete {
 	border-color: #a5a5a5;
 	background: #e5e5e5;
 	opacity: 0.7;
 	font-weight: 300;
 }
-#content .office-post-single .checklist-section h4:before {
-	font-size: 24px;
+#content #projects-page .office-post-single .checklist-section h4:before {
+	font-size: 18px;
 	vertical-align: middle;
 	margin-right: 10px;
 	cursor: pointer;
 }
-#content .office-post-single .checklist-section .checklist-checkbox-section {
+#content #projects-page .office-post-single .checklist-section .checklist-checkbox-section {
 	padding: 10px;
 }
-#content .office-post-single .checklist-section .checklist-checkbox-section label {
+#content #projects-page .office-post-single .checklist-section .checklist-checkbox-section label {
 	padding-left: 30px;
 }
-#content .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:checked + label {
+#content #projects-page .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:checked + label {
 	opacity: 0.7;
 	text-decoration: line-through;
 }
-#content .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:disabled + label {
+#content #projects-page .office-post-single .checklist-section .checklist-checkbox-section input[type=checkbox]:disabled + label {
 	opacity: 0.7;
 	cursor: not-allowed;
 }
-#content .office-post-single .checklist-section .checklist-checkbox-section .checklist-skip-task {
+#content #projects-page .office-post-single .checklist-section .checklist-checkbox-section .checklist-skip-task {
 	float: right;
 	font-size: 0.9em;
 	padding-top: 0;
 	background: rgba(46,153,153,0.5);
 }
-#content .office-post-single .checklist-section .checklist-header-progress {
+#content #projects-page .office-post-single .checklist-section .checklist-header-progress {
 	font-size: 0.8em;
 }
 /* Post Comments */
-/*#content .comment-on {
-	border-left: 8px solid #858585;
-	background: #e5e5e5;
-	padding: 10px 5px;
-}*/
 #content .post-comment.add-button {
 	margin: 10px 0 20px 0;
 	float: right;

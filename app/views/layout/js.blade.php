@@ -1288,7 +1288,7 @@ jQuery(document).ready(function($){
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('<span class="tooltip">Change<br />Due Date</span>Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
-			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date .project-due-date-text ').html('<span class="tooltip">Change<br />Due Date</span><span class="post-due-date ss-calendar">'+data.date+'</span>');
+			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date .project-due-date-text ').html('<span class="tooltip">Change<br />Due Date</span><span class="post-due-date">'+data.date+'</span>');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-due-text-alert').remove();
@@ -1342,7 +1342,7 @@ jQuery(document).ready(function($){
 		}
 		else {
 			var projectID = data.pid;
-			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-launch-date .project-launch-date-text').html('<span class="tooltip">Change<br />Launch</span><span class="post-launch-date ss-uploadcloud"> '+data.date+'</span>');
+			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-launch-date .project-launch-date-text').html('<span class="tooltip">Change<br />Launch</span><span class="post-launch-date"> '+data.date+'</span>');
 		}
 	}
 	//subscribe to project notifications
@@ -1630,7 +1630,7 @@ jQuery(document).ready(function($){
 	{
 		var projectID = data.pid;
 		if(data.subName != '') {
-			$(document).find('div#project-'+projectID+' .post-subscribed div').first().before('<div class="user-subscribed ss-delete" value="'+data.sub+'">'+data.subName+'</div>');
+			$(document).find('div#project-'+projectID+' .post-subscribed .user-subscribed').last().before('<div class="user-subscribed ss-delete" value="'+data.sub+'">'+data.subName+'</div>');
 		}
 	}
 	// update checklist progress on single view page.

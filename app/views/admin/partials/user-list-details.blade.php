@@ -28,7 +28,7 @@
 @endif
 </div>
 <div class="post-author post-detail">
-	<span><img src="{{ gravatar_url($u->email,30) }}" alt="{{ $u->first_name }} {{ $u->last_name }}" /></span>
+	<span><a href="/admin/users/{{ any_user_path($u->id) }}" class="admin-link userrole-{{ $u->userrole }} status-{{ $u->status }}"><img src="{{ gravatar_url($u->email,30) }}" alt="{{ $u->first_name }} {{ $u->last_name }}" /></a></span>
 </div>
 <h3><a href="/admin/users/{{ any_user_path($u->id) }}" class="admin-link userrole-{{ $u->userrole }} status-{{ $u->status }}">{{ $u->first_name }} {{ $u->last_name }}</a></h3>
 <div class="post-date post-detail  post-detail-last">

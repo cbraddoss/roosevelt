@@ -1,17 +1,27 @@
 <?php
 
 use \Account;
+use \Mailer;
+use \Project;
+use \AccountComment;
 
 class AccountsController extends \BaseController {
 
+	protected $mailer;
 	/**
      * Instantiate a new AccountsController instance.
      */
-	public function __construct(Account $account)
+	public function __construct(Mailer $mailer, Project $project, Account $account)
 	{
 		$this->beforeFilter('auth');
 
 		$this->beforeFilter('csrf', array('on' => 'post'));
+
+        $this->mailer = $mailer;
+
+        $this->project = $project;
+
+        //$this->accountComment = $accountComment;
 
         $this->account = $account;
 	}
@@ -23,8 +33,12 @@ class AccountsController extends \BaseController {
 	 */
 	public function index()
 	{
+		$accounts = Account::where('status','=','active')
+					->get();
+		$accountsCount = Account::where('status','=','active')
+						 ->count();
 		if(Request::ajax()) return View::make('accounts.partials.new');
-		else return View::make('accounts.index')->withAccounts(Account::all());
+		else return View::make('accounts.index', compact('accounts','accountsCount'));
 	}
 
 	/**
@@ -62,7 +76,7 @@ class AccountsController extends \BaseController {
 	 */
 	public function create()
 	{
-		return View::make('accounts.new');
+		//
 	}
 
 	/**
