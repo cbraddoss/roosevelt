@@ -1,24 +1,24 @@
 @extends('layout.main')
 
 @section('page-h1')
-{{ 'Tools' }}
+{{ 'Assets' }}
 @stop
 
 @section('page-h2')
-{{ 'Tools and Links for InsideOut Employees' }}
+{{ 'Employee Assets and Resources:' }}
 @stop
 
 @section('header-menu')
 <div class="page-menu">
 	<ul>
-		<li><a id="pagelink-tools" href="/tools/" class="link">Tools</a></li>
-		<li><a id="pagelink-tools-status" href="/tools/status" class="link">Status</a></li>
+		<li><a id="pagelink-assets" href="/assets/" class="link">All Assets</a></li>
+		<li><a id="pagelink-assets-status" href="/assets/post/status" class="link">Status</a></li>
 	</ul>
 </div>
 @stop
 
 @section('page-content')
-<div id="tools-page"  class="inner-page">
+<div id="assets-page"  class="inner-page">
 	<h2>@yield('page-h2')</h2>
 
 	<div class="link-box"><a href="#" target="_blank">1Password</a></div>

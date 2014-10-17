@@ -65,8 +65,8 @@
 									<li class="sub-link"><a href="/news/drafts">Drafts</a></li>
 								</ul>
 								</li>
-								<li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li>
-								<li alt="Tools" id="link-tools" class="link"><a href="/tools" class="ss-flask link-href"><span class="link-text">Tools</span></a></li>
+								<!-- <li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li> -->
+								<li alt="Assets" id="link-assets" class="link"><a href="/assets" class="ss-flask link-href"><span class="link-text">Assets</span></a></li>
 								<li alt="Search" id="link-search" class="link"><a href="#" class="ss-search link-href"><span class="link-text">Search</span></a></li>
 								<li alt="Profile" id="link-profile" class="link"><a href="/profile" class="link-href"><img class="link-image" src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span class="link-text">{{ Auth::user()->first_name }}</span></a><span class="linked-to" value=""><a href="/to-do/{{ current_user_path() }}"></a></span>
 									<ul class="sub_menu_links-hover">

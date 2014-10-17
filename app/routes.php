@@ -104,9 +104,6 @@ Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 
 Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'));
 
 /* Tools */
-Route::get('/tools', function(){
-	return View::make('tools.index');
-})->before('auth');
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/billables', function(){
@@ -123,11 +120,10 @@ Route::get('/help', function(){
 	if(Request::ajax()) return View::make('help.partials.new');
 	else return View::make('help.index');
 })->before('auth');
-
-Route::get('/wiki', function(){
-	if(Request::ajax()) return View::make('wiki.partials.new');
-	else return View::make('wiki.index');
+Route::get('/assets', function(){
+	return View::make('assets.index');
 })->before('auth');
+
 Route::get('/emails', function(){
 	$mgClient = new Mailgun('key-8f6lpwb2tgnp3se2b6fli18r23ndpkt9');
 	$mgDomain = 'iout.co';
