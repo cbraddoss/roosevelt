@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ 'All Accounts' }}
+{{ 'All Active Accounts' }}
 @stop
 
 @section('header-menu')
