@@ -108,6 +108,8 @@ Route::get('/assets', array('as' => 'assets', 'uses' => 'AssetsController@index'
 Route::get('/assets/status', array('as' => 'assets.status', 'uses' => 'AssetsController@statusPage'));
 Route::post('/assets/vault/access', array('as' => 'assets.vaultAccess', 'uses' => 'VaultController@vaultAccess'));
 Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultController@index'));
+Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultController@store'));
+Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
 
 /* Tags */
 Route::get('/tags', array('as' => 'tags', 'uses' => 'TagsController@index'));

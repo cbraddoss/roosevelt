@@ -44,10 +44,18 @@ Route::filter('auth.basic', function()
 	return Auth::basic();
 });
 
-Route::filter('admin', function(){
+Route::filter('admin', function()
+{
 	if ( Auth::guest() ) return Redirect::guest('login');
 	if ( Auth::user()->userrole != 'admin' ) return Redirect::route('dashboard');
 });
+
+
+// Route::filter('vault', function()
+// {
+// 	if ( Auth::guest() ) return Redirect::guest('login');
+// 	if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
+// });
 
 /*
 |--------------------------------------------------------------------------

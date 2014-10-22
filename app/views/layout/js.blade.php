@@ -2738,10 +2738,15 @@ jQuery(document).ready(function($){
 		});
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/assets/vault", function( data ) {
+			if(data.errorMsg) {
+				console.log('please redirect');
+				window.location.href='/assets/vault';
+			}
 			$('.inner-page').before(data);
 			$(document).find('.loading-something-new').remove();
 			$('#content .vault-add-form.create-something-form').slideDown(400);
 			$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').addClass('active');
+			$('#content .vault-add-form.create-something-form .vault-hidden').closest('.new-form-field').hide();
 			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
@@ -2777,6 +2782,89 @@ jQuery(document).ready(function($){
 			$('#message-box-json').fadeOut();
 		}
 	});
+	
+	$(document).on('change','#content .add-vault-asset select', function() {
+		var vaultType = $(this).val();
+		//console.log(vaultType);
+		if(vaultType == 'website') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+		if(vaultType == 'ftp') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-ftp-path').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+		if(vaultType == 'database') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-database-name').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+		if(vaultType == 'email') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+		if(vaultType == 'server') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+		if(vaultType == 'generic') {
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
+		}
+	});
+	// Add Tags
+
+	// submit new vault asset
+	var addVaultAssetOptions = { 
+		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+		success:       afterAddVaultAssetSuccess,  // post-submit callback 
+		resetForm: false        // reset the form after successful submit 
+	};	        
+	$(document).on('submit','#content .vault-add-form form.add-vault-asset', function() {
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(addVaultAssetOptions);
+	    console.log('submit');
+	    return false; 
+	});
+	function afterAddVaultAssetSuccess(data)
+	{
+		if(data.errorMsg) {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+		}
+		else {
+			$('#message-box-json').fadeIn();
+			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+		    //console.log('success');
+			window.location.href = '/assets/vault/asset/'+data.slug;
+		}
+	}
+	
 	
 	// $('#link-search').click( function() {
 	// 	$('#search-box').fadeIn();

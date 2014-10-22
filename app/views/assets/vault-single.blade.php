@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ 'Vault Assets:' }}
+{{ $vaultAsset->title }}
 @stop
 
 @section('header-menu')
@@ -23,13 +23,12 @@
 
 @section('page-content')
 <div id="assets-page"  class="inner-page">
-	<h2>@yield('page-h2')
-	<small class="count-of-total">[{{ count($vaults) }} of {{ $vaultsCount }}]</small></h2>
+	<h2>@yield('page-h2')</h2>
 
-	@if($vaults->isEmpty())
-		<p>No Vault assets found. Please try again.</p>
-	@else
-		@include('assets.partials.findVaultAssets')
-	@endif
+	<p>{{ $vaultAsset->username }}</p>
+	
+		@if(Auth::user()->can_manage == 'yes')
+		<span>Edit Me</span>
+		@endif
 </div>
 @stop

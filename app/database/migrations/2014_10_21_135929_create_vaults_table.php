@@ -16,6 +16,7 @@ class CreateVaultsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('title');
+			$table->string('slug');
 			$table->integer('author_id');
 			$table->integer('edit_id');
 			$table->string('tag_id');
@@ -26,6 +27,7 @@ class CreateVaultsTable extends Migration {
 			$table->string('database_name');
 			$table->string('ftp_path');
 			$table->string('notes')->nullable;
+			$table->text('attachment');
 			$table->timestamps();
 		});
 	}
