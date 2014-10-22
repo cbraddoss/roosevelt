@@ -75,12 +75,13 @@ ul {
 .select-dropdown {
 	overflow: hidden;
 	background: #fafafa;
-	border: 1px solid rgba(51,51,51,0.5);
+	/*border: 1px solid rgba(51,51,51,0.5);*/
 	border-radius: 3px;
 	position: relative;
 	cursor: pointer;
 	padding: 0px 0px 0px 0px;
-	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
+	box-shadow: inset 0px -3px rgba(51,51,51,0.5),
+				0px 0px 3px rgba(51,51,51,0.5);
 	height: 27.5px;
 	display: inline-block;
 }
@@ -482,6 +483,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-bottom: 2px solid #333333;
 	background: #eeeeee;
 }
+#menu_header #link-search ul.sub_menu_links-hover {
+	left: -100%;
+	text-align: right;
+	padding-right: 10px;
+}
 #menu_header ul.sub_menu_links-hover li {
 	position: relative;
 	cursor: pointer;
@@ -631,7 +637,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: #2E9999;
 	border-radius: 3px;
 	margin: 0px 5px;
-	padding: 2.5px 10px 5px 10px;
+	padding: 1.5px 10px 3.5px 10px;
 	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 	float: left;
 	cursor: pointer;
@@ -770,6 +776,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin-top: 0;
 	padding-top: 10px;
 }
+#content h2 .count-of-total {
+	float: right;
+	padding-top: 4px;
+}
 #content h3 {
 	font-size: 1.3em;
 	color: #333333;
@@ -849,6 +859,20 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .link-box span a {
 	cursor: default;
+}
+#content .tag-name {
+	margin: 0 10px 5px 0;
+}
+#content .tag-name a {
+	background: rgba(75,131,180,0.5);
+	border-radius: 10px;
+	padding: 3px 5px;
+	color: #fafafa;
+	font-weight: 500;
+}
+#content .tag-name a:hover {
+	text-decoration: none;
+	background: rgba(75,131,180,0.9);
 }
 /* General Form Styles */
 #content .loading-something-new {
@@ -1081,7 +1105,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 /* General List Styles */
 #content .office-post,
 #content .office-post-comment {
-	padding: 5px 10px;
+	padding: 5px 18px 5px 10px;
 	position: relative;
 	height: 85px;
 	margin: 0 0px 0px 0px;
@@ -1150,6 +1174,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post.high-priority {
 	border-right: 8px solid #A61919;
+	padding-right: 10px !important;
 }
 #content .office-post.high-priority .high-priority-alert {
 	float: right;
@@ -1270,7 +1295,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #projects-page .project-post,
 #content #todo-page .project-post {
 	position: relative;
-	padding: 10px 10px 10px 180px;
+	padding: 10px 18px 10px 180px;
 }
 #content #projects-page .project-post h3,
 #content #todo-page .project-post h3 {

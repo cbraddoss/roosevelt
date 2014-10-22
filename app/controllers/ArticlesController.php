@@ -314,7 +314,7 @@ class ArticlesController extends \BaseController {
 		$article = Article::where('slug', $article)->first();
 		if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin') {
 			if(empty($article)) return Redirect::route('news');
-			else return View::make('news.partials.edit', compact('article'));
+			else return View::make('news.edit', compact('article'));
 		}
 		else return Redirect::to('/news/article/'.$article->slug);
 	}

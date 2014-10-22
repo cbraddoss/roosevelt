@@ -103,7 +103,17 @@ Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@i
 Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'));
 Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'));
 
-/* Tools */
+/* Assets */
+Route::get('/assets', array('as' => 'assets', 'uses' => 'AssetsController@index'));
+Route::get('/assets/status', array('as' => 'assets.status', 'uses' => 'AssetsController@statusPage'));
+Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultController@index'));
+
+/* Tags */
+Route::get('/tags', array('as' => 'tags', 'uses' => 'TagsController@index'));
+Route::get('/tags/recent', array('as' => 'tags.recent', 'uses' => 'TagsController@recent'));
+Route::get('/tags/popular', array('as' => 'tags.popular', 'uses' => 'TagsController@popular'));
+Route::get('/tags/letter/{letter}', array('as' => 'tags.letter', 'uses' => 'TagsController@letter'));
+Route::get('/tags/type/{tagname}', array('as' => 'tags.tag', 'uses' => 'TagsController@show'));
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/billables', function(){
@@ -120,9 +130,7 @@ Route::get('/help', function(){
 	if(Request::ajax()) return View::make('help.partials.new');
 	else return View::make('help.index');
 })->before('auth');
-Route::get('/assets', function(){
-	return View::make('assets.index');
-})->before('auth');
+
 
 Route::get('/emails', function(){
 	$mgClient = new Mailgun('key-8f6lpwb2tgnp3se2b6fli18r23ndpkt9');

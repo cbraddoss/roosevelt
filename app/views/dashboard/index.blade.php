@@ -9,7 +9,7 @@
 	<ul>
 		<li><a id="pagelink-to-do-brad-doss" href="/to-do/{{ Auth::user()->user_path }}" class="link">To-Do</a></li>
 		<li><a id="pagelink-projects-launches" href="/projects/launches" class="link">Launches</a></li>
-		<li><a id="pagelink-1password" href="/1Password" class="link">1Password</a></li>
+		<li><a id="pagelink-1password" href="/assets/vault" class="link">Vault</a></li>
 		
 		<li class="right">
 			<div id="news-new-article-form" class="create-something-new">
@@ -47,7 +47,7 @@
 		<h2>Quick Links:</h2>
 		<div class="link-box"><a href="/to-do/{{ current_user_path() }}" class="ss-check">To-Do List<span class="user-todo" value="">0</span></a></div>
 		<div class="link-box"><a href="/projects/launches" class="ss-uploadcloud">Launches<span class="user-todo" value="">{{ $launchesCount }}</span></a></div>
-		<div class="link-box"><a href="/1Password" target="_blank" class="ss-key">1Password</a></div>
+		<div class="link-box"><a href="/assets/vault" class="ss-key">Vault</a></div>
 		<div class="link-box"><a href="http://my.onsip.com" target="_blank" class="ss-phone">Voicemail</a></div>
 		<div class="link-box"><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail">Webmail</a></div>
 		<div class="link-box"><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></div>
@@ -79,7 +79,7 @@
 	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
-			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a><small>@if( $projectsCount >= 5 ) (5 of {{ $projectsCount }}) @endif</small></h2>
+			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a><small>@if( $projectsCount >= 5 ) [5 of {{ $projectsCount }}] @endif</small></h2>
 			<div id="projects-dashboard-page" class="dashboard-list">
 						
 				@foreach($projects as $project)

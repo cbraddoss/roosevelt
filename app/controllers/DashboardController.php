@@ -23,29 +23,25 @@ class DashboardController extends \BaseController {
 					->orderBy('created_at','DESC')
 					->take(5)
 					->get();
+		$articlesCount = $articles->count();
+
 		$currentUser = current_user_path();
 		$lastMonth = new DateTime('-1 month');
-		$articlesCount = Article::where('created_at','>=',$lastMonth)
-						 ->where('been_read','not like','%'.$currentUser.'%')
-						 ->where('status','!=','draft')
-						 ->count();
+
 		$projects = Project::where('assigned_id','=', Auth::user()->id)
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->take(5)
 					->get();
-		$projectsCount = Project::where('assigned_id', '=', Auth::user()->id)
-						 ->where('status','=','open')
-						 ->count();
+		$projectsCount = $projects->count();
+
 		$launches = Project::where('status', '=', 'open')
 					->where('period','=','ending')
 					->orderBy('end_date','ASC')
 					->take(5)
 					->get();
-		$launchesCount = Project::where('status', '=', 'open')
-						 ->where('period','=','ending')
-						 ->orderBy('end_date','ASC')
-						 ->count();
+		$launchesCount = $launches->count();
+
 		return View::make('dashboard.index', compact('articles','projects','launches','launchesCount','articlesCount','projectsCount'));
 	}
 

@@ -39,8 +39,7 @@ class ProjectsController extends \BaseController {
 		$projects = $this->project->getOpenProjects();
 		$templates = $this->template->getActiveTemplates();
 		$projectTypes = $this->project->getTypeSelectList();
-		$projectsCount = Project::where('status','=','open')
-						 ->count();
+		$projectsCount = $projects->count();
 		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
 		else return View::make('projects.index', compact('projects','projectTypes','projectsCount'));
 	}
@@ -273,9 +272,7 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(20);
-				$projectsCount = Project::where('assigned_id','=',$user->id)
-							   ->where('status','=','open')
-							   ->count();
+				$projectsCount = $projects->count();
 				return View::make('projects.filters.user', compact('projects','user','projectsCount'));
 			}
 			else return Redirect::route('projects');
@@ -298,10 +295,7 @@ class ProjectsController extends \BaseController {
 					->where('due_date','<', $dateMax)
 					->orderBy('due_date','ASC')
 					->paginate(20);
-		$projectsCount = Project::where('due_date','>=', $date)
-						 ->where('status','=','open')
-						 ->where('due_date','<', $dateMax)
-						 ->count();
+		$projectsCount = $projects->count();
 		$date = $date->format('F, Y');
 		return View::make('projects.filters.date', compact('projects','date','projectsCount'));
 	}
@@ -320,10 +314,7 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(20);
-			$projectsCount = Project::where('stage','=',convert_path_to_stage($stage))
-							 ->where('type','=', $type)
-							 ->where('status','=','open')
-							 ->count();
+			$projectsCount = $projects->count();
 			return View::make('projects.filters.stage', compact('projects','stage','projectStages','type','projectTypes','projectsCount'));
 		}
 		else return Redirect::route('projects');
@@ -343,9 +334,7 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(20);
-			$projectsCount = Project::where('priority','=',$priority)
-							 ->where('status','=','open')
-							 ->count();
+			$projectsCount = $projects->count();
 			if($projects != null) {
 				if($priority == 'low') $low = $priority;
 				if($priority == 'normal') $normal = $priority;
@@ -377,8 +366,7 @@ class ProjectsController extends \BaseController {
 				$projects = Project::where('status','=',$status)
 						->orderBy('created_at','DESC')
 						->paginate(20);
-				$projectsCount = Project::where('status','=',$status)
-								 ->count();
+				$projectsCount = $projects->count();
 			}
 			if($projects != null) {
 				if($status == 'open') $open = $status;
@@ -409,9 +397,7 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(20);
-					$projectsCount = Project::where('type','=',$type)
-									 ->where('status','=','open')
-									 ->count();
+					$projectsCount = $projects->count();
 					if($projects != null) {
 						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes','projectStages','projectsCount'));
 					}
@@ -435,7 +421,7 @@ class ProjectsController extends \BaseController {
 		$project = Project::where('slug', $project)->first();
 		if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin') {
 			if(empty($project)) return Redirect::route('projects');
-			else return View::make('projects.partials.edit', compact('project'));
+			else return View::make('projects.edit', compact('project'));
 		}
 		else return Redirect::to('/projects/post/'.$project->slug);
 	}

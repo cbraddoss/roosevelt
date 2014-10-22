@@ -71,6 +71,8 @@ jQuery(document).ready(function($){
 				linkActivePage = linkActivePage.replace("pagelink-to-do-", "");
 				linkActivePage = linkActivePage.replace("pagelink-projects-", "");
 				linkActivePage = linkActivePage.replace("pagelink-news-", "");
+				linkActivePage = linkActivePage.replace("pagelink-assets-", "");
+				linkActivePage = linkActivePage.replace("pagelink-tags-", "");
 				//console.log(linkActivePage);
 				$(this).removeClass('active');
 				$(this).addClass('inactive');
@@ -150,7 +152,7 @@ jQuery(document).ready(function($){
 	// });
 	
 	//for search icon popup
-	$(document).on('click', '#menu_header .menu_nav ul#menu_links li.link#link-search .ss-search', function() {
+	$(document).on('click', '#menu_header .menu_nav ul#menu_links li.link#link-search', function() {
 		$('body').toggleClass('search-bar-active');
 		$('#header').toggleClass('search-bar-active');
 		$('#nav_menu').toggleClass('search-bar-active');
@@ -258,6 +260,13 @@ jQuery(document).ready(function($){
 				});
 			});
 		}
+	});
+
+	/* Tags Page */
+	// Filter by letter
+	$(document).on('change','#page-nav_menu .filter-letter.tags-filter', function(){
+		var letterLink = $(this).val();
+		window.location.href='/tags/letter/'+letterLink;
 	});
 
 	/* Admin Page */
@@ -2721,7 +2730,53 @@ jQuery(document).ready(function($){
 		window.location.href='/to-do/'+authorLink;
 	});
 
-	
+	/* Vault */
+	// add new vault asset
+	$(document).on('click','#page-nav_menu #vault-new-vault-form .add-button',function(){
+		$('.add-button').each(function(){
+			$(this).prop('disabled',true);
+		});
+		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+		$.get( "/assets/vault", function( data ) {
+			$('.inner-page').before(data);
+			$(document).find('.loading-something-new').remove();
+			$('#content .vault-add-form.create-something-form').slideDown(400);
+			$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').addClass('active');
+			$('.add-button').each(function(){
+				$(this).prop('disabled',true);
+			});
+		});
+	});
+	// cancel adding new vault asset
+	$(document).on('click','#content .vault-add-form span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.vault-add-form.create-something-form').slideUp(400,function(){
+					$(document).find('.vault-add-form.create-something-form').remove();
+					$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
+						$(this).prop('disabled', false);
+					});
+				});
+				$('#message-box-json').find('.section').empty();
+				$('#message-box-json').fadeOut();
+			}
+		}
+		else {
+			$(document).find('.vault-add-form.create-something-form').slideUp(400,function(){
+				$(document).find('.vault-add-form.create-something-form').remove();
+					$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').removeClass('active');
+					$('.add-button').each(function(){
+						$(this).prop('disabled', false);
+					});
+			});
+			$('#message-box-json').find('.section').empty();
+			$('#message-box-json').fadeOut();
+		}
+	});
 	
 	// $('#link-search').click( function() {
 	// 	$('#search-box').fadeIn();
@@ -2759,6 +2814,7 @@ jQuery(document).ready(function($){
 		if($(this).attr('class') == 'filter-stage') return;
 		if($(this).hasClass('show-hide-calendar')) return;
 		if($(this).hasClass('news-filter') ) return;
+		if($(this).hasClass('tags-filter') ) return;
 		if($(this).hasClass('projects-filter') ) return;
 		if($(this).hasClass('todo-filter') ) return;
 		if($(this).hasClass('checklist-checkbox') ) return;

@@ -35,8 +35,7 @@ class AccountsController extends \BaseController {
 	{
 		$accounts = Account::where('status','=','active')
 					->get();
-		$accountsCount = Account::where('status','=','active')
-						 ->count();
+		$accountsCount = $accounts->count();
 		if(Request::ajax()) return View::make('accounts.partials.new');
 		else return View::make('accounts.index', compact('accounts','accountsCount'));
 	}

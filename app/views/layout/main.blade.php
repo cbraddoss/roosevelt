@@ -54,7 +54,21 @@
 									<li class="sub-link"><a href="/accounts/type/print">Print Client</a></li>
 								</ul>
 								</li>
-								<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}</li>
+								<li alt="Calendar" id="link-calendar" class="link"><a href="/calendar" class="ss-calendar link-href"><span class="link-text">Calendar</span></a>{{ find_assigned_count('calendar') }}
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/calendar">{{ Carbon::now()->format('F') }}</a></li>
+									@if(Carbon::now()->format('F') == 'November')
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->addMonth()->format('F') }}">{{ Carbon::now()->addMonth()->format('F') }}</a></li>
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->addYear()->format('Y') }}/{{ Carbon::now()->addMonths(2)->format('F') }}">{{ Carbon::now()->addMonths(2)->format('F') }}</a></li>
+									@elseif(Carbon::now()->format('F') == 'December')
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->addYear()->format('Y') }}/{{ Carbon::now()->addMonth()->format('F') }}">{{ Carbon::now()->addMonth()->format('F') }}</a></li>
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->addYear()->format('Y') }}/{{ Carbon::now()->addMonths(2)->format('F') }}">{{ Carbon::now()->addMonths(2)->format('F') }}</a></li>
+									@else
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->addMonth()->format('F') }}">{{ Carbon::now()->addMonth()->format('F') }}</a></li>
+									<li class="sub-link"><a href="/calendar/{{ Carbon::now()->format('Y') }}/{{ Carbon::now()->addMonths(2)->format('F') }}">{{ Carbon::now()->addMonths(2)->format('F') }}</a></li>
+									@endif
+								</ul>
+								</li>
 								<li alt="Internal Help" id="link-help" class="link"><a href="/help" class="ss-help link-href"><span class="link-text">Help</span></a>{{ find_assigned_count('help') }}</li>
 								<li alt="News" id="link-news" class="link"><a href="/news" class="ss-newspaper link-href"><span class="link-text">News</span></a>{{ find_unread_count('articles') }}
 								<ul class="sub_menu_links-hover">
@@ -66,8 +80,19 @@
 								</ul>
 								</li>
 								<!-- <li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li> -->
-								<li alt="Assets" id="link-assets" class="link"><a href="/assets" class="ss-flask link-href"><span class="link-text">Assets</span></a></li>
-								<li alt="Search" id="link-search" class="link"><a href="#" class="ss-search link-href"><span class="link-text">Search</span></a></li>
+								<li alt="Assets" id="link-assets" class="link"><a href="/assets" class="ss-flask link-href"><span class="link-text">Assets</span></a>
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="/assets/vault">Vault</a></li>
+									<li class="sub-link"><a href="/assets/status">Status</a></li>
+									<li class="sub-link"><a href="/assets">Assets</a></li>
+								</ul>
+								</li>
+								<li alt="Search" id="link-search" class="link"><a href="#" class="ss-search link-href"><span class="link-text">Search</span></a>
+								<ul class="sub_menu_links-hover">
+									<li class="sub-link"><a href="#"><span class="link-text">Search All</span></a></li>
+									<li class="sub-link"><a href="/tags">Search Tags</a></li>
+								</ul>
+								</li>
 								<li alt="Profile" id="link-profile" class="link"><a href="/profile" class="link-href"><img class="link-image" src="{{ gravatar_url(Auth::user()->email,35) }}" alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"><span class="link-text">{{ Auth::user()->first_name }}</span></a><span class="linked-to" value=""><a href="/to-do/{{ current_user_path() }}"></a></span>
 									<ul class="sub_menu_links-hover">
 										<li><a href="/profile/" class="sub-link">Profile</a></li>
