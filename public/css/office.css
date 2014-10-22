@@ -1685,6 +1685,25 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	width: 100%;
 	clear: both;
 }
+/* Vault Access */
+#content .vault-access-form {
+	width: 350px;
+	margin: 30px auto;
+}
+#content .vault-access-form span:before {
+	font-size: 48px;
+	display: inline-block;
+	vertical-align: middle;
+}
+#content .vault-access-form input {
+	height: 50px;
+	width: 250px;
+	font-size: 2em;
+	padding-left: 10px;
+	margin: 0 auto;
+	border-radius: 3px;
+	border: 1px solid #d5d5d5;
+}
 /* Dashboard */
 #quicklinks {
 	position: relative;

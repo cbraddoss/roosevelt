@@ -23,12 +23,29 @@ class VaultController extends \BaseController {
 	 */
 	public function index()
 	{
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
 		$vaults = $this->vault->getAllVaults();
 		$vaultsCount = $vaults->count();
 		if(Request::ajax()) return View::make('assets.partials.new-vault-asset');
 		else return View::make('assets.vault',compact('vaults','vaultsCount'));
 	}
 
+	/**
+	 * Verify Vault Access.
+	 *
+	 * @return Response
+	 */
+	public function vaultAccess()
+	{
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/assets/vault')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		$vault_key = Input::get('vault_key');
+		if($vault_key == '1234') {
+			$expiresAt = Carbon::now()->addMinutes(1);
+			Cache::put('vault_key_'.Auth::user()->user_path, 'vault access', $expiresAt);
+		}
+		return Redirect::route('assets.vault');
+	}
 
 	/**
 	 * Show the form for creating a new resource.

@@ -106,6 +106,7 @@ Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsContr
 /* Assets */
 Route::get('/assets', array('as' => 'assets', 'uses' => 'AssetsController@index'));
 Route::get('/assets/status', array('as' => 'assets.status', 'uses' => 'AssetsController@statusPage'));
+Route::post('/assets/vault/access', array('as' => 'assets.vaultAccess', 'uses' => 'VaultController@vaultAccess'));
 Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultController@index'));
 
 /* Tags */
