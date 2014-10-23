@@ -249,18 +249,18 @@ jQuery(document).ready(function($){
 	});
 
 	// keyboard action to cancel user add form
-	$(document).on('keyup','#content form input', function(ev) {
-		// hide if press esc
-		if ( ev.keyCode == 27 ) {
-			$(document).find('.create-something-form').slideUp(400,function(){
-				$(document).find('.create-something-form').remove();
-				$('#page-nav_menu .create-something-new .add-button').removeClass('active');
-				$('.add-button').each(function(){
-					$(this).prop('disabled', false);
-				});
-			});
-		}
-	});
+	// $(document).on('keyup','#content form input', function(ev) {
+	// 	// hide if press esc
+	// 	if ( ev.keyCode == 27 ) {
+	// 		$(document).find('.create-something-form').slideUp(400,function(){
+	// 			$(document).find('.create-something-form').remove();
+	// 			$('#page-nav_menu .create-something-new .add-button').removeClass('active');
+	// 			$('.add-button').each(function(){
+	// 				$(this).prop('disabled', false);
+	// 			});
+	// 		});
+	// 	}
+	// });
 
 	/* Tags Page */
 	// Filter by letter
@@ -728,7 +728,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	    $(this).ajaxSubmit(addArticleOptions);
-	    console.log('submit');
+	    //console.log('submit');
 	    return false; 
 	});
 	function afterAddArticleSuccess(data)
@@ -1750,7 +1750,7 @@ jQuery(document).ready(function($){
 				}
 				if($(this).parent().next('.checklist-checkbox-section').length == 0) {
 					var nextProjectStage = $(document).find('input[checklist-number='+checkboxPageID+']').parent().parent().find('.checklist-header .checklist-stage').text();
-					console.log(nextProjectStage);
+					//console.log(nextProjectStage);
 					if(nextProjectStage == '') {
 						nextProjectStage = $(document).find('.project-stage-due-date .project-stage').text();
 						$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
@@ -1957,7 +1957,7 @@ jQuery(document).ready(function($){
 			$(document).on('input','form.add-project .search-accounts', function() {
 				var accountSearch = $(this).val();
 				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
-				if(accountSearch.length >= 3) {
+				if(accountSearch.length >= 1) {
 					// search accounts and return a list
 					var accountSearchOptions = { 
 						target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
@@ -1977,9 +1977,9 @@ jQuery(document).ready(function($){
 					$(this).ajaxSubmit(accountSearchOptions);
 					return false;
 				}
-				else {
-					$(document).find('form.add-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
-				}
+			});
+			$(document).on('mouseenter','form.add-project .accounts-search-ajax span', function(){
+				$(this).removeClass('search-hover');
 			});
 			$(document).on('click','form.add-project .accounts-search-ajax span', function() {
 				var accountID = parseInt($(this).attr('value'),10);
@@ -2001,9 +2001,10 @@ jQuery(document).ready(function($){
 	{
 		if(data.msg == 'found some') {
 			$(document).find('form.add-project .accounts-search-ajax').show().html(data.accounts);
+			$(document).find('form.add-project .accounts-search-ajax span').first().addClass('search-hover');
 		}
 		else {
-			$(document).find('form.add-project .accounts-search-ajax').show().html('<span>No accounts found.</span>');
+			$(document).find('form.add-project .accounts-search-ajax').show().html('<p>No accounts found.</p>');
 		}
 	}
 	// cancel adding new project
@@ -2104,7 +2105,7 @@ jQuery(document).ready(function($){
 	$(document).on('input','form.update-project .search-accounts', function() {
 		var accountSearch = $(this).val();
 		$(document).find('form.update-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Searching..."> Searching...</span>');
-		if(accountSearch.length >= 3) {
+		if(accountSearch.length >= 1) {
 			// search accounts and return a list
 			var accountEditSearchOptions = { 
 				target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
@@ -2124,9 +2125,12 @@ jQuery(document).ready(function($){
 			$(this).ajaxSubmit(accountEditSearchOptions);
 			return false;
 		}
-		else {
-			$(document).find('form.update-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
-		}
+		// else {
+		// 	$(document).find('form.update-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
+		// }
+	});
+	$(document).on('mouseenter','form.update-project .accounts-search-ajax span', function(){
+		$(this).removeClass('search-hover');
 	});
 	$(document).on('click','form.update-project .accounts-search-ajax span', function() {
 		var accountID = parseInt($(this).attr('value'),10);
@@ -2139,9 +2143,10 @@ jQuery(document).ready(function($){
 	{
 		if(data.msg == 'found some') {
 			$(document).find('form.update-project .accounts-search-ajax').show().html(data.accounts);
+			$(document).find('form.update-project .accounts-search-ajax span').first().addClass('search-hover');
 		}
 		else {
-			$(document).find('form.update-project .accounts-search-ajax').show().html('<span>No accounts found.</span>');
+			$(document).find('form.update-project .accounts-search-ajax').show().html('<p>No accounts found.</p>');
 		}
 	}
 	// change project due date
@@ -2739,7 +2744,7 @@ jQuery(document).ready(function($){
 		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
 		$.get( "/assets/vault", function( data ) {
 			if(data.errorMsg) {
-				console.log('please redirect');
+				//console.log('please redirect');
 				window.location.href='/assets/vault';
 			}
 			$('.inner-page').before(data);
@@ -2750,8 +2755,110 @@ jQuery(document).ready(function($){
 			$('.add-button').each(function(){
 				$(this).prop('disabled',true);
 			});
+
+			// active search of accounts
+			$(document).on('input','form.add-vault-asset .search-accounts', function() {
+				var accountSearch = $(this).val();
+				$(document).find('form.add-vault-asset .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
+				if(accountSearch.length >= 1) {
+					// search accounts and return a list
+					var accountVaultSearchOptions = { 
+						target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
+						success:       accountVaultSearchSuccess,  // post-submit callback
+						dataType: 'json',
+						data: { 
+							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
+							title: accountSearch
+						},
+						type: 'POST',
+						url: '/accounts/search/'+accountSearch,
+						resetForm: false        // reset the form after successful submit 
+					};
+					$(this).find('.changed-input').each(function() {
+						$(this).removeClass('changed-input');
+					});
+					$(this).ajaxSubmit(accountVaultSearchOptions);
+					return false;
+				}
+			});
+			$(document).on('mouseenter','form.add-vault-asset .accounts-search-ajax span', function(){
+				$(this).removeClass('search-hover');
+			});
+			$(document).on('click','form.add-vault-asset .accounts-search-ajax span', function() {
+				var accountID = parseInt($(this).attr('value'),10);
+				var accountText = $(this).text();
+				$(this).closest('form.add-vault-asset').find('input[name=account_name]').val(accountText);
+				$(this).closest('form.add-vault-asset').find('input[name=account_id]').attr('value',accountID);
+				$(document).find('form.add-vault-asset .accounts-search-ajax').hide();
+			});
+
+			// active search of tags
+			$(document).on('input','form.add-vault-asset .search-tags', function() {
+				var tagsSearch = $(this).val();
+				$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
+				if(tagsSearch.length >= 1) {
+					// search tags and return a list
+					var tagsVaultSearchOptions = { 
+						target:   '.tags-search-ajax',   // target element(s) to be updated with server response 
+						success:       tagsVaultSearchSuccess,  // post-submit callback
+						dataType: 'json',
+						data: { 
+							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
+							title: tagsSearch
+						},
+						type: 'POST',
+						url: '/tags/search/'+tagsSearch,
+						resetForm: false        // reset the form after successful submit 
+					};
+					$(this).find('.changed-input').each(function() {
+						$(this).removeClass('changed-input');
+					});
+					$(this).ajaxSubmit(tagsVaultSearchOptions);
+					return false;
+				}
+			});
+			$(document).on('mouseenter','form.add-vault-asset .tags-search-ajax span', function(){
+				$(this).removeClass('search-hover');
+			});
+			$(document).on('click','form.add-vault-asset .tags-search-ajax span', function() {
+				var existingTagsID = $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value');
+				//console.log(existingTagsID);
+				var tagsID = $(this).attr('value');
+				var tagsText = $(this).text();
+				$(this).closest('form.add-vault-asset').find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
+				if(existingTagsID == null) $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',tagsID);
+				else $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
+				$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+				$(this).closest('form.add-vault-asset').find('input[name=tag_name]').val('');
+				$(this).closest('form.add-vault-asset').find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+			});
+			$(document).on('click','form.add-vault-asset .tags-search-ajax p', function() {
+				$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+			});
 		});
 	});
+	function tagsVaultSearchSuccess(data)
+	{
+		if(data.msg == 'found some') {
+			$(document).find('form.add-vault-asset .tags-search-ajax').show().html(data.tagsSearch);
+			$(document).find('form.add-vault-asset .tags-search-ajax span').first().addClass('search-hover');
+		}
+		else {
+			$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<p>No existing tags found matching the search criteria.</p><p>Create Tag: </p><span value="'+data.tagsSearch+'" class="tag-added tag-name"><a class="ss-tag">'+data.tagsSearch+'</a></span>');
+		}
+	}
+	function accountVaultSearchSuccess(data)
+	{
+		if(data.msg == 'found some') {
+			$(document).find('form.add-vault-asset .accounts-search-ajax').show().html(data.accounts);
+			$(document).find('form.add-vault-asset .accounts-search-ajax span').first().addClass('search-hover');
+		}
+		else {
+			$(document).find('form.add-vault-asset .accounts-search-ajax').show().html('<p>No accounts found.</p>');
+		}
+	}
 	// cancel adding new vault asset
 	$(document).on('click','#content .vault-add-form span.cancel',function(){
 		var findChanged = $(document).find('.changed-input').length;
@@ -2830,13 +2937,13 @@ jQuery(document).ready(function($){
 		}
 		if(vaultType == 'generic') {
 			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
 			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
 			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
 			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
 		}
 	});
-	// Add Tags
-
 	// submit new vault asset
 	var addVaultAssetOptions = { 
 		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
@@ -2848,7 +2955,7 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	    $(this).ajaxSubmit(addVaultAssetOptions);
-	    console.log('submit');
+	    //console.log('submit');
 	    return false; 
 	});
 	function afterAddVaultAssetSuccess(data)

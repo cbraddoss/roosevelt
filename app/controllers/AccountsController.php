@@ -51,7 +51,7 @@ class AccountsController extends \BaseController {
 		$accounts = $this->account->getAccountsSearch($title);
 		$accountsSearched = '';
 		foreach($accounts as $account) {
-			$accountsSearched .= '<span value="'.$account->id.'" class="accounts-searched ss-buildings">' . $account->name . '</span>';
+			$accountsSearched .= '<span value="'.$account->id.'" class="accounts-searched ss-plus">' . $account->name . '</span>';
 		}
 		if($accountsSearched != '') {
 			$response = array(

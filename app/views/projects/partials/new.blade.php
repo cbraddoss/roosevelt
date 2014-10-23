@@ -23,7 +23,7 @@
 <div class="new-form-field new-form-field-extras">
 	<div class="form-account-searchbox">
 {{ Form::label('account_name', 'Add Account:') }}
-{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts by entering at least 3 characters...', 'class' => 'search-accounts field')) }}
+{{ Form::text('account_name', null, array('placeholder' => 'Search Accounts...', 'class' => 'search-accounts field')) }}
 {{ Form::hidden('account_id', null, array('class' => 'project-account-id field')) }}
 		<div class="accounts-search-ajax"></div>
 	</div>

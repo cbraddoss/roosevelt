@@ -10,6 +10,20 @@ class Tag extends Eloquent {
 	protected $table = 'tags';
 
 	/**
+	 * Search tags and return results
+	 *
+	 * @return object
+	 */
+	public function getTagsSearch($search) {
+		$tags = Tag::where('name','like','%'.$search.'%')
+				   ->orderBy('name','ASC')
+				   ->take(20)
+				   ->get();
+
+		return $tags;
+	}
+
+	/**
 	 * Get all tags from the system
 	 *
 	 * @return object
@@ -85,5 +99,24 @@ class Tag extends Eloquent {
 			$tagSelect .= '<option value=' . lcfirst($tagL) . ' ' . $selected . '>' . $tagL . '</option>';
 		}
 		return $tagSelect;
+	}
+
+	/**
+	 * Get tags by ID for display
+	 *
+	 * @return object
+	 */
+	public function displayTags($ids)
+	{
+		$returnTags = '';
+		$parseTags = $ids;
+		$parseTags = explode(',', $parseTags);
+		$parseTags = array_unique($parseTags);
+		foreach($parseTags as $tag) {
+			$findTag = Tag::where('id','=',$tag)->first();
+			$returnTags .= '<span class="tag-name"><a class="ss-tag" href="/assets/vault/tags/'.$tag->name.'">'.$tag->name.'</a></span>';
+		}
+		
+		return $returnTags;
 	}
 }

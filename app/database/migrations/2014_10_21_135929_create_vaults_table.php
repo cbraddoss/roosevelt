@@ -15,19 +15,20 @@ class CreateVaultsTable extends Migration {
 		Schema::create('vaults', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('title');
-			$table->string('slug');
+			$table->string('title')->unique();
+			$table->string('slug')->unique();
 			$table->integer('author_id');
 			$table->integer('edit_id');
-			$table->string('tag_id');
+			$table->integer('account_id');
+			$table->text('tag_id');
 			$table->enum('type',array('website','ftp','database','email','server','generic'));
 			$table->string('url');
 			$table->string('username');
 			$table->string('password');
-			$table->string('database_name');
-			$table->string('ftp_path');
+			$table->string('database_name')->nullable;
+			$table->string('ftp_path')->nullable;
 			$table->string('notes')->nullable;
-			$table->text('attachment');
+			$table->text('attachment')->nullable;
 			$table->timestamps();
 		});
 	}

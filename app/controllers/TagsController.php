@@ -36,6 +36,35 @@ class TagsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
+	public function search($name) {
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/projects')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+		$tags = $this->tag->getTagsSearch($name);
+		$tagsSearched = '';
+		foreach($tags as $tag) {
+			$tagsSearched .= '<span value="'.$tag->id.'" class="tags-searched ss-plus">' . $tag->name . '</span>';
+		}
+		if($tagsSearched != '') {
+			$response = array(
+				'tagsSearch' => $tagsSearched,
+				'msg' => 'found some'
+			);
+			return Response::json( $response );
+		}
+		else {
+			$response = array(
+				'tagsSearch' => $name,
+				'msg' => 'none'
+			);
+			return Response::json($response);
+		}
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
 	public function recent()
 	{
 		$tags = $this->tag->getRecentTags();

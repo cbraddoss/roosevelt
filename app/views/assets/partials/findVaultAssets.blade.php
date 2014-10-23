@@ -1,15 +1,39 @@
 @foreach($vaults as $vault)
+<div id="vault-asset-{{ $vault->id }}" class="office-post">
+	
 	@if($vault->type == 'website')
-	<span class="ss-globe"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-globe tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@elseif($vault->type == 'ftp')
-	<span class="ss-file"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-transfer tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@elseif($vault->type == 'database')
-	<span class="ss-database"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-database tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@elseif($vault->type == 'email')
-	<span class="ss-mail"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-mail tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@elseif($vault->type == 'server')
-	<span class="ss-harddrive"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-hdd tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@elseif($vault->type == 'generic')
-	<span class="ss-record"><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></span>
+	<h3 class="ss-file tooltip-hover">
+		<a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a>
+		
+	</h3>
 	@endif
+	<div class="post-tags">
+		{{ $vault->displayTags($vault->tag_id) }}
+	</div>
+</div>
 @endforeach

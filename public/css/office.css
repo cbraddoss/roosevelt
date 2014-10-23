@@ -869,6 +869,11 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 3px 5px;
 	color: #fafafa;
 	font-weight: 500;
+	cursor: pointer;
+}
+#content .tag-name a:before {
+	padding-right: 5px;
+	vertical-align: middle;
 }
 #content .tag-name a:hover {
 	text-decoration: none;
@@ -922,6 +927,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	border-radius: 3px;
 	width: 100%;
 	display: block;
+	position: relative;
 }
 #content .create-something-form .new-form-field:first-child {
 	margin-bottom: 10px;
@@ -953,8 +959,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .new-form-field input[type=file] {
 	margin-top: 5px;
 }
-#content .new-form-field .form-action-buttons .form-action-button,
-#content .new-form-field .accounts-search-ajax span.accounts-searched {
+#content .new-form-field .form-action-buttons .form-action-button {
 	display: inline-block;
 	background: #d5d5d5;
 	border: none;
@@ -968,18 +973,52 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 20px;
 }
 #content .new-form-field .form-action-buttons .form-action-button:hover,
-#content .new-form-field .form-action-buttons .subscribe-selected,
-#content .new-form-field .accounts-search-ajax span.accounts-searched:hover {
+#content .new-form-field .form-action-buttons .subscribe-selected {
 	background: #FF4D4D;
 	color: #ffffff;
 	box-shadow: inset 0px -3px rgba(51,51,51,0.5);
 }
-#content .new-form-field .accounts-search-ajax {
-	margin-left: 220px;
+#content .new-form-field .tags-added-ajax {
+	margin:10px 0 10px 210px;
 }
-#content .new-form-field .accounts-search-ajax span {
-	margin: 5px 5px 10px 0 !important;
-	display: inline-block;
+#content .new-form-field .accounts-search-ajax,
+#content .new-form-field .tags-search-ajax {
+	margin-left: 210px;
+	padding: 5px 0;
+	background: #555555;
+	box-shadow: 0px 5px 10px 0px #111111;
+	border: 1px solid #ffffff;
+	border-radius: 3px;
+	position:absolute;
+	top: 35px;
+	left: 0;
+	z-index: 55;
+	width: calc(100% - 220px);
+	box-sizing: border-box;
+	display: none;
+}
+#content .new-form-field .accounts-search-ajax span,
+#content .new-form-field .accounts-search-ajax p,
+#content .new-form-field .tags-search-ajax span,
+#content .new-form-field .tags-search-ajax p {
+	/*margin: 5px 5px 10px 5px !important;*/
+	padding: 5px 10px;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+#content .new-form-field .accounts-search-ajax span.accounts-searched:before,
+#content .new-form-field .tags-search-ajax span.tags-searched:before {
+	padding-right: 10px;
+	vertical-align: middle;
+}
+#content .new-form-field .accounts-search-ajax span.accounts-searched:hover,
+#content .new-form-field .accounts-search-ajax span.search-hover,
+#content .new-form-field .tags-search-ajax span.tags-searched:hover,
+#content .new-form-field .tags-search-ajax span.search-hover {
+	background: #fafafa;
+	color: #333333;
 }
 #content .new-form-field.add-task-buttons span {
 	margin: 5px 5px 10px 0 !important;
@@ -987,6 +1026,13 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .new-form-field.add-task-buttons .tooltip {
 	left: -50% !important;
+}
+#content .new-form-field .form-tags-searchbox input {
+	width: 200px;
+}
+#content .new-form-field .form-tags-searchbox span.form-button {
+	display: inline-block;
+	margin-left: 20px;
 }
 #content .update-something-form .edit-attachments {
 	padding-top: 30px;

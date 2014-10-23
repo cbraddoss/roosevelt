@@ -48,15 +48,15 @@
 		<div class="link-box"><a href="/to-do/{{ current_user_path() }}" class="ss-check">To-Do List<span class="user-todo" value="">0</span></a></div>
 		<div class="link-box"><a href="/projects/launches" class="ss-uploadcloud">Launches<span class="user-todo" value="">{{ $launchesCount }}</span></a></div>
 		<div class="link-box"><a href="/assets/vault" class="ss-key">Vault</a></div>
+		<div class="link-box"><a class="ss-check" href="/assets/status">Status</a></div>
+		<div class="link-box"><a href="/tags" class="ss-tag">Tags</a></div>
+		<div class="link-box"><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></div>
 		<div class="link-box"><a href="http://my.onsip.com" target="_blank" class="ss-phone">Voicemail</a></div>
 		<div class="link-box"><a href="http://webmail.insideout.com/" target="_blank" class="ss-mail">Webmail</a></div>
-		<div class="link-box"><a href="https://dropbox.com" target="_blank" class="ss-dropbox ss-social">Dropbox</a></div>
 		<div class="link-box"><a href="/calendar" class="ss-calendar">Calendar</a></div>
 		<div class="link-box"><a href="/accounts" class="ss-buildings">Accounts</a></div>
-		<div class="link-box"><a href="/wiki" class="ss-compose">Wiki</a></div>
 		<div class="link-box"><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout">WebTools</a></div>
-		<div class="link-box"><a href="/websites" class="ss-globe">Websites</a></div>
-		<div class="link-box"><a href="/tools" class="ss-flask">Tools</a></div>
+		<div class="link-box"><a href="/assets/websites" class="ss-globe">Websites</a></div>
 	</div>
 	<!-- <div id="site-launches">
 		<h2 class="ss-uploadcloud">Site Launches:</h2>

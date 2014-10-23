@@ -112,6 +112,7 @@ Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultCon
 Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
 
 /* Tags */
+Route::post('/tags/search/{title}',array('as' => 'tags.search', 'uses' => 'TagsController@search'));
 Route::get('/tags', array('as' => 'tags', 'uses' => 'TagsController@index'));
 Route::get('/tags/recent', array('as' => 'tags.recent', 'uses' => 'TagsController@recent'));
 Route::get('/tags/popular', array('as' => 'tags.popular', 'uses' => 'TagsController@popular'));
