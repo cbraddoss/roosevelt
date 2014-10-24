@@ -209,7 +209,7 @@ class ProjectsController extends \BaseController {
 				$hcMessage .= 'Account: <b>' . Account::find($newProject->account_id)->name . '</b>.<br />';
 				$hcMessage .= 'Launch Date: <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->end_date)->format('F j').'</b>.<br />';
 				$hcMessage .= 'Current Stage: <b>'.$newProject->stage.'</b><br />';
-				$hcMessage .= 'Assigned to: <b>@'.User::find($newProject->assigned_id)->hipchat_mention.'</b><br />';
+				$hcMessage .= 'Assigned to: <b>'.User::find($newProject->assigned_id)->first_name.' ' . User::find($newProject->assigned_id)->last_name . '</b><br />';
 				$hcMessage .= 'Due Date: <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->due_date)->format('F j').'</b>.';
 				$hcMessageSend = hipchat_message($hcMessage);
 				if($hcMessageSend != 'messageSent') {

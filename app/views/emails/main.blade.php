@@ -15,50 +15,38 @@
 		padding: 0;
 	}
 	.header-div {
-		font-size: 1.6em;
-		width: 100%;
-		height: 45px;
-		padding: 0px;
-		margin: 0;
+		font-size: 1.4em;
+		background: #4B83B4;
 		position: relative;
-		z-index: 10;
-		background: #4b83b4;
-		background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);
-		box-shadow: 1px 1px 3px 0px #000;
-		overflow: hidden;
+		height: 90px;
+		width: 100%;
+		box-sizing: border-box;
 	}
 	.logo {
-		display: block;
-		float:left;
-		margin: -16px 0 0 1%;
-		height:61px;
-		overflow: hidden;
+		position: absolute;
+		top: 6px;
+		left: 20px;
+		opacity: 0.1;
+		z-index: 0;
 	}
-	/*#company-header {
-	margin-left: 13%;
-	letter-spacing: 0.0625em;
-	font-size: 1em;
-	height:45px;
-	float:left;
-	z-index: 59;
-	color: #fff;
-	position: relative;
-}
-#company-header a.logo {
-	position: fixed;
-	left: 1%;
-	top:-16px;
-	color: #fff;
-	height:61px;
-	overflow: hidden;
-}*/
+	h1 {
+		font-size: 2em;
+		font-weight: 300;
+		letter-spacing: 0.0225em;
+		line-height: 90px;
+		padding: 0 0px 0px 20px;
+		margin: 0;
+		color: #fff;
+		float: left;
+		z-index: 1;
+		position: relative;
+	}
 	.content-div {
 		font-size: 1.8em;
 		width: 97%;
 		margin: 0px 0 0px;
 		padding: 5px 1% 5px;
 		text-align:left;
-		background: rgba(255,255,255,0.6);
 	}
 	.content-div p {
 		display: block;
@@ -109,13 +97,11 @@
 		text-align: left;
 	}
 	.activity-div h4 {
-		color: #fff;
+		color: #ffffff;
 		height: 28px;
 		padding: 7px 1% 0;
 		margin: 20px 0 0;
-		background: #4b83b4;
-		background: linear-gradient(to top,  #4b83b4 0%,#3c698c 100%);
-		box-shadow: 1px 1px 3px 0px #000;
+		background: #2E9999;
 	}
 	ul { width: 75%; padding: 0 1%; margin: 0; }
 	ul li {
@@ -132,15 +118,11 @@
 		padding: 5px 14px;
 		display: block;
 		margin-bottom: 5px;
-		box-shadow: 1px 1px 2px 0px #000;
-		background: #c60;
-		background: linear-gradient(165deg, #c60 0%,#a40 100%);
+		background: #FF4D4D;
 		border-radius: 3px;
 	}
 	.activity-div ul li a:hover {
-		box-shadow: inset 1px 1px 2px 0px #000;
-		background: #a40;
-		background: linear-gradient(165deg, #a40 0%,#c60 100%);
+		background: #FF4D4D;
 	}
 	.footer {
 		text-align: center;
@@ -154,10 +136,8 @@
 </head>
 <body>
 <div class="header-div">
-	<div id="company-logo">
-		<a href="{{ URL::to('/') }}" class="logo"><img src="http://assets.insideout.com/images/ios-logo-ds.png" alt="IOS Remote Office" /></a>
-	</div>
-	<h3>InsideOut Solutions<br />Remote Office</h3>
+	<img class="logo" src="http://assets.insideout.com/images/ios-logo-ds.png" alt="IOS Remote Office" />
+	<h1>InsideOut Solutions Remote Office</h1>
 </div>
 @yield('email-content')
 <div class="footer">
