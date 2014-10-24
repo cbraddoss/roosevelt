@@ -26,49 +26,49 @@
 		{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}
 	</div>
 	<br />
-	@if(!empty($vaultAsset->attachment))
-	<span>{{ $vaultAsset->getAttachments($vaultAsset->id) }}</span>
-	@endif
-	<div class="new-form-field">
-	@if($vaultAsset->type == 'ftp' || $vaultAsset->type == 'database'  || $vaultAsset->type == 'server')
-	<label>Server:</label>
-	@else
-	<label>URL:</label>
-	@endif
-	<span>{{ $vaultAsset->url }}</span>
-	</div>
 
-	<div class="new-form-field">
-	<label>Username:</label>
-	<span>{{ $vaultAsset->username }}</span>
-	</div>
+<div class="new-form-field">
+@if($vaultAsset->type == 'ftp' || $vaultAsset->type == 'database'  || $vaultAsset->type == 'server')
+<label>Server:</label>
+@else
+<label>URL:</label>
+@endif
+<input class="show-me-input vault-url" value="{{ $vaultAsset->url }}" />
+</div>
 
-	<div class="new-form-field">
-	<label>Password:</label>
-	<span value="password" class="ss-view show-me">Show</span>
-	</div>
+<div class="new-form-field">
+<label>Username:</label>
+<input class="show-me-input vault-username" value="{{ $vaultAsset->username }}" />
+</div>
 
-	@if(!empty($vaultAsset->database_name))
-	<div class="new-form-field">
-	<label>Database Name:</label>
-	<span>{{ $vaultAsset->database_name }}</span>
-	</div>
-	@endif
+<div class="new-form-field">
+<label>Password:</label>
+<input class="show-me-input vault-password" value="************" /><span value="password" class="ss-view show-me">Show</span>
+</div>
 
-	@if(!empty($vaultAsset->ftp_path))
-	<div class="new-form-field">
-	<label>FTP Path:</label>
-	<span>{{ $vaultAsset->ftp_path }}</span>
-	</div>
-	@endif
+@if(!empty($vaultAsset->database_name))
+<div class="new-form-field">
+<label>Database Name:</label>
+<input class="show-me-input vault-database-name" value="{{ $vaultAsset->database_name }}" />
+</div>
+@endif
 
-	@if(!empty($vaultAsset->notes))
-	<div class="new-form-field">
-	<label>Notes:</label>
-	<span>{{ $vaultAsset->notes }}</span>
-	</div>
-	@endif
+@if(!empty($vaultAsset->ftp_path))
+<div class="new-form-field">
+<label>FTP Path:</label>
+<input class="show-me-input vault-ftp-path" value="{{ $vaultAsset->ftp_path }}" />
+</div>
+@endif
 
+@if(!empty($vaultAsset->notes))
+<div class="new-form-field">
+<label>Notes:</label>
+<span class="office-notice vault-note">{{ $vaultAsset->notes }}</span>
+</div>
+@endif
+@if(!empty($vaultAsset->attachment))
+<span>{{ $vaultAsset->getAttachments($vaultAsset->id) }}</span>
+@endif
 	<div class="vault-asset-sub office-post-sub">
 		<small>Created by {{ User::find($vaultAsset->author_id)->first_name.' '.User::find($vaultAsset->author_id)->last_name }}</small>
 		<small>on {{ $vaultAsset->created_at->format('F j, Y') }}</small>

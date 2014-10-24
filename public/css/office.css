@@ -1754,13 +1754,30 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding-top: 5px;
 	font-size: 0.9em;
 }
+#content .vault-asset.office-post-single .new-form-field {
+	margin: 10px 0;
+}
+#content .vault-asset.office-post-single .vault-note {
+	width: 490px;
+	display: inline-block;
+	margin: 0;
+}
+#content .vault-asset.office-post-single .post-single-attachment {
+	float: left;
+	margin: 10px 10px 10px 0;
+}
+#content .vault-asset.office-post-single label {
+	vertical-align: top;
+}
 #content .vault-asset.office-post-single .show-me-input {
 	border-radius: 3px;
-	border: 1px solid #858585;
+	border: 1px solid #2E9999;
+	background: rgba(51,51,51,0.1);
 	padding: 3px 5px;
 	display: inline-block;
 	height: 20px;
 	font-size: 1.2em;
+	width: 500px;
 }
 #content .vault-asset.office-post-single .show-me {
 	border-radius: 3px;
@@ -1768,14 +1785,16 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: #2E9999;
 	color: #ffffff;
 	height: 20px;
+	margin-top: 1px;
+	vertical-align: top;
 	display: inline-block;
 	padding: 3px 10px 5px;
-	margin-right: 20px;
+	margin-left: 10px;
 	cursor: pointer;
 }
 #content .vault-asset.office-post-single .show-me:hover {
 	height: 19px;
-	margin-top: 1px;
+	margin-top: 2px;
 	box-shadow: inset 0px -2px rgba(51,51,51,0.5);
 	background: #FF4D4D;	
 }

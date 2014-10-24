@@ -2751,7 +2751,8 @@ jQuery(document).ready(function($){
 				//console.log('please redirect');
 				window.location.href='/assets/vault';
 			}
-			$(document).find('#content .vault-asset.office-post-single .show-me').after('<input class="show-me-input" value="'+data.asset+'" />');
+			$(document).find('#content .vault-asset.office-post-single .vault-password').val(data.asset);
+			$(document).find('#content .vault-asset.office-post-single .show-me').hide();
 		});
 	});
 	// add new vault asset
@@ -2898,7 +2899,7 @@ jQuery(document).ready(function($){
 					$(this).removeClass('changed-input');
 				});
 			$('#message-box-json').delay(4000).fadeOut();
-			$('#message-box-json').find('.section').empty();			
+			//.find('.section').empty();
 		}
 	}
 	function tagsVaultSearchSuccess(data)

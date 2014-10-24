@@ -148,7 +148,7 @@
 			</div>
 
 		<div class="project-stage-due-date">
-			<h3><img src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
+			<h3><img src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
 			<div class="post-manager">
 <span class="manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
 @if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')
@@ -156,11 +156,12 @@
 <span class="ss-dropdown"></span>
 <span class="ss-directup"></span>
 <select class="change-project-manager-list" name="change-project-manager-list">
+<option>Select Manager</option>
 {{ get_can_manage_user_list_select(User::find($project->manager_id)->first_name. ' ' .User::find($project->manager_id)->last_name) }}
 </select>
 </div>
 @else
-<span>{{ User::find($project->author_id)->first_name . ' ' . User::find($project->author_id)->last_name }}</span>
+<span>{{ User::find($project->manager_id)->first_name . ' ' . User::find($project->manager_id)->last_name }}</span>
 @endif
 {{ Form::open( array('id' => 'change-project-manager-'.$project->id, 'class' => 'change-project-manager-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/manager_id', 'method' => 'post') ) }}
 {{ Form::hidden('id', $project->id) }}

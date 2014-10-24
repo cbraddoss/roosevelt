@@ -41,6 +41,6 @@
 	<div class="post-tags">
 		{{ $vault->displayTags($vault->id, 'vault') }}
 	</div>
-	<p class="vault-note">{{ $vault->notes }}</p>
+	<p class="vault-note">{{ display_content($vault->notes, '75') }}</p>
 </div>
 @endforeach
