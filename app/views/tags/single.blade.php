@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ ucwords($tag->name) }}
+{{ 'Tag: ' . ucwords($tag->name) }}
 @stop
 
 @section('header-menu')
@@ -18,9 +18,25 @@
 
 @section('page-content')
 <div id="tags-page"  class="single-page inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2 class="ss-tag"> @yield('page-h2')</h2>
 	
-	<p>Display different resources using this tag here.</p>
+	@if(!$accounts->isEmpty())
+	<h3>Accounts:</h3>
+	@include('accounts.partials.findAccounts')
+	@endif
+
+	@if(!$projects->isEmpty())
+	<h3>Projects:</h3>
+	@include('projects.partials.findProjects')
+	@endif
+	
+	@if(!$articles->isEmpty())
+	<h3>Articles:</h3>
+	@include('news.partials.findArticles')
+	@endif
+	
+	<h3>Vault:</h3>
+	@include('assets.partials.findVaultAssets')
 	
 </div>
 @stop

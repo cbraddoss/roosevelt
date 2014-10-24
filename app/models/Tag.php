@@ -23,6 +23,19 @@ class Tag extends Eloquent {
 		return $tags;
 	}
 
+
+	/**
+	 * Get tag counts
+	 *
+	 * @return object
+	 */
+	public function getTagCount($id, $type = null)
+	{
+		if($type == null) $tagCount = TagRelationship::where('tag_id','=',$id)->count();
+		else $tagCount = TagRelationship::where('tag_id','=',$id)->where('type','=',$type)->count();
+		return $tagCount;
+	}
+
 	/**
 	 * Get all tags from the system
 	 *
@@ -51,16 +64,42 @@ class Tag extends Eloquent {
 	}
 
 	/**
-	 * Get tags and sort by times_used
+	 * Get tags and sort by times_used (saving for later, need to figure out a better way to do this)
 	 *
 	 * @return object
 	 */
 	public function getPopularTags()
 	{
-		$tags = Tag::orderBy('times_used','DESC')
-				->get();
+		//$tags = Tag::orderBy('times_used','DESC')
+		//		->get();
 
-		return $tags;
+		//return $tags;
+	}
+
+	/**
+	 * Get tags created in last month
+	 *
+	 * @return object
+	 */
+	public function getTypeTags($type)
+	{
+		$tagIDs = array();
+		$tagTypes = TagRelationship::where('type','=',$type)->get();
+		if($tagTypes->isEmpty()) {
+			$foundTags = Tag::where('id','=',0)
+						 ->get();
+		}
+		else {
+			foreach($tagTypes as $tagType) {
+				$tagIDs[] = $tagType->tag_id;
+			}
+			$tagIDs = array_unique($tagIDs);
+
+			$foundTags = Tag::whereIn('id',$tagIDs)
+						 ->orderBy('created_at','DESC')
+						 ->get();
+		}
+		return $foundTags;
 	}
 
 	/**
@@ -81,7 +120,7 @@ class Tag extends Eloquent {
 	 *
 	 * @return object
 	 */
-	public function getSelectListTags($letter = null)
+	public function getLetterSelectListTags($letter = null)
 	{
 		$tagName = '';
 		$tagLetters = array();
@@ -106,17 +145,16 @@ class Tag extends Eloquent {
 	 *
 	 * @return object
 	 */
-	public function displayTags($ids)
+	public function displayTags($typeID, $type)
 	{
 		$returnTags = '';
-		$parseTags = $ids;
-		$parseTags = explode(',', $parseTags);
-		$parseTags = array_unique($parseTags);
-		foreach($parseTags as $tag) {
-			$findTag = Tag::where('id','=',$tag)->first();
-			$returnTags .= '<span class="tag-name"><a class="ss-tag" href="/assets/vault/tags/'.$tag->name.'">'.$tag->name.'</a></span>';
+		$findRelationship = TagRelationship::where('type_id','=',$typeID)
+							->where('type','=',$type)
+							->get();
+		foreach($findRelationship as $tag) {
+			$findTag = Tag::where('id','=',$tag->tag_id)->first();
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a class="ss-tag" href="/assets/vault/tags/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
 		}
-		
 		return $returnTags;
 	}
 }

@@ -176,7 +176,7 @@
 	</div>
 @endforeach
 
-@if(current_page() != '/')
+@if(!strpos(current_page(),'tags') )
  <!-- || current_page() != '/to-do/brad-doss' -->
 	@if($projects->links() != '')
 	<div class="pagination-footer">

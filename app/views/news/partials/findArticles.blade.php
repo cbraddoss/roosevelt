@@ -47,7 +47,7 @@
 </div>
 @endforeach
 
-@if(current_page() != '/' )
+@if(!strpos(current_page(),'tags') )
 @if($articles->links() != '')
 <div class="pagination-footer">
 	{{ $articles->links() }}

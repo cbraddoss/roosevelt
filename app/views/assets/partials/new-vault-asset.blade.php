@@ -4,7 +4,7 @@
 
 <div class="new-form-field">
 {{ Form::label('title', 'Title:') }}
-{{ Form::text('title', null, array('placeholder' => 'Title', 'class' => 'vault-title field')) }}
+{{ Form::text('title', null, array('placeholder' => 'Sample Inn - Login Type', 'class' => 'vault-title field')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
@@ -68,7 +68,7 @@
 
 <div class="new-form-field">
 {{ Form::label('attachment[]', 'Attach File(s):') }}
-{{ Form::file('attachment[]', array('multiple', 'class' => 'new-vault-attachment vault-field')) }}
+{{ Form::file('attachment[]', array('multiple', 'class' => 'new-vault-attachment vault-attachments vault-field')) }}
 </div>
 
 {{ Form::submit('Add', array('class' => 'save form-button', 'id' => 'add-new-submit') ) }}

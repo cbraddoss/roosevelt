@@ -20,10 +20,6 @@
 <div id="tags-page"  class="inner-page">
 	<h2>@yield('page-h2')
 	<small class="count-of-total">[{{ count($tags) }} of {{ $tagsCount }}]</small></h2>
-	@if($tags->isEmpty())
-		<p>{{ $tagsNotFound }}</p>
-	@else
-		@include('tags.partials.findTags')
-	@endif
+	@include('tags.partials.findTags')
 </div>
 @stop

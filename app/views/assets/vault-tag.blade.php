@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ 'Vault Assets:' }}
+{{ 'Tag: ' . ucwords($tag->name) }}
 @stop
 
 @section('header-menu')
@@ -30,14 +30,10 @@
 @stop
 
 @section('page-content')
-<div id="assets-page"  class="inner-page">
-	<h2>@yield('page-h2')
-	<small class="count-of-total">[{{ count($vaults) }} of {{ $vaultsCount }}]</small></h2>
-
-	@if($vaults->isEmpty())
-		<p>No Vault assets found. Add some now!</p>
-	@else
-		@include('assets.partials.findVaultAssets')
-	@endif
+<div id="tags-page"  class="single-page inner-page">
+	<h2 class="ss-tag"> @yield('page-h2')</h2>
+	
+	@include('assets.partials.findVaultAssets')
+	
 </div>
 @stop

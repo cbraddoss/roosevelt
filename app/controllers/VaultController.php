@@ -2,13 +2,14 @@
 
 use \Vaults;
 use \Tags;
+use \TagRelationships;
 
 class VaultController extends \BaseController {
 
 	/**
      * Instantiate a new ProjectsController instance.
      */
-    public function __construct(Vault $vault, Tag $tag)
+    public function __construct(Vault $vault, Tag $tag, TagRelationship $tagRelationship)
     {
         $this->beforeFilter('auth');
 
@@ -17,6 +18,8 @@ class VaultController extends \BaseController {
 		$this->vault = $vault;
 
 		$this->tag = $tag;
+
+		$this->tagRelationship = $tagRelationship;
     }
 
 	/**
@@ -37,9 +40,11 @@ class VaultController extends \BaseController {
 		}
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
 		
+		// Cache::forget('vault_key_'.Auth::user()->user_path);
 		$vaults = $this->vault->getAllVaults();
 		$vaultsCount = $vaults->count();
-		return View::make('assets.vault',compact('vaults','vaultsCount'));
+		$vaultTagsSelect = $this->vault->getSelectListVaultTags();
+		return View::make('assets.vault',compact('vaults','vaultsCount','vaultTagsSelect'));
 	}
 
 	/**
@@ -54,7 +59,7 @@ class VaultController extends \BaseController {
  		$vault_key = Input::get('vault_key');
  		//change key to value stored in db and able to change in admin area
 		if($vault_key == '1234') {
-			$expiresAt = Carbon::now()->addMinutes(300);
+			$expiresAt = Carbon::now()->addMinutes(30);
 			Cache::put('vault_key_'.Auth::user()->user_path, 'vault access', $expiresAt);
 		}
 		return Redirect::route('assets.vault');
@@ -112,49 +117,6 @@ class VaultController extends \BaseController {
 
 			if(Input::has('notes')) $newVault->notes = clean_content(Input::get('notes'));
 			
-			if(Input::has('tag_id')) {
-				$parsedTags = array();
-				$parseTags = Input::get('tag_id');
-				$parseTags = explode(',', $parseTags);
-				$parseTags = array_unique($parseTags);
-				foreach($parseTags as $parseTag) {
-					if(is_numeric($parseTag)) {
-						$updateTag = Tag::where('id','=',$parseTag)->first();
-						$updateTag->times_used = $updateTag->times_used+1;
-						try
-						{
-							$updateTag->save();
-						} catch(Illuminate\Database\QueryException $e)
-						{
-							$response = array(
-								'errorMsg' => 'Oops, there was a problem saving the tags. Please try again.'
-							);
-							return Response::json( $response );
-						}
-						$parsedTags[] = $parseTag;
-					}
-					else {
-						$newTag = new Tag;
-						$newTag->name = clean_title($parseTag);
-						$newTag->slug = convert_title_to_path($parseTag);
-						$newTag->times_used = 1;
-						try
-						{
-							$newTag->save();
-						} catch(Illuminate\Database\QueryException $e)
-						{
-							$response = array(
-								'errorMsg' => 'Oops, there was a problem saving a tag. Please try again.'
-							);
-							return Response::json( $response );
-						}
-						$parsedTags[] = $newTag->id;
-					}
-				}
-				$parsedTags = implode(',', $parsedTags);
-				$newVault->tag_id = $parsedTags;
-			}
-
 			if(Input::has('database_name')) $newVault->database_name = Input::get('database_name');
 			if(Input::has('ftp_path')) $newVault->ftp_path = Input::get('ftp_path');
 
@@ -183,6 +145,31 @@ class VaultController extends \BaseController {
 				return Response::json( $response );
 			}
 
+			if(Input::has('tag_id')) {
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'vault', $newVault->id);
+						if($newTagRelationship == 'fail') {
+							$response = array(
+								'slug' => $newVault->slug,
+								'msg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+							);
+							return Response::json( $response );
+						}
+					}
+					else {
+						$response = array(
+							'slug' => $newVault->slug,
+							'msg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+						);
+						return Response::json( $response );
+					}
+				}
+			}
+
 			$response = array(
 				'slug' => $newVault->slug,
 				'msg' => 'Vault Asset created successfully!'
@@ -206,7 +193,23 @@ class VaultController extends \BaseController {
 	 */
 	public function show($slug)
 	{
-		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::to('assets.vault')->with('flash_message_error','Please enter vault key again.');
+		if(Request::ajax()) {
+			if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+				$response = array(
+					'errorMsg' => 'do not load form'
+				);
+				return Response::json( $response );
+			}
+			$vaultAsset = Vault::where('slug', $slug)->first();
+			if(empty($vaultAsset)) return Redirect::route('assets.vault');
+			else $getPassword = Crypt::decrypt($vaultAsset->password);
+			$response = array(
+				'asset' => $getPassword,
+				'msg' => 'asset found'
+			);
+			return Response::json( $response );
+		}
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
 		
 		$vaultAsset = Vault::where('slug', $slug)->first();
 
@@ -217,14 +220,56 @@ class VaultController extends \BaseController {
 		// 	if($currentUser->userrole == 'admin' || $article->author_id == $currentUser->id) $testing = ''; 
 		// 	else return Redirect::route('news');
 		// }
-		
-		//move to ajax called function
-		//$decrypted = Crypt::decrypt($encryptedValue);
 
 		if($vaultAsset) return View::make('assets.vault-single', compact('vaultAsset'));
 		else return Redirect::route('assets.vault');
 	}
 
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function showCrypt($slug)
+	{
+		//move to ajax called function
+		//$decrypted = Crypt::decrypt($encryptedValue);
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function tags($tag)
+	{
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
+		
+		$vaultTagsSelect = $this->vault->getSelectListVaultTags($tag);
+		$tag = Tag::where('slug','=',$tag)->first();
+		
+		$vaultTagRelationships = TagRelationship::where('tag_id','=',$tag->id)
+					->where('type','=','vault')
+					->orderBy('created_at','DESC')
+					->get();
+		foreach($vaultTagRelationships as $tagVault) {
+			$vaultIDs[] = $tagVault->type_id;
+		}
+		if(!empty($vaultIDs)) $vaultIDs = array_unique($vaultIDs);
+		else $vaultIDs = array(0);
+		$vaults = Vault::whereIn('id',$vaultIDs)
+					 ->orderBy('created_at','DESC')
+					 ->get();
+		
+		return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect'));
+
+		//if(empty($vaultAsset)) return Redirect::route('assets.vault');
+		
+		//if($vaultAsset) return View::make('assets.vault-single', compact('vaultAsset'));
+		//else return Redirect::route('assets.vault');
+	}
 
 	/**
 	 * Show the form for editing the specified resource.

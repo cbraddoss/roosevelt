@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTagsTable extends Migration {
+class CreateTagRelationshipsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,11 +12,12 @@ class CreateTagsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('tags', function(Blueprint $table)
+		Schema::create('tag_relationships', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name')->unique();
-			$table->string('slug')->unique();
+			$table->integer('tag_id');
+			$table->enum('type', array('account','project','billable','article','help','invoice','vault','asset','personal'));
+			$table->integer('type_id');
 			$table->timestamps();
 		});
 	}
@@ -28,7 +29,7 @@ class CreateTagsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('tags');
+		Schema::drop('tag_relationships');
 	}
 
 }

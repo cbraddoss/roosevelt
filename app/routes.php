@@ -110,14 +110,17 @@ Route::post('/assets/vault/access', array('as' => 'assets.vaultAccess', 'uses' =
 Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultController@index'));
 Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultController@store'));
 Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
+Route::get('/assets/vault/tags/{tag}', array('as' => 'assets.vaultTags', 'uses' => 'VaultController@tags'));
 
 /* Tags */
 Route::post('/tags/search/{title}',array('as' => 'tags.search', 'uses' => 'TagsController@search'));
 Route::get('/tags', array('as' => 'tags', 'uses' => 'TagsController@index'));
+Route::post('/tags/newtag/{newtag}', array('as' => 'tags.newtag', 'uses' => 'TagsController@store'));
 Route::get('/tags/recent', array('as' => 'tags.recent', 'uses' => 'TagsController@recent'));
-Route::get('/tags/popular', array('as' => 'tags.popular', 'uses' => 'TagsController@popular'));
+Route::get('/tags/type/{type}', array('as' => 'tags.type', 'uses' => 'TagsController@type'));
+//Route::get('/tags/popular', array('as' => 'tags.popular', 'uses' => 'TagsController@popular'));
 Route::get('/tags/letter/{letter}', array('as' => 'tags.letter', 'uses' => 'TagsController@letter'));
-Route::get('/tags/type/{tagname}', array('as' => 'tags.tag', 'uses' => 'TagsController@show'));
+Route::get('/tags/name/{tagname}', array('as' => 'tags.tag', 'uses' => 'TagsController@show'));
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/billables', function(){
@@ -141,7 +144,9 @@ Route::get('/emails', function(){
 	$mgDomain = 'iout.co';
 	$queryString = array('event' => 'stored');
 	$result = $mgClient->get("$mgDomain/events", $queryString);
-	$mgKey = $result->http_response_body->items[0]->storage->key;
+	//dd($result);
+	if($result->http_response_body->items) $mgKey = $result->http_response_body->items[0]->storage->key;
+	else return 'no emails';
 		
 	//dd($mgKey);
 	try {
