@@ -9,7 +9,6 @@
 
 <div class="new-form-field">
 	<div class="form-textarea-buttons form-action-buttons">
-{{ Form::label('content', 'Ping a user:') }}
 {{ display_pingable() }}
 <!-- <span class="ss-link textarea-button make-link"></span>
 <span class="textarea-button make-bold">Bold</span>
@@ -25,7 +24,7 @@
 
 <div class="new-form-field">
 {{ Form::label('show_on_calendar', 'Show on Calendar:') }}
-{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker future-dates article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field">

@@ -4,11 +4,11 @@
 @endif
 	<div class="post-favorite post-meta post-tooltip">
 			@if(strpos($article->favorited, current_user_path()) !== false)
-			<span id="favorite-{{ $article->id }}" class="ss-heart favorited tooltip-hover">
+			<span id="favorite-{{ $article->id }}" class="favorite-this ss-heart favorited tooltip-hover">
 			@else
-			<span id="favorite-{{ $article->id }}" class="ss-heart tooltip-hover">
+			<span id="favorite-{{ $article->id }}" class="favorite-this ss-heart tooltip-hover">
 			@endif
-			<span favoriteval="{{ $article->id }}" class="favorite-this tooltip">Favorite Article</span></span>
+			<span favoriteval="{{ $article->id }}" class="favorite-this-text tooltip">Favorite Article</span></span>
 		
 		{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 			{{ Form::hidden('favorite', $article->id) }}

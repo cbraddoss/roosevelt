@@ -27,22 +27,9 @@ class ProfilesController extends \BaseController {
 	public function show()
 	{
 		$user = Auth::user()->id;
-		$homerQuotes = array(
-			'"To Start Press Any Key". Where\'s the ANY key?',
-			'I’ve gone back in time to when dinosaurs weren’t just confined to zoos.',
-			'Bart, with $10,000, we’d be millionaires! We could buy all kinds of useful things like…love!',
-			'All my life I\'ve had one dream, to achieve my many goals.',
-			'No TV and no beer makes Homer something something.',
-			'Being popular is the most important thing in the world!',
-			'Aw, people can come up with statistics to prove anything, Kent. 14 percent of all people know that.',
-			'Facts are meaningless. You could use facts to prove anything that\'s even remotely true.',
-			'If something\'s hard to do, then it\'s not worth doing.',
-			'D\'oh!'
-			);
-		$getHomerQuote = $homerQuotes[rand(1,10)-1];
 		$vacationsUpcoming = $this->vacations->get_upcoming($user);
 		$vacationsPrevious = $this->vacations->get_previous($user);
-		return View::make('profile.index', compact('vacationsUpcoming','vacationsPrevious','getHomerQuote'));
+		return View::make('profile.index', compact('vacationsUpcoming','vacationsPrevious'));
 	}
 
 	/**
@@ -72,7 +59,7 @@ class ProfilesController extends \BaseController {
 			'last_name' => 'required|max:40|alpha',
 			'extension' => 'between:3,12|regex:/^([0-9,])+$/i',
 			'cell_phone' => 'size:12|regex:/^([0-9-])+$/i',
-			'password' => 'between:8,30',
+			'password' => 'between:8,60',
 			'password_again' => 'required_with:password|same:password',
 		));
 		

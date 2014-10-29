@@ -231,18 +231,6 @@ class VaultController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function showCrypt($slug)
-	{
-		//move to ajax called function
-		//$decrypted = Crypt::decrypt($encryptedValue);
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function tags($tag)
 	{
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
@@ -264,11 +252,6 @@ class VaultController extends \BaseController {
 					 ->get();
 		
 		return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect'));
-
-		//if(empty($vaultAsset)) return Redirect::route('assets.vault');
-		
-		//if($vaultAsset) return View::make('assets.vault-single', compact('vaultAsset'));
-		//else return Redirect::route('assets.vault');
 	}
 
 	/**
@@ -303,7 +286,13 @@ class VaultController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$vault = Vault::find($id);
+		if(Auth::user()->userrole != 'admin') {
+			$vaultTitle = $vault->title;
+			$vault->delete();
+			return Redirect::to('/assets/vault/')->with('flash_message_error', '<i>' . $vaultTitle . '</i> successfully deleted.');
+		}
+		else return Redirect::route('assets.vault');
 	}
 
 

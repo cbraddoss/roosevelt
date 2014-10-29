@@ -18,14 +18,19 @@
 
 @section('page-content')
 <div id="assets-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+<h2>@yield('page-h2')</h2>
 
-	<div id="vault-{{ $vaultAsset->id }}" class="vault-asset office-post-single" slug="{{ $vaultAsset->slug }}">
+<div id="vault-{{ $vaultAsset->id }}" class="vault-asset office-post-single" slug="{{ $vaultAsset->slug }}">
 	
-	<div class="post-tags">
-		{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}
-	</div>
-	<br />
+<div class="post-tags post-tooltip">
+{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}
+<span class="tag-addnew tooltip-hover ss-plus"><span class="tooltip">Add New<br />Tag</span></span>
+{{ Form::open( array('id' => 'add-tag-'.$vaultAsset->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$vaultAsset->id, 'method' => 'post') ) }}
+{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag')) }}
+{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
+<div class="tags-search-ajax"></div>
+{{ Form::close() }}
+</div>
 
 <div class="new-form-field">
 @if($vaultAsset->type == 'ftp' || $vaultAsset->type == 'database'  || $vaultAsset->type == 'server')
@@ -43,7 +48,8 @@
 
 <div class="new-form-field">
 <label>Password:</label>
-<input class="show-me-input vault-password" value="************" /><span value="password" class="ss-view show-me">Show</span>
+<input class="show-me-input vault-password" value="************" />
+<span value="password" class="ss-view show-me tooltip-hover"><span class="tooltip">Show<br />Password</span></span>
 </div>
 
 @if(!empty($vaultAsset->database_name))

@@ -3,7 +3,6 @@
 	
 <div class="new-form-field">
 	<div class="form-textarea-buttons form-action-buttons">
-		{{ Form::label('content', 'Ping a user:') }}
 		{{ display_pingable() }}
 	</div>
 </div>

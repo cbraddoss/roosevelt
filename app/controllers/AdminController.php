@@ -35,8 +35,12 @@ class AdminController extends \BaseController {
 	public function users()
 	{
 		$users = User::all();
+		return View::make('admin.partials.users-list', compact('users'));
+	}
+
+	public function userCreate() {
 		if(Request::ajax()) return View::make('admin.partials.user-add-new');
-		else return View::make('admin.partials.users-list', compact('users'));
+		else return Redirect::to('/admin/users');
 	}
 
 	public function userEdit($userpath) {
@@ -105,6 +109,7 @@ class AdminController extends \BaseController {
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			$response = array(
+				'actionType' => 'user-add',
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
@@ -125,18 +130,20 @@ class AdminController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'user-add',
 					'errorMsg' => 'Oops, something went wrong (possible name match exception).'
 				);
 				return Response::json( $response );
-				//return Redirect::to('/admin/users/')->withInput()->with('flash_message_error','Oops, something went wrong (possible name match exception).');
 			}
 			$response = array(
-				'msg' => 'User saved.'
+				'actionType' => 'user-add',
+				'windowAction' => '/admin/users',
+				'msg' => 'User added successfully!'
 			);
 			return Response::json( $response );
-			//return Redirect::to('/admin/users/')->with('flash_message_success','<i>' . $newUser->first_name . ' ' . $newUser->last_name .'</i> successfully updated!');
 		}
 		$response = array(
+			'actionType' => 'user-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );
@@ -157,8 +164,12 @@ class AdminController extends \BaseController {
 	{
 		$templatesActive = Template::where('status','=','active')->get();
 		$templatesInactive = Template::where('status','=','inactive')->get();
-		if(Request::ajax()) return View::make('admin.partials.templates-add-new', compact('templates'));
-		else return View::make('admin.partials.templates-list', compact('templatesActive','templatesInactive'));
+		return View::make('admin.partials.templates-list', compact('templatesActive','templatesInactive'));
+	}
+
+	public function templateCreate() {
+		if(Request::ajax()) return View::make('admin.partials.templates-add-new');
+		else return Redirect::to('/admin/templates');
 	}
 
 	/**
@@ -180,6 +191,7 @@ class AdminController extends \BaseController {
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			$response = array(
+				'actionType' => 'template-add',
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
@@ -197,6 +209,7 @@ class AdminController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'template-add',
 					'errorMsg' => 'Oops, something went wrong (possible name match exception).'
 				);
 				return Response::json( $response );
@@ -217,6 +230,7 @@ class AdminController extends \BaseController {
 				} catch(Illuminate\Database\QueryException $e)
 				{
 					$response = array(
+						'actionType' => 'template-add',
 						'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
 					);
 					return Response::json( $response );
@@ -225,11 +239,14 @@ class AdminController extends \BaseController {
 			}
 
 			$response = array(
-				'msg' => 'Template saved.'
+				'actionType' => 'template-add',
+				'windowAction' => '/admin/templates',
+				'msg' => 'Template added successfully!'
 			);
 			return Response::json( $response );
 		}
 		$response = array(
+			'actionType' => 'template-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );

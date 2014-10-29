@@ -1,6 +1,6 @@
 <div class="user-add-form create-something-form">
 <h2>New User:</h2>
-{{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => '/admin/users', 'method' => 'post') ) }}
+{{ Form::open( array('id' => 'add-new', 'class' => 'add-user', 'url' => '/admin/users/store', 'method' => 'post') ) }}
 
 <div class="new-form-field">
 {{ Form::label('first_name', 'First Name:') }}

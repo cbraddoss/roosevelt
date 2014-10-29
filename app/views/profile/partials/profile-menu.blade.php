@@ -5,12 +5,12 @@
 <li><a id="pagelink-admin-users" href="/admin/users" class="link">User Admin</a></li>
 <li class="right">
 	<div id="admin-new-template-form" class="create-something-new">
-		<div class="template-button"><span class="add-new add-button"><span class="ss-plus"></span> Template</span></div>
+		<div class="template-button"><span formtype="add-template" formlocation="/admin/templates/create" class="add-new add-button"><span class="ss-plus"></span> Template</span></div>
 	</div>
 </li>
 <li class="right">
 	<div id="admin-new-user-form" class="create-something-new">
-		<div class="admin-button"><span class="add-new add-button"><span class="ss-plus"></span> User</span></div>
+		<div class="admin-button"><span formtype="add-user" formlocation="/admin/users/create" class="add-new add-button"><span class="ss-plus"></span> User</span></div>
 	</div>
 </li>
 @endif

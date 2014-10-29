@@ -31,12 +31,14 @@ Route::get('/to-do/{userpath}', array('as' => 'todo', 'uses' => 'TodoController@
 /* Admin */
 Route::get('/admin', array('as' => 'admin', 'uses' => 'AdminController@index'));
 Route::get('/admin/users', array('as' => 'admin.users', 'uses' => 'AdminController@users'));
-Route::post('/admin/users', array('as' => 'admin.userNew', 'uses' => 'AdminController@userNew'));
 Route::delete('/admin/users', array('as' => 'admin.userDelete', 'uses' => 'AdminController@userDelete'));
+Route::get('/admin/users/create', array('as' => 'admin.userCreate', 'uses' => 'AdminController@userCreate'));
+Route::post('/admin/users/store', array('as' => 'admin.userNew', 'uses' => 'AdminController@userNew'));
 Route::get('/admin/users/{userpath}', array('as' => 'admin.userEdit', 'uses' => 'AdminController@userEdit'));
 Route::post('/admin/users/{userpath}', array('as' => 'admin.userUpdate', 'uses' => 'AdminController@userUpdate'));
 Route::get('/admin/templates', array('as' => 'admin.templates', 'uses' => 'AdminController@templates'));
-Route::post('/admin/templates', array('as' => 'admin.templateNew', 'uses' => 'AdminController@templateNew'));
+Route::get('/admin/templates/create', array('as' => 'admin.templateCreate', 'uses' => 'AdminController@templateCreate'));
+Route::post('/admin/templates/store', array('as' => 'admin.templateNew', 'uses' => 'AdminController@templateNew'));
 Route::post('/admin/templates/{id}', array('as' => 'admin.templateUpdate', 'uses' => 'AdminController@templateUpdate'));
 Route::get('/admin/templates/add-task', array('uses' => 'AdminController@templateAddtask'));
 Route::get('/admin/templates/{template}/edit', array('uses' => 'AdminController@templateEdit'));
@@ -53,6 +55,7 @@ Route::get('/uploads/{year}/{month}/{name}',array('as' => 'uploads', 'uses' => '
 /* News */
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
+Route::get('/news/create', array('as' => 'news.articleCreate','uses' => 'ArticlesController@create'));
 Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));
 Route::get('/news/article/{article}/comment', array('as' => 'news.articleComment', 'uses' => 'ArticleCommentsController@show'));
 Route::post('/news/article/{article}/comment', array('uses' => 'ArticleCommentsController@store'));
@@ -111,6 +114,7 @@ Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultContro
 Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultController@store'));
 Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
 Route::get('/assets/vault/tags/{tag}', array('as' => 'assets.vaultTags', 'uses' => 'VaultController@tags'));
+Route::delete('/assets/vault/asset/{id}', array('uses' => 'VaultController@destroy'));
 
 /* Tags */
 Route::post('/tags/search/{title}',array('as' => 'tags.search', 'uses' => 'TagsController@search'));

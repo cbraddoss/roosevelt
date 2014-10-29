@@ -37,7 +37,7 @@ function current_page() {
 	return $currentPage;
 }
 
-function gravatar_url($email,$size = '40') {
+function gravatar_url($email,$size = 30) {
 	return 'http://www.gravatar.com/avatar/' . md5($email) . '?s=' . $size . '&d=http%3A%2F%2Fassets.insideout.com%2Fimages%2Fuser-image.png';
 }
 

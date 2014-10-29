@@ -58,25 +58,6 @@
 		<div class="link-box"><a href="http://login.insideout.com/admin/" target="_blank" class="ss-layout">WebTools</a></div>
 		<div class="link-box"><a href="/assets/websites" class="ss-globe">Websites</a></div>
 	</div>
-	<!-- <div id="site-launches">
-		<h2 class="ss-uploadcloud">Site Launches:</h2>
-		<a class="dashboard-launch-count" href="/projects/launches"><span>{{ $launchesCount }} Upcoming</span></a>
-			@foreach($launches as $launch)
-				<div id="project-{{ $launch->id }}" class="project-post office-dashboard-post">
-					<div class="post-launch-date">
-						<span>{{ Carbon::createFromFormat('Y-m-d H:i:s', $launch->end_date)->format('F j') }}</span>
-					</div>
-					{{ link_to('/projects/post/'. $launch->slug, $launch->title, array('class' => 'project-link')) }}
-				</div>
-			@endforeach
-
-			@if($launches->isEmpty())
-				<p class="nothing-to-show">There are currently no scheduled launches.</p>
-				<div id="quicklinks">
-					<p><a href="/#" class="ss-dislike"></a></p>
-				</div>
-			@endif
-	</div> -->
 	<div id="dashboard-lists">
 		<div id="first-half" class="dashboard-half">
 			<h2><a href="/projects/assigned-to/{{ current_user_path() }}">Your To-Do List:</a><small>@if( $projectsCount >= 5 ) [5 of {{ $projectsCount }}] @endif</small></h2>
@@ -189,11 +170,11 @@
 					@endif
 						<div class="post-favorite post-meta post-tooltip">
 								@if(strpos($article->favorited, current_user_path()) !== false)
-								<span id="favorite-{{ $article->id }}" class="ss-heart favorited tooltip-hover">
+								<span id="favorite-{{ $article->id }}" class="favorite-this ss-heart favorited tooltip-hover">
 								@else
-								<span id="favorite-{{ $article->id }}" class="ss-heart tooltip-hover">
+								<span id="favorite-{{ $article->id }}" class="favorite-this ss-heart tooltip-hover">
 								@endif
-								<span favoriteval="{{ $article->id }}" class="favorite-this tooltip">Favorite Article</span></span>
+								<span favoriteval="{{ $article->id }}" class="favorite-this-text tooltip">Favorite Article</span></span>
 							
 							{{ Form::open( array('id' => 'favorite-article-'.$article->id, 'class' => 'favorite-article', 'url' => '/news/favorites/'.$article->id, 'method' => 'post') ) }}
 								{{ Form::hidden('favorite', $article->id) }}

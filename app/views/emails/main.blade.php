@@ -101,7 +101,7 @@
 		height: 28px;
 		padding: 7px 1% 0;
 		margin: 20px 0 0;
-		background: #2E9999;
+		background: #4B83B4;
 	}
 	ul { width: 75%; padding: 0 1%; margin: 0; }
 	ul li {
@@ -112,7 +112,7 @@
 		margin-right: 5px;
 	}
 	.activity-div ul li a {
-		color: #fff;
+		color: #ffffff;
 		font-size: 1.2em;
 		text-decoration: none;
 		padding: 5px 14px;

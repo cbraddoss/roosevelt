@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ 'Edit ' . $article->title }}
+{{ 'Edit: ' . $article->title }}
 @stop
 
 @section('header-menu')

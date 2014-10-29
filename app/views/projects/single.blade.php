@@ -214,7 +214,11 @@
 			@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 				<div id="comment-{{ $comment->id }}" class="projects-post-comment current-user-comment office-post-comment">
 				<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
-			@else <div id="comment-{{ $comment->id }}" class="projects-post-comment office-post-comment"><img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
+			@else
+				<div id="comment-{{ $comment->id }}" class="projects-post-comment office-post-comment">
+				<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 			@endif
 				<div class="comment-contents">
 					{{ $comment->getCommentAttachments($comment->id) }}
@@ -227,7 +231,7 @@
 								</div>
 							</div>
 
-							<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}</span>
+							<span class="comment-posted">Posted </span>
 							<span class="comment-time">on 
 							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
 								{{ $comment->created_at->format('F j g:i a') }}
@@ -249,14 +253,18 @@
 					@if(Auth::user()->user_path == User::find($subComment->author_id)->user_path) 
 						<div id="comment-{{ $subComment->id }}" class="projects-post-comment current-user-comment office-post-comment office-post-sub-comment">
 						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
-					@else <div id="comment-{{ $subComment->id }}" class="projects-post-comment office-post-comment office-post-sub-comment"><img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
+					@else
+						<div id="comment-{{ $subComment->id }}" class="projects-post-comment office-post-comment office-post-sub-comment">
+						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
 					@endif
 						<div class="comment-contents">
 							{{ $subComment->getCommentAttachments($subComment->id) }}
 							<p>{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
 								<div class="comment-meta">
-									<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}</span>
+									<span class="comment-posted">Posted </span>
 									<span class="comment-time">on 
 									@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
 										{{ $subComment->created_at->format('F j g:i a') }}

@@ -73,6 +73,19 @@ class UsersTableSeeder extends Seeder {
 		));
 
 		User::create(array(
+			'email' => 'corey@insideout.com',
+			'password' => Hash::make('12345678'),
+			'userrole' => 'standard',
+			'first_name' => 'Corey',
+			'last_name' => 'Edwards',
+			'anniversary' => '2014-05-21 00:00:00',
+			'extension' => '316',
+			'status' => 'active',
+			'can_manage' => 'no',
+			'user_path' => 'corey-edwards'
+		));
+
+		User::create(array(
 			'email' => 'devteam@insideout.com',
 			'password' => Hash::make('1234'),
 			'userrole' => 'standard',

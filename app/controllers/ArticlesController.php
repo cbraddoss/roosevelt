@@ -32,8 +32,7 @@ class ArticlesController extends \BaseController {
 	{
 		$articles = $this->article->getOnlyPublished();
 		$sticky = $this->article->getOnlySticky();
-		if(Request::ajax()) return View::make('news.partials.new');
-		else return View::make('news.index', compact('sticky','articles'));
+		return View::make('news.index', compact('sticky','articles'));
 	}
 
 	/**
@@ -43,7 +42,8 @@ class ArticlesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		if(Request::ajax()) return View::make('news.partials.new');
+		else return Redirect::to('/news');
 	}
 
 	/**
@@ -67,6 +67,7 @@ class ArticlesController extends \BaseController {
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			$response = array(
+				'actionType' => 'article-add',
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
@@ -100,6 +101,7 @@ class ArticlesController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'article-add',
 					'errorMsg' => 'Oops, there might be an article with this title already. Try a different title.'
 				);
 				return Response::json( $response );
@@ -113,19 +115,22 @@ class ArticlesController extends \BaseController {
 			$hcMessageSend = hipchat_message($hcMessage);
 			if($hcMessageSend != 'messageSent') {
 				$response = array(
-					'slug' => $newProject->slug,
+					'actionType' => 'article-add',
+					'windowAction' => '/news/article/'.$newArticle->slug,
 					'msg' => 'Article created successfully! (Note: '.$hcMessageSend.')'
 				);
 				return Response::json( $response );
 			}
 
 			$response = array(
-				'slug' => $newArticle->slug,
+				'actionType' => 'article-add',
+				'windowAction' => '/news/article/'.$newArticle->slug,
 				'msg' => 'Article created successfully!'
 			);
 			return Response::json( $response );
 		}
 		$response = array(
+			'actionType' => 'article-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );
@@ -225,7 +230,7 @@ class ArticlesController extends \BaseController {
 				$article->favorited = $oldFavorite.' '.current_user_path().' ';
 				$article->save();
 				$response = array(
-					'fav' => 'Favorited!'
+					'fav' => 'Favorite added!'
 				);
 			}
 			
