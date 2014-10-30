@@ -42,8 +42,8 @@ class ArticleComment extends Eloquent {
 		if(!empty($thumbnails)) {
 			foreach($thumbnails as $thumbnail) {
 				$attachmentTitle = preg_replace('/(\\/)(uploads)(\\/)(\\d+)(\\/)(\\d+)(\\/)(thumbnail)(-)(\\d+)(-)/is', '', $thumbnail);
-				if(strpos($thumbnail, '.pdf')) $thumbnailsSend .= '<span class="'.$class.' comment-pdf-attachment"><a href="' . str_replace('thumbnail-','',$thumbnail) .'" target="_blank" rel="gallery-'.$id.'"><img src="/images/pdficon.png" alt="'.$attachmentTitle.'"><span>'.$attachmentTitle.'</span></a></span>';
-				else $thumbnailsSend .= '<span class="'.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'" rel="gallery-'.$id.'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'comment-attachment')).'</a></span>';
+				if(strpos($thumbnail, '.pdf')) $thumbnailsSend .= '<span formlocation="/news/article/comment" class="'.$class.' comment-pdf-attachment"><a href="' . str_replace('thumbnail-','',$thumbnail) .'" target="_blank" rel="gallery-'.$id.'"><img src="/images/pdficon.png" alt="'.$attachmentTitle.'"><span>'.$attachmentTitle.'</span></a></span>';
+				else $thumbnailsSend .= '<span formlocation="/news/article/comment" class="'.$class.'"><a href="'. str_replace('thumbnail-','',$thumbnail) .'" rel="gallery-'.$id.'">'. HTML::image($thumbnail, $attachmentTitle, array('class' => 'comment-attachment')).'</a></span>';
 			}
 		}
 

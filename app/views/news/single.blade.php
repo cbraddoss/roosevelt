@@ -98,7 +98,10 @@
 	</div>
 	
 	<div id="news-post-comment-form" class="create-something-new">
-		<div class="news-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
+		<div class="news-button">
+			<span formtype="post-reply" formlocation="/news/article/{{ $article->slug }}/comment" class="post-comment add-button">
+			<span class="ss-reply"></span> Reply</span>
+		</div>
 	</div>
 	<h3 class="comment-on">Comments on <i>{{ $article->title }}</i>:</h3>
 	
@@ -110,36 +113,51 @@
 			@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 				<div id="comment-{{ $comment->id }}" class="news-article-comment current-user-comment office-post-comment">
 				<img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
-				<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
+				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 			@else
 				<div id="comment-{{ $comment->id }}" class="news-article-comment office-post-comment">
 				<img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
-				<span class="comment-author">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
+				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 			@endif
 				<div class="comment-contents">
 					{{ $comment->getCommentAttachments($comment->id) }}
-					<p>{{ display_content($comment->content) }}</p>
+					<p class="comment-text">{{ display_content($comment->content) }}</p>
 					<div class="comment-details">
 						<div class="comment-meta">
 							<div class="comment-options">
 								<div id="comment-post-comment-form" class="create-something-new">
-									<div class="comment-reply-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
+									<div class="comment-reply-button">
+										<span commentid="{{ $comment->id }}" formtype="comment-reply" formlocation="/news/article/{{ $article->slug }}/comment" class="post-comment add-button">
+										<span class="ss-reply"></span> Reply</span>
+									</div>
 								</div>
 							</div>
 
-							<span class="comment-posted">Posted </span>
-							<span class="comment-time">on 
+							<span class="comment-posted">Posted: </span>
+							<span class="comment-time">
 							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
 								{{ $comment->created_at->format('F j g:i a') }}
 							@else
 								{{ $comment->created_at->format('F j, Y g:i a') }}
 							@endif
 							</span> | 
-							<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $comment->id }}">Permalink</a></span> | 
-							@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-								<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
+							@if($comment->created_at != $comment->updated_at)
+							<small>
+							{{ User::find($comment->edit_id)->first_name }} edited: 
+							@if($comment->updated_at->format('Y') == Carbon::now()->format('Y'))
+								{{ $comment->updated_at->format('F j g:i a') }}
+							@else
+								{{ $comment->updated_at->format('F j, Y g:i a') }}
 							@endif
-						
+							</small> | 
+							@endif
+							<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $comment->id }}">Permalink</a></span>
+							@if(Auth::user()->id == $comment->author_id || Auth::user()->userrole == 'admin')
+								<span class="comment-edit-button">
+									 | <a commentid="{{ $comment->id }}" formtype="comment-edit" formlocation="/news/article/comment/{{ $comment->id }}/edit" class="edit-link edit-comment">Edit</a>
+								</span>
+							@endif
+							
 						</div>
 					</div>
 				</div>
@@ -157,20 +175,32 @@
 					@endif
 						<div class="comment-contents">
 							{{ $subComment->getCommentAttachments($subComment->id) }}
-							<p>{{ display_content($subComment->content) }}</p>
+							<p class="comment-text">{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
 								<div class="comment-meta">
 									<span class="comment-posted">Posted on</span>
 									<span class="comment-time">on 
-									@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
+									@if($subComment->created_at->format('Y') == Carbon::now()->format('Y'))
 										{{ $subComment->created_at->format('F j g:i a') }}
 									@else
 										{{ $subComment->created_at->format('F j, Y g:i a') }}
 									@endif
 									</span> | 
-									<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $subComment->id }}">Permalink</a></span> | 
-									@if(Auth::user()->id == $article->author_id || Auth::user()->userrole == 'admin')
-										<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
+									@if($subComment->created_at != $subComment->updated_at)
+									<small>
+									{{ User::find($subComment->edit_id)->first_name }} edited: 
+									@if($subComment->updated_at->format('Y') == Carbon::now()->format('Y'))
+										{{ $subComment->updated_at->format('F j g:i a') }}
+									@else
+										{{ $subComment->updated_at->format('F j, Y g:i a') }}
+									@endif
+									</small> | 
+									@endif
+									<span class="comment-permalink"><a href="/news/article/{{ $article->slug }}#comment-{{ $subComment->id }}">Permalink</a></span>
+									@if(Auth::user()->id == $subComment->author_id || Auth::user()->userrole == 'admin')
+										<span class="comment-edit-button">
+											 | <a commentid="{{ $subComment->id }}" formtype="comment-edit" formlocation="/news/article/comment/{{ $subComment->id }}/edit" class="edit-link edit-comment">Edit</a>
+										</span>
 									@endif
 								</div>
 							</div>

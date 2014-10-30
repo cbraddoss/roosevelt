@@ -23,7 +23,7 @@
 <h2>@yield('page-h2')</h2>
 
 <div class="update-something-form">
-{{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
+{{ Form::open( array('id' => $article->id, 'files' => true, 'class' => 'update-something update-article', 'url' => '/news/article/'.$article->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $article->id) }}
 
@@ -34,7 +34,6 @@
 
 <div class="new-form-field">
 <div class="form-textarea-buttons form-action-buttons">
-{{ Form::label('content', 'Ping a user:') }}
 {{ display_pingable() }}
 <!-- <span class="ss-link textarea-button make-link"></span>
 <span class="textarea-button make-bold">Bold</span>
@@ -80,7 +79,7 @@
 @if(!empty($article->attachment))
 <div class="new-form-field edit-attachments">
 <p>Current Attachment(s):</p>
-{{ $article->getAttachments($article->id,'post-edit-attachment') }}
+{{ $article->getAttachments($article->id,'post-edit-attachment edit-this-attachment') }}
 </div>
 @endif
 

@@ -424,14 +424,16 @@ class ArticlesController extends \BaseController {
 				} catch(Illuminate\Database\QueryException $e)
 				{
 					$response = array(
+						'actionType' => 'attachment-delete',
 						'errorMsg' => 'Oops, something went wrong. Please try again.',
 					);
 					return Response::json( $response );
 				}
 
 			$response = array(
-				'image' => $imageName.' deleted.',
-				'path' => '/news/article/'.$article->slug.'/edit',
+				'actionType' => 'attachment-delete',
+				'msg' => 'Attachment removed.',
+				'windowAction' => '/news/article/'.$article->slug.'/edit',
 			);
 				
 			return Response::json( $response );

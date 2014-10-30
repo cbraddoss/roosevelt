@@ -19,6 +19,9 @@ jQuery(document).ready(function($){
 	if(commentUrlNew == '?comment=new') {
 		$(commentUrlHash).addClass('office-post-comment-new');
 	}
+	if(commentUrlNew == '?comment=edit') {
+		$(commentUrlHash).addClass('office-post-comment-edit');
+	}
 
 	//Update active status of a menu link (both top menu bar and page menu bar)
 	var currentPage = window.location.pathname;
@@ -90,7 +93,7 @@ jQuery(document).ready(function($){
 	$('#menu_header ul#menu_links li.link').hover(function(){
 		$(this).children('ul.sub_menu_links-hover').css({
 			'visibility': 'visible'
-		}).fadeIn(400).show();
+		}).slideDown(400).show();
 		$(this).addClass('hover');
 	},function(){
 		$(this).children('ul.sub_menu_links-hover').css({
@@ -119,24 +122,32 @@ jQuery(document).ready(function($){
 	}
 
 	// Notification popup
-	$('#message-box').slideDown(800);
-	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).slideUp(800);
-	$('#message-box .action-message .flash-message-error').parent().parent().parent().delay(14000).slideUp(800);
+	$('#message-box').slideDown(1000);
+	$('#message-box .action-message .flash-message-success').parent().parent().parent().delay(7000).slideUp(1000);
+	$('#message-box .action-message .flash-message-error').parent().parent().parent().delay(14000).slideUp(1000);
 	$('#message-box-json').hide();
 	$('#message-box-json').find('.section').empty();
-	var flashMessage = sessionStorage.getItem('flash_message_success');
-	if(flashMessage) {
-		$('#message-box-json').slideDown(800).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+flashMessage+'</span></div>');
-		$('#message-box-json').delay(5000).slideUp(800,function() {
+	var flashMessageSuccess = sessionStorage.getItem('flash_message_success');
+	var flashMessageError = sessionStorage.getItem('flash_message_error');
+	if(flashMessageSuccess) {
+		$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>'+flashMessageSuccess+'</span></div>');
+		$('#message-box-json').delay(5000).slideUp(1000,function() {
 			$(this).find('.section').empty();
 		});
 		sessionStorage.removeItem('flash_message_success');
 	}
+	if(flashMessageError) {
+		$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>'+flashMessageError+'</span></div>');
+		$('#message-box-json').delay(5000).slideUp(1000,function() {
+			$(this).find('.section').empty();
+		});
+		sessionStorage.removeItem('flash_message_error');
+	}
 	$(document).on('click','#message-box .close-message', function() {
-		$(document).find('#message-box').slideUp(800);
+		$(document).find('#message-box').slideUp(1000);
 	});
 	$(document).on('click','#message-box-json .close-message', function() {
-		$(document).find('#message-box-json').slideUp(800);
+		$(document).find('#message-box-json').slideUp(1000);
 	});
 
 	// keyboard action to cancel user add form
@@ -168,9 +179,13 @@ jQuery(document).ready(function($){
 				});
 				$('.inner-page').before(data);
 				$(document).find('.loading-something-new').remove();
-				$('.create-something-form').hide().slideDown(800);
+				$('.create-something-form').hide().slideDown(1000);
 				$('#page-nav_menu .create-something-new [formtype='+getFormType+']').addClass('active');
 				$('.create-something-form form .new-form-field input').first().focus();
+				var goToForm = $(document).find('.create-something-form').offset();
+				$('html, body').animate({
+					scrollTop: goToForm.top-110
+				}, 2000);
 				//for future dates (past dates disabled)
 				var dateTemp = new Date();
 				var dateNow = new Date(dateTemp.getFullYear(), dateTemp.getMonth(), dateTemp.getDate(), 0, 0, 0, 0);
@@ -186,16 +201,59 @@ jQuery(document).ready(function($){
 		}
 	});
 	
-	//Show '.create-something-form' form (triggered from page buttons)
-	//$(document).on('click','.inner-page .add-button', function(){});
+	//Show '.create-something-form' form for comments
+	$(document).on('click', '.post-comment', function(){
+		var getCreateCommentUrl = $(this).attr('formlocation');
+		var getCommentFormType = $(this).attr('formtype');
+		var getCommentID = $(this).attr('commentid');
+		var getCommentAuthor = $(document).find('#comment-'+getCommentID+' .comment-author').attr('author');
+		if(getCreateCommentUrl) {
+			$('.post-comment').each(function(){
+				$(this).prop('disabled',true);
+			});
+			if(getCommentFormType == 'post-reply') $('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+			if(getCommentFormType == 'comment-reply') $('#comment-'+getCommentID).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+			$.get( getCreateCommentUrl, function( data ) {
+				if(getCommentFormType == 'post-reply') {
+					$('#comments').append(data);
+					$('#comments .create-something-form').addClass('reply-to-post-form');
+					$(document).find('.loading-something-new').remove();
+					$('#comments .create-something-form').hide().slideDown(1000);
+					$(document).find('span[formtype='+getCommentFormType+']').addClass('active');
+				}
+				if(getCommentFormType == 'comment-reply') {
+					$('#comment-'+getCommentID).after(data);
+					$(document).find('.inner-page .create-something-form').addClass('reply-to-comment-form');
+					$(document).find('.loading-something-new').remove();
+					$('.create-something-form').hide().slideDown(1000);
+					$('#comment-'+getCommentID).find('.add-button').addClass('active');
+					$(document).find('.create-something-form h2').html('Reply to '+getCommentAuthor+'\'s comment:');
+				}
+				$('.post-comment').each(function(){
+					$(this).prop('disabled',true);
+				});
+				$('.create-something-form form .new-form-field textarea').first().focus();
+				var goToForm = $(document).find('.create-something-form').offset();
+				$('html, body').animate({
+					scrollTop: goToForm.top-115
+				}, 2000);
+			});
+		}
+	});
 	
 	//POST '.create-something-form' form to intended page
 	$(document).on('submit', '.create-something-form form', function(){
+		//check if comment reply
+		var commentReplyToId = $(document).find('.reply-to-comment-form').prev().attr('id');
+		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
+		else commentReplyToId = 0;
+
 		var createSomethingOptions = {
 			target:   '#message-box-json .section',
 			success:       createSomethingSuccess,
 			dataType: 'json',
-			resetForm: false
+			resetForm: false,
+			data: { reply_to_id: commentReplyToId }
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
@@ -203,15 +261,46 @@ jQuery(document).ready(function($){
 		$(this).ajaxSubmit(createSomethingOptions);
 		return false;
 	});
+	
 	function createSomethingSuccess(data) {
 		if(data.errorMsg) {
-			if(data.actionType == 'user-add' && data.errorMsg == 'The email format is invalid.') $('#message-box-json').slideDown(800).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Only @insideout.com accounts are allowed.</span></div>');
-			else $('#message-box-json').slideDown(800).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			if(data.actionType == 'user-add' && data.errorMsg == 'The email format is invalid.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Only @insideout.com accounts are allowed.</span></div>');
+			else $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
 		}
 		else {
 			if(data.windowAction) {
-					sessionStorage.setItem('flash_message_success', data.msg);
-					window.location.href = data.windowAction;
+				sessionStorage.setItem('flash_message_success', data.msg);
+				window.location.href = data.windowAction;
+				if(window.location.search == '?comment=new') window.location.reload(true);
+				//if(window.location.search == '?comment=edit') window.location.reload(true);
+			}
+			if(data.actionType == 'comment-edit') {
+				$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+				$(document).find('.update-something-form').slideUp(1000,function() {
+					$(this).remove();
+				});
+				$(document).find('.comment-text.editing-this-comment').html(data.commentContent).hide().slideDown(1000, function() {
+					$(this).removeClass('editing-this-comment');
+				});
+				var attachmentElement = $(document).find('.comment-single-attachment.editing-this-comment').length;
+				if(attachmentElement > 0) {
+					$(document).find('.comment-single-attachment.editing-this-comment').html(data.commentAttachment).slideDown(1000, function() {
+						$(this).removeClass('editing-this-comment');
+					});
+				}
+				else {
+					$(document).find('.comment-text.editing-this-comment').before(data.commentAttachment);
+					$(document).find('.comment-single-attachment').hide().slideDown(1000);
+				}
+				$(document).find('.comment-edit-button a.edit-comment').each(function(){
+					$(this).fadeIn(400);
+				});
+				$(document).find('.post-comment').each(function(){
+					$(this).fadeIn(400);
+				});
+				$('#message-box-json').delay(3000).slideUp(1000, function() {
+					$(this).find('section').remove();
+				});
 			}
 		}
 	}
@@ -222,27 +311,111 @@ jQuery(document).ready(function($){
 		if(findChanged > 0) {
 			var confirmCancel = confirm('There are unsaved changes. Are you sure you want to discard changes?');
 			if(confirmCancel == true) {
-				$(document).find('.create-something-form').slideUp(800,function(){
+				$(document).find('.create-something-form').slideUp(1000,function(){
 					$(document).find('.create-something-form').remove();
 					$('.create-something-new .add-button').removeClass('active');
 					$('.add-button').each(function(){
 						$(this).prop('disabled', false);
 					});
 				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').slideUp(800);
+				$('#message-box-json').slideUp(1000, function() {
+					$(this).find('.section').empty();
+				});
 			}
 		}
 		else {
-			$(document).find('.create-something-form').slideUp(800,function(){
+			$(document).find('.create-something-form').slideUp(1000,function(){
 				$(document).find('.create-something-form').remove();
 				$('.create-something-new .add-button').removeClass('active');
 				$('.add-button').each(function(){
 					$(this).prop('disabled', false);
 				});
 			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').slideUp(800);
+			$('#message-box-json').slideUp(1000, function() {
+				$(this).find('.section').empty();
+			});
+		}
+	});
+	
+	// edit comment
+	$(document).on('click', '.comment-edit-button a.edit-comment', function(){
+		var getEditCommentUrl = $(this).attr('formlocation');
+		var getEditFormType = $(this).attr('formtype');
+		var getEditCommentID = $(this).attr('commentid');
+		var getPostSlug = $(document).find('.office-post-single').attr('slug');
+		$.get( getEditCommentUrl, function( data ) {
+			$(document).find('.comment-edit-button a.edit-comment').each(function(){
+				$(this).fadeOut(400);
+			});
+			$(document).find('.post-comment').each(function(){
+				$(this).fadeOut(400);
+			});
+			$('#comment-'+getEditCommentID+' .comment-contents .comment-text').after(data);
+			$('#comment-'+getEditCommentID+' .comment-contents .comment-text').slideUp(1000).addClass('editing-this-comment');
+			$('#comment-'+getEditCommentID+' .comment-contents .comment-single-attachment').slideUp(1000).addClass('editing-this-comment');
+			$('#comment-'+getEditCommentID+' .update-something-form').hide().slideDown(1000,function() {
+				$('.update-something-form form .new-form-field textarea').first().focus();
+				var goToForm = $(document).find('.update-something-form').offset();
+				$('html, body').animate({
+					scrollTop: goToForm.top-115
+				}, 2000);
+				$('#comment-'+getEditCommentID+' .comment-contents').find('input[name=article-slug]').val(getPostSlug);
+				$('form.edit-comment .update-comment-content').focus();
+			});
+		});
+	});
+	
+	// submit edit on comment (save for later)
+	$(document).on('submit','form.edit-comment', function() {
+		var editCommentOptions = { 
+			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
+			success:       createSomethingSuccess,  // post-submit callback 
+			resetForm: false        // reset the form after successful submit 
+		};	 
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	    $(this).ajaxSubmit(editCommentOptions);
+	    return false;
+	});
+	
+	//Cancel editing a comment
+	$(document).on('click','form.edit-comment span.cancel',function(){
+		var findChanged = $(document).find('.changed-input').length;
+		if(findChanged > 0) {
+			var confirmCancel = confirm('There are unsaved changes. Are you sure you want to discard changes?');
+		
+			if(confirmCancel == true) {
+				$(document).find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+				$(document).find('.update-something-form').slideUp(1000,function() {
+					$(this).remove();
+				});
+				$(document).find('.editing-this-comment').each(function() {
+					$(this).slideDown(1000).removeClass('editing-this-comment');
+				});
+				$(document).find('.comment-edit-button a.edit-comment').each(function(){
+					$(this).fadeIn(400);
+				});
+				$(document).find('.post-comment').each(function(){
+					$(this).fadeIn(400);
+				});
+			}
+		}
+		else {
+			$(document).find('.update-something-form').slideUp(1000,function() {
+				$(this).remove();
+			});
+			$(document).find('.editing-this-comment').each(function() {
+				$(this).slideDown(1000).removeClass('editing-this-comment');
+			});
+			$(document).find('.comment-edit-button a.edit-comment').each(function(){
+				$(this).fadeIn(400);
+			});
+			$(document).find('.post-comment').each(function(){
+				$(this).fadeIn(400);
+			});
 		}
 	});
 	
@@ -288,6 +461,65 @@ jQuery(document).ready(function($){
 	    $('textarea[name=content]').insertAtCaret(ping);
 	});
 
+	// on Submit of Edit page, remove any changed-input classes.
+	$(document).on('submit', '.update-something-form form', function(){
+		$(this).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	});
+
+	// add Delete option to attachments on Edit article page
+	$('.update-something-form .post-edit-attachment').hover(function(){
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
+	}, function(){
+		$(this).find('.delete-attachment').remove();
+	});
+
+	$(document).on('mouseenter', '#news-page .comment-edit-attachment', function(){
+		$(this).append('<span class="ss-delete delete-attachment"></span>');
+	});
+	$(document).on('mouseleave', '#news-page .comment-edit-attachment', function(){
+		$(this).find('.delete-attachment').remove();
+	});
+
+	// delete attachment with ajax and reload Edit article page
+	$(document).on('click', '.update-something-form .edit-this-attachment', function() {
+		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
+		
+		if(confirmCancel == true) {
+			var deletePath = $(this).attr('formlocation');
+			var imageName = $(this).find('a img').attr('alt');
+			var imagePath = $(this).find('a').attr('href');
+			var imageId = $(this).parent().parent().find('form.update-something').attr('id');
+			imageId = imageId.replace('edit-comment-','');
+			var imageToken = $(this).parent().parent().find('form.update-something input[name=_token]').val();
+			$.post(
+				deletePath+'/'+imageId+'/remove/'+imageName,
+				{
+					"_token": imageToken,
+					"imageName" : imageName,
+					"imagePath" : imagePath,
+					"id" : imageId,
+				}, function (data) {
+					if(data.errorMsg) {
+						$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+					}
+					else {
+						if(data.windowAction) {
+							sessionStorage.setItem('flash_message_error', data.msg);
+							window.location.href = data.windowAction;
+						}
+						if(data.image) {
+							$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.msg + '</span></div>');
+							$(document).find('a[href="'+ data.image +'"]').slideUp(1000);
+							$('#message-box-json').delay(3000).slideUp(1000);
+						}
+					}
+				},'json'
+			);
+		}
+	});
+
 	//Favorite/Unfavorite an Article
 	$(document).find('.favorite-this.favorited .favorite-this-text').html('Unfavorite Article');
 	$(document).find('#page-nav_menu .favorite-this.favorited .favorite-this-text').html('Unfavorite');
@@ -303,15 +535,15 @@ jQuery(document).ready(function($){
 					$('#favorite-'+articleId).removeClass('favorited');
 					$('#favorite-'+articleId).find('.favorite-this-text').html('Favorite Article');
 					$('#page-nav_menu #favorite-'+articleId).find('.favorite-this-text').html('Favorite');
-					$('#message-box-json').slideDown(800).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-halfheart"></span> <span class="ss-halfheart break-heart"></span>' + data.nofav + '</span></div>');
-					$('#message-box-json').delay(5000).slideUp(800);
+					$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-halfheart"></span> <span class="ss-halfheart break-heart"></span>' + data.nofav + '</span></div>');
+					$('#message-box-json').delay(5000).slideUp(1000);
 				}
 				else {
 					$('#favorite-'+articleId).addClass('favorited');
 					$('#favorite-'+articleId).find('.favorite-this-text').html('Unfavorite Article');
 					$('#page-nav_menu #favorite-'+articleId).find('.favorite-this-text').html('Unfavorite');
-					$('#message-box-json').slideDown(800).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-heart"></span>' + data.fav + '</span></div>');
-					$('#message-box-json').delay(5000).slideUp(800);
+					$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-heart"></span>' + data.fav + '</span></div>');
+					$('#message-box-json').delay(5000).slideUp(1000);
 				}
 			},'json'
 		);
@@ -582,313 +814,7 @@ jQuery(document).ready(function($){
 	   	calPost.hide();
 	   	$(this).addClass('changed-input');
 	}).data('datepicker');
-	// add Delete option to attachments on Edit article page
-	$('#news-page .post-edit-attachment').hover(function(){
-		$(this).append('<span class="ss-delete delete-attachment"></span>');
-	}, function(){
-		$(this).find('.delete-attachment').remove();
-	});
-	// delete attachment with ajax and reload Edit article page
-	$(document).on('click', '#news-page .post-edit-attachment', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
-		
-		if(confirmCancel == true) {
-			var imageName = $(this).find('a img').attr('alt');
-			var imagePath = $(this).find('a').attr('href');
-			var imageId = $(this).parent().parent().find('form.update-article').attr('id');
-			var imageToken = $(this).parent().parent().find('form.update-article input[name=_token]').val();
-			$.post(
-				'/news/article/'+imageId+'/remove/'+imageName,
-				{
-					"_token": imageToken,
-					"imageName" : imageName,
-					"imagePath" : imagePath,
-					"id" : imageId,
-				}, function (data) {
-					if(data.errorMsg) {
-						$('#message-box-json').fadeIn();
-						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-					}
-					else {
-						$('#message-box-json').find('.section').empty();
-						$('#message-box-json').fadeOut();
-						window.location.href = data.path;
-					}
-				},'json'
-			);
-		}
-	});
-	// on Submit of Edit article page, remove any changed-input classes.
-	$(document).on('submit', '#news-page form.update-article', function(){
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	});
 	
-	// load comment form on article single view page.
-	$(document).on('click', '#news-page #news-post-comment-form .post-comment', function(){
-		$('.post-comment').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
-		var articleSlug = $(document).find('.news-article').attr('slug');
-		//console.log(articleSlug);
-		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
-			$('#comments').append(data);
-			$(document).find('.loading-something-new').remove();
-			$('#comments .news-article-new-comment.create-something-form').slideDown(400);
-			$('#comments .news-article-new-comment.create-something-form').addClass('reply-to-article-form');
-			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
-			$('.post-comment').each(function(){
-				$(this).prop('disabled',true);
-			});
-			$('#content #news-post-comment-form.create-something-new .add-button').addClass('active');
-			$('#content form.add-comment .comment-content').focus();
-		});
-	});
-	// cancel news article reply
-	$(document).on('click','#news-page .news-article-new-comment span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
-					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('.post-comment').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-				$(document).find('.news-article-new-comment.create-something-form').slideUp(400,function(){
-					$(document).find('.news-article-new-comment.create-something-form').remove();
-					$('#content #news-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('.post-comment').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-	// submit reply to article
-	var articleCommentOptions = { 
-		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       postCommentSuccess,  // post-submit callback 
-		resetForm: false        // reset the form after successful submit 
-	};	        
-	$(document).on('submit','#news-page .news-article-new-comment.reply-to-article-form form.add-comment', function() {
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(articleCommentOptions);
-	    return false;
-	});
-	function postCommentSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log(data.comment_id);
-			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
-			if(window.location.search == '?comment=new') window.location.reload(true);
-		}
-	}
-	// add pingable names to content textarea of new comment
-	$(document).on('click', '.form-textarea-buttons .ping', function(){
-		var ping = $(this).attr('id');
-		//console.log(ping);
-	    $('textarea.comment-content').insertAtCaret(ping);
-	});
-	// load comment form on reply of comment button click
-	$(document).on('click', '#news-page #comment-post-comment-form .post-comment', function(){
-		$('.post-comment').each(function(){
-			$(this).prop('disabled',true);
-		});
-		var articleSlug = $(document).find('.news-article').attr('slug');
-		var commentId = $(this).closest('.office-post-comment').attr('id');
-		var commentHeight = $(this).closest('.office-post-comment').height();
-		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
-		commentHeight = commentHeight-15;
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
-		// console.log(commentAuthor);
-		$.get( "/news/article/"+articleSlug+"/comment", function( data ) {
-			
-			$('#'+commentId).after(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .news-article-new-comment.create-something-form').slideDown(400);
-			$('#content .news-article-new-comment.create-something-form').addClass('reply-to-comment-form');
-			$('.news-article-new-comment.create-something-form input[name=article-slug]').val(articleSlug);
-			$('.post-comment').each(function(){
-				$(this).prop('disabled',true);
-			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new .add-button').addClass('active');
-			$('#content .news-article-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
-			$('#content form.add-comment .comment-content').focus();
-		});
-	});
-	// submit comment on a comment
-	$(document).on('submit','#news-page .news-article-new-comment.reply-to-comment-form form.add-comment', function() {
-		var commentReplyToId = $(document).find('#news-page .news-article-new-comment.reply-to-comment-form').prev().attr('id');
-		// console.log(commentReplyToId);
-		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
-		else commentReplyToId = 0;
-		// submit reply to comment
-		var commentCommentOptions = {
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       commentCommentSuccess,  // post-submit callback 
-			resetForm: false,        // reset the form after successful submit 
-			data: { reply_to_id: commentReplyToId }
-		};
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-		$(this).ajaxSubmit(commentCommentOptions);
-	    return false; 
-	});
-	function commentCommentSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	//console.log(data.slug);
-			window.location.href = '/news/article/'+data.slug+'?comment=new#comment-'+data.comment_id;
-			if(window.location.search == '?comment=new') window.location.reload(true);
-		}
-	}
-	// edit comment
-	$(document).on('click', '#news-page .comment-edit-button a.edit-comment', function(){
-		
-		var articleSlug = $(document).find('.news-article').attr('slug');
-		
-		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
-		var commentId = commentIdBox.replace('comment-','');
-		//console.log(commentId);
-		$.get( "/news/article/comment/"+commentId+"/edit", function( data ) {
-			$(document).find('#news-page .comment-edit-button a.edit-comment').each(function(){
-				$(this).hide();
-			});
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).hide();
-			});
-			$('#'+commentIdBox+' .comment-contents').html(data);
-			$('#'+commentIdBox+' .edit-something-form').fadeIn();
-			$('#'+commentIdBox+' .comment-contents').find('input[name=article-slug]').val(articleSlug);
-			$('form.edit-comment .update-comment-content').focus();
-		});
-	});
-	// cancel editing a comment
-	$(document).on('click','#news-page form.edit-comment span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.changed-input').each(function() {
-					$(this).removeClass('changed-input');
-				});
-				var pageHref = window.location.href;
-				window.location.reload(true);
-			}
-		}
-		else {
-			var pageHref = window.location.href;
-			window.location.reload(true);
-		}
-	});
-	// submit edit on comment
-	$(document).on('submit','#news-page form.edit-comment #update-comment', function() {
-		var editCommentOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       commentEditSuccess,  // post-submit callback 
-			resetForm: false        // reset the form after successful submit 
-		};	 
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(editCommentOptions);
-	    return false;
-	});
-	function commentEditSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	//console.log(data.comment_id);
-			//window.location.href = '/news/article/'+data.slug+'?comment=edit#comment-'+data.comment_id;
-			//if(window.location.search == '?comment=edit') window.location.reload(true);
-		}
-	}
-	// add pingable names to content textarea of new comment
-	$(document).on('click', '.form-textarea-buttons .ping', function(){
-		var ping = $(this).attr('id');
-		//console.log(ping);
-	    $('textarea.update-comment-content').insertAtCaret(ping);
-	});
-	// add option to delete attachment
-	$(document).on('mouseenter', '#news-page .comment-edit-attachment', function(){
-		$(this).append('<span class="ss-delete delete-attachment"></span>');
-	});
-	$(document).on('mouseleave', '#news-page .comment-edit-attachment', function(){
-		$(this).find('.delete-attachment').remove();
-	});
-	// delete comment attachment with ajax
-	$(document).on('click', '#news-page .comment-edit-attachment', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
-		
-		if(confirmCancel == true) {
-			var imageName = $(this).find('a img').attr('alt');
-			var imagePath = $(this).find('a').attr('href');
-			var imageId = $(this).closest('.office-post-comment').attr('id');
-			imageId = imageId.replace('comment-','');
-			var imageToken = $(this).closest('form.edit-comment').find('input[name=_token]').val();
-			$.post(
-				'/news/article/comment/'+imageId+'/remove/'+imageName,
-				{
-					"_token": imageToken,
-					"imageName" : imageName,
-					"imagePath" : imagePath,
-					"id" : imageId,
-				}, function (data) {
-					if(data.errorMsg) {
-						$('#message-box-json').fadeIn();
-						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-					}
-					else {
-						$('#message-box-json').find('.section').empty();
-						$('#message-box-json').fadeOut();
-						//console.log(data.image);
-						$(document).find('a[href="'+ data.image +'"]').fadeOut();
-						//window.location.href = data.path;
-					}
-				},'json'
-			);
-		}
-	});
-	
-	// set min height of comments with attachments
-	$('#content .office-post-comment .comment-contents').each(function() {
-		if($(this).find('span.comment-single-attachment').length) $(this).css('min-height','145px');
-	});
-
 	/* Calendar Page */
 	// $('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
 	// 	$('.dropdown-menu').hide();

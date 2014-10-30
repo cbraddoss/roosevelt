@@ -62,6 +62,7 @@ class ArticleCommentsController extends \BaseController {
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			$response = array(
+				'actionType' => 'comment-add',
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
@@ -94,6 +95,7 @@ class ArticleCommentsController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'comment-add',
 					'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
 				);
 				return Response::json( $response );
@@ -101,14 +103,17 @@ class ArticleCommentsController extends \BaseController {
 
 			$this->mailer->articleCommentPingEmail($newArticleComment);
 			
+			$article = Article::find($newArticleComment->article_id);
+
 			$response = array(
-				'slug' => Input::get('article-slug'),
-				'comment_id' => $newArticleComment->id,
+				'actionType' => 'comment-add',
+				'windowAction' => '/news/article/'.$article->slug.'?comment=new#comment-'.$newArticleComment->id,
 				'msg' => 'Comment posted.'
 			);
 			return Response::json( $response );
 		}
 		$response = array(
+			'actionType' => 'comment-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );
@@ -173,7 +178,13 @@ class ArticleCommentsController extends \BaseController {
 
 		if($validator->fails()) {
 			$messages = $validator->messages();
-			return Redirect::to('/news/article/'.$articleSlug)->withInput()->withErrors($messages->first());
+
+			$response = array(
+				'actionType' => 'comment-edit',
+				'errorMsg' => $messages->first()
+			);
+			return Response::json( $response );
+			//return Redirect::to('/news/article/'.$articleSlug)->withInput()->withErrors($messages->first());
 		}
 		else {
 			$commentUpdate = ArticleComment::find($id);
@@ -210,15 +221,37 @@ class ArticleCommentsController extends \BaseController {
 				$commentUpdate->save();
 			} catch(Illuminate\Database\QueryException $e)
 			{
-				return Redirect::to('/news/article/'.$articleSlug)->with('flash_message_error','Oops, something went wrong. Please contact the DevTeam.');
+
+				$response = array(
+					'actionType' => 'comment-edit',
+					'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
+				);
+				return Response::json( $response );
+				// return Redirect::to('/news/article/'.$articleSlug)->with('flash_message_error','Oops, something went wrong. Please contact the DevTeam.');
 			}
 
 			$this->mailer->articleCommentPingEmail($commentUpdate,$previousMentions);
 			
-			return Redirect::to('/news/article/'.$articleSlug.'/?comment=edit#comment-'.$commentUpdate->id)->with('flash_message_success', 'Comment successfully updated!');
+			$commentHasAttachment = $this->articleComment->getCommentAttachments($commentUpdate->id);
+			
+			$response = array(
+				'actionType' => 'comment-edit',
+				'commentId' => $commentUpdate->id,
+				'commentContent' => display_content($commentUpdate->content),
+				'commentAttachment' => $commentHasAttachment,
+				//'windowAction' => '/news/article/'.$articleSlug.'?comment=edit#comment-'.$commentUpdate->id,
+				'msg' => 'Comment successfully updated!'
+			);
+			return Response::json( $response );
+			// return Redirect::to('/news/article/'.$articleSlug.'/#comment-'.$commentUpdate->id)->with('flash_message_success', 'Comment successfully updated!');
 		}
 
-		return Redirect::to('/news/article/'.$articleSlug)->with('flash_message_error','Something went wrong. :(');
+		$response = array(
+			'actionType' => 'comment-edit',
+			'errorMsg' => 'Something went wrong. :('
+		);
+		return Response::json( $response );
+		// return Redirect::to('/news/article/'.$articleSlug)->with('flash_message_error','Something went wrong. :(');
 	}
 
 	public function removeImage($id,$imageName) {
@@ -242,14 +275,16 @@ class ArticleCommentsController extends \BaseController {
 				} catch(Illuminate\Database\QueryException $e)
 				{
 					$response = array(
+						'actionType' => 'comment-attachment-delete',
 						'errorMsg' => 'Oops, something went wrong. Please try again.',
 					);
 					return Response::json( $response );
 				}
 
 			$response = array(
+				'actionType' => 'comment-attachment-delete',
 				'image' => $imageName,
-				'path' => '/news/article/'.$articleSlug,
+				'msg' => 'Attachment successfully removed.'
 			);
 				
 			return Response::json( $response );

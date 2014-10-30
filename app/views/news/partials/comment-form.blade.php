@@ -9,7 +9,7 @@
 </div>
 
 {{ Form::hidden('article-id', $article->id) }}
-{{ Form::hidden('article-slug') }}
+{{ Form::hidden('article-slug', $article->slug) }}
 
 <div class="new-form-field">
 {{ Form::label('content','Comment:') }}

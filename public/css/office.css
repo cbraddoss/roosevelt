@@ -491,6 +491,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	z-index: 59;
 	border-bottom: 2px solid #333333;
 	background: #eeeeee;
+	box-shadow: 0 8px 6px -6px #333333,
+	6px 2px 6px -6px #333333,
+	-6px 2px 6px -6px #333333;
 }
 #menu_header #link-search ul.sub_menu_links-hover {
 	left: -100%;
@@ -526,7 +529,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	width: 100%;
 	box-sizing: border-box;
 	padding: 0;
-	z-index: 99;
+	z-index: 54;
 	font-size: 2em;
 	background: #fafafa;
 	box-shadow: 0px 3px 10px #333333;
@@ -539,7 +542,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 5px;
 	color: #FF4D4D;
 	cursor: pointer;
-	z-index: 100;
+	z-index: 55;
 }
 #message-box .close-message:hover,
 #message-box-json .close-message:hover {
@@ -917,15 +920,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	height: 100%;
 	padding: 20px;
 }
-#content .update-something-form {
-	background: #555555;
-	color: #ffffff;
-	width: 100%;
-	box-sizing: border-box;
-	height: 100%;
-	padding: 20px;
-	margin: 0;
-}
+#content .update-something-form,
 #content .edit-something-form {
 	background: #555555;
 	color: #ffffff;
@@ -1089,16 +1084,19 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display: inline-block;
 	margin-left: 20px;
 }
-#content .update-something-form .edit-attachments {
+#content .update-something-form .edit-attachments,
+#content .update-something-form .edit-comment-attachments {
 	padding-top: 30px;
 	position: relative;
 }
-#content .update-something-form .edit-attachments p {
+#content .update-something-form .edit-attachments p,
+#content .update-something-form .edit-comment-attachments p {
 	background: #353535;
 	padding: 10px;
 	border-radius: 3px;
 }
-#content .update-something-form .edit-attachments .post-edit-attachment {
+#content .update-something-form .edit-attachments .post-edit-attachment,
+#content .update-something-form .edit-comment-attachments .comment-edit-attachment {
 	position: relative;
 	width: 100px;
 	height: 100px;
@@ -1106,12 +1104,14 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin: 10px 10px 10px 0;
 	/*box-shadow: 0px 3px #353535;*/
 }
-#content .update-something-form .edit-attachments .post-edit-attachment a .post-attachment {
+#content .update-something-form .edit-attachments .post-edit-attachment a .post-attachment,
+#content .update-something-form .edit-comment-attachments .comment-edit-attachment a .comment-attachment {
 	width: 100%;
 	height: auto;
 	border: 1px solid #353535;
 }
-#content .update-something-form .edit-attachments .delete-attachment {
+#content .update-something-form .edit-attachments .delete-attachment,
+#content .update-something-form .edit-comment-attachments .delete-attachment {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1223,9 +1223,15 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-comment.office-post-sub-comment {
 	margin-left: 40px;
 }
+#content .office-post-comment.current-user-comment {
+	border-color: #2E9999;
+}
 #content .office-post-comment.office-post-comment-new {
 	border-color: #4B83B4;
 	background: rgba(75,131,180,0.2);
+}
+#content .office-post-comment.office-post-comment-edit {
+	border-color: #FF4D4D;
 }
 #content .office-post:nth-child(2n),
 #content .office-post-comment:nth-child(2n) {
@@ -1766,6 +1772,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	padding: 10px 0 5px;
 	border-top: 1px solid #d5d5d5;
 	margin-top: 10px;
+	clear: both;
 }
 #content .single-page .comment-details .add-button {
 	font-size: 0.9em;
