@@ -203,8 +203,8 @@ function display_subscribable($selected = null) {
 	$subscribed = explode(' ',$selected);
 	// $subscribable .= '<span class="subscribe-button subscribe" id="insideout ">InsideOut</span>';
 	foreach($users as $user) {
-		if(in_array($user->user_path, $subscribed)) $subscribable .= '<span class="subscribe-button form-action-button subscribe subscribe-selected ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
-		else $subscribable .= '<span class="subscribe-button form-action-button subscribe ss-user" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		if(in_array($user->user_path, $subscribed)) $subscribable .= '<span class="subscribe-button form-action-button subscribe subscribe-selected ss-send" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
+		else $subscribable .= '<span class="subscribe-button form-action-button subscribe ss-send" id="' . $user->user_path . ' ">' . $user->first_name . ' ' . $user->last_name . '</span>';
 	}
 	return $subscribable;
 }

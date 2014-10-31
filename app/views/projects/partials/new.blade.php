@@ -13,10 +13,9 @@
 </div>
 
 <div class="new-form-field new-form-field-extras">
-	<div class="form-subscribe-buttons form-action-buttons">
-{{ Form::label('subscribe', 'Subscribe Users:') }}
+<div class="form-subscribe-buttons form-action-buttons">
 {{ display_subscribable(Auth::user()->user_path) }}
-	</div>
+</div>
 {{ Form::hidden('subscribed', Auth::user()->user_path.' ', array('class' => 'project-subscribed field', 'id' => 'project-subscribed')) }}
 </div>
 
@@ -54,13 +53,13 @@
 <div class="new-form-field new-form-field-extras">
 <!-- <span class="label-launch-date">Launch Date:</span> -->
 {{ Form::label('launch_date', 'Launch Date:') }}
-{{ Form::text('launch_date', null, array('placeholder' => 'Launch Date', 'class' => 'datepicker project-launch-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('launch_date', null, array('placeholder' => 'Launch Date', 'class' => 'future-dates datepicker project-launch-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
 <!-- <span class="label-start-date">Start Date:</span> -->
 {{ Form::label('start_date', 'Start Date:') }}
-{{ Form::text('start_date', Carbon::now()->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'datepicker project-start-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('start_date', Carbon::now()->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'future-dates datepicker project-start-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
