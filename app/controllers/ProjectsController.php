@@ -37,11 +37,11 @@ class ProjectsController extends \BaseController {
 	public function index()
 	{
 		$projects = $this->project->getOpenProjects();
-		$templates = $this->template->getActiveTemplates();
 		$projectTypes = $this->project->getTypeSelectList();
 		$projectsCount = $projects->count();
-		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
-		else return View::make('projects.index', compact('projects','projectTypes','projectsCount'));
+		// if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
+		// else
+		return View::make('projects.index', compact('projects','projectTypes','projectsCount'));
 	}
 
 
@@ -52,7 +52,9 @@ class ProjectsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		$templates = $this->template->getActiveTemplates();
+		if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
+		else return Redirect::to('/projects');
 	}
 
 
@@ -105,6 +107,7 @@ class ProjectsController extends \BaseController {
 			if($newProjectTemplate->name == Input::get('template_name')) $newProject->type = $newProjectTemplate->slug;
 			else {
 				$response = array(
+					'actionType' => 'project-add',
 					'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
 				);
 				return Response::json( $response );
@@ -115,6 +118,7 @@ class ProjectsController extends \BaseController {
 			
 			if(Input::get('period') == 'ending' && Input::get('launch_date') == '') {
 				$response = array(
+					'actionType' => 'project-add',
 					'errorMsg' => 'The Launch Date field is required.'
 				);
 				return Response::json( $response );
@@ -125,6 +129,7 @@ class ProjectsController extends \BaseController {
 			}
 			if(Input::get('period') == 'recurring' && Input::get('recur_cycle') == '') {
 				$response = array(
+					'actionType' => 'project-add',
 					'errorMsg' => 'The Recur Cycle field is required.'
 				);
 				return Response::json( $response );
@@ -145,6 +150,7 @@ class ProjectsController extends \BaseController {
 				}
 				else {
 					$response = array(
+						'actionType' => 'project-add',
 						'errorMsg' => 'The Recur Cycle field is required.'
 					);
 					return Response::json( $response );
@@ -171,6 +177,7 @@ class ProjectsController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'project-add',
 					'errorMsg' => 'Oops, there might be an article with this title already. Try a different title.'
 				);
 				return Response::json( $response );
@@ -190,6 +197,7 @@ class ProjectsController extends \BaseController {
 					} catch(Illuminate\Database\QueryException $e)
 					{
 						$response = array(
+							'actionType' => 'project-add',
 							'errorMsg' => 'Oops, something went wrong. Please contact the DevTeam.'
 						);
 						return Response::json( $response );
@@ -202,7 +210,7 @@ class ProjectsController extends \BaseController {
 
 			if(!empty($newProject->subscribed)) $this->mailer->projectNewSubEmail($newProject);
 			
-			//if($newProject->period == 'ending') {
+			if($newProject->period == 'ending') {
 				$hcMessage = '';
 				$hcMessage .= 'New Project started!<br />';
 				$hcMessage .= 'Project: <a href="' . URL::to( '/projects/post/' . $newProject->slug ) . '">' . $newProject->title . '</a><br />';
@@ -214,20 +222,25 @@ class ProjectsController extends \BaseController {
 				$hcMessageSend = hipchat_message($hcMessage);
 				if($hcMessageSend != 'messageSent') {
 					$response = array(
+						'actionType' => 'project-add',
+						'windowAction' => '/projects/post/'.$newProject->slug,
 						'slug' => $newProject->slug,
 						'msg' => 'Project created successfully! (Note: '.$hcMessageSend.')'
 					);
 					return Response::json( $response );
 				}
-			//}
+			}
 
 			$response = array(
+				'actionType' => 'project-add',
+						'windowAction' => '/projects/post/'.$newProject->slug,
 				'slug' => $newProject->slug,
 				'msg' => 'Project created successfully!'
 			);
 			return Response::json( $response );
 		}
 		$response = array(
+			'actionType' => 'project-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );

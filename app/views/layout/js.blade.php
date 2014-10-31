@@ -200,6 +200,135 @@ jQuery(document).ready(function($){
 			});
 		}
 	});
+
+// add new Project
+	// $(document).on('click','#page-nav_menu #projects-new-project-form .add-button',function(){
+	// 	$('.add-button').each(function(){
+	// 		$(this).prop('disabled',true);
+	// 	});
+	// 	$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
+	// 	$.get( "/projects", function( data ) {
+	// 		$('.inner-page').before(data);
+	// 		$(document).find('.loading-something-new').remove();
+	// 		$('#content .project-add-form.create-something-form').slideDown(400);
+	// 		$('.add-button').each(function(){
+	// 			$(this).prop('disabled',true);
+	// 		});
+	// 		$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').addClass('active');
+	// 		$('#content form.add-project input[name=title]').focus();
+
+	// 		var calTemp = new Date();
+	// 	    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
+	// 	    var calLaunch = $('#content form.add-project .project-launch-date').datepicker({
+	// 	      onRender: function(date) {
+	// 	        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+	// 	      }
+	// 	    }).on('changeDate', function(ev) {
+	// 	    	calLaunch.hide();
+	// 	    	$(this).addClass('changed-input');
+	// 	    	var launchVal = $(this).val();
+	// 	    	$(this).parent().parent().find('input[name=end_date]').attr('value',launchVal);
+	// 	    }).data('datepicker');
+	// 	    var calStart = $('#content form.add-project .project-start-date').datepicker({
+	// 	      onRender: function(date) {
+	// 	        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+	// 	      }
+	// 	    }).on('changeDate', function(ev) {
+	// 	    	calStart.hide();
+	// 	    	$(this).addClass('changed-input');
+	// 	    }).data('datepicker');
+	// 	    var calEnd = $('#content form.add-project .project-end-date').datepicker({
+	// 	      onRender: function(date) {
+	// 	        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
+	// 	      }
+	// 	    }).on('changeDate', function(ev) {
+	// 	    	calEnd.hide();
+	// 	    	$(this).addClass('changed-input');
+	// 	    	var endVal = $(this).val();
+	// 	    	$(this).parent().parent().find('input[name=launch_date]').attr('value',endVal);
+	// 	    }).data('datepicker');
+		    
+	// 		$('form.add-project .projects-title').focus();
+	// 		$('form.add-project .project-start-date').hide();
+	// 		$('form.add-project label[for=start_date]').hide();
+	// 		$('form.add-project label[for=recur_cycle]').hide();
+	// 		$('form.add-project .project-recur-cycle').hide();
+	// 		$(document).on('change','form.add-project select[name=period]', function() {
+	// 			var periodValue = $(this).val();
+	// 			if(periodValue == 'recurring') {
+	// 				$('form.add-project .project-launch-date').hide();
+	// 				$('form.add-project label[for=launch_date]').hide();
+	// 				$('form.add-project .project-launch-date').val('');
+	// 				$('form.add-project .project-start-date').fadeIn(200);
+	// 				$('form.add-project label[for=start_date]').fadeIn(200);
+	// 				$('form.add-project .project-recur-cycle').fadeIn(200);
+	// 				$('form.add-project label[for=recur_cycle]').fadeIn(200);
+	// 			}
+	// 			else {
+	// 				$('form.add-project .project-end-date').val('');
+	// 				$('form.add-project .project-start-date').hide();
+	// 				$('form.add-project label[for=start_date]').hide();
+	// 				$('form.add-project label[for=recur_cycle]').hide();
+	// 				$('form.add-project .project-recur-cycle').hide();
+	// 				$('form.add-project .project-launch-date').fadeIn(200);	
+	// 				$('form.add-project label[for=launch_date]').fadeIn(200);				
+	// 			}
+	// 		});
+
+	// 		// active search of accounts
+	// 		$(document).on('input','form.add-project .search-accounts', function() {
+	// 			var accountSearch = $(this).val();
+	// 			$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
+	// 			if(accountSearch.length >= 1) {
+	// 				// search accounts and return a list
+	// 				var accountSearchOptions = { 
+	// 					target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
+	// 					success:       accountSearchSuccess,  // post-submit callback
+	// 					dataType: 'json',
+	// 					data: { 
+	// 						_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
+	// 						title: accountSearch
+	// 					},
+	// 					type: 'POST',
+	// 					url: '/accounts/search/'+accountSearch,
+	// 					resetForm: false        // reset the form after successful submit 
+	// 				};
+	// 				$(this).find('.changed-input').each(function() {
+	// 					$(this).removeClass('changed-input');
+	// 				});
+	// 				$(this).ajaxSubmit(accountSearchOptions);
+	// 				return false;
+	// 			}
+	// 		});
+	// 		$(document).on('mouseenter','form.add-project .accounts-search-ajax span', function(){
+	// 			$(this).removeClass('search-hover');
+	// 		});
+	// 		$(document).on('click','form.add-project .accounts-search-ajax span', function() {
+	// 			var accountID = parseInt($(this).attr('value'),10);
+	// 			var accountText = $(this).text();
+	// 			$(this).closest('form.add-project').find('input[name=account_name]').val(accountText);
+	// 			$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
+	// 			$(document).find('form.add-project .accounts-search-ajax').hide();
+	// 		});
+
+	// 		// add template name from id to form
+	// 		$(document).on('change','form.add-project select[name=template_id]', function(){
+	// 			var templateIdGet = $(this).val();
+	// 			var templateIdName = $(this).find('option[value='+templateIdGet+']').text();
+	// 			$(this).parent().next('input[name=template_name]').val(templateIdName);
+	// 		});
+	// 	});
+	// });
+	// function accountSearchSuccess(data)
+	// {
+	// 	if(data.msg == 'found some') {
+	// 		$(document).find('form.add-project .accounts-search-ajax').show().html(data.accounts);
+	// 		$(document).find('form.add-project .accounts-search-ajax span').first().addClass('search-hover');
+	// 	}
+	// 	else {
+	// 		$(document).find('form.add-project .accounts-search-ajax').show().html('<p>No accounts found.</p>');
+	// 	}
+	// }
 	
 	//Show '.create-something-form' form for comments
 	$(document).on('click', '.post-comment', function(){
@@ -265,6 +394,8 @@ jQuery(document).ready(function($){
 	function createSomethingSuccess(data) {
 		if(data.errorMsg) {
 			if(data.actionType == 'user-add' && data.errorMsg == 'The email format is invalid.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Only @insideout.com accounts are allowed.</span></div>');
+			else if(data.actionType == 'project-add' && data.errorMsg == 'The account id field is required.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Please select an Account.</span></div>');
+			else if(data.actionType == 'project-add' && data.errorMsg == 'The template id field is required.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Please select a Template.</span></div>');
 			else $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
 		}
 		else {
@@ -474,11 +605,11 @@ jQuery(document).ready(function($){
 	}, function(){
 		$(this).find('.delete-attachment').remove();
 	});
-
-	$(document).on('mouseenter', '#news-page .comment-edit-attachment', function(){
+	// add delete option to comment attachments on edit action
+	$(document).on('mouseenter', '.update-something-form .comment-edit-attachment', function(){
 		$(this).append('<span class="ss-delete delete-attachment"></span>');
 	});
-	$(document).on('mouseleave', '#news-page .comment-edit-attachment', function(){
+	$(document).on('mouseleave', '.update-something-form .comment-edit-attachment', function(){
 		$(this).find('.delete-attachment').remove();
 	});
 
@@ -816,14 +947,6 @@ jQuery(document).ready(function($){
 	}).data('datepicker');
 	
 	/* Calendar Page */
-	// $('.page-menu input.calendar-jump-to-date').datepicker().on('changeDate', function(ev) {
-	// 	$('.dropdown-menu').hide();
-	// 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-	// 	var dateLink = new Date(ev.date.valueOf());
-	// 	var yearLink = dateLink.getFullYear();
-	// 	var monthLink = months[dateLink.getMonth()];
-	// 	window.location.href='/calendar/'+yearLink+'/'+monthLink;
-	// });
 	$('#page-nav_menu div.calendar-jump-to-date.calendar-filter').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -832,11 +955,6 @@ jQuery(document).ready(function($){
 		var monthLink = months[dateLink.getMonth()];
 		window.location.href='/calendar/'+yearLink+'/'+monthLink;
 	});
-	// $(document).on('click', '#page-nav_menu .key-desc', function() {
-	// 	var toggleThis = $(this).attr('toggleval');
-	// 	$(this).find('.key-color').toggleClass('disabled');
-	// 	$('#calendar-page').find('.'+toggleThis).toggle();
-	// });
 	$(document).on('change', '#page-nav_menu .show-hide-calendar', function() {
 		var toggleThis = $(this).val();
 		$('#calendar-page').find('.'+toggleThis).toggle();
@@ -1593,201 +1711,7 @@ jQuery(document).ready(function($){
 		// $('#message-box-json').fadeIn();
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
-	// add new Project
-	$(document).on('click','#page-nav_menu #projects-new-project-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/projects", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .project-add-form.create-something-form').slideDown(400);
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-			$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').addClass('active');
-			$('#content form.add-project input[name=title]').focus();
-
-			var calTemp = new Date();
-		    var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-		    var calLaunch = $('#content form.add-project .project-launch-date').datepicker({
-		      onRender: function(date) {
-		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		      }
-		    }).on('changeDate', function(ev) {
-		    	calLaunch.hide();
-		    	$(this).addClass('changed-input');
-		    	var launchVal = $(this).val();
-		    	$(this).parent().parent().find('input[name=end_date]').attr('value',launchVal);
-		    }).data('datepicker');
-		    var calStart = $('#content form.add-project .project-start-date').datepicker({
-		      onRender: function(date) {
-		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		      }
-		    }).on('changeDate', function(ev) {
-		    	calStart.hide();
-		    	$(this).addClass('changed-input');
-		    }).data('datepicker');
-		    var calEnd = $('#content form.add-project .project-end-date').datepicker({
-		      onRender: function(date) {
-		        return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		      }
-		    }).on('changeDate', function(ev) {
-		    	calEnd.hide();
-		    	$(this).addClass('changed-input');
-		    	var endVal = $(this).val();
-		    	$(this).parent().parent().find('input[name=launch_date]').attr('value',endVal);
-		    }).data('datepicker');
-		    
-			$('form.add-project .projects-title').focus();
-			$('form.add-project .project-start-date').hide();
-			$('form.add-project label[for=start_date]').hide();
-			$('form.add-project label[for=recur_cycle]').hide();
-			$('form.add-project .project-recur-cycle').hide();
-			$(document).on('change','form.add-project select[name=period]', function() {
-				var periodValue = $(this).val();
-				if(periodValue == 'recurring') {
-					$('form.add-project .project-launch-date').hide();
-					$('form.add-project label[for=launch_date]').hide();
-					$('form.add-project .project-launch-date').val('');
-					$('form.add-project .project-start-date').fadeIn(200);
-					$('form.add-project label[for=start_date]').fadeIn(200);
-					$('form.add-project .project-recur-cycle').fadeIn(200);
-					$('form.add-project label[for=recur_cycle]').fadeIn(200);
-				}
-				else {
-					$('form.add-project .project-end-date').val('');
-					$('form.add-project .project-start-date').hide();
-					$('form.add-project label[for=start_date]').hide();
-					$('form.add-project label[for=recur_cycle]').hide();
-					$('form.add-project .project-recur-cycle').hide();
-					$('form.add-project .project-launch-date').fadeIn(200);	
-					$('form.add-project label[for=launch_date]').fadeIn(200);				
-				}
-			});
-
-			// active search of accounts
-			$(document).on('input','form.add-project .search-accounts', function() {
-				var accountSearch = $(this).val();
-				$(document).find('form.add-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
-				if(accountSearch.length >= 1) {
-					// search accounts and return a list
-					var accountSearchOptions = { 
-						target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
-						success:       accountSearchSuccess,  // post-submit callback
-						dataType: 'json',
-						data: { 
-							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
-							title: accountSearch
-						},
-						type: 'POST',
-						url: '/accounts/search/'+accountSearch,
-						resetForm: false        // reset the form after successful submit 
-					};
-					$(this).find('.changed-input').each(function() {
-						$(this).removeClass('changed-input');
-					});
-					$(this).ajaxSubmit(accountSearchOptions);
-					return false;
-				}
-			});
-			$(document).on('mouseenter','form.add-project .accounts-search-ajax span', function(){
-				$(this).removeClass('search-hover');
-			});
-			$(document).on('click','form.add-project .accounts-search-ajax span', function() {
-				var accountID = parseInt($(this).attr('value'),10);
-				var accountText = $(this).text();
-				$(this).closest('form.add-project').find('input[name=account_name]').val(accountText);
-				$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
-				$(document).find('form.add-project .accounts-search-ajax').hide();
-			});
-
-			// add template name from id to form
-			$(document).on('change','form.add-project select[name=template_id]', function(){
-				var templateIdGet = $(this).val();
-				var templateIdName = $(this).find('option[value='+templateIdGet+']').text();
-				$(this).parent().next('input[name=template_name]').val(templateIdName);
-			});
-		});
-	});
-	function accountSearchSuccess(data)
-	{
-		if(data.msg == 'found some') {
-			$(document).find('form.add-project .accounts-search-ajax').show().html(data.accounts);
-			$(document).find('form.add-project .accounts-search-ajax span').first().addClass('search-hover');
-		}
-		else {
-			$(document).find('form.add-project .accounts-search-ajax').show().html('<p>No accounts found.</p>');
-		}
-	}
-	// cancel adding new project
-	$(document).on('click','#content .project-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.project-add-form.create-something-form').remove();
-					$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.project-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.project-add-form.create-something-form').remove();
-					$('#page-nav_menu #projects-new-project-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-	// submit new project
-	var addProjectOptions = { 
-		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       afterAddProjectSuccess,  // post-submit callback 
-		resetForm: false        // reset the form after successful submit 
-	};	        
-	$(document).on('submit','#content .project-add-form form.add-project', function() {
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(addProjectOptions);
-	    //console.log('submit');
-	    return false; 
-	});
-	function afterAddProjectSuccess(data)
-	{
-		if(data.errorMsg) {
-			if(data.errorMsg == 'The account id field is required.') {
-				$('#message-box-json').fadeIn();
-				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Please select an Account.</span></div>');
-			}
-			else if(data.errorMsg == 'The template id field is required.') {
-				$('#message-box-json').fadeIn();
-				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">Please select a Template.</span></div>');
-			}
-			else {
-				$('#message-box-json').fadeIn();
-				$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-			}
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log('success');
-			window.location.href = '/projects/post/'+data.slug;
-		}
-	}
+	
 	// subscribe users to a project
 	$(document).on('click', 'form.add-project .form-subscribe-buttons .subscribe', function(){
 		var subscribe = $(this).attr('id');
