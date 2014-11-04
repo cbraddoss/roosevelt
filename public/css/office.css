@@ -1012,6 +1012,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	cursor: pointer;
 	height: 20px;
 }
+#content .new-form-field .form-action-buttons .form-action-button:before {
+	padding-right: 5px;
+}
 #content .new-form-field .form-action-buttons .form-action-button:hover,
 #content .new-form-field .form-action-buttons .subscribe-selected {
 	background: #FF4D4D;
@@ -1571,6 +1574,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #projects-page .office-post-single .post-single-attachment img {
 	width: 75px;
 	height: auto;
+	float: left;
 	margin-right: 10px;
 }
 #content #projects-page .office-post-single .post-pdf-attachment img {

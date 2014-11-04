@@ -13,14 +13,14 @@
 	<ul>
 		@include('projects.partials.projects-menu')
 		<li class="select-date right">
-			<div class="filter-date projects-filter add-button" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
+			<div filterlink="/projects/date/" class="filter-this-date filter-date projects-filter add-button" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<span class="ss-calendar"></span> <span>Date Filter</span>
 			</div>
 		</li>
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-status projects-filter">
+			<select filterlink="/projects/status/" class="filter-this filter-status projects-filter">
 				<option value="0">Status Filter</option>
 				<option value="open">Open</option>
 				<option value="closed">Closed</option>
@@ -30,7 +30,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-type projects-filter">
+			<select filterlink="/projects/type/" class="filter-this filter-type projects-filter">
 				<option value="0">Type Filter</option>
 				{{ $projectTypes }}
 			</select>
@@ -38,7 +38,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-priority projects-filter">
+			<select filterlink="/projects/priority/" class="filter-this filter-priority projects-filter">
 				<option value="0">Priority Filter</option>
 				<option value="low">Low</option>
 				<option value="normal">Normal</option>
@@ -48,7 +48,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-user projects-filter">
+			<select filterlink="/projects/assigned-to/" class="filter-this filter-user projects-filter">
 				<option value="0">User Filter</option>
 				{{ get_user_list_select() }}
 			</select>

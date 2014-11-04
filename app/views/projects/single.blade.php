@@ -70,7 +70,7 @@
 		
 		<div class="post-project-account">
 			<h3 class="ss-buildings"> Account:</h3>
-			<h4><a href="/accounts/{{ Account::find($project->account_id)->link }}">{{ Account::find($project->account_id)->name }}</a></h4>
+			<h4><a href="/accounts/account/{{ Account::find($project->account_id)->slug }}">{{ Account::find($project->account_id)->name }}</a></h4>
 		</div>
 		<div class="post-subscribed">
 			<h3 class="ss-send"> Subscribed:
@@ -170,7 +170,11 @@
 			</div>
 
 		<div class="project-stage-due-date">
+			@if($project->period == 'recurring')
+			<h3 class="ss-refresh"><small> Refreshes:</small></h3>
+			@else
 			<h3 class="ss-uploadcloud"><small> Launching:</small></h3>
+			@endif
 			<div class="project-launch-date change-project-launch-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
 				<span class="project-launch-date-text tooltip-hover">
 					<span class="tooltip">Change<br />Launch</span>
@@ -202,7 +206,10 @@
 		</div>
 	</div>
 	<div id="projects-post-comment-form" class="create-something-new">
-		<div class="projects-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
+		<div class="projects-button">
+			<span formtype="post-reply" formlocation="/projects/post/{{ $project->slug }}/comment" class="post-comment add-button">
+			<span class="ss-reply"></span> Reply</span>
+		</div>
 	</div>
 	<h3 class="comment-on">Project Comments:</h3>
 	
@@ -213,35 +220,50 @@
 		@foreach($comments as $comment)
 			@if(Auth::user()->user_path == User::find($comment->author_id)->user_path) 
 				<div id="comment-{{ $comment->id }}" class="projects-post-comment current-user-comment office-post-comment">
-				<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+				<img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image current-user-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
 				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 			@else
 				<div id="comment-{{ $comment->id }}" class="projects-post-comment office-post-comment">
-				<img src="{{ gravatar_url(User::find($comment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
+				<img src="{{ gravatar_url(User::find($comment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}">
 				<span class="comment-author" author="{{ User::find($comment->author_id)->first_name }}">{{ User::find($comment->author_id)->first_name }} {{ User::find($comment->author_id)->last_name }}:</span>
 			@endif
 				<div class="comment-contents">
 					{{ $comment->getCommentAttachments($comment->id) }}
-					<p>{{ display_content($comment->content) }}</p>
+					<p class="comment-text">{{ display_content($comment->content) }}</p>
 					<div class="comment-details">
 						<div class="comment-meta">
 							<div class="comment-options">
 								<div id="comment-post-comment-form" class="create-something-new">
-									<div class="comment-reply-button"><span class="post-comment add-button"><span class="ss-reply"></span> Reply</span></div>
+									<div class="comment-reply-button">
+										<span commentid="{{ $comment->id }}" formtype="comment-reply" formlocation="/projects/post/{{ $project->slug }}/comment" class="post-comment add-button">
+										<span class="ss-reply"></span> Reply</span>
+									</div>
 								</div>
 							</div>
 
-							<span class="comment-posted">Posted </span>
-							<span class="comment-time">on 
+							<span class="comment-posted">Posted: </span>
+							<span class="comment-time">
 							@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
 								{{ $comment->created_at->format('F j g:i a') }}
 							@else
 								{{ $comment->created_at->format('F j, Y g:i a') }}
 							@endif
 							</span> | 
-							<span class="comment-permalink"><a href="/projects/post/{{ $project->slug }}#comment-{{ $comment->id }}">Permalink</a></span> | 
+							@if($comment->created_at != $comment->updated_at)
+							<small>
+							{{ User::find($comment->edit_id)->first_name }} edited: 
+							@if($comment->updated_at->format('Y') == Carbon::now()->format('Y'))
+								{{ $comment->updated_at->format('F j g:i a') }}
+							@else
+								{{ $comment->updated_at->format('F j, Y g:i a') }}
+							@endif
+							</small> | 
+							@endif
+							<span class="comment-permalink"><a href="/projects/post/{{ $project->slug }}#comment-{{ $comment->id }}">Permalink</a></span>
 							@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-								<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
+								<span class="comment-edit-button">
+									 | <a  commentid="{{ $comment->id }}" formtype="comment-edit" formlocation="/projects/post/comment/{{ $comment->id }}/edit" class="edit-link edit-comment">Edit</a>
+								</span>
 							@endif
 						
 						</div>
@@ -252,29 +274,41 @@
 				@if($subComment->reply_to_id == $comment->id)
 					@if(Auth::user()->user_path == User::find($subComment->author_id)->user_path) 
 						<div id="comment-{{ $subComment->id }}" class="projects-post-comment current-user-comment office-post-comment office-post-sub-comment">
-						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,30) }}" class="comment-author-image current-user-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
 						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
 					@else
 						<div id="comment-{{ $subComment->id }}" class="projects-post-comment office-post-comment office-post-sub-comment">
-						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,40) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
+						<img src="{{ gravatar_url(User::find($subComment->author_id)->email,30) }}" class="comment-author-image" alt="{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}">
 						<span class="comment-author">{{ User::find($subComment->author_id)->first_name }} {{ User::find($subComment->author_id)->last_name }}:</span>
 					@endif
 						<div class="comment-contents">
 							{{ $subComment->getCommentAttachments($subComment->id) }}
-							<p>{{ display_content($subComment->content) }}</p>
+							<p class="comment-text">{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
 								<div class="comment-meta">
-									<span class="comment-posted">Posted </span>
-									<span class="comment-time">on 
-									@if($comment->created_at->format('Y') == Carbon::now()->format('Y'))
+									<span class="comment-posted">Posted: </span>
+									<span class="comment-time">
+									@if($subComment->created_at->format('Y') == Carbon::now()->format('Y'))
 										{{ $subComment->created_at->format('F j g:i a') }}
 									@else
 										{{ $subComment->created_at->format('F j, Y g:i a') }}
 									@endif
 									</span> | 
-									<span class="comment-permalink"><a href="/projects/post/{{ $project->slug }}#comment-{{ $subComment->id }}">Permalink</a></span> | 
-									@if(Auth::user()->id == $project->author_id || Auth::user()->userrole == 'admin')
-										<span class="comment-edit-button"><a class="edit-link edit-comment">Edit</a></span>
+									@if($subComment->created_at != $subComment->updated_at)
+									<small>
+									{{ User::find($subComment->edit_id)->first_name }} edited: 
+									@if($subComment->updated_at->format('Y') == Carbon::now()->format('Y'))
+										{{ $subComment->updated_at->format('F j g:i a') }}
+									@else
+										{{ $subComment->updated_at->format('F j, Y g:i a') }}
+									@endif
+									</small> | 
+									@endif
+									<span class="comment-permalink"><a href="/projects/post/{{ $project->slug }}#comment-{{ $subComment->id }}">Permalink</a></span>
+									@if(Auth::user()->id == $subComment->author_id || Auth::user()->userrole == 'admin')
+										<span class="comment-edit-button">
+											 | <a commentid="{{ $subComment->id }}" formtype="comment-edit" formlocation="/projects/post/comment/{{ $subComment->id }}/edit" class="edit-link edit-comment">Edit</a>
+										</span>
 									@endif
 								</div>
 							</div>

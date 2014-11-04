@@ -42,7 +42,7 @@ class Vault extends Eloquent {
 
 		$vaultsTagsSelect = '';
 		foreach($tags as $tag) {
-			if($select == $tag->slug) $vaultsTagsSelect .= '<option value="'.$tag->slug.'" select>'.$tag->name.'</option>';
+			if($select == $tag->slug) $vaultsTagsSelect .= '<option value="'.$tag->slug.'" selected>'.$tag->name.'</option>';
 			else $vaultsTagsSelect .= '<option value="'.$tag->slug.'">'.$tag->name.'</option>';
 		}
 		return $vaultsTagsSelect;

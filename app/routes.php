@@ -104,7 +104,8 @@ Route::post('/projects/post/comment/{id}/remove/{imageName}', array('uses' => 'P
 /* Acounts */
 Route::post('/accounts/search/{title}',array('as' => 'accounts.search', 'uses' => 'AccountsController@search'));
 Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'));
-Route::get('/accounts/{accountname}',array('as' => 'account.profile', 'uses' => 'AccountsController@show'));
+Route::get('/accounts/create', array('as' => 'accounts.accountCreate', 'uses' => 'AccountsController@create'));
+Route::get('/accounts/account/{accountname}',array('as' => 'accounts.accountShow', 'uses' => 'AccountsController@show'));
 Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'));
 
 /* Assets */
@@ -129,20 +130,28 @@ Route::get('/tags/name/{tagname}', array('as' => 'tags.tag', 'uses' => 'TagsCont
 
 // This section is just for dummy pages. Will need to convert Routes to point to Controllers.
 Route::get('/billables', function(){
+	return View::make('billables.index');
+})->before('auth');
+Route::get('/billables/create', function(){
 	if(Request::ajax()) return View::make('billables.partials.new');
 	else return View::make('billables.index');
 })->before('auth');
 
 Route::get('/invoices', function(){
-	if(Request::ajax()) return View::make('invoices.partials.new');
 	return View::make('invoices.index');
+})->before('auth');
+Route::get('/invoices/create', function(){
+	if(Request::ajax()) return View::make('invoices.partials.new');
+	else return View::make('invoices.index');
 })->before('auth');
 
 Route::get('/help', function(){
+	return View::make('help.index');
+})->before('auth');
+Route::get('/help/create', function(){
 	if(Request::ajax()) return View::make('help.partials.new');
 	else return View::make('help.index');
 })->before('auth');
-
 
 Route::get('/emails', function(){
 	$mgClient = new Mailgun('key-8f6lpwb2tgnp3se2b6fli18r23ndpkt9');

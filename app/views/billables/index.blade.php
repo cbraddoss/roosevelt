@@ -14,7 +14,7 @@
 			<li><a id="pagelink-billables" href="/billables" class="link">Open</a></li>
 			<li class="right">
 				<div id="billables-new-billable-form" class="create-something-new">
-					<div class="billables-button"><span class="add-new add-button"><span class="ss-plus"></span> Billable</span></div>
+					<div class="billables-button"><span formtype="add-billable" formlocation="/billables/create" class="add-new add-button"><span class="ss-plus"></span> Billable</span></div>
 				</div>
 			</li>
 		</ul>

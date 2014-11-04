@@ -13,27 +13,27 @@
 		
 		<li class="right">
 			<div id="news-new-article-form" class="create-something-new">
-				<div class="news-button"><span class="add-button add-new"><span class="ss-plus"></span> News</span></div>
+				<div class="news-button"><span formtype="add-news" formlocation="/news/create" class="add-button add-new"><span class="ss-plus"></span> News</span></div>
 			</div>
 		</li>
 		<li class="right">
 			<div id="help-new-help-form" class="create-something-new">
-				<div class="help-button"><span class="add-button add-new"><span class="ss-plus"></span> Help</span></div>
+				<div class="help-button"><span formtype="add-help" formlocation="/help/create" class="add-button add-new"><span class="ss-plus"></span> Help</span></div>
 			</div>
 		</li>
 		<li class="right">
 			<div id="accounts-new-account-form" class="create-something-new">
-				<div class="account-button"><span class="add-button add-new"><span class="ss-plus"></span> Account</span></div>
+				<div class="account-button"><span formtype="add-account" formlocation="/accounts/create" class="add-button add-new"><span class="ss-plus"></span> Account</span></div>
 			</div>
 		</li>
 		<li class="right">
 			<div id="billables-new-billable-form" class="create-something-new">
-				<div class="billable-button"><span class="add-button add-new"><span class="ss-plus"></span> Billable</span></div>
+				<div class="billable-button"><span formtype="add-billable" formlocation="/billables/create" class="add-button add-new"><span class="ss-plus"></span> Billable</span></div>
 			</div>
 		</li>
 		<li class="right">
 			<div id="projects-new-project-form" class="create-something-new">
-				<div class="project-button"><span class="add-button add-new"><span class="ss-plus"></span> Project</span></div>
+				<div class="project-button"><span formtype="add-project" formlocation="/projects/create" class="add-button add-new"><span class="ss-plus"></span> Project</span></div>
 			</div>
 		</li>
 	</ul>

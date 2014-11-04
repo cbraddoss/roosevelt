@@ -433,7 +433,8 @@ class ArticlesController extends \BaseController {
 			$response = array(
 				'actionType' => 'attachment-delete',
 				'msg' => 'Attachment removed.',
-				'windowAction' => '/news/article/'.$article->slug.'/edit',
+				//'windowAction' => '/news/article/'.$article->slug.'/edit',
+				'image' => $imageName,
 			);
 				
 			return Response::json( $response );

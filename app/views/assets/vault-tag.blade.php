@@ -20,7 +20,7 @@
 		<li class="right select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-vault-tag tags-filter">
+			<select filterlink="/assets/vault/tags/" class="filter-this filter-vault-tag tags-filter">
 				<option>Tag Filter</option>
 				{{ $vaultTagsSelect }}
 			</select>

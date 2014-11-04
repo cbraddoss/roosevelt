@@ -15,7 +15,7 @@ Projects for {{ $user->first_name.' '.$user->last_name }}
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-user projects-filter">
+			<select filterlink="/projects/assigned-to/" class="filter-this filter-user projects-filter">
 				<option value="0">User Filter</option>
 				@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
 			</select>

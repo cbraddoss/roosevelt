@@ -18,7 +18,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-type projects-filter">
+			<select filterlink="/projects/type/" class="filter-this filter-type projects-filter">
 				<option value="0">Type Filter</option>
 				{{ $projectTypes }}
 			</select>
@@ -26,11 +26,10 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-stage projects-filter">
+			<select  filterlink="/projects/type/{{$type}}/stage/" class="filter-this filter-stage projects-filter">
 				<option value="0">Stage Filter</option>
 				{{ $projectStages }}
 			</select>
-			<input type="hidden" value="{{ $type }}" />
 		</li>
 	</ul>
 	</div>

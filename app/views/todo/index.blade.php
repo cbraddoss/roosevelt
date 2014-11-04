@@ -15,7 +15,7 @@
 		<li class="right select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-user todo-filter">
+			<select filterlink="/to-do/" class="filter-this filter-user todo-filter">
 				@if(!empty($user)) {{ get_user_list_select($user->first_name.' '.$user->last_name) }} @else {{ get_user_list_select() }} @endif
 			</select>
 		</li>

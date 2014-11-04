@@ -178,8 +178,8 @@
 							<p class="comment-text">{{ display_content($subComment->content) }}</p>
 							<div class="comment-details">
 								<div class="comment-meta">
-									<span class="comment-posted">Posted on</span>
-									<span class="comment-time">on 
+									<span class="comment-posted">Posted: </span>
+									<span class="comment-time">
 									@if($subComment->created_at->format('Y') == Carbon::now()->format('Y'))
 										{{ $subComment->created_at->format('F j g:i a') }}
 									@else

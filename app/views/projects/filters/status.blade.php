@@ -15,7 +15,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-status projects-filter">
+			<select filterlink="/projects/status/" class="filter-this filter-status projects-filter">
 				<option value="0">Status Filter</option>
 				@if(!empty($open)) <option value="open" selected>Open</option> @else <option value="open">Open</option> @endif
 				@if(!empty($closed)) <option value="closed" selected>Closed</option> @else <option value="closed">Closed</option> @endif

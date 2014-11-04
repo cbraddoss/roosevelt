@@ -163,6 +163,24 @@ jQuery(document).ready(function($){
 	// 		});
 	// 	}
 	// });
+
+	// Filter by this
+	$(document).on('change','#page-nav_menu .filter-this', function(){
+		var filterSlug = $(this).val();
+		var filterLink = $(this).attr('filterlink');
+		window.location.href= filterLink+filterSlug;
+	});
+
+	// Filter by this date
+	$('#page-nav_menu .filter-this-date').datepicker().on('changeDate', function(ev) {
+		$('.dropdown-menu').hide();
+		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+		var dateLink = new Date(ev.date.valueOf());
+		var yearLink = dateLink.getFullYear();
+		var monthLink = months[dateLink.getMonth()];
+		var filterLink = $(this).attr('filterlink');
+		window.location.href= filterLink+yearLink+'/'+monthLink;
+	});
 	
 	//Show '.create-something-form' form (triggered from #page-nav_menu)
 	$(document).on('click','#page-nav_menu .add-button',function(){
@@ -173,12 +191,15 @@ jQuery(document).ready(function($){
 				$(this).prop('disabled',true);
 			});
 			$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+			$('.loading-something-new').hide().fadeIn(1000);
 			$.get( getCreateUrl, function( data ) {
 				$('.add-button').each(function(){
 					$(this).prop('disabled',true);
 				});
 				$('.inner-page').before(data);
-				$(document).find('.loading-something-new').remove();
+				$(document).find('.loading-something-new').slideUp(1000,function() {
+					$(this).remove();
+				});
 				$('.create-something-form').hide().slideDown(1000);
 				$('#page-nav_menu .create-something-new [formtype='+getFormType+']').addClass('active');
 				$('.create-something-form form .new-form-field input').first().focus();
@@ -254,18 +275,23 @@ jQuery(document).ready(function($){
 			});
 			if(getCommentFormType == 'post-reply') $('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 			if(getCommentFormType == 'comment-reply') $('#comment-'+getCommentID).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
+			$('.loading-something-new').hide().fadeIn(1000);
 			$.get( getCreateCommentUrl, function( data ) {
 				if(getCommentFormType == 'post-reply') {
 					$('#comments').append(data);
 					$('#comments .create-something-form').addClass('reply-to-post-form');
-					$(document).find('.loading-something-new').remove();
+					$(document).find('.loading-something-new').slideUp(1000,function() {
+						$(this).remove();
+					});
 					$('#comments .create-something-form').hide().slideDown(1000);
 					$(document).find('span[formtype='+getCommentFormType+']').addClass('active');
 				}
 				if(getCommentFormType == 'comment-reply') {
 					$('#comment-'+getCommentID).after(data);
 					$(document).find('.inner-page .create-something-form').addClass('reply-to-comment-form');
-					$(document).find('.loading-something-new').remove();
+					$(document).find('.loading-something-new').slideUp(1000,function() {
+						$(this).remove();
+					});
 					$('.create-something-form').hide().slideDown(1000);
 					$('#comment-'+getCommentID).find('.add-button').addClass('active');
 					$(document).find('.create-something-form h2').html('Reply to '+getCommentAuthor+'\'s comment:');
@@ -512,24 +538,37 @@ jQuery(document).ready(function($){
 	$(document).on('click','.active-accounts-search-ajax.accounts-search-ajax span', function() {
 		var accountID = parseInt($(this).attr('value'),10);
 		var accountText = $(this).text();
-		$(this).closest('form.add-project').find('input[name=account_name]').val(accountText);
-		$(this).closest('form.add-project').find('input[name=account_id]').attr('value',accountID);
-		$(document).find('form.add-project .accounts-search-ajax').hide();
-		$(this).removeClass('.active-accounts-search-ajax');
-		$(document).find('.search-accounts.active-accounts-search').removeClass('active-accounts-search');
+		$(this).parent().parent().find('.search-accounts.active-accounts-search').val(accountText);
+		$(this).parent().parent().find('input[name=account_id]').attr('value',accountID);
+		$(this).parent().hide().html('');
+		$(this).parent().removeClass('.active-accounts-search-ajax');
+		$(this).parent().parent().find('.search-accounts.active-accounts-search').removeClass('active-accounts-search');
 	});
 
 	function accountSearchSuccess(data)
 	{
 		if(data.msg == 'found some') {
-			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').fadeIn().html(data.accounts);
+			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').fadeIn(400).html(data.accounts);
 			$(document).find('.active-accounts-search-ajax.accounts-search-ajax span').first().addClass('search-hover');
 		}
 		else {
-			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').show().html('<p>No accounts found. Be sure account is added to system before continuing.</p>');
+			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').fadeIn(400).html('<p>No accounts found. Be sure account is added to system before continuing.</p>');
 		}
 	}
 
+	// Subscribe users to a project (edit and new forms)
+	$(document).on('click', '.form-subscribe-buttons .subscribe', function(){
+		var subscribe = $(this).attr('id');
+		var currentSubscribed = $(this).parent().parent().find('input.project-subscribed').attr('value');
+		$(this).toggleClass('subscribe-selected');
+		var allSelected = '';
+		$(this).parent().find('.subscribe-selected').each(function(){
+			var subSelected = $(this).attr('id');
+			allSelected = subSelected+allSelected;
+		});
+		$(this).parent().parent().find('input.project-subscribed').attr('value',allSelected);
+	});
+	
 	// add pingable names to content textarea of form
 	$.fn.extend({
 		insertAtCaret: function(myValue){
@@ -563,6 +602,19 @@ jQuery(document).ready(function($){
 	    $('textarea[name=content]').insertAtCaret(ping);
 	});
 
+	//Add datepicker functionality to Edit page date field
+	var editCalTemp = new Date();
+	var editCalNow = new Date(editCalTemp.getFullYear(), editCalTemp.getMonth(), editCalTemp.getDate(), 0, 0, 0, 0);
+	var editCalPost = $('.update-something-form .future-dates').datepicker({
+		onRender: function(date) {
+			return date.valueOf() < editCalNow.valueOf() ? 'disabled' : '';
+		}
+	}).on('changeDate', function(ev) {
+	   	editCalPost.hide();
+	   	$('.dropdown-menu').hide();
+	   	$(this).addClass('changed-input');
+	}).data('datepicker');
+
 	// on Submit of Edit page, remove any changed-input classes.
 	$(document).on('submit', '.update-something-form form', function(){
 		$(this).find('.changed-input').each(function() {
@@ -584,7 +636,7 @@ jQuery(document).ready(function($){
 		$(this).find('.delete-attachment').remove();
 	});
 
-	// delete attachment with ajax and reload Edit article page
+	// delete attachment with ajax
 	$(document).on('click', '.update-something-form .edit-this-attachment', function() {
 		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
 		
@@ -733,16 +785,6 @@ jQuery(document).ready(function($){
 	});
 	
 	/* Tags Page */
-	// Filter by letter
-	$(document).on('change','#page-nav_menu .filter-letter.tags-filter', function(){
-		var letterLink = $(this).val();
-		window.location.href='/tags/letter/'+letterLink;
-	});
-	$(document).on('change','#page-nav_menu .filter-tag-type.tags-filter', function(){
-		var typeLink = $(this).val();
-		window.location.href='/tags/type/'+typeLink;
-	});
-
 	/* Add Tags */
 	$(document).on('click','.tag-addnew', function() {
 		$(this).removeClass('ss-plus').addClass('ss-delete').addClass('active');
@@ -872,60 +914,14 @@ jQuery(document).ready(function($){
 	}
 
 	/* News Page */
-	// filter by type (unread, mentions, favorites, drafts)
-	$(document).on('change','#page-nav_menu .filter-type.news-filter', function(){
-		var typeLink = $(this).val();
-		if(typeLink == 0 || typeLink == '0') window.location.href='/news';
-		else window.location.href='/news/'+typeLink;
-	});
-	// Filter by author
-	$(document).on('change','#page-nav_menu .filter-author.news-filter', function(){
-		var authorLink = $(this).val();
-		window.location.href='/news/author/'+authorLink;
-	});
-	// Filter by date
-	$('#page-nav_menu .page-menu div.filter-date.news-filter').datepicker().on('changeDate', function(ev) {
-		$('.dropdown-menu').hide();
-		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-		var dateLink = new Date(ev.date.valueOf());
-		var yearLink = dateLink.getFullYear();
-		var monthLink = months[dateLink.getMonth()];
-		window.location.href='/news/date/'+yearLink+'/'+monthLink;
-	});
-	// Show/hide preview of content on article hover
-	// do this different
-	// $('#content .office-post').hover(function() {
-	// 	$(this).find('.post-hover-content').show();
-	// }, function() {
-	// 	$(this).find('.post-hover-content').hide();
-	// });
 	// detect Status change and update submit button text
 	$(document).on('change', 'form.add-article select[name=status]', function(){
 		var selectVal = $(this).val();
 		var submitText = $(this).find('option[value='+selectVal+']').text();
 		$('form.add-article').find('input#add-new-submit').val(submitText);
 	});
-	// add post to calendar functionality to Edit article page
-	var calTemp = new Date();
-	var calNow = new Date(calTemp.getFullYear(), calTemp.getMonth(), calTemp.getDate(), 0, 0, 0, 0);
-	var calPost = $('#news-page form.update-article .article-calendar-date').datepicker({
-		onRender: function(date) {
-			return date.valueOf() < calNow.valueOf() ? 'disabled' : '';
-		}
-	}).on('changeDate', function(ev) {
-	   	calPost.hide();
-	   	$(this).addClass('changed-input');
-	}).data('datepicker');
-	
+		
 	/* Calendar Page */
-	$('#page-nav_menu div.calendar-jump-to-date.calendar-filter').datepicker().on('changeDate', function(ev) {
-		$('.dropdown-menu').hide();
-		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-		var dateLink = new Date(ev.date.valueOf());
-		var yearLink = dateLink.getFullYear();
-		var monthLink = months[dateLink.getMonth()];
-		window.location.href='/calendar/'+yearLink+'/'+monthLink;
-	});
 	$(document).on('change', '#page-nav_menu .show-hide-calendar', function() {
 		var toggleThis = $(this).val();
 		$('#calendar-page').find('.'+toggleThis).toggle();
@@ -937,41 +933,6 @@ jQuery(document).ready(function($){
 	$(document).find('#content #calendar-page .days-of-month').css('height',calendarPageHeight+'px');
 	
 	/* Projects Page */
-	// Filter by user
-	$(document).on('change','#page-nav_menu .filter-user.projects-filter', function(){
-		var authorLink = $(this).val();
-		window.location.href='/projects/assigned-to/'+authorLink;
-	});
-	// Filter by project stage
-	$(document).on('change','#page-nav_menu .filter-stage.projects-filter', function(){
-		var stageLink = $(this).val();
-		var typeLink = $(this).next().val();
-		window.location.href='/projects/type/'+typeLink+'/stage/'+stageLink;
-	});
-	// Filter by project priority
-	$(document).on('change','#page-nav_menu .filter-priority.projects-filter', function(){
-		var priorityLink = $(this).val();
-		window.location.href='/projects/priority/'+priorityLink;
-	});
-	// Filter by project status
-	$(document).on('change','#page-nav_menu .filter-status.projects-filter', function(){
-		var statusLink = $(this).val();
-		window.location.href='/projects/status/'+statusLink;
-	});
-	// Filter by project type
-	$(document).on('change','#page-nav_menu .filter-type.projects-filter', function(){
-		var typeLink = $(this).val();
-		window.location.href='/projects/type/'+typeLink;
-	});
-	// Filter by date
-	$('#page-nav_menu .page-menu div.filter-date.projects-filter').datepicker().on('changeDate', function(ev) {
-		$('.dropdown-menu').hide();
-		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-		var dateLink = new Date(ev.date.valueOf());
-		var yearLink = dateLink.getFullYear();
-		var monthLink = months[dateLink.getMonth()];
-		window.location.href='/projects/date/'+yearLink+'/'+monthLink;
-	});
 	// Bump Project on List View 1 day with ajax
 	$(document).on('click', '#content .office-post .post-due-bump-date', function() {
 			var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
@@ -1683,677 +1644,20 @@ jQuery(document).ready(function($){
 		// $('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">' + data.msg + '</span></div>');
 	}
 	
-	// subscribe users to a project
-	$(document).on('click', 'form.add-project .form-subscribe-buttons .subscribe', function(){
-		var subscribe = $(this).attr('id');
-		//console.log(ping);
-		var currentSubscribed = $(this).closest('form.add-project').find('input.project-subscribed').attr('value');
-		$(this).toggleClass('subscribe-selected');
-		var allSelected = '';
-		$(this).parent().find('.subscribe-selected').each(function(){
-			var subSelected = $(this).attr('id');
-			allSelected = subSelected+allSelected;
-		});
-		$(this).closest('form.add-project').find('input.project-subscribed').attr('value',allSelected);
-	});
-	// Edit Project
-	// subscribe users to a project
-	$(document).on('click', 'form.update-project .form-subscribe-buttons .subscribe', function(){
-		var subscribe = $(this).attr('id');
-		//console.log(ping);
-		var currentSubscribed = $(this).closest('form.update-project').find('input.project-subscribed').attr('value');
-		$(this).toggleClass('subscribe-selected');
-		var allSelected = '';
-		$(this).parent().find('.subscribe-selected').each(function(){
-			var subSelected = $(this).attr('id');
-			allSelected = subSelected+allSelected;
-		});
-		$(this).closest('form.update-project').find('input.project-subscribed').attr('value',allSelected);
-	});
-	// account active search of edit project page
-	$(document).on('input','form.update-project .search-accounts', function() {
-		var accountSearch = $(this).val();
-		$(document).find('form.update-project .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Searching..."> Searching...</span>');
-		if(accountSearch.length >= 1) {
-			// search accounts and return a list
-			var accountEditSearchOptions = { 
-				target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
-				success:       accountEditSearchSuccess,  // post-submit callback
-				dataType: 'json',
-				data: { 
-					_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
-					title: accountSearch
-				},
-				type: 'POST',
-				url: '/accounts/search/'+accountSearch,
-				resetForm: false        // reset the form after successful submit 
-			};
-			$(this).find('.changed-input').each(function() {
-				$(this).removeClass('changed-input');
-			});
-			$(this).ajaxSubmit(accountEditSearchOptions);
-			return false;
-		}
-		// else {
-		// 	$(document).find('form.update-project .accounts-search-ajax').show().html('<span>Please type at least 3 characters to start a search.</span>');
-		// }
-	});
-	$(document).on('mouseenter','form.update-project .accounts-search-ajax span', function(){
-		$(this).removeClass('search-hover');
-	});
-	$(document).on('click','form.update-project .accounts-search-ajax span', function() {
-		var accountID = parseInt($(this).attr('value'),10);
-		var accountText = $(this).text();
-		$(this).closest('form.update-project').find('input[name=account_name]').val(accountText);
-		$(this).closest('form.update-project').find('input[name=account_id]').attr('value',accountID);
-		$(document).find('form.update-project .accounts-search-ajax').hide();
-	});
-	function accountEditSearchSuccess(data)
-	{
-		if(data.msg == 'found some') {
-			$(document).find('form.update-project .accounts-search-ajax').show().html(data.accounts);
-			$(document).find('form.update-project .accounts-search-ajax span').first().addClass('search-hover');
-		}
-		else {
-			$(document).find('form.update-project .accounts-search-ajax').show().html('<p>No accounts found.</p>');
-		}
-	}
-	// change project due date
-	var calProjDueTemp = new Date();
-	var calProjDueNow = new Date(calProjDueTemp.getFullYear(), calProjDueTemp.getMonth(), calProjDueTemp.getDate(), 0, 0, 0, 0);
-	var calProjDuePost = $('#content form.update-project .project-due-date').datepicker({
-		onRender: function(date) {
-			return date.valueOf() < calProjDueNow.valueOf() ? 'disabled' : '';
-		}
-	}).on('changeDate', function(ev) {
-	   	calProjDuePost.hide();
-	   	$('.dropdown-menu').hide();
-	}).data('datepicker');
-	// change project launch date
-	var calProjLaunchTemp = new Date();
-	var calProjLaunchNow = new Date(calProjLaunchTemp.getFullYear(), calProjLaunchTemp.getMonth(), calProjLaunchTemp.getDate(), 0, 0, 0, 0);
-	var calProjLaunchPost = $('#content form.update-project .project-launch-date').datepicker({
-		onRender: function(date) {
-			return date.valueOf() < calProjLaunchNow.valueOf() ? 'disabled' : '';
-		}
-	}).on('changeDate', function(ev) {
-	   	calProjLaunchPost.hide();
-	   	$('.dropdown-menu').hide();
-	}).data('datepicker');
-	// change project start date
-	var calProjStartTemp = new Date();
-	var calProjStartNow = new Date(calProjStartTemp.getFullYear(), calProjStartTemp.getMonth(), calProjStartTemp.getDate(), 0, 0, 0, 0);
-	var calProjStartPost = $('#content form.update-project .project-start-date').datepicker({
-		onRender: function(date) {
-			return date.valueOf() < calProjStartNow.valueOf() ? 'disabled' : '';
-		}
-	}).on('changeDate', function(ev) {
-	   	calProjStartPost.hide();
-	   	$('.dropdown-menu').hide();
-	}).data('datepicker');
-	// change project end date
-	var calProjEndTemp = new Date();
-	var calProjEndNow = new Date(calProjEndTemp.getFullYear(), calProjEndTemp.getMonth(), calProjEndTemp.getDate(), 0, 0, 0, 0);
-	var calProjEndPost = $('#content form.update-project .project-end-date').datepicker({
-		onRender: function(date) {
-			return date.valueOf() < calProjEndNow.valueOf() ? 'disabled' : '';
-		}
-	}).on('changeDate', function(ev) {
-	   	calProjEndPost.hide();
-	   	$('.dropdown-menu').hide();
-	}).data('datepicker');
-	$(document).on('submit','#projects-page form.delete-project', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this project?');
-		
-		if(confirmCancel == true) return true;
-		else return false;
-	});
-	// add Delete option to attachments on project edit page
-	$('#projects-page .post-edit-attachment').hover(function(){
-		$(this).append('<span class="ss-delete delete-attachment"></span>');
-	}, function(){
-		$(this).find('.delete-attachment').remove();
-	});
-	// delete attachment with ajax on project edit page
-	$(document).on('click', '#projects-page .post-edit-attachment', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
-		
-		if(confirmCancel == true) {
-			var imageName = $(this).find('a img').attr('alt');
-			var imagePath = $(this).find('a').attr('href');
-			var imageId = $(this).parent().parent().find('form.update-project').attr('id');
-			var imageToken = $(this).parent().parent().find('form.update-project input[name=_token]').val();
-			$.post(
-				'/projects/post/'+imageId+'/remove/'+imageName,
-				{
-					"_token": imageToken,
-					"imageName" : imageName,
-					"imagePath" : imagePath,
-					"id" : imageId,
-				}, function (data) {
-					if(data.errorMsg) {
-						$('#message-box-json').fadeIn();
-						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-					}
-					else {
-						$('#message-box-json').find('.section').empty();
-						$('#message-box-json').fadeOut();
-						window.location.href = data.path;
-					}
-				},'json'
-			);
-		}
-	});
-	// project comments
-	// load comment form on project single view page.
-	$(document).on('click', '#projects-page #projects-post-comment-form .post-comment', function(){
-		$('.post-comment').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('#comments').after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
-		
-		var projectSlug = $(document).find('.projects-post').attr('slug');
-		//console.log(projectSlug);
-		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
-
-			$('#comments').append(data);
-			$(document).find('.loading-something-new').remove();
-			$('#comments .projects-post-new-comment.create-something-form').slideDown(400);
-			$('#comments .projects-post-new-comment.create-something-form').addClass('reply-to-project-form');			
-			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
-			$('.post-comment').each(function(){
-				$(this).prop('disabled',true);
-			});
-			$('#content #projects-post-comment-form.create-something-new .add-button').addClass('active');
-			$('#content form.add-comment .comment-content').focus();
-
-		});
-	});
-	// cancel project post reply
-	$(document).on('click','#projects-page .projects-post-new-comment.create-something-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
-					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('.post-comment').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-				$(document).find('.projects-post-new-comment.create-something-form').slideUp(400,function(){
-					$(document).find('.projects-post-new-comment.create-something-form').remove();
-					$('#content #projects-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('#content #comment-post-comment-form.create-something-new .add-button').removeClass('active');
-					$('.post-comment').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-	// submit reply to project
-	var projectCommentOptions = { 
-		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       projectCommentSuccess,  // post-submit callback 
-		resetForm: false        // reset the form after successful submit 
-	};	        
-	$(document).on('submit','#projects-page .projects-post-new-comment.reply-to-project-form form.add-comment', function() {
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(projectCommentOptions);
-	    return false;
-	});
-	function projectCommentSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log(data.comment_id);
-			window.location.href = '/projects/post/'+data.slug+'?comment=new#comment-'+data.comment_id;
-			if(window.location.search == '?comment=new') window.location.reload(true);
-		}
-	}
-	//load comment form on reply of comment button click
-	$(document).on('click', '#projects-page #comment-post-comment-form .post-comment', function(){
-		$('.post-comment').each(function(){
-			$(this).prop('disabled',true);
-		});
-		
-		var projectSlug = $(document).find('.projects-post').attr('slug');
-		//console.log(projectSlug);
-		var commentId = $(this).closest('.office-post-comment').attr('id');
-		var commentHeight = $(this).closest('.office-post-comment').height();
-		commentHeight = commentHeight-15;
-		var commentAuthor = $(document).find('#'+commentId+' .comment-author').attr('author');
-		$('#'+commentId).after('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
-		//commentId = commentId.replace('comment-','');
-		//console.log(commentId);
-		$.get( "/projects/post/"+projectSlug+"/comment", function( data ) {
-			$('#'+commentId).after(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .projects-post-new-comment.create-something-form').slideDown(400);
-			$('#content .projects-post-new-comment.create-something-form').addClass('reply-to-comment-form');
-			$('.projects-post-new-comment.create-something-form input[name=project-slug]').val(projectSlug);
-			$('.post-comment').each(function(){
-				$(this).prop('disabled',true);
-			});
-			$('#'+commentId).find('#comment-post-comment-form.create-something-new .add-button').addClass('active');
-			$('#content .projects-post-new-comment.create-something-form h3').html('Reply to '+commentAuthor+'\'s comment:');
-			$('#content form.add-comment .comment-content').focus();
-		});
-	});
-	// submit comment on a comment
-	$(document).on('submit','#projects-page .projects-post-new-comment.reply-to-comment-form form.add-comment', function() {
-		var commentReplyToId = $(document).find('#projects-page .projects-post-new-comment.reply-to-comment-form').prev().attr('id');
-		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
-		else commentReplyToId = 0;
-		// submit reply to comment
-		var projectCommentCommentOptions = {
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectCommentCommentSuccess,  // post-submit callback 
-			resetForm: false,        // reset the form after successful submit 
-			data: { reply_to_id: commentReplyToId }
-		};
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-		$(this).ajaxSubmit(projectCommentCommentOptions);
-	    return false; 
-	});
-	function projectCommentCommentSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	//console.log(data.slug);
-			window.location.href = '/projects/post/'+data.slug+'?comment=new#comment-'+data.comment_id;
-			if(window.location.search == '?comment=new') window.location.reload(true);
-		}
-	}
-	// edit comment
-	$(document).on('click', '#projects-page .comment-edit-button a.edit-comment', function(){
-		
-		var projectSlug = $(document).find('.projects-post').attr('slug');
-		
-		var commentIdBox = $(this).closest('.office-post-comment').attr('id');
-		var commentId = commentIdBox.replace('comment-','');
-		//console.log(commentId);
-		$.get( "/projects/post/comment/"+commentId+"/edit", function( data ) {
-			$(document).find('#projects-page .comment-edit-button a.edit-comment').each(function(){
-				$(this).hide();
-			});
-			$(document).find('#comment-post-comment-form .post-comment').each(function(){
-				$(this).hide();
-			});
-			$('#'+commentIdBox+' .comment-contents').html(data);
-			$('#'+commentIdBox+' .edit-something-form').fadeIn();
-			$('#'+commentIdBox+' .comment-contents').find('input[name=project-slug]').val(projectSlug);
-			$('form.edit-comment .update-comment-content').focus();
-		});
-	});
-	// cancel editing a comment
-	$(document).on('click','#projects-page form.edit-comment span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Save as draft to keep changes or continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.changed-input').each(function() {
-					$(this).removeClass('changed-input');
-				});
-				var pageHref = window.location.href;
-				window.location.reload(true);
-			}
-		}
-		else {
-			var pageHref = window.location.href;
-			window.location.reload(true);
-		}
-	});
-	// submit edit on comment
-	$(document).on('submit','#projects-page form.edit-comment #update-comment', function() {
-		var editProjectCommentOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       commentProjectEditSuccess,  // post-submit callback 
-			resetForm: false        // reset the form after successful submit 
-		};	 
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(editProjectCommentOptions);
-	    return false;
-	});
-	function commentProjectEditSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		   	//console.log(data.comment_id);
-			//window.location.href = '/news/article/'+data.slug+'?comment=edit#comment-'+data.comment_id;
-			//if(window.location.search == '?comment=edit') window.location.reload(true);
-		}
-	}
-	// add option to delete attachment
-	$(document).on('mouseenter', '#projects-page .comment-edit-attachment', function(){
-		$(this).append('<span class="ss-delete delete-attachment"></span>');
-	});
-	$(document).on('mouseleave', '#projects-page .comment-edit-attachment', function(){
-		$(this).find('.delete-attachment').remove();
-	});
-	// delete comment attachment with ajax
-	$(document).on('click', '#projects-page .comment-edit-attachment', function() {
-		var confirmCancel = confirm('Are you sure you want to delete this attachment?');
-		
-		if(confirmCancel == true) {
-			var imageName = $(this).find('a img').attr('alt');
-			var imagePath = $(this).find('a').attr('href');
-			var imageId = $(this).closest('.office-post-comment').attr('id');
-			imageId = imageId.replace('comment-','');
-			var imageToken = $(this).closest('form.edit-comment').find('input[name=_token]').val();
-			$.post(
-				'/projects/post/comment/'+imageId+'/remove/'+imageName,
-				{
-					"_token": imageToken,
-					"imageName" : imageName,
-					"imagePath" : imagePath,
-					"id" : imageId,
-				}, function (data) {
-					if(data.errorMsg) {
-						$('#message-box-json').fadeIn();
-						$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-					}
-					else {
-						$('#message-box-json').find('.section').empty();
-						$('#message-box-json').fadeOut();
-						//console.log(data.image);
-						$(document).find('a[href="'+ data.image +'"]').fadeOut();
-						//window.location.href = data.path;
-					}
-				},'json'
-			);
-		}
-	});
-
+	
 	/* Accounts */
-	// add new account
-	$(document).on('click','#page-nav_menu #accounts-new-account-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/accounts", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .account-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #accounts-new-account-form.create-something-new .add-button').addClass('active');
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-		});
-	});
-	// cancel adding new account
-	$(document).on('click','#content .account-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
 		
-			if(confirmCancel == true) {
-				$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.account-add-form.create-something-form').remove();
-					$('#page-nav_menu #accounts-new-account-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.account-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.account-add-form.create-something-form').remove();
-					$('#page-nav_menu #accounts-new-account-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-	
 	/* Billables */
-	// add new billable
-	$(document).on('click','#page-nav_menu #billables-new-billable-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/billables", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .billable-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #billables-new-billable-form.create-something-new .add-button').addClass('active');
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-		});
-	});
-	// cancel adding new billable
-	$(document).on('click','#content .billable-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.billable-add-form.create-something-form').remove();
-					$('#page-nav_menu #billables-new-billable-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.billable-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.billable-add-form.create-something-form').remove();
-					$('#page-nav_menu #billables-new-billable-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-
-	/* Invoices */
-	// add new invoice
-	$(document).on('click','#page-nav_menu #invoices-new-invoice-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/invoices", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .invoice-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #invoices-new-invoice-form.create-something-new .add-button').addClass('active');
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-		});
-	});
-	// cancel adding new invoice
-	$(document).on('click','#content .invoice-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.invoice-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.invoice-add-form.create-something-form').remove();
-					$('#page-nav_menu #invoices-new-invoice-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.invoice-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.invoice-add-form.create-something-form').remove();
-					$('#page-nav_menu #invoices-new-invoice-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-
-	/* Help */
-	// add new help
-	$(document).on('click','#page-nav_menu #help-new-help-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/help", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .help-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #help-new-help-form.create-something-new .add-button').addClass('active');
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-		});
-	});
-	// cancel adding new help
-	$(document).on('click','#content .help-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.help-add-form.create-something-form').remove();
-					$('#page-nav_menu #help-new-help-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.help-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.help-add-form.create-something-form').remove();
-					$('#page-nav_menu #help-new-help-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
 	
-	/* Wiki */
-	// add new wiki
-	$(document).on('click','#page-nav_menu #wiki-new-wiki-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/wiki", function( data ) {
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .wiki-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #wiki-new-wiki-form.create-something-new .add-button').addClass('active');
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-		});
-	});
-	// cancel adding new wiki
-	$(document).on('click','#content .wiki-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
-		
-			if(confirmCancel == true) {
-				$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.wiki-add-form.create-something-form').remove();
-					$('#page-nav_menu #wiki-new-wiki-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.wiki-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.wiki-add-form.create-something-form').remove();
-					$('#page-nav_menu #wiki-new-wiki-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-
-	/* To-Do List page */
-	$(document).on('change','#page-nav_menu .filter-user.todo-filter', function(){
-		//$('#content').find('.loading-something-new').show().delay(500);
-
-		var authorLink = $(this).val();
-		window.location.href='/to-do/'+authorLink;
-	});
+	/* Invoices */
+	
+	/* Help */
 
 	/* Vault */
-	$(document).on('change','#page-nav_menu .filter-vault-tag.tags-filter', function(){
-		var tagLink = $(this).val();
-		window.location.href='/assets/vault/tags/'+tagLink;
-	});
 	$(document).on('click','#content .vault-asset.office-post-single .show-me', function() {
 		var vaultAssetLink = $(this).closest('.office-post-single').attr('slug');
 		$.get( "/assets/vault/asset/"+vaultAssetLink, function( data ) {
 			if(data.errorMsg) {
-				//console.log('please redirect');
 				window.location.href='/assets/vault';
 			}
 			$(document).find('#content .vault-asset.office-post-single .vault-password').val(data.asset);
@@ -2526,37 +1830,7 @@ jQuery(document).ready(function($){
 			$(document).find('form.add-vault-asset .accounts-search-ajax').show().html('<p>No accounts found. [x]</p>');
 		}
 	}
-	// cancel adding new vault asset
-	$(document).on('click','#content .vault-add-form span.cancel',function(){
-		var findChanged = $(document).find('.changed-input').length;
-		if(findChanged > 0) {
-			var confirmCancel = confirm('There are unsaved changes. Continue to discard changes. Continue?');
 		
-			if(confirmCancel == true) {
-				$(document).find('.vault-add-form.create-something-form').slideUp(400,function(){
-					$(document).find('.vault-add-form.create-something-form').remove();
-					$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-				});
-				$('#message-box-json').find('.section').empty();
-				$('#message-box-json').fadeOut();
-			}
-		}
-		else {
-			$(document).find('.vault-add-form.create-something-form').slideUp(400,function(){
-				$(document).find('.vault-add-form.create-something-form').remove();
-					$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').removeClass('active');
-					$('.add-button').each(function(){
-						$(this).prop('disabled', false);
-					});
-			});
-			$('#message-box-json').find('.section').empty();
-			$('#message-box-json').fadeOut();
-		}
-	});
-	
 	$(document).on('change','#content .add-vault-asset select', function() {
 		var vaultType = $(this).val();
 		//console.log(vaultType);

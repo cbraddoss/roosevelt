@@ -15,7 +15,7 @@
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select class="filter-priority projects-filter">
+			<select filterlink="/projects/priority/" class="filter-this filter-priority projects-filter">
 				<option value="0">Priority Filter</option>
 				@if(!empty($low)) <option value="low" selected>Low</option> @else <option value="low">Low</option> @endif
 				@if(!empty($normal)) <option value="normal" selected>Normal</option> @else <option value="normal">Normal</option> @endif

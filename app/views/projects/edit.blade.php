@@ -22,7 +22,7 @@
 <div id="projects-page" class="inner-page edit-page">
 	<h2>@yield('page-h2')</h2>
 <div class="update-something-form">
-{{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
+{{ Form::open( array('id' => $project->id, 'files' => true, 'class' => 'update-something update-project', 'url' => '/projects/post/'.$project->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $project->id) }}
 
@@ -38,7 +38,6 @@
 
 <div class="new-form-field new-form-field-extras">
 <div class="form-subscribe-buttons form-action-buttons">
-{{ Form::label('subscribe', 'Subscribe Users:') }}
 {{ display_subscribable($project->subscribed) }}
 </div>
 {{ Form::hidden('subscribed', $project->subscribed, array('class' => 'project-subscribed field', 'id' => 'project-subscribed'), $project->subscribed) }}
@@ -64,7 +63,7 @@
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('due_date', 'Stage Due Date:') }}
-{{ Form::text('due_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m/d/Y'), array('placeholder' => 'Due Date', 'class' => 'datepicker project-due-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('due_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m/d/Y'), array('placeholder' => 'Due Date', 'class' => 'future-dates datepicker project-due-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
@@ -92,18 +91,18 @@
 @if($project->period == 'ending')
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('launch_date', 'Launch Date:') }}
-{{ Form::text('launch_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'Launch Date', 'class' => 'datepicker project-launch-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('launch_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'Launch Date', 'class' => 'future-dates datepicker project-launch-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 {{ Form::hidden('start_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'project-start-date field')) }}
 </div>
 @else
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('start_date', 'Start Date:') }}
-{{ Form::text('start_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'datepicker project-start-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('start_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->start_date)->format('m/d/Y'), array('placeholder' => 'Start Date', 'class' => 'future-dates datepicker project-start-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('end_date', 'End Date:') }}
-{{ Form::text('end_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'End Date', 'class' => 'datepicker project-end-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
+{{ Form::text('end_date', Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m/d/Y'), array('placeholder' => 'End Date', 'class' => 'future-dates datepicker project-end-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>
 @endif
 
@@ -139,7 +138,7 @@
 @if(!empty($project->attachment))
 <div class="new-form-field edit-attachments">
 <p>Current Attachment(s):</p>
-{{ $project->getAttachments($project->id,'post-edit-attachment') }}
+{{ $project->getAttachments($project->id,'post-edit-attachment edit-this-attachment') }}
 </div>
 @endif
 

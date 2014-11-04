@@ -13,7 +13,7 @@
 	<ul>
 		@include('projects.partials.projects-menu')
 		<li class="right">
-			<div class="filter-date projects-filter add-button" data-date=" {{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
+			<div filterlink="/projects/date/" class="filter-this-date filter-date projects-filter add-button" data-date=" {{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 				<span class="ss-calendar"></span>
 				<span>@if(!empty($date)) {{ $date }} @else Date Filter: @endif</span>
 			</div>

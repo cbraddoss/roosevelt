@@ -26,6 +26,6 @@
 	<p class="alert-icon"><span class="ss-alert"></span></p>
 	<p>Oops, Page Not Found!</p>
 	<p>Error: 404</p>
-	<span>If you feel you've reached a page that should be available, please <a href="mailto:devteam@insideout.com?subject=Remote Office 404">contact a DevTeam associate</a>.</span>
+	<span>If you feel you've reached a page that should be available, please <a href="mailto:devteam@insideout.com?subject=Remote Office 404">contact the DevTeam</a>.</span>
 </div>
 @stop

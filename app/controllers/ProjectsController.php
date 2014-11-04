@@ -558,14 +558,17 @@ class ProjectsController extends \BaseController {
 				} catch(Illuminate\Database\QueryException $e)
 				{
 					$response = array(
+						'actionType' => 'attachment-delete',
 						'errorMsg' => 'Oops, something went wrong. Please try again.',
 					);
 					return Response::json( $response );
 				}
 
 			$response = array(
-				'image' => $imageName.' deleted.',
-				'path' => '/projects/post/'.$project->slug.'/edit',
+				'actionType' => 'attachment-delete',
+				'msg' => 'Attachment removed.',
+				//'windowAction' => '/projects/post/'.$project->slug.'/edit',
+				'image' => $imageName,
 			);
 				
 			return Response::json( $response );

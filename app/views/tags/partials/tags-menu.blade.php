@@ -3,7 +3,7 @@
 <li class="right select-dropdown">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
-	<select class="filter-letter tags-filter">
+	<select filterlink="/tags/letter/" class="filter-this filter-letter tags-filter">
 		<option>Letter Filter</option>
 		{{ $tagSelect }}
 	</select>
@@ -11,7 +11,7 @@
 <li class="right select-dropdown">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
-	<select class="filter-tag-type tags-filter">
+	<select filterlink="/tags/type/" class="filter-this filter-tag-type tags-filter">
 		<option>Type Filter</option>
 		@if(!empty($type) && $type == 'account')
 		<option value="account" selected>Accounts</option>

@@ -4,7 +4,7 @@
 
 <div class="new-form-field">
 {{ Form::label('title', 'Title:') }}
-{{ Form::text('title', null, array('placeholder' => 'Title project using: Account Name - Project Type (e.g. Sample Inn - New Website)', 'class' => 'project-title field')) }}
+{{ Form::text('title', null, array('placeholder' => 'Account Name - Project Type (e.g. Sample Inn - New Website)', 'class' => 'project-title field')) }}
 </div>
 
 <div class="new-form-field">

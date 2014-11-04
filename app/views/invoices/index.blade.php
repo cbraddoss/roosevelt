@@ -15,7 +15,7 @@
 			<li><a id="pagelink-invoices" href="/invoices" class="link">Open</a></li>
 			<li class="right">
 				<div id="invoices-new-invoice-form" class="create-something-new">
-					<div class="invoices-button"><span class="add-new add-button"><span class="ss-plus"></span> Invoice</span></div>
+					<div class="invoices-button"><span formtype="add-invoice" formlocation="/invoices/create" class="add-new add-button"><span class="ss-plus"></span> Invoice</span></div>
 				</div>
 			</li>
 		</ul>

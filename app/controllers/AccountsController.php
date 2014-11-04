@@ -36,8 +36,7 @@ class AccountsController extends \BaseController {
 		$accounts = Account::where('status','=','active')
 					->get();
 		$accountsCount = $accounts->count();
-		if(Request::ajax()) return View::make('accounts.partials.new');
-		else return View::make('accounts.index', compact('accounts','accountsCount'));
+		return View::make('accounts.index', compact('accounts','accountsCount'));
 	}
 
 	/**
@@ -75,7 +74,8 @@ class AccountsController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		if(Request::ajax()) return View::make('accounts.partials.new');
+		else return Redirect::to('/accounts');
 	}
 
 	/**
@@ -96,7 +96,7 @@ class AccountsController extends \BaseController {
 	 */
 	public function show($accountname)
 	{
-        $a = Account::where('link', '=', $accountname)->get()->first();
+        $a = Account::where('slug', '=', $accountname)->get()->first();
 		return View::make('accounts.profile')->withAccount($a);
 	}
 

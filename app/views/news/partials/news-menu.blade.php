@@ -9,7 +9,7 @@
 	</div>
 </li>
 <li class="right">
-	<div class="filter-date news-filter add-button" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
+	<div filterlink="/news/date/" class="filter-this-date filter-date news-filter add-button" data-date="{{ Carbon::now()->format('m-Y') }}" data-date-format="mm-yyyy" data-date-viewmode="months">
 		<span class="ss-calendar"></span>
 		<span> Date Filter</span>
 	</div>
@@ -17,7 +17,7 @@
 <li class="select-dropdown right">
 	<span class="ss-dropdown"></span>
 	<span class="ss-directup"></span>
-	<select class="filter-author news-filter">
+	<select filterlink="/news/author/" class="filter-this filter-author news-filter">
 		<option value="0">Author Filter</option>
 		@if(!empty($userAuthor)) {{ get_user_list_select($userAuthor->first_name.' '.$userAuthor->last_name) }} @else {{ get_user_list_select() }} @endif
 	</select>
