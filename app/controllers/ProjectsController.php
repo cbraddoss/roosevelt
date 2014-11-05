@@ -12,7 +12,7 @@ class ProjectsController extends \BaseController {
 	/**
      * Instantiate a new ProjectsController instance.
      */
-    public function __construct(Mailer $mailer, Project $project, ProjectComment $projectComment, Template $template, Account $account)
+    public function __construct(Mailer $mailer, Project $project, ProjectComment $projectComment, Template $template, Account $account, Tag $tag, TagRelationship $tagRelationship)
     {
         $this->beforeFilter('auth');
 
@@ -27,6 +27,10 @@ class ProjectsController extends \BaseController {
         $this->template = $template;
 
         $this->account = $account;
+
+		$this->tag = $tag;
+
+		$this->tagRelationship = $tagRelationship;
     }
 
 	/**
@@ -207,12 +211,29 @@ class ProjectsController extends \BaseController {
 				$newProject->stage = $firstStage->section;
 				$newProject->save();
 			}
+			$newTagFail = '';
+			if(Input::has('tag_id')) {
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'project', $newProject->id);
+						if($newTagRelationship == 'fail') {
+							$newTagFail = '(Note: Tag Error. Please try again.)';
+						}
+					}
+					else {
+						$newTagFail = '(Note: Tag Error. Please try again.)';
+					}
+				}
+			}
 
 			if(!empty($newProject->subscribed)) $this->mailer->projectNewSubEmail($newProject);
 			
 			if($newProject->period == 'ending') {
 				$hcMessage = '';
-				$hcMessage .= 'New Project started!<br />';
+				$hcMessage .= '<br />New Project started!<br />';
 				$hcMessage .= 'Project: <a href="' . URL::to( '/projects/post/' . $newProject->slug ) . '">' . $newProject->title . '</a><br />';
 				$hcMessage .= 'Account: <b>' . Account::find($newProject->account_id)->name . '</b>.<br />';
 				$hcMessage .= 'Launch Date: <b>'.Carbon::createFromFormat('Y-m-d H:i:s', $newProject->end_date)->format('F j').'</b>.<br />';
@@ -225,7 +246,7 @@ class ProjectsController extends \BaseController {
 						'actionType' => 'project-add',
 						'windowAction' => '/projects/post/'.$newProject->slug,
 						'slug' => $newProject->slug,
-						'msg' => 'Project created successfully! (Note: '.$hcMessageSend.')'
+						'msg' => 'Project created successfully! (Note: '.$hcMessageSend.' - '.$newTagFail.')'
 					);
 					return Response::json( $response );
 				}
@@ -233,9 +254,9 @@ class ProjectsController extends \BaseController {
 
 			$response = array(
 				'actionType' => 'project-add',
-						'windowAction' => '/projects/post/'.$newProject->slug,
+				'windowAction' => '/projects/post/'.$newProject->slug,
 				'slug' => $newProject->slug,
-				'msg' => 'Project created successfully!'
+				'msg' => 'Project created successfully! '.$newTagFail
 			);
 			return Response::json( $response );
 		}
@@ -911,6 +932,55 @@ class ProjectsController extends \BaseController {
 				);
 
 				$project->save();
+			}
+
+			if(Input::has('attachnewtag') == 'attachtag') {
+
+		 		$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'project-update',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+
+				$projectId = Input::get('type_id');
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'project', $projectId);
+						if($newTagRelationship == 'fail') {
+							$response = array(
+								'actionType' => 'project-update',
+								'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+							);
+							return Response::json( $response );
+						}
+					}
+					else {
+						$response = array(
+							'actionType' => 'project-update',
+							'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+						);
+						return Response::json( $response );
+					}
+				}
+
+				$response = array(
+					'actionType' => 'project-update',
+					'tagsText' => Input::get('tagsText'),
+					'msg' => 'Tag added successfully!'
+				);
+				return Response::json( $response );
+
 			}
 			
 			

@@ -882,7 +882,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	cursor: default;
 }
 #content .tag-name {
-	margin: 0 10px 5px 0;
+	margin: 5px 10px 5px 0;
 }
 #content .tag-name a {
 	background: #4B83B4;
@@ -901,7 +901,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .tag-name a:hover {
 	text-decoration: none;
 	border: 1px solid #FF4D4D;
-	background: rgba(255,77,77, 0.3);
+	background: #FF4D4D;
 }
 /* General Form Styles */
 #content .loading-something-new {
@@ -940,7 +940,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	color: #ffffff;
 }
 #content form.add-new-tag {
-	display: inline-block;
+	/*display: inline-block;*/
 	position: relative;
 }
 #content .add-new-tag-input {
@@ -1056,17 +1056,30 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	box-sizing: border-box;
 	cursor: pointer;
 }
+#content .accounts-search-ajax span.accounts-searched {
+	border-radius: 3px;
+	background: #4B83B4;
+	margin: 5px 5px;
+	width: auto;
+	display: inline-block;
+}
+#content .tags-search-ajax span.tags-searched {
+	display: inline-block;
+	width: auto;
+}
 #content .accounts-search-ajax span.accounts-searched:before,
 #content .tags-search-ajax span.tags-searched:before {
 	padding-right: 10px;
 	vertical-align: middle;
 }
 #content .accounts-search-ajax span.accounts-searched:hover,
-#content .accounts-search-ajax span.search-hover,
+#content .accounts-search-ajax span.search-hover {
+	background: #FF4D4D;
+}
 #content .tags-search-ajax span.tags-searched:hover,
 #content .tags-search-ajax span.search-hover {
-	background: #fafafa;
-	color: #333333;
+	/*background: rgba(255,255,255, 0.5);*/
+	/*color: #333333;*/
 }
 #content .new-form-field.remove-this {
 	border-radius: 0;
@@ -1529,6 +1542,13 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #todo-page .project-post select.change-project-stage-list {
 	width: 125px;
 }
+#content #assets-page .back-to-vault-home {
+	margin-top: 10px;
+	display: block;
+}
+#content #assets-page .back-to-vault-home:before {
+	margin-right: 5px;
+}
 /* Post Single View */
 #content .office-post-single {
 
@@ -1610,8 +1630,20 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	margin: 0px 0 0px;
 	float: left;
 }
+#content #projects-page .office-post-single .post-tags {
+	border-left: 8px solid #4B83B4;
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 10px 20px;
+	margin: 0 0 20px 0;
+	display: block;
+	clear: both;
+	min-height: 60px;
+}
 #content #projects-page .office-post-single .post-project-account {
-	min-height: 80px;	
+	min-height: 80px;
 }
 #content #projects-page .office-post-single .post-subscribed {
 	min-height: 120px;
@@ -1621,6 +1653,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #projects-page .office-post-single .post-subscribed h3,
 #content #projects-page .office-post-single .post-content h3 {
 	margin-top: 0;
+}
+#content #projects-page .office-post-single .post-tags h3 {
+	margin: 5px 10px 0 0;
+	float: left;
 }
 #content #projects-page .office-post-single .post-project-account h4 {
 	font-size: 1.3em;

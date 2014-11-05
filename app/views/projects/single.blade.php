@@ -58,7 +58,7 @@
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		
 		<div class="post-content">
-		<h3 class="ss-crosshair"> Project Scope:</h3>
+			<h3 class="ss-crosshair"> Project Scope:</h3>
 			<p>{{ display_content($project->content) }}</p>
 			<div class="post-project-attachment">
 				@if($project->getAttachments($project->id))
@@ -97,6 +97,19 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
+
+		{{ Form::open( array('id' => 'add-tag-'.$project->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$project->id, 'method' => 'post') ) }}
+		<div class="post-tags post-tooltip">
+			<h3 class="ss-tag"> Tags:</h3>
+			<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $project->id }}" formtype="add-tag-type" formlocation="/projects/singleviewupdate/{{ $project->id }}/tag_id">{{ $project->displayTags($project->id, 'project') }}</div>
+			<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
+			{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
+			{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
+			<div class="tags-search-ajax"></div>
+
+			
+		</div>
+		{{ Form::close() }}
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">

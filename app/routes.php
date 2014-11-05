@@ -115,6 +115,7 @@ Route::post('/assets/vault/access', array('as' => 'assets.vaultAccess', 'uses' =
 Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultController@index'));
 Route::get('/assets/vault/create', array('as' => 'assets.vaultCreate', 'uses' => 'VaultController@create'));
 Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultController@store'));
+Route::post('/assets/vault/singleviewupdate/{id}/{value}', array('as' => 'assets.vaultUpdateOnSingleView', 'uses' => 'VaultController@updateOnSingleView'));
 Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
 Route::get('/assets/vault/asset/{slug}/show-password', array('as' => 'assets.vaultAssetShowPassword', 'uses' => 'VaultController@showPassword'));
 Route::get('/assets/vault/tags/{tag}', array('as' => 'assets.vaultTags', 'uses' => 'VaultController@tags'));

@@ -88,6 +88,16 @@
 </div>
 </div>
 
+<div class="new-form-field">
+<div class="form-tags-searchbox">
+{{ Form::label('tag_name', 'Add Tags:') }}
+{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'search-tags vault-tags field')) }}
+{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id field')) }}
+<div class="tags-search-ajax"></div>
+<div class="tags-added-ajax"></div>
+</div>
+</div>
+
 <div class="new-form-field new-form-field-extras">
 {{ Form::label('attachment', 'Attach File(s):') }}
 {{ Form::file('attachment[]',array('multiple', 'class'=>'projects-post-attachment')) }}

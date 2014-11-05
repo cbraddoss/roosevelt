@@ -46,6 +46,24 @@ class Project extends Eloquent {
 		return $thumbnailsSend;
 	}
 
+	/**
+	 * Get tags by ID for display
+	 *
+	 * @return object
+	 */
+	public function displayTags($typeID, $type)
+	{
+		$returnTags = '';
+		$findRelationship = TagRelationship::where('type_id','=',$typeID)
+							->where('type','=',$type)
+							->get();
+		foreach($findRelationship as $tag) {
+			$findTag = Tag::where('id','=',$tag->tag_id)->first();
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a class="ss-tag" href="/tags/name/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
+		}
+		return $returnTags;
+	}
+
 	public function getTypeSelectList($selected = null) {
 		$projectTypes = Template::where('type','=','project')->get();
 		if($projectTypes != null) {

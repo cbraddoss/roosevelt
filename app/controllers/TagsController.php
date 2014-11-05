@@ -42,7 +42,7 @@ class TagsController extends \BaseController {
 		$tags = $this->tag->getTagsSearch($name);
 		$tagsSearched = '';
 		foreach($tags as $tag) {
-			$tagsSearched .= '<span value="'.$tag->id.'" class="tags-searched ss-plus">' . $tag->name . '</span>';
+			$tagsSearched .= '<span value="'.$tag->id.'" class="tags-searched tag-name"><a class="ss-tag">' . $tag->name . '</a></span>';
 		}
 		if($tagsSearched != '') {
 			$response = array(
@@ -149,19 +149,25 @@ class TagsController extends \BaseController {
 		$newTag = new Tag;
 		$newTag->name = clean_title($name);
 		$newTag->slug = convert_title_to_path($name);
-
+		if(Input::get('tagsAddToExisting') == 'add-to-existing') {
+			$tagsAddToExisting = 'add-to-existing';
+		}
+		else $tagsAddToExisting = '';
 		try
 		{
 			$newTag->save();
 		} catch(Illuminate\Database\QueryException $e)
 		{
 			$response = array(
+				'actionType' => 'tag-add',
 				'errorMsg' => 'Oops, there was a problem saving a tag. Please try again.'
 			);
 			return Response::json( $response );
 		}
 		$response = array(
+			'actionType' => 'tag-add',
 			'saved' => 'saved',
+			'tagsAddToExisting' => $tagsAddToExisting,
 			'tagID' => $newTag->id,
 			'tagname' => $newTag->name,
 			'msg' => 'Tag successfully added to system!'

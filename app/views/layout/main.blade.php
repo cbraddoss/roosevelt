@@ -80,7 +80,7 @@
 								</ul>
 								</li>
 								<!-- <li alt="Wiki" id="link-wiki" class="link"><a href="/wiki" class="ss-compose link-href"><span class="link-text">Wiki</span></a></li> -->
-								<li alt="Assets" id="link-assets" class="link"><a href="/assets" class="ss-flask link-href"><span class="link-text">Assets</span></a>
+								<li alt="Assets" id="link-assets" class="link"><a href="/assets" class="ss-briefcase link-href"><span class="link-text">Assets</span></a>
 								<ul class="sub_menu_links-hover">
 									<li class="sub-link"><a href="/assets/vault">Vault</a></li>
 									<li class="sub-link"><a href="/assets/status">Status</a></li>

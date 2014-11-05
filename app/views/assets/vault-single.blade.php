@@ -18,21 +18,22 @@
 
 @section('page-content')
 <div id="assets-page"  class="inner-page">
+<a href="/assets/vault/" class="ss-reply back-to-vault-home">Back to Vault Home</a>
 <h2>@yield('page-h2')</h2>
 
 <div id="vault-{{ $vaultAsset->id }}" class="vault-asset office-post-single" slug="{{ $vaultAsset->slug }}">
 	
-<div class="post-tags post-tooltip">
 {{ Form::open( array('id' => 'add-tag-'.$vaultAsset->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$vaultAsset->id, 'method' => 'post') ) }}
+<div class="post-tags post-tooltip">
 
-<div class="tags-added-ajax tags-existing-ajax" formtype="add-tag-vault-asset" formlocation="/assets/vault/singleviewupdate/{{ $vaultAsset->id }}/tag_id">{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}</div>
+<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $vaultAsset->id }}" formtype="add-tag-type" formlocation="/assets/vault/singleviewupdate/{{ $vaultAsset->id }}/tag_id">{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}</div>
 <span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
 {{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
 {{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
 <div class="tags-search-ajax"></div>
 
-{{ Form::close() }}
 </div>
+{{ Form::close() }}
 
 <div class="new-form-field">
 @if($vaultAsset->type == 'ftp' || $vaultAsset->type == 'database'  || $vaultAsset->type == 'server')

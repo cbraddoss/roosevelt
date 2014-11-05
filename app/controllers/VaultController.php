@@ -213,24 +213,6 @@ class VaultController extends \BaseController {
 	 */
 	public function show($slug)
 	{
-		// if(Request::ajax()) {
-		// 	if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
-		// 		$response = array(
-		// 			'actionType' => 'password-show',
-		// 			'errorMsg' => 'do not load form'
-		// 		);
-		// 		return Response::json( $response );
-		// 	}
-		// 	$vaultAsset = Vault::where('slug', $slug)->first();
-		// 	if(empty($vaultAsset)) return Redirect::route('assets.vault');
-		// 	else $getPassword = Crypt::decrypt($vaultAsset->password);
-		// 	$response = array(
-		// 		'actionType' => 'password-show',
-		// 		'asset' => $getPassword,
-		// 		'msg' => 'asset found'
-		// 	);
-		// 	return Response::json( $response );
-		// }
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
 		
 		$vaultAsset = Vault::where('slug', $slug)->first();
@@ -328,6 +310,66 @@ class VaultController extends \BaseController {
 		//
 	}
 
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateOnSingleView($id, $value)
+	{
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::to('assets.vault')->with('flash_message_error','Please enter vault key again.');
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/assets/vault')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		if(Input::has('attachnewtag') == 'attachtag') {
+
+	 		$validator = Validator::make(Input::all(), array(
+				'tag_id' => 'required|integer',
+				'type_id' => 'required|integer'
+			));
+
+			if($validator->fails()) {
+				$messages = $validator->messages();
+				$response = array(
+					'actionType' => 'vault-update',
+					'errorMsg' => $messages->first()
+				);
+				return Response::json( $response );
+			}
+
+			$vaultId = Input::get('type_id');
+			$parseTags = Input::get('tag_id');
+			$parseTags = explode(',', $parseTags);
+			$parseTags = array_unique($parseTags);
+			foreach($parseTags as $parseTag) {
+				if(is_numeric($parseTag)) {
+					$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'vault', $vaultId);
+					if($newTagRelationship == 'fail') {
+						$response = array(
+							'actionType' => 'vault-update',
+							'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+						);
+						return Response::json( $response );
+					}
+				}
+				else {
+					$response = array(
+						'actionType' => 'vault-update',
+						'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+					);
+					return Response::json( $response );
+				}
+			}
+
+			$response = array(
+				'actionType' => 'vault-update',
+				'tagsText' => Input::get('tagsText'),
+				'msg' => 'Tag added successfully!'
+			);
+			return Response::json( $response );
+
+		}
+	}
 
 	/**
 	 * Remove the specified resource from storage.
