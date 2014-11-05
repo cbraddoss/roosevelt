@@ -145,7 +145,7 @@
 					<div class="project-post office-post">
 						<div class="nothing-to-show">
 							<p>You are not currently assigned any tasks.</p>
-							<p>Consider tackling a <a href="/help">Help</a> post, or adding to the <a href="/wiki">Wiki</a>.</p>
+							<!-- <p>Consider tackling a <a href="/help">Help</a> post, or adding to the <a href="/wiki">Wiki</a>.</p> -->
 						</div>
 
 					</div>

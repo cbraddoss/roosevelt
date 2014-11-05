@@ -21,7 +21,6 @@
 {{ Form::label('tag_name', 'Add Tags:') }}
 {{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'search-tags vault-tags field')) }}
 {{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id field')) }}
-<!-- <span class="ss-plus form-button"></span> -->
 <div class="tags-search-ajax"></div>
 <div class="tags-added-ajax"></div>
 </div>

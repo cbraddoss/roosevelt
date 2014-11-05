@@ -23,12 +23,14 @@
 <div id="vault-{{ $vaultAsset->id }}" class="vault-asset office-post-single" slug="{{ $vaultAsset->slug }}">
 	
 <div class="post-tags post-tooltip">
-{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}
-<span class="tag-addnew tooltip-hover ss-plus"><span class="tooltip">Add New<br />Tag</span></span>
 {{ Form::open( array('id' => 'add-tag-'.$vaultAsset->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$vaultAsset->id, 'method' => 'post') ) }}
-{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag')) }}
+
+<div class="tags-added-ajax tags-existing-ajax" formtype="add-tag-vault-asset" formlocation="/assets/vault/singleviewupdate/{{ $vaultAsset->id }}/tag_id">{{ $vaultAsset->displayTags($vaultAsset->id, 'vault') }}</div>
+<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
+{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
 {{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
 <div class="tags-search-ajax"></div>
+
 {{ Form::close() }}
 </div>
 

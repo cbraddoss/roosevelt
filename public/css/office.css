@@ -944,18 +944,18 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	position: relative;
 }
 #content .add-new-tag-input {
-	position: absolute;
-	top: -25px;
+	float: left;
 	z-index: 99;
 	height: 30px;
 	width: 482px;
+	margin-top: 3px;
 	border-radius: 3px;
 	color: #ffffff;
 	background: #555555;
 	box-shadow: 0px 5px 10px 0px #111111;
 	border: 1px solid #ffffff;
 	display: inline-block;
-	padding-left: 5px;
+	padding-left: 10px;
 	font-size: 1.2em;
 }
 #content .new-form-field {
@@ -1027,7 +1027,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .accounts-search-ajax,
 #content .tags-search-ajax {
 	padding: 5px 0;
-	background: #555555;
+	background: #333333;
 	color: #ffffff;
 	box-shadow: 0px 5px 10px 0px #111111;
 	border: 1px solid #ffffff;
@@ -1042,7 +1042,6 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .new-form-field .accounts-search-ajax,
 #content .new-form-field .tags-search-ajax {
-	margin-left: 210px;
 	width: calc(100% - 220px);
 	top: 35px;
 }
@@ -1537,6 +1536,25 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single  h3,
 #content .office-post-single  h4 {
 	font-weight: 500;
+}
+#content .office-post-single .post-tags {
+	display: block;
+	height: 40px;
+}
+#content .office-post-single .post-tags .tags-added-ajax {
+	margin-left: 0px;
+	float: left;
+}
+#content .office-post-single .post-tags .add-button {
+	margin: 8px 10px 8px 0;
+	height: 18px;	
+}
+#content .office-post-single .post-tags .add-button:hover {
+	margin-top: 9px;
+	height: 17px;
+}
+#content .office-post-single .post-tags .tags-search-ajax {
+	top: 34px;
 }
 #content .office-post-single .post-single-attachment {
 	float: right;

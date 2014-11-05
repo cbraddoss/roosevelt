@@ -14,7 +14,7 @@
 		@include('assets.partials.assets-menu')
 		<li class="right">
 			<div id="vault-new-vault-form" class="create-something-new">
-				<div class="vault-button"><span class="add-new add-button"><span class="ss-plus"></span> Add New</span></div>
+				<div class="vault-button"><span formtype="add-vault-asset" formlocation="/assets/vault/create" class="add-new add-button"><span class="ss-plus"></span> Add New</span></div>
 			</div>
 		</li>
 		<li class="right select-dropdown">

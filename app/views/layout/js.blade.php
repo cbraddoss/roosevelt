@@ -193,6 +193,9 @@ jQuery(document).ready(function($){
 			$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."></span>');
 			$('.loading-something-new').hide().fadeIn(1000);
 			$.get( getCreateUrl, function( data ) {
+				if(data.errorMsg == 'do not load form' && data.actionType == 'vault-add') {
+					window.location.href='/assets/vault';
+				}
 				$('.add-button').each(function(){
 					$(this).prop('disabled',true);
 				});
@@ -258,6 +261,9 @@ jQuery(document).ready(function($){
 						var templateIdName = $(this).find('option[value='+templateIdGet+']').text();
 						$(this).parent().next('input[name=template_name]').val(templateIdName);
 					});
+				}
+				if(getFormType == 'add-vault-asset') {
+					$('form.add-vault-asset').find('.vault-hidden').parent().hide();
 				}
 			});
 		}
@@ -505,10 +511,12 @@ jQuery(document).ready(function($){
 		var thisTag = $(this);
 		stoppedAccountSearch = setTimeout(function(thisTag){
 			var accountSearch = $(document).find('.search-accounts.active-accounts-search').val();
-			console.log(accountSearch);
-		
-			$('.search-accounts.active-accounts-search').parent().find('.accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
+			
 			$('.search-accounts.active-accounts-search').parent().find('.accounts-search-ajax').addClass('active-accounts-search-ajax');
+			var inputPosition = $(document).find('.search-accounts.active-accounts-search').position();
+			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').css('left', inputPosition.left+'px');
+			$('.search-accounts.active-accounts-search').parent().find('.accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-dark-grey.gif" alt="Loading..."> Searching...</span>');
+			
 			if(accountSearch.length >= 1) {
 				// search accounts and return a list
 				var accountSearchOptions = { 
@@ -530,7 +538,7 @@ jQuery(document).ready(function($){
 				return false;
 			}
 			else $('.search-accounts.active-accounts-search').parent().find('.accounts-search-ajax').slideUp(500).html('');
-		 }, 1e3);
+		}, 1e3);
 	});
 	$(document).on('mouseenter','.active-accounts-search-ajax.accounts-search-ajax span', function(){
 		$(this).removeClass('search-hover');
@@ -549,12 +557,251 @@ jQuery(document).ready(function($){
 	{
 		if(data.msg == 'found some') {
 			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').fadeIn(400).html(data.accounts);
-			$(document).find('.active-accounts-search-ajax.accounts-search-ajax span').first().addClass('search-hover');
 		}
 		else {
 			$(document).find('.active-accounts-search-ajax.accounts-search-ajax').fadeIn(400).html('<p>No accounts found. Be sure account is added to system before continuing.</p>');
 		}
 	}
+
+	//Show/hide add tags input box
+	$(document).on('click','.tag-addnew.ss-plus', function() {
+		$(this).removeClass('ss-plus').addClass('ss-delete').addClass('active-tag-search').addClass('active');
+		$(this).parent().find('.addnew-tag').addClass('add-new-tag-input').hide().slideDown(1000, function() {
+			$(this).focus();
+		});
+	});
+	$(document).on('click','.tag-addnew.active-tag-search.ss-delete', function() {
+		$(this).removeClass('ss-delete').addClass('ss-plus').removeClass('active-tag-search').removeClass('active');		
+		$(document).find('.addnew-tag').slideUp(1000);
+		$(document).find('form.add-new-tag .tags-search-ajax').hide();
+		$(document).find('form.add-new-tag').find('input[name=tag_name]').val('');
+		$(document).find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	});
+
+	//tag search
+	var stoppedTagSearch;
+	$(document).on('input','.search-tags', function() {
+		$(this).addClass('active-tags-search');
+		if (stoppedTagSearch) clearTimeout(stoppedTagSearch);
+		var thisTag = $(this);
+		stoppedTagSearch = setTimeout(function(thisTag){
+			var tagsSearch = $(document).find('.search-tags.active-tags-search').val();
+
+			$('.search-tags.active-tags-search').parent().find('.tags-search-ajax').addClass('active-tags-search-ajax');
+			var inputPosition = $(document).find('.search-tags.active-tags-search').position();
+			$(document).find('.active-tags-search-ajax.tags-search-ajax').css('left', inputPosition.left+'px');
+			$('.search-tags.active-tags-search').parent().find('.tags-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-dark-grey.gif" alt="Loading..."> Searching...</span>');
+			
+			if(tagsSearch.length >= 1) {
+				// search tags and return a list
+				var tagsSearchOptions = { 
+					target:   '.tags-search-ajax',   // target element(s) to be updated with server response 
+					success:       tagsSearchSuccess,  // post-submit callback
+					dataType: 'json',
+					data: { 
+						_token: $('.search-tags.active-tags-search').parent().parent().parent().find('input[name=_token]').attr('value'),
+						title: tagsSearch
+					},
+					type: 'POST',
+					url: '/tags/search/'+tagsSearch,
+					resetForm: false        // reset the form after successful submit 
+				};
+				$(this).find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+				$(this).ajaxSubmit(tagsSearchOptions);
+				return false;
+			}
+		 else $('.search-tags.active-tags-search').parent().find('.tags-search-ajax').slideUp(500).html('');
+		}, 1e3);
+	});
+	$(document).on('mouseenter','.active-tags-search-ajax.tags-search-ajax .tags-searched', function(){
+		$(this).removeClass('search-hover');
+	});
+	$(document).on('click','.active-tags-search-ajax.tags-search-ajax .close-tag-search', function() {
+		$(document).find('.active-tags-search-ajax.tags-search-ajax').slideUp(1000, function() {
+			$(this).html('');
+		});
+	});
+	$(document).on('click','.active-tags-search-ajax.tags-search-ajax .tags-searched', function() {
+		var existingTags = $('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-existing-ajax').length;
+		if( existingTags >= 1) {
+			// var getFormType = 
+			// var getTypeId = 
+			console.log('existing tags found');
+		}
+		var existingTagsID = $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value');
+		//console.log(existingTagsID);
+		var tagsID = parseInt($(this).attr('value'),10);
+		var tagsText = $(this).text();
+		$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
+		if(existingTagsID == null) $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value',tagsID);
+		else $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
+		$(document).find('.active-tags-search-ajax.tags-search-ajax').slideUp(1000, function() {
+			$(this).html('');
+		});
+		$('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_name]').val('');
+		$('.active-tags-search-ajax.tags-search-ajax').parent().find('.changed-input').each(function() {
+			$(this).removeClass('changed-input');
+		});
+	});
+	function tagsSearchSuccess(data)
+	{
+		if(data.msg == 'found some') {
+			$(document).find('.active-tags-search-ajax.tags-search-ajax').fadeIn(400).html(data.tagsSearch);
+		}
+		else {
+			$(document).find('.active-tags-search-ajax.tags-search-ajax').show().html('<p class="close-tag-search">No existing tags found matching the search criteria. [x]</p><p>Create Tag: </p><span value="'+data.tagsSearch+'" class="tag-addnew tag-name"><a class="ss-tag">'+data.tagsSearch+'</a></span>');
+		}
+	}
+
+	// $(document).on('click','form.add-vault-asset .tags-search-ajax span.tag-addnew', function() {
+	// 	var tagsNewText = $(this).text();
+	// 	var tagsAddNewOptions = { 
+	// 		target:   '.tags-added-ajax',   // target element(s) to be updated with server response 
+	// 		success:       tagsAddNewSuccess,  // post-submit callback
+	// 		dataType: 'json',
+	// 		data: { 
+	// 			_token: $(this).parent().parent().parent().parent().find('input[name=_token]').attr('value')
+	// 		},
+	// 		type: 'POST',
+	// 		url: '/tags/newtag/'+tagsNewText,
+	// 		resetForm: false        // reset the form after successful submit 
+	// 	};
+	// 	$(this).find('.changed-input').each(function() {
+	// 		$(this).removeClass('changed-input');
+	// 	});
+	// 	$(this).ajaxSubmit(tagsAddNewOptions);
+	// 	return false;
+	// });
+	
+	// function tagsAddNewSuccess(data)
+	// {
+	// 	if(data.errorMsg) {
+	// 		$('#message-box-json').fadeIn();
+	// 		$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+	// 	}
+	// 	else {
+	// 		$('#message-box-json').fadeIn();
+	// 		$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+	// 		var existingTagsID = $(document).find('form.add-vault-asset input[name=tag_id]').attr('value');
+	// 		//console.log(existingTagsID);
+	// 		var tagNewID = data.tagID;
+	// 		var tagNewText = data.tagname;
+	// 		$(document).find('form.add-vault-asset .tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagNewText+'</a></span>');
+	// 		if(existingTagsID == null) $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',tagNewID);
+	// 		else $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',existingTagsID+','+tagNewID);
+	// 		$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+	// 		$(document).find('form.add-vault-asset input[name=tag_name]').val('');
+	// 		$(document).find('form.add-vault-asset .changed-input').each(function() {
+	// 				$(this).removeClass('changed-input');
+	// 			});
+	// 		$('#message-box-json').delay(4000).fadeOut();
+	// 		//.find('.section').empty();
+	// 	}
+	// }
+
+	// active search of tags - vault code
+			// $(document).on('input','form.add-vault-asset .search-tags', function() {
+			// 	var tagsSearch = $(this).val();
+			// 	$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
+			// 	if(tagsSearch.length >= 1) {
+			// 		// search tags and return a list
+			// 		var tagsVaultSearchOptions = { 
+			// 			target:   '.tags-search-ajax',   // target element(s) to be updated with server response 
+			// 			success:       tagsVaultSearchSuccess,  // post-submit callback
+			// 			dataType: 'json',
+			// 			data: { 
+			// 				_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
+			// 				title: tagsSearch
+			// 			},
+			// 			type: 'POST',
+			// 			url: '/tags/search/'+tagsSearch,
+			// 			resetForm: false        // reset the form after successful submit 
+			// 		};
+			// 		$(this).find('.changed-input').each(function() {
+			// 			$(this).removeClass('changed-input');
+			// 		});
+			// 		$(this).ajaxSubmit(tagsVaultSearchOptions);
+			// 		return false;
+			// 	}
+			// });
+			// $(document).on('mouseenter','form.add-vault-asset .tags-search-ajax span', function(){
+			// 	$(this).removeClass('search-hover');
+			// });
+			// $(document).on('click','form.add-vault-asset .tags-search-ajax span.tags-searched', function() {
+			// 	var existingTagsID = $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value');
+			// 	//console.log(existingTagsID);
+			// 	var tagsID = parseInt($(this).attr('value'),10);
+			// 	var tagsText = $(this).text();
+			// 	$(this).closest('form.add-vault-asset').find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
+			// 	if(existingTagsID == null) $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',tagsID);
+			// 	else $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
+			// 	$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+			// 	$(this).closest('form.add-vault-asset').find('input[name=tag_name]').val('');
+			// 	$(this).closest('form.add-vault-asset').find('.changed-input').each(function() {
+			// 		$(this).removeClass('changed-input');
+			// 	});
+			// });
+			// $(document).on('click','form.add-vault-asset .tags-search-ajax span.tag-addnew', function() {
+			// 	var tagsNewText = $(this).text();
+			// 	var tagsAddNewOptions = { 
+			// 		target:   '.tags-added-ajax',   // target element(s) to be updated with server response 
+			// 		success:       tagsAddNewSuccess,  // post-submit callback
+			// 		dataType: 'json',
+			// 		data: { 
+			// 			_token: $(this).parent().parent().parent().parent().find('input[name=_token]').attr('value')
+			// 		},
+			// 		type: 'POST',
+			// 		url: '/tags/newtag/'+tagsNewText,
+			// 		resetForm: false        // reset the form after successful submit 
+			// 	};
+			// 	$(this).find('.changed-input').each(function() {
+			// 		$(this).removeClass('changed-input');
+			// 	});
+			// 	$(this).ajaxSubmit(tagsAddNewOptions);
+			// 	return false;
+			// });
+			// $(document).on('click','form.add-vault-asset .tags-search-ajax p', function() {
+			// 	$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+			// });
+
+// function tagsAddNewSuccess(data)
+// 	{
+// 		if(data.errorMsg) {
+// 			$('#message-box-json').fadeIn();
+// 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+// 		}
+// 		else {
+// 			$('#message-box-json').fadeIn();
+// 			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
+// 			var existingTagsID = $(document).find('form.add-vault-asset input[name=tag_id]').attr('value');
+// 			//console.log(existingTagsID);
+// 			var tagNewID = data.tagID;
+// 			var tagNewText = data.tagname;
+// 			$(document).find('form.add-vault-asset .tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagNewText+'</a></span>');
+// 			if(existingTagsID == null) $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',tagNewID);
+// 			else $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',existingTagsID+','+tagNewID);
+// 			$(document).find('form.add-vault-asset .tags-search-ajax').hide();
+// 			$(document).find('form.add-vault-asset input[name=tag_name]').val('');
+// 			$(document).find('form.add-vault-asset .changed-input').each(function() {
+// 					$(this).removeClass('changed-input');
+// 				});
+// 			$('#message-box-json').delay(4000).fadeOut();
+// 		}
+// 	}
+// 	function tagsVaultSearchSuccess(data)
+// 	{
+// 		if(data.msg == 'found some') {
+// 			$(document).find('form.add-vault-asset .tags-search-ajax').show().html(data.tagsSearch);
+// 			$(document).find('form.add-vault-asset .tags-search-ajax span').first().addClass('search-hover');
+// 		}
+// 		else {
+// 			$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<p>No existing tags found matching the search criteria. [x]</p><p>Create Tag: </p><span value="'+data.tagsSearch+'" class="tag-addnew tag-name"><a class="ss-tag">'+data.tagsSearch+'</a></span>');
+// 		}
+// 	}
 
 	// Subscribe users to a project (edit and new forms)
 	$(document).on('click', '.form-subscribe-buttons .subscribe', function(){
@@ -784,135 +1031,6 @@ jQuery(document).ready(function($){
 		$(this).closest('.new-form-field').remove();
 	});
 	
-	/* Tags Page */
-	/* Add Tags */
-	$(document).on('click','.tag-addnew', function() {
-		$(this).removeClass('ss-plus').addClass('ss-delete').addClass('active');
-		$(document).find('.addnew-tag').addClass('add-new-tag-input').fadeIn(800).focus();
-
-// 		var stoppedTyping;
-// $('#input').on('keypress', function(){
-//   // is there already a timer? clear if if there is
-//   if (stoppedTyping) clearTimeout(stoppedTyping);
-//   // set a new timer to execute 3 seconds from last keypress
-//   stoppedTyping = setTimeout(function(){
-//     // code to trigger once timeout has elapsed
-//   }, 1e3); // 3 seconds
-// });
-		var stoppedTyping;
-		$(document).on('keypress','form.add-new-tag .addnew-tag', function() {
-			if (stoppedTyping) clearTimeout(stoppedTyping);
-			var thisTag = $(this);
-			stoppedTyping = setTimeout(function(thisTag){
-				var tagsSearch = $(document).find('form.add-new-tag .addnew-tag').val();
-				console.log(tagsSearch);
-				$(document).find('form.add-new-tag .tags-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
-				if(tagsSearch.length >= 1) {
-					// search tags and return a list
-					var tagsSearchOptions = { 
-						target:   '.tags-search-ajax',   // target element(s) to be updated with server response 
-						success:       tagsSearchSuccess,  // post-submit callback
-						dataType: 'json',
-						data: { 
-							_token: $(document).find('form.add-new-tag input[name=_token]').attr('value'),
-							title: tagsSearch
-						},
-						type: 'POST',
-						url: '/tags/search/'+tagsSearch,
-						resetForm: false        // reset the form after successful submit 
-					};
-					$(this).find('.changed-input').each(function() {
-						$(this).removeClass('changed-input');
-					});
-					$(this).ajaxSubmit(tagsSearchOptions);
-					return false;
-				}
-			 }, 1e3);
-		});
-		$(document).on('mouseenter','form.add-new-tag .tags-search-ajax span', function(){
-			$(this).removeClass('search-hover');
-		});
-		
-		$(document).on('click','form.add-new-tag .tags-search-ajax span.tags-searched', function() {
-			var existingTagsID = $(this).closest('form.add-new-tag').find('input[name=tag_id]').attr('value');
-			//console.log(existingTagsID);
-			var tagsID = parseInt($(this).attr('value'),10);
-			var tagsText = $(this).text();
-			$(this).closest('form.add-new-tag').find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
-			if(existingTagsID == null) $(this).closest('form.add-new-tag').find('input[name=tag_id]').attr('value',tagsID);
-			else $(this).closest('form.add-new-tag').find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
-			$(document).find('form.add-new-tag .tags-search-ajax').hide();
-			$(this).closest('form.add-new-tag').find('input[name=tag_name]').val('');
-			$(this).closest('form.add-new-tag').find('.changed-input').each(function() {
-				$(this).removeClass('changed-input');
-			});
-		});
-		// $(document).on('click','form.add-vault-asset .tags-search-ajax span.tag-addnew', function() {
-		// 	var tagsNewText = $(this).text();
-		// 	var tagsAddNewOptions = { 
-		// 		target:   '.tags-added-ajax',   // target element(s) to be updated with server response 
-		// 		success:       tagsAddNewSuccess,  // post-submit callback
-		// 		dataType: 'json',
-		// 		data: { 
-		// 			_token: $(this).parent().parent().parent().parent().find('input[name=_token]').attr('value')
-		// 		},
-		// 		type: 'POST',
-		// 		url: '/tags/newtag/'+tagsNewText,
-		// 		resetForm: false        // reset the form after successful submit 
-		// 	};
-		// 	$(this).find('.changed-input').each(function() {
-		// 		$(this).removeClass('changed-input');
-		// 	});
-		// 	$(this).ajaxSubmit(tagsAddNewOptions);
-		// 	return false;
-		// });
-		$(document).on('click','form.add-new-tag .tags-search-ajax p', function() {
-			$(document).find('form.add-new-tag .tags-search-ajax').hide();
-		});
-	});
-	$(document).on('click','.tag-addnew.active', function() {
-		$(this).removeClass('ss-delete').addClass('ss-plus').removeClass('active');		
-		$(document).find('.addnew-tag').fadeOut(800);
-		$(document).find('form.add-new-tag .tags-search-ajax').hide();
-		$(document).find('form.add-new-tag').find('input[name=tag_name]').val('');
-	});
-	// function tagsAddNewSuccess(data)
-	// {
-	// 	if(data.errorMsg) {
-	// 		$('#message-box-json').fadeIn();
-	// 		$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-	// 	}
-	// 	else {
-	// 		$('#message-box-json').fadeIn();
-	// 		$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-	// 		var existingTagsID = $(document).find('form.add-vault-asset input[name=tag_id]').attr('value');
-	// 		//console.log(existingTagsID);
-	// 		var tagNewID = data.tagID;
-	// 		var tagNewText = data.tagname;
-	// 		$(document).find('form.add-vault-asset .tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagNewText+'</a></span>');
-	// 		if(existingTagsID == null) $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',tagNewID);
-	// 		else $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',existingTagsID+','+tagNewID);
-	// 		$(document).find('form.add-vault-asset .tags-search-ajax').hide();
-	// 		$(document).find('form.add-vault-asset input[name=tag_name]').val('');
-	// 		$(document).find('form.add-vault-asset .changed-input').each(function() {
-	// 				$(this).removeClass('changed-input');
-	// 			});
-	// 		$('#message-box-json').delay(4000).fadeOut();
-	// 		//.find('.section').empty();
-	// 	}
-	// }
-	function tagsSearchSuccess(data)
-	{
-		if(data.msg == 'found some') {
-			console.log('found some');
-			$(document).find('form.add-new-tag .tags-search-ajax').show().html(data.tagsSearch);
-			$(document).find('form.add-new-tag .tags-search-ajax span').first().addClass('search-hover');
-		}
-		else {
-			$(document).find('form.add-new-tag .tags-search-ajax').show().html('<p>No existing tags found matching the search criteria. [x]</p><p>Create Tag: </p><span value="'+data.tagsSearch+'" class="tag-addnew tag-name"><a class="ss-tag">'+data.tagsSearch+'</a></span>');
-		}
-	}
-
 	/* News Page */
 	// detect Status change and update submit button text
 	$(document).on('change', 'form.add-article select[name=status]', function(){
@@ -1656,295 +1774,82 @@ jQuery(document).ready(function($){
 	/* Vault */
 	$(document).on('click','#content .vault-asset.office-post-single .show-me', function() {
 		var vaultAssetLink = $(this).closest('.office-post-single').attr('slug');
-		$.get( "/assets/vault/asset/"+vaultAssetLink, function( data ) {
-			if(data.errorMsg) {
+		$.get( "/assets/vault/asset/"+vaultAssetLink+"/show-password", function( data ) {
+			if(data.errorMsg == 'do not load form' && data.actionType == 'password-show') {
 				window.location.href='/assets/vault';
 			}
 			$(document).find('#content .vault-asset.office-post-single .vault-password').val(data.asset);
 			$(document).find('#content .vault-asset.office-post-single .show-me').hide();
 		});
 	});
-	// add new vault asset
-	$(document).on('click','#page-nav_menu #vault-new-vault-form .add-button',function(){
-		$('.add-button').each(function(){
-			$(this).prop('disabled',true);
-		});
-		$('.inner-page').before('<span class="loading-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Loading Form...</span>');
-		$.get( "/assets/vault", function( data ) {
-			if(data.errorMsg) {
-				//console.log('please redirect');
-				window.location.href='/assets/vault';
-			}
-			$('.inner-page').before(data);
-			$(document).find('.loading-something-new').remove();
-			$('#content .vault-add-form.create-something-form').slideDown(400);
-			$('#page-nav_menu #vault-new-vault-form.create-something-new .add-button').addClass('active');
-			$('#content .vault-add-form.create-something-form .vault-hidden').closest('.new-form-field').hide();
-			$('.add-button').each(function(){
-				$(this).prop('disabled',true);
-			});
-
-			// active search of accounts
-			$(document).on('input','form.add-vault-asset .search-accounts', function() {
-				var accountSearch = $(this).val();
-				$(document).find('form.add-vault-asset .accounts-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
-				if(accountSearch.length >= 1) {
-					// search accounts and return a list
-					var accountVaultSearchOptions = { 
-						target:   '.accounts-search-ajax',   // target element(s) to be updated with server response 
-						success:       accountVaultSearchSuccess,  // post-submit callback
-						dataType: 'json',
-						data: { 
-							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
-							title: accountSearch
-						},
-						type: 'POST',
-						url: '/accounts/search/'+accountSearch,
-						resetForm: false        // reset the form after successful submit 
-					};
-					$(this).find('.changed-input').each(function() {
-						$(this).removeClass('changed-input');
-					});
-					$(this).ajaxSubmit(accountVaultSearchOptions);
-					return false;
-				}
-			});
-			$(document).on('mouseenter','form.add-vault-asset .accounts-search-ajax span', function(){
-				$(this).removeClass('search-hover');
-			});
-			$(document).on('click','form.add-vault-asset .accounts-search-ajax span', function() {
-				var accountID = parseInt($(this).attr('value'),10);
-				var accountText = $(this).text();
-				$(this).closest('form.add-vault-asset').find('input[name=account_name]').val(accountText);
-				$(this).closest('form.add-vault-asset').find('input[name=account_id]').attr('value',accountID);
-				$(document).find('form.add-vault-asset .accounts-search-ajax').hide();
-			});
-
-			// active search of tags
-			$(document).on('input','form.add-vault-asset .search-tags', function() {
-				var tagsSearch = $(this).val();
-				$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<span><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Searching...</span>');
-				if(tagsSearch.length >= 1) {
-					// search tags and return a list
-					var tagsVaultSearchOptions = { 
-						target:   '.tags-search-ajax',   // target element(s) to be updated with server response 
-						success:       tagsVaultSearchSuccess,  // post-submit callback
-						dataType: 'json',
-						data: { 
-							_token: $(this).parent().parent().parent().find('input[name=_token]').attr('value'),
-							title: tagsSearch
-						},
-						type: 'POST',
-						url: '/tags/search/'+tagsSearch,
-						resetForm: false        // reset the form after successful submit 
-					};
-					$(this).find('.changed-input').each(function() {
-						$(this).removeClass('changed-input');
-					});
-					$(this).ajaxSubmit(tagsVaultSearchOptions);
-					return false;
-				}
-			});
-			$(document).on('mouseenter','form.add-vault-asset .tags-search-ajax span', function(){
-				$(this).removeClass('search-hover');
-			});
-			$(document).on('click','form.add-vault-asset .tags-search-ajax span.tags-searched', function() {
-				var existingTagsID = $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value');
-				//console.log(existingTagsID);
-				var tagsID = parseInt($(this).attr('value'),10);
-				var tagsText = $(this).text();
-				$(this).closest('form.add-vault-asset').find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
-				if(existingTagsID == null) $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',tagsID);
-				else $(this).closest('form.add-vault-asset').find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
-				$(document).find('form.add-vault-asset .tags-search-ajax').hide();
-				$(this).closest('form.add-vault-asset').find('input[name=tag_name]').val('');
-				$(this).closest('form.add-vault-asset').find('.changed-input').each(function() {
-					$(this).removeClass('changed-input');
-				});
-			});
-			$(document).on('click','form.add-vault-asset .tags-search-ajax span.tag-addnew', function() {
-				var tagsNewText = $(this).text();
-				var tagsAddNewOptions = { 
-					target:   '.tags-added-ajax',   // target element(s) to be updated with server response 
-					success:       tagsAddNewSuccess,  // post-submit callback
-					dataType: 'json',
-					data: { 
-						_token: $(this).parent().parent().parent().parent().find('input[name=_token]').attr('value')
-					},
-					type: 'POST',
-					url: '/tags/newtag/'+tagsNewText,
-					resetForm: false        // reset the form after successful submit 
-				};
-				$(this).find('.changed-input').each(function() {
-					$(this).removeClass('changed-input');
-				});
-				$(this).ajaxSubmit(tagsAddNewOptions);
-				return false;
-			});
-			$(document).on('click','form.add-vault-asset .tags-search-ajax p', function() {
-				$(document).find('form.add-vault-asset .tags-search-ajax').hide();
-			});
-		});
-	});
-	function tagsAddNewSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-			var existingTagsID = $(document).find('form.add-vault-asset input[name=tag_id]').attr('value');
-			//console.log(existingTagsID);
-			var tagNewID = data.tagID;
-			var tagNewText = data.tagname;
-			$(document).find('form.add-vault-asset .tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagNewText+'</a></span>');
-			if(existingTagsID == null) $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',tagNewID);
-			else $(document).find('form.add-vault-asset input[name=tag_id]').attr('value',existingTagsID+','+tagNewID);
-			$(document).find('form.add-vault-asset .tags-search-ajax').hide();
-			$(document).find('form.add-vault-asset input[name=tag_name]').val('');
-			$(document).find('form.add-vault-asset .changed-input').each(function() {
-					$(this).removeClass('changed-input');
-				});
-			$('#message-box-json').delay(4000).fadeOut();
-		}
-	}
-	function tagsVaultSearchSuccess(data)
-	{
-		if(data.msg == 'found some') {
-			$(document).find('form.add-vault-asset .tags-search-ajax').show().html(data.tagsSearch);
-			$(document).find('form.add-vault-asset .tags-search-ajax span').first().addClass('search-hover');
-		}
-		else {
-			$(document).find('form.add-vault-asset .tags-search-ajax').show().html('<p>No existing tags found matching the search criteria. [x]</p><p>Create Tag: </p><span value="'+data.tagsSearch+'" class="tag-addnew tag-name"><a class="ss-tag">'+data.tagsSearch+'</a></span>');
-		}
-	}
-	function accountVaultSearchSuccess(data)
-	{
-		if(data.msg == 'found some') {
-			$(document).find('form.add-vault-asset .accounts-search-ajax').show().html(data.accounts);
-			$(document).find('form.add-vault-asset .accounts-search-ajax span').first().addClass('search-hover');
-		}
-		else {
-			$(document).find('form.add-vault-asset .accounts-search-ajax').show().html('<p>No accounts found. [x]</p>');
-		}
-	}
-		
+	
 	$(document).on('change','#content .add-vault-asset select', function() {
 		var vaultType = $(this).val();
-		//console.log(vaultType);
 		if(vaultType == 'website') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('URL:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 		if(vaultType == 'ftp') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-ftp-path').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('Server:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-ftp-path').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 		if(vaultType == 'database') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-database-name').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('Server:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-database-name').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 		if(vaultType == 'email') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('URL:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 		if(vaultType == 'server') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('Server:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('Server:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 		if(vaultType == 'generic') {
-			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(400);
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').find('label').html('URL:');
-			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(400);
-			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(400);
+			$('#content .vault-add-form.create-something-form .vault-field').closest('.new-form-field').slideUp(1000);
+			$('#content .vault-add-form.create-something-form .vault-url').closest('.new-form-field').slideDown(1000, function() {
+				$(this).find('label').html('URL:');
+			});
+			$('#content .vault-add-form.create-something-form .vault-username').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-password').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-notes').closest('.new-form-field').slideDown(1000);
+			$('#content .vault-add-form.create-something-form .vault-attachments').closest('.new-form-field').slideDown(1000);
 		}
 	});
-	// submit new vault asset
-	var addVaultAssetOptions = { 
-		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-		success:       afterAddVaultAssetSuccess,  // post-submit callback 
-		resetForm: false        // reset the form after successful submit 
-	};	        
-	$(document).on('submit','#content .vault-add-form form.add-vault-asset', function() {
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-	    $(this).ajaxSubmit(addVaultAssetOptions);
-	    //console.log('submit');
-	    return false; 
-	});
-	function afterAddVaultAssetSuccess(data)
-	{
-		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
-		}
-		else {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-success">'+data.msg+'</span></div>');
-		    //console.log('success');
-			window.location.href = '/assets/vault/asset/'+data.slug;
-		}
-	}
 	
-	
-	// $('#link-search').click( function() {
-	// 	$('#search-box').fadeIn();
-	// 	$('#search-box input.search').focus();
-	// });
-	// $(document).on('click','#search-box .ss-delete',function(){
-	// 	$('#search-box input.search').blur();
-	// 	$('#search-box').fadeOut();
-	// });
-	// $('#search-box input').keyup( function(ev) {
-	// 	// hide if press esc
-	// 	if ( ev.keyCode == 27 ) {
-	// 		$(this).blur();
-	// 		$('#search-box').fadeOut();
-	// 	}
-	// });
-	// $('body').keydown( function( event ) {
-	// 	if ( event.which == 191 ) { // '/' really. slash.
-	// 		if ( $('input, textarea').is(":focus") ) {} else {
-	// 		event.preventDefault();
-	// 			$('#search-box').fadeIn();
-	// 			$('#search-box input.search').focus();
-	// 		}
-	// 	}
-	// });
-
+	/* Extras */
 	$(document).on('change keyup keydown', 'input, textarea, select', function(e){
 		if($(this).parent().attr('class') == 'add-vacation-profile') return;
 		if($(this).attr('class') == 'filter-author') return;

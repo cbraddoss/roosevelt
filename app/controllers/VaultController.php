@@ -29,15 +29,15 @@ class VaultController extends \BaseController {
 	 */
 	public function index()
 	{
-		if(Request::ajax()) {
-			if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
-				$response = array(
-					'errorMsg' => 'do not load form'
-				);
-				return Response::json( $response );
-			}
-			return View::make('assets.partials.new-vault-asset');
-		}
+		// if(Request::ajax()) {
+		// 	if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+		// 		$response = array(
+		// 			'errorMsg' => 'do not load form'
+		// 		);
+		// 		return Response::json( $response );
+		// 	}
+		// 	return View::make('assets.partials.new-vault-asset');
+		// }
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
 		
 		// Cache::forget('vault_key_'.Auth::user()->user_path);
@@ -72,7 +72,18 @@ class VaultController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		if(Request::ajax()) {
+			if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+				$response = array(
+					'actionType' => 'vault-add',
+					'errorMsg' => 'do not load form'
+				);
+				return Response::json( $response );
+			}
+			return View::make('assets.partials.new-vault-asset');
+		}
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
+		return Redirect::to('/assets/vault');
 	}
 
 
@@ -97,6 +108,7 @@ class VaultController extends \BaseController {
 		if($validator->fails()) {
 			$messages = $validator->messages();
 			$response = array(
+				'actionType' => 'vault-add',
 				'errorMsg' => $messages->first()
 			);
 			return Response::json( $response );
@@ -140,6 +152,7 @@ class VaultController extends \BaseController {
 			} catch(Illuminate\Database\QueryException $e)
 			{
 				$response = array(
+					'actionType' => 'vault-add',
 					'errorMsg' => 'Oops, there might be a vault asset with this title already. Try a different title.'
 				);
 				return Response::json( $response );
@@ -154,7 +167,9 @@ class VaultController extends \BaseController {
 						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'vault', $newVault->id);
 						if($newTagRelationship == 'fail') {
 							$response = array(
+								'actionType' => 'vault-add',
 								'slug' => $newVault->slug,
+								'windowAction' => '/assets/vault/asset/'.$newVault->slug,
 								'msg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
 							);
 							return Response::json( $response );
@@ -162,7 +177,9 @@ class VaultController extends \BaseController {
 					}
 					else {
 						$response = array(
+							'actionType' => 'vault-add',
 							'slug' => $newVault->slug,
+							'windowAction' => '/assets/vault/asset/'.$newVault->slug,
 							'msg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
 						);
 						return Response::json( $response );
@@ -171,13 +188,16 @@ class VaultController extends \BaseController {
 			}
 
 			$response = array(
+				'actionType' => 'vault-add',
 				'slug' => $newVault->slug,
+				'windowAction' => '/assets/vault/asset/'.$newVault->slug,
 				'msg' => 'Vault Asset created successfully!'
 			);
 			return Response::json( $response );
 		}
 		
 		$response = array(
+			'actionType' => 'vault-add',
 			'errorMsg' => 'Something went wrong. :('
 		);
 		return Response::json( $response );
@@ -193,22 +213,24 @@ class VaultController extends \BaseController {
 	 */
 	public function show($slug)
 	{
-		if(Request::ajax()) {
-			if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
-				$response = array(
-					'errorMsg' => 'do not load form'
-				);
-				return Response::json( $response );
-			}
-			$vaultAsset = Vault::where('slug', $slug)->first();
-			if(empty($vaultAsset)) return Redirect::route('assets.vault');
-			else $getPassword = Crypt::decrypt($vaultAsset->password);
-			$response = array(
-				'asset' => $getPassword,
-				'msg' => 'asset found'
-			);
-			return Response::json( $response );
-		}
+		// if(Request::ajax()) {
+		// 	if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+		// 		$response = array(
+		// 			'actionType' => 'password-show',
+		// 			'errorMsg' => 'do not load form'
+		// 		);
+		// 		return Response::json( $response );
+		// 	}
+		// 	$vaultAsset = Vault::where('slug', $slug)->first();
+		// 	if(empty($vaultAsset)) return Redirect::route('assets.vault');
+		// 	else $getPassword = Crypt::decrypt($vaultAsset->password);
+		// 	$response = array(
+		// 		'actionType' => 'password-show',
+		// 		'asset' => $getPassword,
+		// 		'msg' => 'asset found'
+		// 	);
+		// 	return Response::json( $response );
+		// }
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
 		
 		$vaultAsset = Vault::where('slug', $slug)->first();
@@ -225,6 +247,35 @@ class VaultController extends \BaseController {
 		else return Redirect::route('assets.vault');
 	}
 
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function showPassword($slug)
+	{
+		if(Request::ajax()) {
+			if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+				$response = array(
+					'actionType' => 'password-show',
+					'errorMsg' => 'do not load form'
+				);
+				return Response::json( $response );
+			}
+			$vaultAsset = Vault::where('slug', $slug)->first();
+			if(empty($vaultAsset)) return Redirect::route('assets.vault');
+			else $getPassword = Crypt::decrypt($vaultAsset->password);
+			$response = array(
+				'actionType' => 'password-show',
+				'asset' => $getPassword,
+				'msg' => 'asset found'
+			);
+			return Response::json( $response );
+		}
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
+		return Redirect::to('/assets/vault/');
+	}
 	/**
 	 * Display the specified resource.
 	 *
