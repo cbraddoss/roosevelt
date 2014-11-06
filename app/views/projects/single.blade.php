@@ -57,6 +57,19 @@
 
 	<div id="project-{{ $project->id }}" class="projects-post office-post-single" slug="{{ $project->slug }}">
 		
+		{{ Form::open( array('id' => 'add-tag-'.$project->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$project->id, 'method' => 'post') ) }}
+		<div class="post-tags post-tooltip">
+			<h3 class="ss-tag"> Tags:</h3>
+			<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $project->id }}" formtype="add-tag-type" formlocation="/projects/singleviewupdate/{{ $project->id }}/tag_id">{{ $project->displayTags($project->id, 'project') }}</div>
+			<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
+			{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
+			{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
+			<div class="tags-search-ajax"></div>
+
+			
+		</div>
+		{{ Form::close() }}
+
 		<div class="post-content">
 			<h3 class="ss-crosshair"> Project Scope:</h3>
 			<p>{{ display_content($project->content) }}</p>
@@ -97,19 +110,6 @@
 			{{ Form::hidden('id', $project->id) }}
 		{{ Form::close() }}
 		</div>
-
-		{{ Form::open( array('id' => 'add-tag-'.$project->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$project->id, 'method' => 'post') ) }}
-		<div class="post-tags post-tooltip">
-			<h3 class="ss-tag"> Tags:</h3>
-			<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $project->id }}" formtype="add-tag-type" formlocation="/projects/singleviewupdate/{{ $project->id }}/tag_id">{{ $project->displayTags($project->id, 'project') }}</div>
-			<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
-			{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
-			{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
-			<div class="tags-search-ajax"></div>
-
-			
-		</div>
-		{{ Form::close() }}
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
@@ -132,14 +132,14 @@
 
 		<div class="project-stage-due-date">
 			<div class="post-assigned-to">
-			<h3><img src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /><small> Assigned To:</small></h3>
+			<h3><img class="project-assigned-avatar" src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /><small> Assigned To:</small></h3>
 <span class="tooltip-hover"><span class="tooltip">Change<br />User</span></span>
 <div class="select-dropdown">
 <span class="ss-dropdown"></span>
 <span class="ss-directup"></span>
 <select class="change-project-user-list" name="change-project-user-list">{{ get_active_user_list_select(User::find($project->assigned_id)->first_name. ' ' .User::find($project->assigned_id)->last_name) }}</select>
 </div>
-{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/singleviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
+{{ Form::open( array('id' => 'change-project-user-'.$project->id, 'class' => 'change-project-user-form', 'url' => '/projects/listviewupdate/'.$project->id.'/assigned_id', 'method' => 'post') ) }}
 {{ Form::hidden('id', $project->id) }}
 {{ Form::close() }}
 </div>
@@ -161,7 +161,7 @@
 			</div>
 
 		<div class="project-stage-due-date">
-			<h3><img src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
+			<h3><img class="project-manager-avatar" src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
 			<div class="post-manager">
 <span class="manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
 @if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')

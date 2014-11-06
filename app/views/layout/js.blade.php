@@ -317,6 +317,9 @@ jQuery(document).ready(function($){
 	//POST '.create-something-form' form to intended page
 	$(document).on('submit', '.create-something-form form', function(){
 		//check if comment reply
+		$(this).addClass('active');
+		$(this).after('<span class="loading-something-new crunching-something-new"><img src="/images/ajax-snake-loader-grey.gif" alt="Loading..."> Crunching Bytes...</span>');
+		$('.crunching-something-new').hide().slideDown(1000);
 		var commentReplyToId = $(document).find('.reply-to-comment-form').prev().attr('id');
 		if(commentReplyToId) commentReplyToId = commentReplyToId.replace('comment-','');
 		else commentReplyToId = 0;
@@ -337,17 +340,23 @@ jQuery(document).ready(function($){
 	
 	function createSomethingSuccess(data) {
 		if(data.errorMsg) {
+			$(document).find('.crunching-something-new').slideUp(1000, function() {
+				$(this).remove();
+			});
 			if(data.actionType == 'user-add' && data.errorMsg == 'The email format is invalid.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Only @insideout.com accounts are allowed.</span></div>');
 			else if(data.actionType == 'project-add' && data.errorMsg == 'The account id field is required.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Please select an Account.</span></div>');
 			else if(data.actionType == 'project-add' && data.errorMsg == 'The template id field is required.') $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>Please select a Template.</span></div>');
 			else $('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			
+			$('#message-box-json').delay(10000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
 		}
 		else {
 			if(data.windowAction) {
 				sessionStorage.setItem('flash_message_success', data.msg);
 				window.location.href = data.windowAction;
 				if(window.location.search == '?comment=new') window.location.reload(true);
-				//if(window.location.search == '?comment=edit') window.location.reload(true);
 			}
 			if(data.actionType == 'comment-edit') {
 				$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
@@ -568,6 +577,9 @@ jQuery(document).ready(function($){
 		$(this).removeClass('ss-plus').addClass('ss-delete').addClass('active-tag-search').addClass('active');
 		$(this).parent().find('.addnew-tag').addClass('add-new-tag-input').hide().slideDown(1000, function() {
 			$(this).focus();
+			$(this).keypress(function(e){
+				if ( e.which == 13 ) return false;
+			});
 		});
 	});
 	$(document).on('click','.tag-addnew.active-tag-search.ss-delete', function() {
@@ -692,8 +704,13 @@ jQuery(document).ready(function($){
 			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
 			$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+data.tagsText+'</a></span>');
 			$('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_name]').val('');
+			$(document).find('.addnew-tag').slideUp(1000);
+			$(document).find('.tag-addnew.active-tag-search').removeClass('ss-delete').addClass('ss-plus').removeClass('active-tag-search').removeClass('active');		
 			$('#message-box-json').delay(3000).slideUp(1000, function() {
 				$(this).find('section').remove();
+			});
+			$('.active-tags-search-ajax.tags-search-ajax').parent().find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
 			});
 		}
 	}
@@ -903,6 +920,9 @@ jQuery(document).ready(function($){
 	$(document).find('#page-nav_menu .favorite-this.favorited .favorite-this-text').html('Unfavorite');
 	$(document).on('click', '.favorite-this', function(){
 		var articleId = $(this).find('.favorite-this-text').attr('favoriteval');
+		$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		
 		$.post(
 			$('form#favorite-article-'+articleId).prop('action'),
 			{
@@ -915,13 +935,21 @@ jQuery(document).ready(function($){
 					$('#page-nav_menu #favorite-'+articleId).find('.favorite-this-text').html('Favorite');
 					$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-halfheart"></span> <span class="ss-halfheart break-heart"></span>' + data.nofav + '</span></div>');
 					$('#message-box-json').delay(5000).slideUp(1000);
+					$('.loading-something-changed').fadeOut(1000, function() {
+						$(this).remove();
+					});
 				}
 				else {
 					$('#favorite-'+articleId).addClass('favorited');
 					$('#favorite-'+articleId).find('.favorite-this-text').html('Unfavorite Article');
 					$('#page-nav_menu #favorite-'+articleId).find('.favorite-this-text').html('Unfavorite');
 					$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-heart"></span>' + data.fav + '</span></div>');
-					$('#message-box-json').delay(5000).slideUp(1000);
+					$('#message-box-json').delay(5000).slideUp(1000, function() {
+						$(this).find('section').remove();
+					});
+					$('.loading-something-changed').fadeOut(1000, function() {
+						$(this).remove();
+					});
 				}
 			},'json'
 		);
@@ -1019,9 +1047,9 @@ jQuery(document).ready(function($){
 	/* Calendar Page */
 	$(document).on('change', '#page-nav_menu .show-hide-calendar', function() {
 		var toggleThis = $(this).val();
-		$('#calendar-page').find('.'+toggleThis).toggle();
-		if(toggleThis == 'show-all') $('#calendar-page').find('.calendar-post-title').show();
-		if(toggleThis == 'hide-all') $('#calendar-page').find('.calendar-post-title').hide();
+		$('#calendar-page').find('.'+toggleThis).slideToggle(500);
+		if(toggleThis == 'show-all') $('#calendar-page').find('.calendar-post-title').slideDown(500);
+		if(toggleThis == 'hide-all') $('#calendar-page').find('.calendar-post-title').slideUp(500);
 	});
 	var calendarPageHeight = $(window).height();
 	calendarPageHeight = calendarPageHeight-172;
@@ -1038,12 +1066,12 @@ jQuery(document).ready(function($){
 			monthLink = ('0' + (monthLink + 1)).slice(-2);
 			var dayLink = dateLink.getDate();
 			dayLink = ('0' + (dayLink)).slice(-2);
-			// set project post date ajax submit options
-			var bumpProjectDateOptions = { 
-				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-				success:       projectDateBumpSuccess,  // post-submit callback
+
+			var bumpProjectDateOptions = {
+				target:   '#message-box-json .section',
+				success:       projectDateBumpSuccess,
 				dataType: 'json',
-				data: { 
+				data: {
 					_token: $(this).parent().parent().find('form.bump-project-date-form input[name=_token]').attr('value'),
 					id: $(this).parent().parent().find('form.bump-project-date-form input[name=id]').attr('value'),
 					value: monthLink+'/'+dayLink+'/'+yearLink,
@@ -1051,19 +1079,27 @@ jQuery(document).ready(function($){
 				},
 				type: 'POST',
 				url: $(this).parent().parent().find('form.bump-project-date-form').attr('action'),
-				resetForm: false        // reset the form after successful submit 
+				resetForm: false
 			};
 			$(this).find('.changed-input').each(function() {
 				$(this).removeClass('changed-input');
 			});
+			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+			$('.loading-something-changed').hide().fadeIn(1000);
+		
 			$(this).ajaxSubmit(bumpProjectDateOptions);
 			return false;
 	});
 	function projectDateBumpSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 		else {
 			var projectID = data.pid;
@@ -1071,8 +1107,17 @@ jQuery(document).ready(function($){
 			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
 			$(document).find('div#project-'+projectID).addClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
-			$(document).find('div#project-'+projectID+' .post-alert').remove();
+			$(document).find('div#project-'+projectID+' .post-alert').slideUp(1000, function() {
+				$(this).remove();
+			});
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 	}
 	// Update Projects on List View page with ajax
@@ -1094,12 +1139,12 @@ jQuery(document).ready(function($){
 			monthLink = ('0' + (monthLink + 1)).slice(-2);
 			var dayLink = dateLink.getDate();
 			dayLink = ('0' + (dayLink)).slice(-2);
-			// set project post date ajax submit options
-			var changeProjectDateOptions = { 
-				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-				success:       projectDateChangeSuccess,  // post-submit callback
+
+			var changeProjectDateOptions = {
+				target:   '#message-box-json .section',
+				success:       projectDateChangeSuccess,
 				dataType: 'json',
-				data: { 
+				data: {
 					_token: $(this).parent().parent().find('form.change-project-date-form input[name=_token]').attr('value'),
 					id: $(this).parent().parent().find('form.change-project-date-form input[name=id]').attr('value'),
 					value: monthLink+'/'+dayLink+'/'+yearLink,
@@ -1107,51 +1152,27 @@ jQuery(document).ready(function($){
 				},
 				type: 'POST',
 				url: $(this).parent().parent().find('form.change-project-date-form').attr('action'),
-				resetForm: false        // reset the form after successful submit 
+				resetForm: false
 			};
 			$(this).find('.changed-input').each(function() {
 				$(this).removeClass('changed-input');
 			});
+			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+			$('.loading-something-changed').hide().fadeIn(1000);
+		
 			$(this).ajaxSubmit(changeProjectDateOptions);
 			return false;
 	}).data('datepicker');
-	// $('#content .change-project-date').datepicker().on('changeDate', function(ev) {
-	// 	$('.dropdown-menu').hide();
-	// 	var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-		
-	// 	var dateLink = new Date(ev.date.valueOf());
-	// 	var yearLink = dateLink.getFullYear();
-	// 	var monthLink = dateLink.getMonth();
-	// 	monthLink = monthLink+1;
-	// 	var dayLink = dateLink.getDate();
-		
-	// 	// set project post date ajax submit options
-	// 	var changeProjectDateOptions = { 
-	// 		target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-	// 		success:       projectDateChangeSuccess,  // post-submit callback
-	// 		dataType: 'json',
-	// 		data: { 
-	// 			_token: $(this).parent().find('form.change-project-date-form input[name=_token]').attr('value'),
-	// 			id: $(this).parent().find('form.change-project-date-form input[name=id]').attr('value'),
-	// 			value: yearLink+'-'+monthLink+'-'+dayLink,
-	// 			date: 'youbetcha',
-	// 		},
-	// 		type: 'POST',
-	// 		url: $(this).parent().find('form.change-project-date-form').attr('action'),
-	// 		resetForm: false        // reset the form after successful submit 
-	// 	};
-	// 	$(this).find('.changed-input').each(function() {
-	// 		$(this).removeClass('changed-input');
-	// 	});
-	// 	$(this).ajaxSubmit(changeProjectDateOptions);
-	// 	return false;
-	// });
-
 	function projectDateChangeSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 		else {
 			var projectID = data.pid;
@@ -1161,6 +1182,13 @@ jQuery(document).ready(function($){
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-due-text-alert').remove();
 			$(document).find('div#project-'+projectID).addClass(data.changeclass);
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 	}
 	// change project launch date on single view page
@@ -1181,12 +1209,12 @@ jQuery(document).ready(function($){
 			monthLink = ('0' + (monthLink + 1)).slice(-2);
 			var dayLink = dateLink.getDate();
 			dayLink = ('0' + (dayLink)).slice(-2);
-			// set project post date ajax submit options
-			var changeProjectLaunchDateOptions = { 
-				target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-				success:       projectLaunchChangeSuccess,  // post-submit callback
+
+			var changeProjectLaunchDateOptions = {
+				target:   '#message-box-json .section',
+				success:       projectLaunchChangeSuccess,
 				dataType: 'json',
-				data: { 
+				data: {
 					_token: $(this).parent().parent().find('form.change-project-launch-date-form input[name=_token]').attr('value'),
 					id: $(this).parent().parent().find('form.change-project-launch-date-form input[name=id]').attr('value'),
 					value: monthLink+'/'+dayLink+'/'+yearLink,
@@ -1194,36 +1222,51 @@ jQuery(document).ready(function($){
 				},
 				type: 'POST',
 				url: $(this).parent().parent().find('form.change-project-launch-date-form').attr('action'),
-				resetForm: false        // reset the form after successful submit 
+				resetForm: false
 			};
 			$(this).find('.changed-input').each(function() {
 				$(this).removeClass('changed-input');
 			});
+			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+			$('.loading-something-changed').hide().fadeIn(1000);
+		
 			$(this).ajaxSubmit(changeProjectLaunchDateOptions);
 			return false;
 	}).data('datepicker');
 	function projectLaunchChangeSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-launch-date .project-launch-date-text').html('<span class="tooltip">Change<br />Launch</span><span class="post-launch-date"> '+data.date+'</span>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 	}
 	//subscribe to project notifications
 	$(document).on('click', '#content .project-post .subscribe-to', function(){
 		var projectId = $(this).attr('subscribeval');
-		//console.log(projectId);
-
-		// set project user ajax submit options
-		var changeYourProjectSubOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectYourSubChangeSuccess,  // post-submit callback
+		$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		
+		var changeYourProjectSubOptions = {
+			target:   '#message-box-json .section',
+			success:       projectYourSubChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().find('form.subscribe-to-project-form input[name=_token]').attr('value'),
 				id: $(this).parent().find('form.subscribe-to-project-form input[name=id]').attr('value'),
 				value: projectId,
@@ -1232,7 +1275,7 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().find('form.subscribe-to-project-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
@@ -1244,25 +1287,38 @@ jQuery(document).ready(function($){
 	function projectYourSubChangeSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 		else {
 			$(document).find('.post-subscribed #subscribe-'+data.pid).addClass('subscribed-to');
 			$(document).find('.post-subscribed #subscribe-'+data.pid).html('<span class="tooltip">Subscribed<br />to Project</span>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(5000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 	}
 	//change project user
-	$(document).on('change', '#content .office-post .change-project-user-list', function() {
+	$(document).on('change', '#content .change-project-user-list', function() {
 		var userSelect = $(this).val();
-		//console.log(userSelect);
-
-		// set project user ajax submit options
-		var changeProjectUserOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectUserChangeSuccess,  // post-submit callback
+		$(this).addClass('change-project-user-list-active');
+		$(this).parent().parent().find('.change-project-user').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$(this).parent().parent().find('h3').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		var changeProjectUserOptions = {
+			target:   '#message-box-json .section',
+			success:       projectUserChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().parent().find('form.change-project-user-form input[name=_token]').attr('value'),
 				id: $(this).parent().parent().find('form.change-project-user-form input[name=id]').attr('value'),
 				value: userSelect,
@@ -1271,7 +1327,7 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().parent().find('form.change-project-user-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
@@ -1283,25 +1339,51 @@ jQuery(document).ready(function($){
 	function projectUserChangeSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		}
 		else {
 			var projectID = data.pid;
-			window.location.href = data.thispage;
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
+			$(document).find('.change-project-user-list-active.change-project-user-list').parent().slideUp(1000, function() {
+				$(document).find('.change-project-user-list-active.change-project-user-list').html(data.selectList);
+				
+			});
+			$(document).find('.change-project-user-list-active.change-project-user-list').parent().parent().find('.project-assigned-avatar').fadeOut(1000, function() {
+				$(this).attr('src',data.imgSrc);
+				$(this).attr('alt',data.imgAlt);
+			});
+			
+			$(document).find('.change-project-user-list-active.change-project-user-list').parent().slideDown(1000);
+			
+			$(document).find('.change-project-user-list-active.change-project-user-list').parent().parent().find('.project-assigned-avatar').fadeIn(1000);
+			$(document).find('.change-project-user-list-active.change-project-user-list').removeClass('change-project-user-list-active');
 		}
 	}
 	//change project stage
 	$(document).on('change', '#content .office-post .change-project-stage-list', function() {
 		var stageSelect = $(this).val();
-		//console.log(userSelect);
-
+		$(this).addClass('change-project-stage-list-active');
+		$(this).parent().parent().find('.change-project-stage').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		//$(this).parent().parent().find('h3').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
 		// set project user ajax submit options
-		var changeProjectStageOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectStageChangeSuccess,  // post-submit callback
+		var changeProjectStageOptions = {
+			target:   '#message-box-json .section',
+			success:       projectStageChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().parent().find('form.change-project-stage-form input[name=_token]').attr('value'),
 				id: $(this).parent().parent().find('form.change-project-stage-form input[name=id]').attr('value'),
 				value: stageSelect,
@@ -1310,7 +1392,7 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().parent().find('form.change-project-stage-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
@@ -1322,26 +1404,42 @@ jQuery(document).ready(function($){
 	function projectStageChangeSuccess(data)
 	{
 		if(data.errorMsg) {
-			$('#message-box-json').fadeIn();
-			$('#message-box-json').find('.section').html('<div class="action-message"><span class="flash-message flash-message-error">' + data.errorMsg + '</span></div>');
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
 		}
 		else {
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
 			var projectID = data.pid;
-			window.location.href = data.thispage;
+			
+			$(document).find('.change-project-stage-list-active.change-project-stage-list').parent().slideUp(1000, function() {
+				$(document).find('.change-project-stage-list-active.change-project-stage-list').html(data.selectList);
+				
+			});
+			$(document).find('.change-project-stage-list-active.change-project-stage-list').parent().slideDown(1000);
+			$(document).find('.change-project-stage-list-active.change-project-stage-list').removeClass('change-project-stage-list-active');
 		}
+		$('.loading-something-changed').fadeOut(1000, function() {
+			$(this).remove();
+		});
 	}
 	// Projects Single View updating via ajax
 	//change project manager
 	$(document).on('change', '#content .office-post-single .change-project-manager-list', function() {
 		var userSelect = $(this).val();
-		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
-
+		$(this).addClass('change-project-manager-list-active');
+		$(this).parent().parent().parent().find('h3').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
 		// set project manager ajax submit options
-		var changeSingleProjectManagerOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       singleProjectManagerChangeSuccess,  // post-submit callback
+		var changeSingleProjectManagerOptions = {
+			target:   '#message-box-json .section',
+			success:       singleProjectManagerChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().parent().find('form.change-project-manager-form input[name=_token]').attr('value'),
 				id: $(this).parent().parent().find('form.change-project-manager-form input[name=id]').attr('value'),
 				value: userSelect,
@@ -1350,64 +1448,65 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().parent().find('form.change-project-manager-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
+		
 		$(this).ajaxSubmit(changeSingleProjectManagerOptions);
 		return false;
 	});
 
 	function singleProjectManagerChangeSuccess(data)
 	{
-		var projectID = data.pid;
-		window.location.href = data.thispage;	
+		
+		if(data.errorMsg) {
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(7000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
+		}
+		else {
+			var projectID = data.pid;
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
+			$(document).find('.change-project-manager-list-active.change-project-manager-list').parent().slideUp(1000, function() {
+				$(document).find('.change-project-manager-list-active.change-project-manager-list').html(data.selectList);
+				
+			});
+			$(document).find('.change-project-manager-list-active.change-project-manager-list').parent().parent().parent().find('.project-manager-avatar').fadeOut(1000, function() {
+				$(this).attr('src',data.imgSrc);
+				$(this).attr('alt',data.imgAlt);
+			});
+			
+			$(document).find('.change-project-manager-list-active.change-project-manager-list').parent().slideDown(1000);
+			
+			$(document).find('.change-project-manager-list-active.change-project-manager-list').parent().parent().parent().find('.project-manager-avatar').fadeIn(1000);
+			$(document).find('.change-project-manager-list-active.change-project-manager-list').removeClass('change-project-manager-list-active');
+		}	
 	}
-	//change project user
-	$(document).on('change', '#content .office-post-single .change-project-user-list', function() {
-		var userSelect = $(this).val();
-		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
-
-		// set project user ajax submit options
-		var changeSingleProjectUserOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       singleProjectUserChangeSuccess,  // post-submit callback
-			dataType: 'json',
-			data: { 
-				_token: $(this).parent().parent().find('form.change-project-user-form input[name=_token]').attr('value'),
-				id: $(this).parent().parent().find('form.change-project-user-form input[name=id]').attr('value'),
-				value: userSelect,
-				thisPage: window.location.pathname,
-				user: 'userchange',
-			},
-			type: 'POST',
-			url: $(this).parent().parent().find('form.change-project-user-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
-		};
-		$(this).find('.changed-input').each(function() {
-			$(this).removeClass('changed-input');
-		});
-		$(this).ajaxSubmit(changeSingleProjectUserOptions);
-		return false;
-	});
-
-	function singleProjectUserChangeSuccess(data)
-	{
-		var projectID = data.pid;
-		window.location.href = data.thispage;	
-	}
+	
 	//change project priority
 	$(document).on('change', '#content .office-post-single select[name=change-project-priority]', function() {
 		var stageSelect = $(this).val();
-		//console.log($(this).parent().find('form.change-project-user-form input[name=_token]').attr('value'));
-
+		$(this).addClass('change-project-priority-active');
+		$(this).parent().parent().parent().find('h3').after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
 		// set project priority ajax submit options
-		var changeSingleProjectStageOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       singleProjectStageChangeSuccess,  // post-submit callback
+		var changeSingleProjectStageOptions = {
+			target:   '#message-box-json .section',
+			success:       singleProjectStageChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().parent().find('form.change-project-priority-form input[name=_token]').attr('value'),
 				id: $(this).parent().parent().find('form.change-project-priority-form input[name=id]').attr('value'),
 				value: stageSelect,
@@ -1416,7 +1515,7 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().parent().find('form.change-project-priority-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
@@ -1427,20 +1526,39 @@ jQuery(document).ready(function($){
 
 	function singleProjectStageChangeSuccess(data)
 	{
-		var projectID = data.pid;
-		window.location.href = data.thispage;	
+		if(data.errorMsg) {
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-error"><span class="ss-alert"></span>' + data.errorMsg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+		}
+		else {
+			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+			$('#message-box-json').delay(3000).slideUp(1000, function() {
+				$(this).find('section').remove();
+			});
+			var projectID = data.pid;
+			
+			$(document).find('.change-project-priority-active').parent().slideUp(1000, function() {
+				$(document).find('.change-project-priority-active').html(data.selectList);
+				
+			});
+			$(document).find('.change-project-priority-active').parent().slideDown(1000);
+			$(document).find('.change-project-priority-active').removeClass('change-project-priority-active');
+		}
+		$('.loading-something-changed').fadeOut(1000, function() {
+			$(this).remove();
+		});	
 	}
 	//change project subscribed
 	$(document).on('click', '#content .post-subscribed .ss-delete', function() {
 		var userSelect = $(this).attr('value');
-		//console.log(userSelect);
-
 		// set project user ajax submit options
-		var changeProjectSubOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectSubChangeSuccess,  // post-submit callback
+		var changeProjectSubOptions = {
+			target:   '#message-box-json .section',
+			success:       projectSubChangeSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
 				id: $(this).parent().find('form.change-project-sub-form input[name=id]').attr('value'),
 				value: userSelect,
@@ -1449,11 +1567,14 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().find('form.change-project-sub-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
+		$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		
 		$(this).ajaxSubmit(changeProjectSubOptions);
 		return false;
 	});
@@ -1461,22 +1582,27 @@ jQuery(document).ready(function($){
 	function projectSubChangeSuccess(data)
 	{
 		var projectID = data.pid;
-		$(document).find('div#project-'+projectID+' .post-subscribed div[value='+data.sub+']').remove();	
+		$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+		$('#message-box-json').delay(3000).slideUp(1000, function() {
+			$(this).find('section').remove();
+		});
+		$(document).find('div#project-'+projectID+' .post-subscribed div[value='+data.sub+']').fadeOut(1000, function() {
+			$(this).remove();
+		});
+		$('.loading-something-changed').fadeOut(1000, function() {
+			$(this).remove();
+		});
 	}
 	//add project subscribed
-	$(document).on('click','#content .post-subscribed div.ss-plus', function(){
-		$(this).next().toggle();
-	});
+	
 	$(document).on('change', '#content .post-subscribed .select-dropdown select[name=add-project-sub-list]', function() {
 		var userSelect = $(this).val();
-		//console.log(userSelect);
-
 		// set project user ajax submit options
-		var addProjectSubOptions = { 
-			target:   '#message-box-json .section',   // target element(s) to be updated with server response 
-			success:       projectSubAddSuccess,  // post-submit callback
+		var addProjectSubOptions = {
+			target:   '#message-box-json .section',
+			success:       projectSubAddSuccess,
 			dataType: 'json',
-			data: { 
+			data: {
 				_token: $(this).parent().parent().parent().find('form.change-project-sub-form input[name=_token]').attr('value'),
 				id: $(this).parent().parent().parent().find('form.change-project-sub-form input[name=id]').attr('value'),
 				value: userSelect,
@@ -1485,11 +1611,14 @@ jQuery(document).ready(function($){
 			},
 			type: 'POST',
 			url: $(this).parent().parent().parent().find('form.change-project-sub-form').attr('action'),
-			resetForm: false        // reset the form after successful submit 
+			resetForm: false
 		};
 		$(this).find('.changed-input').each(function() {
 			$(this).removeClass('changed-input');
 		});
+		$(this).parent().after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		
 		$(this).ajaxSubmit(addProjectSubOptions);
 		return false;
 	});
@@ -1497,9 +1626,16 @@ jQuery(document).ready(function($){
 	function projectSubAddSuccess(data)
 	{
 		var projectID = data.pid;
+		$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+		$('#message-box-json').delay(3000).slideUp(1000, function() {
+			$(this).find('section').remove();
+		});
 		if(data.subName != '') {
 			$(document).find('div#project-'+projectID+' .post-subscribed .user-subscribed').last().before('<div class="user-subscribed ss-delete" value="'+data.sub+'">'+data.subName+'</div>');
 		}
+		$('.loading-something-changed').fadeOut(1000, function() {
+			$(this).remove();
+		});
 	}
 	// update checklist progress on single view page.
 	$(document).find('.checklist-section').each(function(){
@@ -1531,13 +1667,13 @@ jQuery(document).ready(function($){
 		$(this).parent().find('.checklist-checkbox-section').hide();
 	});
 	$(document).on('click','h4.checklist-header',function(){
-		$(this).parent().find('.checklist-checkbox-section').toggle();
+		$(this).parent().find('.checklist-checkbox-section').slideToggle(500);
 		$(this).toggleClass('ss-dropdown');
 		$(this).toggleClass('ss-directright');
 	});
 	$(document).on('change','#content .office-post-single .checklist-box input[type=checkbox]', function() {
 		//console.log('clicked');
-		$('#message-box-json').fadeOut();
+		$('#message-box-json').slideUp(1000);
 		var userFinishedName = $(document).find('form.change-project-checkboxes-form input[name=user_finished_name]').val();
 		var userFinishedDate = $(document).find('form.change-project-checkboxes-form input[name=user_finished_date]').val();
 		$(this).addClass('user-checked');
@@ -1578,9 +1714,15 @@ jQuery(document).ready(function($){
 					projectDone = 'closed';
 					$(document).find('.project-stage-due-date .project-stage').html(projectDone);
 				}
-				else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+				else {
+					$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+					$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>Project Stage updated to '+nextProjectStage+'</span></div>');
+					$('#message-box-json').delay(3000).slideUp(1000, function() {
+						$(this).find('section').remove();
+					});
+				}
 				$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
-				$(this).parent().parent().find('.checklist-checkbox-section').hide();
+				$(this).parent().parent().find('.checklist-checkbox-section').slideUp(1000);
 			}
 			else {
 				nextProjectStage = '';
@@ -1614,7 +1756,13 @@ jQuery(document).ready(function($){
 						nextProjectStage = $(document).find('.project-stage-due-date .project-stage').text();
 						$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
 					}
-					else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+					else {
+						$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+						$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>Project Stage updated to '+nextProjectStage+'</span></div>');
+						$('#message-box-json').delay(3000).slideUp(1000, function() {
+							$(this).find('section').remove();
+						});
+					}
 					$(this).parent().parent().find('h4.checklist-header').removeClass('section-complete').addClass('ss-dropdown').removeClass('ss-directright');
 				}
 				else {
@@ -1659,7 +1807,7 @@ jQuery(document).ready(function($){
 	});
 	$(document).on('click','#content .office-post-single .checklist-box .checklist-skip-task', function() {
 		//console.log('clicked');
-		$('#message-box-json').fadeOut();
+		$('#message-box-json').slideUp(1000);
 		var userFinishedName = $(document).find('form.change-project-checkboxes-form input[name=user_finished_name]').val();
 		var userFinishedDate = $(document).find('form.change-project-checkboxes-form input[name=user_finished_date]').val();
 		$(this).parent().find('.checklist-checkbox').addClass('user-checked').attr('checked','checked');
@@ -1696,9 +1844,15 @@ jQuery(document).ready(function($){
 				projectDone = 'closed';
 				$(document).find('.project-stage-due-date .project-stage').html(projectDone);
 			}
-			else $(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+			else {
+				$(document).find('.project-stage-due-date .project-stage').html(nextProjectStage);
+				$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>Project Stage updated to '+nextProjectStage+'</span></div>');
+				$('#message-box-json').delay(3000).slideUp(1000, function() {
+					$(this).find('section').remove();
+				});
+			}
 			$(this).parent().parent().find('h4.checklist-header').addClass('section-complete').removeClass('ss-dropdown').addClass('ss-directright');
-			$(this).parent().parent().find('.checklist-checkbox-section').hide();
+			$(this).parent().parent().find('.checklist-checkbox-section').slideUp(1000);
 		}
 		else {
 			nextProjectStage = '';
@@ -1751,12 +1905,21 @@ jQuery(document).ready(function($){
 	/* Vault */
 	$(document).on('click','#content .vault-asset.office-post-single .show-me', function() {
 		var vaultAssetLink = $(this).closest('.office-post-single').attr('slug');
+		$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+		$('.loading-something-changed').hide().fadeIn(1000);
+		
 		$.get( "/assets/vault/asset/"+vaultAssetLink+"/show-password", function( data ) {
 			if(data.errorMsg == 'do not load form' && data.actionType == 'password-show') {
 				window.location.href='/assets/vault';
+				$('.loading-something-changed').fadeOut(1000, function() {
+					$(this).remove();
+				});
 			}
 			$(document).find('#content .vault-asset.office-post-single .vault-password').val(data.asset);
-			$(document).find('#content .vault-asset.office-post-single .show-me').hide();
+			$(document).find('#content .vault-asset.office-post-single .show-me').fadeOut(1000);
+			$('.loading-something-changed').fadeOut(1000, function() {
+				$(this).remove();
+			});
 		});
 	});
 	
@@ -1843,6 +2006,9 @@ jQuery(document).ready(function($){
 		if($(this).hasClass('todo-filter') ) return;
 		if($(this).hasClass('checklist-checkbox') ) return;
 		if($(this).hasClass('show-me-input') ) return;
+		if($(this).hasClass('change-project-user-list') ) return;
+		if($(this).hasClass('change-project-stage-list') ) return;
+		if($(this).hasClass('change-project-manager-list') ) return;
 		if($(this).attr('class') == 'calendar-jump-to-date') return;
 		if($(this).parent().parent().attr('class') == 'login-form') return;
 		if($(this).parent().parent().attr('class') == 'login-remind') return;

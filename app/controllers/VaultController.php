@@ -29,15 +29,6 @@ class VaultController extends \BaseController {
 	 */
 	public function index()
 	{
-		// if(Request::ajax()) {
-		// 	if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
-		// 		$response = array(
-		// 			'errorMsg' => 'do not load form'
-		// 		);
-		// 		return Response::json( $response );
-		// 	}
-		// 	return View::make('assets.partials.new-vault-asset');
-		// }
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return View::make('assets.vault-access');
 		
 		// Cache::forget('vault_key_'.Auth::user()->user_path);

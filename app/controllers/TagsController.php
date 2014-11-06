@@ -129,50 +129,42 @@ class TagsController extends \BaseController {
 	}
 
 	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
 	 */
 	public function store($name)
 	{
-		$newTag = new Tag;
-		$newTag->name = clean_title($name);
-		$newTag->slug = convert_title_to_path($name);
-		if(Input::get('tagsAddToExisting') == 'add-to-existing') {
-			$tagsAddToExisting = 'add-to-existing';
-		}
-		else $tagsAddToExisting = '';
-		try
-		{
-			$newTag->save();
-		} catch(Illuminate\Database\QueryException $e)
-		{
+		if(Request::ajax()) {
+			$newTag = new Tag;
+			$newTag->name = clean_title($name);
+			$newTag->slug = convert_title_to_path($name);
+			if(Input::get('tagsAddToExisting') == 'add-to-existing') {
+				$tagsAddToExisting = 'add-to-existing';
+			}
+			else $tagsAddToExisting = '';
+			try
+			{
+				$newTag->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				$response = array(
+					'actionType' => 'tag-add',
+					'errorMsg' => 'Oops, there was a problem saving a tag. Please try again.'
+				);
+				return Response::json( $response );
+			}
 			$response = array(
 				'actionType' => 'tag-add',
-				'errorMsg' => 'Oops, there was a problem saving a tag. Please try again.'
+				'saved' => 'saved',
+				'tagsAddToExisting' => $tagsAddToExisting,
+				'tagID' => $newTag->id,
+				'tagname' => $newTag->name,
+				'msg' => 'Tag successfully added to system!'
 			);
 			return Response::json( $response );
 		}
-		$response = array(
-			'actionType' => 'tag-add',
-			'saved' => 'saved',
-			'tagsAddToExisting' => $tagsAddToExisting,
-			'tagID' => $newTag->id,
-			'tagname' => $newTag->name,
-			'msg' => 'Tag successfully added to system!'
-		);
-		return Response::json( $response );
+		else return Redirect::back()->with('flash_message_error','Error adding tag. Please try again.');
 	}
 
 
@@ -256,42 +248,5 @@ class TagsController extends \BaseController {
 
 		return View::make('tags.single', compact('tag','tagSelect','vaults','accounts','projects','articles'));
 	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 
 }

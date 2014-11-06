@@ -89,7 +89,7 @@
 		<div class="post-assigned">
 			<p class="change-project-user">
 				<span class="tooltip-hover"><span class="tooltip">Change<br />Author</span>
-				<img src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
+				<img class="project-assigned-avatar" src="{{ gravatar_url(User::find($project->assigned_id)->email,25) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}">
 				</span>
 				<div class="select-dropdown">
 					<span class="ss-dropdown"></span>
