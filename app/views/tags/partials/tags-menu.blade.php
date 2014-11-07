@@ -25,16 +25,16 @@
 		<option value="project">Projects</option>
 		@endif
 
-		@if(!empty($type) && $type == 'billables')
-		<option value="billables" selected>Billables</option>
+		@if(!empty($type) && $type == 'billable')
+		<option value="billable" selected>Billables</option>
 		@else
-		<option value="billables">Billables</option>
+		<option value="billable">Billables</option>
 		@endif
 
-		@if(!empty($type) && $type == 'articles')
-		<option value="articles" selected>News</option>
+		@if(!empty($type) && $type == 'article')
+		<option value="article" selected>Article</option>
 		@else
-		<option value="articles">News</option>
+		<option value="article">News</option>
 		@endif
 
 		@if(!empty($type) && $type == 'help')

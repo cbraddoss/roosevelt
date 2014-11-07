@@ -39,8 +39,17 @@
 	<h3><a href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></h3>
 	
 	<div class="post-tags">
-		{{ $vault->displayTags($vault->id, 'vault') }}
+		<small>{{ $vault->displayTags($vault->id, 'vault') }}</small>
 	</div>
 	<p class="vault-note">{{ display_content($vault->notes, '75') }}</p>
 </div>
 @endforeach
+
+
+@if(!strpos(current_page(),'tags') )
+	@if($vaults->links() != '')
+	<div class="pagination-footer">
+		{{ $vaults->links() }}
+	</div>
+	@endif
+@endif

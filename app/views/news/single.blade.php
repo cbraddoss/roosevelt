@@ -95,7 +95,17 @@
 			</small>
 			
 		</div>
+		{{ Form::open( array('id' => 'add-tag-'.$article->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$article->id, 'method' => 'post') ) }}
+		<div class="post-tags post-tooltip">
+			<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $article->id }}" formtype="add-tag-type" formlocation="/news/singleviewupdate/{{ $article->id }}/tag_id">{{ $article->displayTags($article->id, 'article') }}</div>
+			<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
+			{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
+			{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id')) }}
+			<div class="tags-search-ajax"></div>
+		</div>
+		{{ Form::close() }}
 	</div>
+	<div class="clear"></div>
 	
 	<div id="news-post-comment-form" class="create-something-new">
 		<div class="news-button">

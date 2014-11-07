@@ -59,9 +59,36 @@ class Project extends Eloquent {
 							->get();
 		foreach($findRelationship as $tag) {
 			$findTag = Tag::where('id','=',$tag->tag_id)->first();
-			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a class="ss-tag" href="/tags/name/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a id="'.$findTag->id.'" class="tag-id ss-tag" href="/tags/name/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
 		}
 		return $returnTags;
+	}
+
+	/**
+	 * Get all tags for project posts
+	 *
+	 * @return object
+	 */
+	public function getSelectListTags($select = null)
+	{
+		$projectTagRelationships = TagRelationship::where('type','=','project')
+					->orderBy('created_at','DESC')
+					->get();
+		foreach($projectTagRelationships as $tagProject) {
+			$tagIDs[] = $tagProject->tag_id;
+		}
+		if(!empty($tagIDs)) $tagIDs = array_unique($tagIDs);
+		else $tagIDs = array(0);
+		$tags = Tag::whereIn('id',$tagIDs)
+					 ->orderBy('name','ASC')
+					 ->get();
+
+		$projectsTagsSelect = '';
+		foreach($tags as $tag) {
+			if($select == $tag->slug) $projectsTagsSelect .= '<option value="'.$tag->slug.'" selected>'.$tag->name.'</option>';
+			else $projectsTagsSelect .= '<option value="'.$tag->slug.'">'.$tag->name.'</option>';
+		}
+		return $projectsTagsSelect;
 	}
 
 	public function getTypeSelectList($selected = null) {
@@ -244,11 +271,11 @@ class Project extends Eloquent {
 		$progress .= '<div class="post-progress">';
 		//if($doneProgressWidth == 0) $progress .= '<span class="post-progress-progress-zero"></span>';
 		$progress .= '<span class="post-progress-icon ss-check"></span>';
-		$progress .= '<div class="post-progress-numbers"> [ ';
+		$progress .= '<div class="post-progress-numbers">';
 		$progress .= '<span class="post-progress-complete">'.$countOpen.'</span>';
 		$progress .= '<span>/</span>';
 		$progress .= '<span class="post-progress-total">'.$totalTasks.'</span>';
-		$progress .= ' complete ]</div>';
+		$progress .= ' complete</div>';
 		//$progress .= '<div class="post-progress-progress" style="width:'.$doneProgressWidth.'px">';
 
 		//for ($i=0; $i < $countOpen; $i++) {

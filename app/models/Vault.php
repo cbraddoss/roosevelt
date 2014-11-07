@@ -16,7 +16,7 @@ class Vault extends Eloquent {
 	 */
 	public function getAllVaults()
 	{
-		$vaults = Vault::all();
+		$vaults = Vault::paginate(30);
 
 		return $vaults;
 	}
@@ -37,7 +37,7 @@ class Vault extends Eloquent {
 		if(!empty($tagIDs)) $tagIDs = array_unique($tagIDs);
 		else $tagIDs = array(0);
 		$tags = Tag::whereIn('id',$tagIDs)
-					 ->orderBy('created_at','DESC')
+					 ->orderBy('name','ASC')
 					 ->get();
 
 		$vaultsTagsSelect = '';
@@ -61,7 +61,7 @@ class Vault extends Eloquent {
 							->get();
 		foreach($findRelationship as $tag) {
 			$findTag = Tag::where('id','=',$tag->tag_id)->first();
-			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a class="ss-tag" href="/assets/vault/tags/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a id="'.$findTag->id.'" class="tag-id ss-tag" href="/assets/vault/tags/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
 		}
 		return $returnTags;
 	}

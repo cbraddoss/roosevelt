@@ -31,7 +31,8 @@
 
 @section('page-content')
 <div id="tags-page"  class="single-page inner-page">
-	<h2 class="ss-tag"> @yield('page-h2')</h2>
+	<h2 class="ss-tag"> @yield('page-h2')
+	<small class="count-of-total">[{{ count($vaults) }} of {{ $vaultsCount }}]</small></h2>
 	
 	@include('assets.partials.findVaultAssets')
 	

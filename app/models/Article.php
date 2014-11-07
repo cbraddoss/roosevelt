@@ -31,6 +31,56 @@ class Article extends Eloquent {
 		return $commentsCount;
 	}
 
+	/**
+	 * Get tags by ID for display
+	 *
+	 * @return string
+	 */
+	public function displayTags($typeID, $type)
+	{
+		$returnTags = '';
+		$findRelationship = TagRelationship::where('type_id','=',$typeID)
+							->where('type','=',$type)
+							->get();
+		foreach($findRelationship as $tag) {
+			$findTag = Tag::where('id','=',$tag->tag_id)->first();
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a id="'.$findTag->id.'" class="tag-id ss-tag" href="/news/tags/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
+		}
+		return $returnTags;
+	}
+
+	/**
+	 * Get all tags for artcile posts
+	 *
+	 * @return object
+	 */
+	public function getSelectListTags($select = null)
+	{
+		$articleTagRelationships = TagRelationship::where('type','=','article')
+					->orderBy('created_at','DESC')
+					->get();
+		foreach($articleTagRelationships as $tagArticle) {
+			$tagIDs[] = $tagArticle->tag_id;
+		}
+		if(!empty($tagIDs)) $tagIDs = array_unique($tagIDs);
+		else $tagIDs = array(0);
+		$tags = Tag::whereIn('id',$tagIDs)
+					 ->orderBy('name','ASC')
+					 ->get();
+
+		$articlesTagsSelect = '';
+		foreach($tags as $tag) {
+			if($select == $tag->slug) $articlesTagsSelect .= '<option value="'.$tag->slug.'" selected>'.$tag->name.'</option>';
+			else $articlesTagsSelect .= '<option value="'.$tag->slug.'">'.$tag->name.'</option>';
+		}
+		return $articlesTagsSelect;
+	}
+
+	/**
+	 * Get attachments by ID for display
+	 *
+	 * @return string
+	 */
 	public function getAttachments($id,$class = 'post-single-attachment') {
 		$article = Article::find($id);
 		$articleImage = $article->attachment;

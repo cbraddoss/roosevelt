@@ -23,7 +23,9 @@ class DashboardController extends \BaseController {
 					->orderBy('created_at','DESC')
 					->take(5)
 					->get();
-		$articlesCount = $articles->count();
+		$articlesCount = Article::where('status','=','published')->count();
+		$stickyCount = Article::where('status','=','sticky')->count();
+		$articlesCount = $articlesCount + $stickyCount;
 
 		$currentUser = current_user_path();
 		$lastMonth = new DateTime('-1 month');
@@ -33,7 +35,9 @@ class DashboardController extends \BaseController {
 					->orderBy('due_date','ASC')
 					->take(5)
 					->get();
-		$projectsCount = $projects->count();
+		$projectsCount = Project::where('assigned_id','=', Auth::user()->id)
+						 ->where('status','=','open')
+						 ->count();
 
 		$launches = Project::where('status', '=', 'open')
 					->where('period','=','ending')

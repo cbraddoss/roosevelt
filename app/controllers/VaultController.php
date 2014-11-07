@@ -33,7 +33,7 @@ class VaultController extends \BaseController {
 		
 		// Cache::forget('vault_key_'.Auth::user()->user_path);
 		$vaults = $this->vault->getAllVaults();
-		$vaultsCount = $vaults->count();
+		$vaultsCount = Vault::all()->count();
 		$vaultTagsSelect = $this->vault->getSelectListVaultTags();
 		return View::make('assets.vault',compact('vaults','vaultsCount','vaultTagsSelect'));
 	}
@@ -249,6 +249,7 @@ class VaultController extends \BaseController {
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
 		return Redirect::to('/assets/vault/');
 	}
+	
 	/**
 	 * Display the specified resource.
 	 *
@@ -258,7 +259,8 @@ class VaultController extends \BaseController {
 	public function tags($tag)
 	{
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
-		
+		if($tag == 'Tag Filter') return Redirect::to('/assets/vault');
+
 		$vaultTagsSelect = $this->vault->getSelectListVaultTags($tag);
 		$tag = Tag::where('slug','=',$tag)->first();
 		
@@ -274,8 +276,9 @@ class VaultController extends \BaseController {
 		$vaults = Vault::whereIn('id',$vaultIDs)
 					 ->orderBy('created_at','DESC')
 					 ->get();
+		$vaultsCount = Vault::whereIn('id',$vaultIDs)->count();
 		
-		return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect'));
+		return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect','vaultsCount'));
 	}
 
 	/**
@@ -342,6 +345,13 @@ class VaultController extends \BaseController {
 						);
 						return Response::json( $response );
 					}
+					if($newTagRelationship == 'existing') {
+						$response = array(
+							'actionType' => 'project-update',
+							'errorMsg' => 'This tag is already attached to this Vault Asset.'
+						);
+						return Response::json( $response );
+					}
 				}
 				else {
 					$response = array(
@@ -355,10 +365,52 @@ class VaultController extends \BaseController {
 			$response = array(
 				'actionType' => 'vault-update',
 				'tagsText' => Input::get('tagsText'),
+				'tagID' => Input::get('tag_id'),
 				'msg' => 'Tag added successfully!'
 			);
 			return Response::json( $response );
 
+		}
+		if(Input::has('detachtag') == 'detachtag') {
+			$validator = Validator::make(Input::all(), array(
+				'tag_id' => 'required|integer',
+				'type_id' => 'required|integer'
+			));
+			if($validator->fails()) {
+				$messages = $validator->messages();
+				$response = array(
+					'actionType' => 'tag-detach',
+					'errorMsg' => $messages->first()
+				);
+				return Response::json( $response );
+			}
+			$tagID = Input::get('tag_id');
+			$type = 'vault';
+			$typeID = Input::get('type_id');
+
+			$findExisitingRelationship = TagRelationship::where('tag_id','=',$tagID)
+										 ->where('type','=',$type)
+										 ->where('type_id','=',$typeID)
+										 ->first();
+
+			try
+			{
+				$findExisitingRelationship->delete();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				$response = array(
+					'actionType' => 'tag-detach',
+					'errorMsg' => 'Oops, there was a problem removing the tag. Please try again.'
+				);
+				return Response::json( $response );
+			}
+
+			$response = array(
+				'actionType' => 'tag-detach',
+				'tagsText' => Input::get('tagsText'),
+				'msg' => 'Tag removed successfully!'
+			);
+			return Response::json( $response );
 		}
 	}
 

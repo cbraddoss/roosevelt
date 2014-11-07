@@ -131,6 +131,8 @@ class Tag extends Eloquent {
 			$tagName = $tag->name;
 			$tagLetters[] = $tagName[0];
 		}
+		$tagLetters = array_unique($tagLetters);
+		sort($tagLetters);
 		foreach($tagLetters as $tagL)
 		{
 			if(ucwords($letter) == $tagL) $selected = 'selected';
@@ -153,7 +155,7 @@ class Tag extends Eloquent {
 							->get();
 		foreach($findRelationship as $tag) {
 			$findTag = Tag::where('id','=',$tag->tag_id)->first();
-			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a class="ss-tag" href="/assets/vault/tags/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
+			if(!empty($findTag)) $returnTags .= '<span class="tag-name"><a id="'.$findTag->id.'" class="tag-id ss-tag" href="/tags/name/'.$findTag->slug.'">'.$findTag->name.'</a></span>';
 		}
 		return $returnTags;
 	}

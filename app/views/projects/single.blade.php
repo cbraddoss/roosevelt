@@ -162,6 +162,7 @@
 
 		<div class="project-stage-due-date">
 			<h3><img class="project-manager-avatar" src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
+			
 			<div class="post-manager">
 <span class="manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
 @if($project->author_id == Auth::user()->id || Auth::user()->can_manage == 'yes')

@@ -5,7 +5,7 @@
 @stop
 
 @section('page-h2')
-{{ 'Your Favorite Articles'  }}
+{{ 'Article Tag: ' . ucwords($tag->name)  }}
 @stop
 
 @section('header-menu')
@@ -22,7 +22,7 @@
 	<small class="count-of-total">[{{ count($articles) }} of {{ $articlesCount }}]</small></h2>
 	@if($articles->isEmpty())
 			<div class="news-article">
-				<h3>No favorite articles found. Click on a heart <span class="ss-heart"></span> to favortie an article!</h3>
+				<h3>No articles with tag {{ ucwords($tag->name) }} found.</h3>
 				<p></p>
 			</div>
 	@endif

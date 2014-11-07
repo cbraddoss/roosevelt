@@ -10,7 +10,7 @@ class ArticlesController extends \BaseController {
 	/**
      * Instantiate a new ArticlesController instance.
      */
-    public function __construct(Mailer $mailer, Article $article, ArticleComment $articleComment)
+    public function __construct(Mailer $mailer, Article $article, ArticleComment $articleComment, Tag $tag, TagRelationship $tagRelationship)
     {
         $this->beforeFilter('auth');
 
@@ -21,6 +21,10 @@ class ArticlesController extends \BaseController {
         $this->article = $article;
 
         $this->articleComment = $articleComment;
+
+		$this->tag = $tag;
+
+		$this->tagRelationship = $tagRelationship;
     }
 
 	/**
@@ -32,7 +36,11 @@ class ArticlesController extends \BaseController {
 	{
 		$articles = $this->article->getOnlyPublished();
 		$sticky = $this->article->getOnlySticky();
-		return View::make('news.index', compact('sticky','articles'));
+		$articleTagsSelect = $this->article->getSelectListTags();
+		$articlesCount = Article::where('status','=','published')->count();
+		$stickyCount = Article::where('status','=','sticky')->count();
+		$articlesCount = $articlesCount + $stickyCount;
+		return View::make('news.index', compact('sticky','articles','articleTagsSelect','articlesCount'));
 	}
 
 	/**
@@ -107,6 +115,24 @@ class ArticlesController extends \BaseController {
 				return Response::json( $response );
 			}
 
+			$newTagFail = '';
+			if(Input::has('tag_id')) {
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'article', $newArticle->id);
+						if($newTagRelationship == 'fail') {
+							$newTagFail = '(Note: Tag Error. Please try again.)';
+						}
+					}
+					else {
+						$newTagFail = '(Note: Tag Error. Please try again.)';
+					}
+				}
+			}
+
 			if(!empty($newArticle->mentions)) $this->mailer->articlePingEmail($newArticle);
 			
 			$hcMessage = '';
@@ -125,7 +151,7 @@ class ArticlesController extends \BaseController {
 			$response = array(
 				'actionType' => 'article-add',
 				'windowAction' => '/news/article/'.$newArticle->slug,
-				'msg' => 'Article created successfully!'
+				'msg' => 'Article created successfully! '.$newTagFail
 			);
 			return Response::json( $response );
 		}
@@ -143,6 +169,7 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function authorFilter($author) {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		if(!empty($author)) {
 			$userAuthor = find_user_from_path($author);
 			if($userAuthor != null)	{
@@ -150,7 +177,10 @@ class ArticlesController extends \BaseController {
 							->where('status','!=','draft')
 							->orderBy('created_at','DESC')
 							->paginate(10);
-				return View::make('news.filters.author', compact('articles','userAuthor'));
+				$articlesCount = Article::where('author_id','=',$userAuthor->id)
+								 ->where('status','!=','draft')
+								 ->count();
+				return View::make('news.filters.author', compact('articles','userAuthor','articleTagsSelect','articlesCount'));
 			}
 			else return Redirect::route('news');
 		}
@@ -164,6 +194,7 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function dateFilter($year, $month) {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		$date = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
 		$dateMax->modify('+1 month');		
@@ -172,8 +203,12 @@ class ArticlesController extends \BaseController {
 					->where('created_at','<', $dateMax)
 					->orderBy('created_at','DESC')
 					->paginate(10);
+		$articlesCount = Article::where('created_at','>=', $date)
+						 ->where('status','!=','draft')
+						 ->where('created_at','<', $dateMax)
+						 ->count();
 		$date = $date->format('F, Y');
-		return View::make('news.filters.date', compact('articles','articlesOlder','date'));
+		return View::make('news.filters.date', compact('articles','articlesOlder','date','articleTagsSelect','articlesCount'));
 	}
 
 	/**
@@ -182,6 +217,7 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function unreadFilter() {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		$currentUser = current_user_path();
 		$lastMonth = new DateTime('-1 month');
 		$articles = Article::where('created_at','>=',$lastMonth)
@@ -189,7 +225,11 @@ class ArticlesController extends \BaseController {
 					->where('status','!=','draft')
 					->orderBy('created_at','DESC')
 					->paginate(10);
-		return View::make('news.filters.unread', compact('articles'));
+		$articlesCount = Article::where('created_at','>=',$lastMonth)
+					->where('been_read','not like','%'.$currentUser.'%')
+					->where('status','!=','draft')
+					->count();
+		return View::make('news.filters.unread', compact('articles','articleTagsSelect','articlesCount'));
 	}
 	
 	/**
@@ -198,12 +238,16 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function favoritesFilter() {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		$currentUser = current_user_path();
 		$articles = Article::where('favorited','like','%'.$currentUser.'%')
 				->where('status','!=','draft')
 				->orderBy('created_at','DESC')
 				->paginate(10);
-		return View::make('news.filters.favorites', compact('articles'));
+		$articlesCount = Article::where('favorited','like','%'.$currentUser.'%')
+						 ->where('status','!=','draft')
+						 ->count();
+		return View::make('news.filters.favorites', compact('articles','articleTagsSelect','articlesCount'));
 	}
 
 	/**
@@ -244,12 +288,16 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function mentionsFilter() {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		$currentUser = current_user_path();
 		$articles = Article::where('mentions','like','%'.$currentUser.'%')
 					->where('status','!=','draft')
 					->orderBy('created_at','DESC')
 					->paginate(10);
-		return View::make('news.filters.mentions', compact('articles'));
+		$articlesCount = Article::where('mentions','like','%'.$currentUser.'%')
+						 ->where('status','!=','draft')
+						 ->count();
+		return View::make('news.filters.mentions', compact('articles','articleTagsSelect','articlesCount'));
 	}
 
 	/**
@@ -258,20 +306,53 @@ class ArticlesController extends \BaseController {
 	 * @return Response
 	 */
 	public function draftsFilter() {
+		$articleTagsSelect = $this->article->getSelectListTags();
 		$currentUser = Auth::user();
 		if($currentUser->userrole == 'admin') {
 			$articles = Article::where('status','=','draft')
 						->orderBy('created_at','DESC')
 						->paginate(10);
-			return View::make('news.filters.drafts', compact('articles'));
+			$articlesCount = Article::where('status','=','draft')->count();
+			return View::make('news.filters.drafts', compact('articles','articleTagsSelect','articlesCount'));
 		}
 		else {
 			$articles = Article::where('status','=','draft')
 						->where('author_id', '=', $currentUser->id)
 						->orderBy('created_at','DESC')
 						->paginate(10);
-			return View::make('news.filters.drafts', compact('articles'));
+			$articlesCount = Article::where('status','=','draft')->count();
+			return View::make('news.filters.drafts', compact('articles','articleTagsSelect','articlesCount'));
 		}
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function tagsFilter($tag)
+	{
+		if($tag == 'Tag Filter') return Redirect::to('/news');
+
+		$articleTagsSelect = $this->article->getSelectListTags($tag);
+		$tag = Tag::where('slug','=',$tag)->first();
+		
+		$articleTagRelationships = TagRelationship::where('tag_id','=',$tag->id)
+					->where('type','=','article')
+					->orderBy('created_at','DESC')
+					->get();
+		foreach($articleTagRelationships as $tagArticle) {
+			$articleIDs[] = $tagArticle->type_id;
+		}
+		if(!empty($articleIDs)) $articleIDs = array_unique($articleIDs);
+		else $articleIDs = array(0);
+		$articles = Article::whereIn('id',$articleIDs)
+					 ->orderBy('created_at','DESC')
+					 ->get();
+		$articlesCount = Article::whereIn('id',$articleIDs)->count();
+		
+		return View::make('news.filters.tags', compact('tag','articles','articleTagsSelect','articlesCount'));
 	}
 
 	/**
@@ -403,6 +484,123 @@ class ArticlesController extends \BaseController {
 		}
 
 		return Redirect::to('/news/article/'.$article->slug.'/edit')->with('flash_message_error','Something went wrong. :(');
+	}
+
+	/**
+	 * Update the article on single view pages.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateOnSingleView($id, $value)
+	{
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/news')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$article = Article::where('id','=',$id)->first();
+			if(empty($article)) return Redirect::to('/news');
+			else $oldValue = $article->$value;
+			
+			if(Input::has('attachnewtag') == 'attachtag') {
+
+		 		$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'article-update',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+
+				$articleId = Input::get('type_id');
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'article', $articleId);
+						if($newTagRelationship == 'fail') {
+							$response = array(
+								'actionType' => 'article-update',
+								'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+							);
+							return Response::json( $response );
+						}
+						if($newTagRelationship == 'existing') {
+							$response = array(
+								'actionType' => 'article-update',
+								'errorMsg' => 'This tag is already attached to this Article.'
+							);
+							return Response::json( $response );
+						}
+					}
+					else {
+						$response = array(
+							'actionType' => 'article-update',
+							'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+						);
+						return Response::json( $response );
+					}
+				}
+
+				$response = array(
+					'actionType' => 'article-update',
+					'tagsText' => Input::get('tagsText'),
+					'tagID' => Input::get('tag_id'),
+					'msg' => 'Tag added successfully!'
+				);
+				return Response::json( $response );
+
+			}
+			if(Input::has('detachtag') == 'detachtag') {
+				$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+				$tagID = Input::get('tag_id');
+				$type = 'article';
+				$typeID = Input::get('type_id');
+
+				$findExisitingRelationship = TagRelationship::where('tag_id','=',$tagID)
+											 ->where('type','=',$type)
+											 ->where('type_id','=',$typeID)
+											 ->first();
+				try
+				{
+					$findExisitingRelationship->delete();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => 'Oops, there was a problem removing the tag. Please try again.'
+					);
+					return Response::json( $response );
+				}
+
+				$response = array(
+					'actionType' => 'tag-detach',
+					'tagsText' => Input::get('tagsText'),
+					'msg' => 'Tag removed successfully!'
+				);
+				return Response::json( $response );
+			}
+			
+			return Response::json( $response );
+		}
+		else return Redirect::route('news');
 	}
 
 	public function removeImage($id,$imageName) {

@@ -15,6 +15,13 @@ class TagRelationship extends Eloquent {
 	 * @return object
 	 */
 	public function newRelationship($tagID, $type, $typeID) {
+		$findExisitingRelationship = TagRelationship::where('tag_id','=',$tagID)
+									 ->where('type','=',$type)
+									 ->where('type_id','=',$typeID)
+									 ->first();
+		if(!empty($findExisitingRelationship)) {
+			return 'existing';
+		}
 		$newTagRelationship = new TagRelationship;
 		$newTagRelationship->tag_id = $tagID;
 		$newTagRelationship->type = $type;

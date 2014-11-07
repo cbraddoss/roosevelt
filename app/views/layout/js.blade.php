@@ -639,6 +639,12 @@ jQuery(document).ready(function($){
 			$(this).html('');
 		});
 	});
+	$(document).on('mouseenter', '.tags-existing-ajax .tag-name', function() {
+		$(this).append('<span class="ss-delete remove-this-tag" formtype="delete-tag-type" ></span>');
+	});
+	$(document).on('mouseleave', '.tags-existing-ajax .tag-name', function() {
+		$(this).find('.remove-this-tag').remove();
+	});
 	$(document).on('click','.active-tags-search-ajax.tags-search-ajax .tags-searched', function() {
 		var getFormType = $('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-existing-ajax').attr('formtype');
 		if( getFormType == 'add-tag-type') {
@@ -683,6 +689,42 @@ jQuery(document).ready(function($){
 			$(this).removeClass('changed-input');
 		});
 	});
+	$(document).on('click','.tags-existing-ajax .remove-this-tag', function() {
+		$(this).parent().addClass('remove-this-tag-active');
+		var getFormType = $(this).attr('formtype');
+		if( getFormType == 'delete-tag-type') {
+			var getTypeId = $(this).parent().parent().attr('formtypeid');
+			var getTagId = $(this).parent().find('.tag-id').attr('id');
+			var getFormLocation = $(this).parent().parent().attr('formlocation');
+			
+			// console.log(getFormType);
+			// console.log(getTypeId);
+			// console.log(getTagId);
+			// console.log(getFormLocation);
+
+			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
+			var tagsAttachOptions = {
+				target:   '#message-box-json',
+				success:       tagsAttachSuccess,
+				dataType: 'json',
+				data: {
+					_token: $(this).parent().parent().parent().parent().find('input[name=_token]').attr('value'),
+					tag_id: getTagId,
+					type_id: getTypeId,
+					tagsText: $(this).parent().find('.tag-id').text(),
+					detachtag: 'detachtag'
+				},
+				type: 'POST',
+				url: getFormLocation,
+				resetForm: false
+			};
+			$(this).find('.changed-input').each(function() {
+				$(this).removeClass('changed-input');
+			});
+			$(this).ajaxSubmit(tagsAttachOptions);
+			return false;
+		}
+	});
 	function tagsSearchSuccess(data)
 	{
 		if(data.msg == 'found some') {
@@ -701,17 +743,31 @@ jQuery(document).ready(function($){
 			});
 		}
 		else {
-			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
-			$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+data.tagsText+'</a></span>');
-			$('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_name]').val('');
-			$(document).find('.addnew-tag').slideUp(1000);
-			$(document).find('.tag-addnew.active-tag-search').removeClass('ss-delete').addClass('ss-plus').removeClass('active-tag-search').removeClass('active');		
-			$('#message-box-json').delay(3000).slideUp(1000, function() {
-				$(this).find('section').remove();
-			});
-			$('.active-tags-search-ajax.tags-search-ajax').parent().find('.changed-input').each(function() {
-				$(this).removeClass('changed-input');
-			});
+			if(data.actionType == 'tag-detach') {
+				$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+				$('#message-box-json').delay(3000).slideUp(1000, function() {
+					$(this).find('section').remove();
+				});
+				$(document).find('loading-something-changed').fadeOut(1000,function() {
+					$(this).remove();
+				});
+				$(document).find('.remove-this-tag-active').fadeOut(1000,function() {
+					$(this).remove();
+				});
+			}
+			else {
+				$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
+				$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a id="'+data.tagID+'" class="tag-id ss-tag">'+data.tagsText+'</a></span>');
+				$('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_name]').val('');
+				$(document).find('.addnew-tag').slideUp(1000);
+				$(document).find('.tag-addnew.active-tag-search').removeClass('ss-delete').addClass('ss-plus').removeClass('active-tag-search').removeClass('active');		
+				$('#message-box-json').delay(3000).slideUp(1000, function() {
+					$(this).find('section').remove();
+				});
+				$('.active-tags-search-ajax.tags-search-ajax').parent().find('.changed-input').each(function() {
+					$(this).removeClass('changed-input');
+				});
+			}
 		}
 	}
 
@@ -783,7 +839,7 @@ jQuery(document).ready(function($){
 				var existingTagsID = $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value');
 				var tagsID = data.tagID;
 				var tagsText = data.tagname;
-				$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a class="ss-tag">'+tagsText+'</a></span>');
+				$('.active-tags-search-ajax.tags-search-ajax').parent().find('.tags-added-ajax').append('<span class="tag-added tag-name"><a id="'+data.tagID+'" class="tag-id ss-tag">'+tagsText+'</a></span>');
 				if(existingTagsID == null) $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value',tagsID);
 				else $('.active-tags-search-ajax.tags-search-ajax').parent().find('input[name=tag_id]').attr('value',existingTagsID+','+tagsID);
 				$(document).find('.active-tags-search-ajax.tags-search-ajax').slideUp(1000, function() {
@@ -1157,6 +1213,8 @@ jQuery(document).ready(function($){
 			$(this).find('.changed-input').each(function() {
 				$(this).removeClass('changed-input');
 			});
+			$(this).slideUp(1000);
+			$(this).addClass('change-project-date-active');
 			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
 			$('.loading-something-changed').hide().fadeIn(1000);
 		
@@ -1178,6 +1236,7 @@ jQuery(document).ready(function($){
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .post-date .change-project-date').html('<span class="tooltip">Change<br />Due Date</span>Due Date: <br /><span class="post-due-date">'+data.date+'</span><span class="project-change-date ss-calendar"></span>');
 			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-date .project-due-date-text ').html('<span class="tooltip">Change<br />Due Date</span><span class="post-due-date">'+data.date+'</span>');
+			$(document).find('.change-project-date.change-project-date-active').slideDown(1000).removeClass('change-project-date-active');
 			$(document).find('div#project-'+projectID).removeClass('due-soon');
 			$(document).find('div#project-'+projectID).removeClass('due-now');
 			$(document).find('div#project-'+projectID+' .post-due-text-alert').remove();
@@ -1227,6 +1286,8 @@ jQuery(document).ready(function($){
 			$(this).find('.changed-input').each(function() {
 				$(this).removeClass('changed-input');
 			});
+			$(this).slideUp(1000);
+			$(this).addClass('change-project-launch-date-active');
 			$(this).after('<span class="loading-something-changed"><img src="/images/ajax-snake-loader-transparent.gif" alt="Loading..."></span>');
 			$('.loading-something-changed').hide().fadeIn(1000);
 		
@@ -1247,6 +1308,7 @@ jQuery(document).ready(function($){
 		else {
 			var projectID = data.pid;
 			$(document).find('div#project-'+projectID+' .project-stage-due-date .change-project-launch-date .project-launch-date-text').html('<span class="tooltip">Change<br />Launch</span><span class="post-launch-date"> '+data.date+'</span>');
+			$(document).find('.change-project-launch-date.change-project-launch-date-active').slideDown(1000).removeClass('change-project-date-active');
 			$('#message-box-json').slideDown(1000).find('.section').html('<div class="action-message"><span class="flash-message flash-message-success"><span class="ss-check"></span>' + data.msg + '</span></div>');
 			$('#message-box-json').delay(3000).slideUp(1000, function() {
 				$(this).find('section').remove();
@@ -1586,7 +1648,7 @@ jQuery(document).ready(function($){
 		$('#message-box-json').delay(3000).slideUp(1000, function() {
 			$(this).find('section').remove();
 		});
-		$(document).find('div#project-'+projectID+' .post-subscribed div[value='+data.sub+']').fadeOut(1000, function() {
+		$(document).find('div#project-'+projectID+' .post-subscribed div[value='+data.sub+']').slideUp(1000, function() {
 			$(this).remove();
 		});
 		$('.loading-something-changed').fadeOut(1000, function() {
@@ -1631,7 +1693,8 @@ jQuery(document).ready(function($){
 			$(this).find('section').remove();
 		});
 		if(data.subName != '') {
-			$(document).find('div#project-'+projectID+' .post-subscribed .user-subscribed').last().before('<div class="user-subscribed ss-delete" value="'+data.sub+'">'+data.subName+'</div>');
+			$(document).find('div#project-'+projectID+' .post-subscribed .user-subscribed').last().after('<div class="user-subscribed ss-delete just-subscribed" value="'+data.sub+'">'+data.subName+'</div>');
+			$(document).find('.just-subscribed').hide().slideDown(1000).removeClass('just-subscribed');
 		}
 		$('.loading-something-changed').fadeOut(1000, function() {
 			$(this).remove();

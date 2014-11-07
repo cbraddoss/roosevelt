@@ -18,7 +18,8 @@
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($articles) }} of {{ $articlesCount }}]</small></h2>
 	@if($articles->isEmpty())
 			<div class="news-article">
 				<h3>No articles found for <i>{{ $date }}</i>.</h3>

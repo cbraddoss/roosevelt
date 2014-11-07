@@ -23,6 +23,16 @@
 </div>
 
 <div class="new-form-field">
+<div class="form-tags-searchbox">
+{{ Form::label('tag_name', 'Add Tags:') }}
+{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'search-tags vault-tags field')) }}
+{{ Form::hidden('tag_id', null, array('class' => 'vault-asset-tag-id field')) }}
+<div class="tags-search-ajax"></div>
+<div class="tags-added-ajax"></div>
+</div>
+</div>
+
+<div class="new-form-field">
 {{ Form::label('show_on_calendar', 'Show on Calendar:') }}
 {{ Form::text('show_on_calendar', null, array('placeholder' => 'Post to Calendar', 'class' => 'datepicker future-dates article-calendar-date field', 'data-date-format' => 'mm/dd/yyyy', 'data-date-viewmode' => 'days')) }}
 </div>

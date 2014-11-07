@@ -42,10 +42,9 @@ class ProjectsController extends \BaseController {
 	{
 		$projects = $this->project->getOpenProjects();
 		$projectTypes = $this->project->getTypeSelectList();
-		$projectsCount = $projects->count();
-		// if(Request::ajax()) return View::make('projects.partials.new', compact('templates'));
-		// else
-		return View::make('projects.index', compact('projects','projectTypes','projectsCount'));
+		$projectsCount = Project::where('status','=','open')->count();
+		$projectsTagsSelect = $this->project->getSelectListTags();
+		return View::make('projects.index', compact('projects','projectTypes','projectsCount','projectsTagsSelect'));
 	}
 
 
@@ -306,7 +305,9 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(20);
-				$projectsCount = $projects->count();
+				$projectsCount = Project::where('assigned_id','=',$user->id)
+								 ->where('status','=','open')
+								 ->count();
 				return View::make('projects.filters.user', compact('projects','user','projectsCount'));
 			}
 			else return Redirect::route('projects');
@@ -329,7 +330,10 @@ class ProjectsController extends \BaseController {
 					->where('due_date','<', $dateMax)
 					->orderBy('due_date','ASC')
 					->paginate(20);
-		$projectsCount = $projects->count();
+		$projectsCount = Project::where('due_date','>=', $date)
+					->where('status','=','open')
+					->where('due_date','<', $dateMax)
+					->count();
 		$date = $date->format('F, Y');
 		return View::make('projects.filters.date', compact('projects','date','projectsCount'));
 	}
@@ -348,7 +352,10 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(20);
-			$projectsCount = $projects->count();
+			$projectsCount = Project::where('stage','=',convert_path_to_stage($stage))
+							 ->where('type','=', $type)
+							 ->where('status','=','open')
+							 ->count();
 			return View::make('projects.filters.stage', compact('projects','stage','projectStages','type','projectTypes','projectsCount'));
 		}
 		else return Redirect::route('projects');
@@ -368,7 +375,9 @@ class ProjectsController extends \BaseController {
 					->where('status','=','open')
 					->orderBy('due_date','ASC')
 					->paginate(20);
-			$projectsCount = $projects->count();
+			$projectsCount = Project::where('priority','=',$priority)
+							 ->where('status','=','open')
+							 ->count();
 			if($projects != null) {
 				if($priority == 'low') $low = $priority;
 				if($priority == 'normal') $normal = $priority;
@@ -400,7 +409,7 @@ class ProjectsController extends \BaseController {
 				$projects = Project::where('status','=',$status)
 						->orderBy('created_at','DESC')
 						->paginate(20);
-				$projectsCount = $projects->count();
+			$projectsCount = Project::where('status','=',$status)->count();
 			}
 			if($projects != null) {
 				if($status == 'open') $open = $status;
@@ -431,7 +440,9 @@ class ProjectsController extends \BaseController {
 							->where('status','=','open')
 							->orderBy('due_date','ASC')
 							->paginate(20);
-					$projectsCount = $projects->count();
+					$projectsCount = Project::where('type','=',$type)
+									 ->where('status','=','open')
+									 ->count();
 					if($projects != null) {
 						return View::make('projects.filters.type', compact('projects','tStatus','type','projectTypes','projectStages','projectsCount'));
 					}
@@ -442,6 +453,37 @@ class ProjectsController extends \BaseController {
 			else return Redirect::route('projects');
 		}
 		else return Redirect::route('projects');
+	}
+
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function tagsFilter($tag)
+	{
+		if($tag == 'Tag Filter') return Redirect::to('/projects');
+
+		$projectsTagsSelect = $this->project->getSelectListTags($tag);
+		$tag = Tag::where('slug','=',$tag)->first();
+		
+		$projectTagRelationships = TagRelationship::where('tag_id','=',$tag->id)
+					->where('type','=','project')
+					->orderBy('created_at','DESC')
+					->get();
+		foreach($projectTagRelationships as $tagProject) {
+			$projectIDs[] = $tagProject->type_id;
+		}
+		if(!empty($projectIDs)) $projectIDs = array_unique($projectIDs);
+		else $projectIDs = array(0);
+		$projects = Project::whereIn('id',$projectIDs)
+					 ->orderBy('created_at','DESC')
+					 ->paginate(20);
+		$projectsCount = Project::whereIn('id',$projectIDs)->count();
+		
+		return View::make('projects.filters.tags', compact('tag','projects','projectsCount','projectsTagsSelect'));
 	}
 
 	/**
@@ -1035,6 +1077,13 @@ class ProjectsController extends \BaseController {
 							);
 							return Response::json( $response );
 						}
+						if($newTagRelationship == 'existing') {
+							$response = array(
+								'actionType' => 'project-update',
+								'errorMsg' => 'This tag is already attached to this Project.'
+							);
+							return Response::json( $response );
+						}
 					}
 					else {
 						$response = array(
@@ -1048,10 +1097,51 @@ class ProjectsController extends \BaseController {
 				$response = array(
 					'actionType' => 'project-update',
 					'tagsText' => Input::get('tagsText'),
+					'tagID' => Input::get('tag_id'),
 					'msg' => 'Tag added successfully!'
 				);
 				return Response::json( $response );
 
+			}
+			if(Input::has('detachtag') == 'detachtag') {
+				$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+				$tagID = Input::get('tag_id');
+				$type = 'project';
+				$typeID = Input::get('type_id');
+
+				$findExisitingRelationship = TagRelationship::where('tag_id','=',$tagID)
+											 ->where('type','=',$type)
+											 ->where('type_id','=',$typeID)
+											 ->first();
+				try
+				{
+					$findExisitingRelationship->delete();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => 'Oops, there was a problem removing the tag. Please try again.'
+					);
+					return Response::json( $response );
+				}
+
+				$response = array(
+					'actionType' => 'tag-detach',
+					'tagsText' => Input::get('tagsText'),
+					'msg' => 'Tag removed successfully!'
+				);
+				return Response::json( $response );
 			}
 			
 			

@@ -18,7 +18,8 @@
 
 @section('page-content')
 <div id="news-page"  class="inner-page">
-	<h2>@yield('page-h2')</h2>
+	<h2>@yield('page-h2')
+	<small class="count-of-total">[{{ count($articles) + count($sticky) }} of {{ $articlesCount }}]</small></h2>
 	@foreach($sticky as $stick)
 		@if(strpos($stick->been_read,current_user_path()) !== false) <div id="article-{{ $stick->id }}" class="news-article office-post sticky">
 		@else <div id="article-{{ $stick->id }}" class="news-article office-post unread sticky">

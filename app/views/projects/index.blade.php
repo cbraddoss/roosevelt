@@ -17,7 +17,10 @@
 				<span class="ss-calendar"></span> <span>Date Filter</span>
 			</div>
 		</li>
-		<li class="select-dropdown right">
+		<!-- <li class="right status-filter-show">
+			<span class="show-status-filter ss-filter">Status</span>
+		</li> -->
+		<li class="select-dropdown right status-filter none">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
 			<select filterlink="/projects/status/" class="filter-this filter-status projects-filter">
@@ -33,6 +36,14 @@
 			<select filterlink="/projects/type/" class="filter-this filter-type projects-filter">
 				<option value="0">Type Filter</option>
 				{{ $projectTypes }}
+			</select>
+		</li>
+		<li class="right select-dropdown">
+			<span class="ss-dropdown"></span>
+			<span class="ss-directup"></span>
+			<select filterlink="/projects/tag/" class="filter-this filter-vault-tag tags-filter">
+				<option>Tag Filter</option>
+				{{ $projectsTagsSelect }}
 			</select>
 		</li>
 		<li class="select-dropdown right">

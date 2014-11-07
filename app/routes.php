@@ -56,6 +56,7 @@ Route::get('/uploads/{year}/{month}/{name}',array('as' => 'uploads', 'uses' => '
 Route::get('/news', array('as' => 'news','uses' => 'ArticlesController@index'));
 Route::post('/news', array('as' => 'news.articleNew','uses' => 'ArticlesController@store'));
 Route::get('/news/create', array('as' => 'news.articleCreate','uses' => 'ArticlesController@create'));
+Route::post('/news/singleviewupdate/{id}/{value}', array('as' => 'news.updateOnSingleView', 'uses' => 'ArticlesController@updateOnSingleView'));
 Route::get('/news/article/{article}', array('as' => 'news.article', 'uses' => 'ArticlesController@show'));
 Route::get('/news/article/{article}/comment', array('as' => 'news.articleComment', 'uses' => 'ArticleCommentsController@show'));
 Route::post('/news/article/{article}/comment', array('uses' => 'ArticleCommentsController@store'));
@@ -69,6 +70,7 @@ Route::post('/news/article/{id}/remove/{imageName}', array('uses' => 'ArticlesCo
 Route::get('/news/author/{author}', array('as' => 'news.authorFilter', 'uses' => 'ArticlesController@authorFilter'));
 Route::get('/news/unread/', array('as' => 'news.unreadFilter', 'uses' => 'ArticlesController@unreadFilter'));
 Route::get('/news/mentions/', array('as' => 'news.mentionsFilter', 'uses' => 'ArticlesController@mentionsFilter'));
+Route::get('/news/tag/{tag}', array('as' => 'news.tagsFilter', 'uses' => 'ArticlesController@tagsFilter'));
 Route::get('/news/favorites/', array('as' => 'news.favoritesFilter', 'uses' => 'ArticlesController@favoritesFilter'));
 Route::post('/news/favorites/{id}', array('as' => 'news.favoriteArticle', 'uses' => 'ArticlesController@favoriteArticle'));
 Route::get('/news/drafts/', array('as' => 'news.draftsFilter', 'uses' => 'ArticlesController@draftsFilter'));
@@ -90,6 +92,7 @@ Route::get('/projects/priority/{priority}', array('as' => 'projects.priorityFilt
 Route::get('/projects/status/{status}', array('as' => 'projects.statusFilter', 'uses' => 'ProjectsController@statusFilter'));
 Route::get('/projects/type/{type}/stage/{stage}', array('as' => 'projects.stageFilter', 'uses' => 'ProjectsController@stageFilter'));
 Route::get('/projects/type/{type}', array('as' => 'projects.typeFilter', 'uses' => 'ProjectsController@typeFilter'));
+Route::get('/projects/tag/{tag}', array('as' => 'projects.tagsFilter', 'uses' => 'ProjectsController@tagsFilter'));
 Route::get('/projects/post/{project}', array('as' => 'projects.project', 'uses' => 'ProjectsController@show'));
 Route::get('/projects/post/{project}/edit', array('uses' => 'ProjectsController@edit'));
 Route::post('/projects/post/{project}', array('uses' => 'ProjectsController@update'));
