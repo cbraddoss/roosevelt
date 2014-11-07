@@ -164,7 +164,14 @@ jQuery(document).ready(function($){
 	// 	}
 	// });
 
-	// Filter by this
+	//Hide filter dropdowns unless clicked
+	$(document).find('.page-menu-sub').hide();
+	$(document).on('click','.this-filter-show', function() {
+		$(this).next('.page-menu-sub').slideToggle(800);
+		$(this).find('.add-button').toggleClass('active');
+	})
+
+	//Filter by this
 	$(document).on('change','#page-nav_menu .filter-this', function(){
 		var filterSlug = $(this).val();
 		var filterLink = $(this).attr('filterlink');

@@ -17,20 +17,12 @@
 				<span class="ss-calendar"></span> <span>Date Filter</span>
 			</div>
 		</li>
-		<!-- <li class="right status-filter-show">
-			<span class="show-status-filter ss-filter">Status</span>
-		</li> -->
-		<li class="select-dropdown right status-filter none">
-			<span class="ss-dropdown"></span>
-			<span class="ss-directup"></span>
-			<select filterlink="/projects/status/" class="filter-this filter-status projects-filter">
-				<option value="0">Status Filter</option>
-				<option value="open">Open</option>
-				<option value="closed">Closed</option>
-				<option value="archived">Archived</option>
-			</select>
+		<li class="right filter-show this-filter-show">
+			<span class="show-this-filter ss-navigatedown add-button"> Filters</span>
 		</li>
-		<li class="select-dropdown right">
+		<li class="page-menu-sub">
+		<ul>
+		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
 			<select filterlink="/projects/type/" class="filter-this filter-type projects-filter">
@@ -38,15 +30,23 @@
 				{{ $projectTypes }}
 			</select>
 		</li>
-		<li class="right select-dropdown">
+		<li class="right select-dropdown this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select filterlink="/projects/tag/" class="filter-this filter-vault-tag tags-filter">
+			<select filterlink="/projects/tag/" class="filter-this filter-project-tag tags-filter">
 				<option>Tag Filter</option>
 				{{ $projectsTagsSelect }}
 			</select>
 		</li>
-		<li class="select-dropdown right">
+		<li class="select-dropdown right this-filter">
+			<span class="ss-dropdown"></span>
+			<span class="ss-directup"></span>
+			<select filterlink="/projects/assigned-to/" class="filter-this filter-user projects-filter">
+				<option value="0">User Filter</option>
+				{{ get_user_list_select() }}
+			</select>
+		</li>
+		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
 			<select filterlink="/projects/priority/" class="filter-this filter-priority projects-filter">
@@ -56,13 +56,17 @@
 				<option value="high">High</option>
 			</select>
 		</li>
-		<li class="select-dropdown right">
+		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
-			<select filterlink="/projects/assigned-to/" class="filter-this filter-user projects-filter">
-				<option value="0">User Filter</option>
-				{{ get_user_list_select() }}
+			<select filterlink="/projects/status/" class="filter-this filter-status projects-filter">
+				<option value="0">Status Filter</option>
+				<option value="open">Open</option>
+				<option value="closed">Closed</option>
+				<option value="archived">Archived</option>
 			</select>
+		</li>
+		</ul>
 		</li>
 	</ul>
 </div>

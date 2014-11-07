@@ -686,7 +686,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #page-nav_menu ul li a {
 	height: 22.5px;
 	color: #333333;
-	margin: 0px 7.5px 10px;
+	margin: 0px 7.5px 0px;
 	padding: 2.5px 10px 2.5px 10px;
 	float: left;
 	cursor: pointer;
@@ -697,17 +697,17 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-weight: 300;
 }
 #page-nav_menu ul li a.active:after {
-	top: 50%;
-	left: 50%;
+	top: calc(50% + 6px);
+	left: calc(50% + 6px);
 	border: solid transparent;
-	content: " ";
+	content: "";
 	height: 0;
 	width: 0;
 	position: absolute;
 	pointer-events: none;
 	border-color: rgba(51, 51, 51, 0);
 	border-bottom-color: #fafafa;
-	border-width: 15px;
+	border-width: 10px;
 	margin-left: -15px;
 }
 #page-nav_menu ul li a:hover {
@@ -784,6 +784,48 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	font-size: 24px;
 	color: #2E9999;
 	margin-right: 10px;
+}
+#page-nav_menu .this-filter-show {
+	cursor: pointer;
+	position: relative;
+}
+#page-nav_menu .page-menu-sub {
+	float: none;
+	display: inline-block;
+	position: absolute;
+	right: 275px;
+	top: 130px;
+	padding: 0px 10px 10px;
+	z-index: 56;
+	border: 1px solid rgba(51,51,51,0.3);
+	border-radius: 3px;
+	background: #ffffff;
+	width: 150px;
+	margin: 0 !important;
+	box-shadow: 0 3px 6px #333333;
+}
+#page-nav_menu .page-menu-sub:after {
+	top: -20px;
+	right: 6px;
+	border: solid transparent;
+	content: "";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(51, 51, 51, 0);
+	border-bottom-color: #ffffff;
+	border-width: 10px;
+	margin-left: -15px;
+}
+#page-nav_menu .page-menu-sub ul li {
+}
+#page-nav_menu .page-menu-sub ul li select {
+	width: 140px;
+	position: relative;
+}
+#page-nav_menu .page-menu-sub ul li select:first-child {
+	margin-top: 0;
 }
 /* General Page Styles */
 #content h2 {
