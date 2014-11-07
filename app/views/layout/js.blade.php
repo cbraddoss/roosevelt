@@ -167,9 +167,16 @@ jQuery(document).ready(function($){
 	//Hide filter dropdowns unless clicked
 	$(document).find('.page-menu-sub').hide();
 	$(document).on('click','.this-filter-show', function() {
-		$(this).next('.page-menu-sub').slideToggle(800);
-		$(this).find('.add-button').toggleClass('active');
-	})
+		$(this).next('.page-menu-sub').show();
+		$(this).find('.add-button').addClass('active');
+	});
+	$(document).mouseup(function (e) {
+		var container = $(".page-menu-sub");
+		if (!container.is(e.target) && container.has(e.target).length === 0) {
+			container.hide();
+			$(this).find('.add-button.active').removeClass('active');
+		}
+	});
 
 	//Filter by this
 	$(document).on('change','#page-nav_menu .filter-this', function(){
@@ -178,7 +185,7 @@ jQuery(document).ready(function($){
 		window.location.href= filterLink+filterSlug;
 	});
 
-	// Filter by this date
+	//Filter by this date
 	$('#page-nav_menu .filter-this-date').datepicker().on('changeDate', function(ev) {
 		$('.dropdown-menu').hide();
 		var months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
