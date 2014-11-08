@@ -119,9 +119,13 @@ Route::get('/assets/vault', array('as' => 'assets.vault', 'uses' => 'VaultContro
 Route::get('/assets/vault/create', array('as' => 'assets.vaultCreate', 'uses' => 'VaultController@create'));
 Route::post('/assets/vault', array('as' => 'assets.vaultNew','uses' => 'VaultController@store'));
 Route::post('/assets/vault/singleviewupdate/{id}/{value}', array('as' => 'assets.vaultUpdateOnSingleView', 'uses' => 'VaultController@updateOnSingleView'));
-Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
 Route::get('/assets/vault/asset/{slug}/show-password', array('as' => 'assets.vaultAssetShowPassword', 'uses' => 'VaultController@showPassword'));
-Route::get('/assets/vault/tags/{tag}', array('as' => 'assets.vaultTags', 'uses' => 'VaultController@tags'));
+Route::get('/assets/vault/tags/{tag}', array('as' => 'assets.vaultTagsFilter', 'uses' => 'VaultController@tagsFilter'));
+Route::get('/assets/vault/type/{type}', array('as' => 'assets.vaultTypeFilter', 'uses' => 'VaultController@typeFilter'));
+Route::get('/assets/vault/date/{year}/{month}', array('as' => 'assets.vaultDateFilter', 'uses' => 'VaultController@dateFilter'));
+Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'uses' => 'VaultController@show'));
+Route::get('/assets/vault/asset/{asset}/edit', array('uses' => 'VaultController@edit'));
+Route::post('/assets/vault/asset/{asset}', array('uses' => 'VaultController@update'));
 Route::delete('/assets/vault/asset/{id}', array('uses' => 'VaultController@destroy'));
 
 /* Tags */

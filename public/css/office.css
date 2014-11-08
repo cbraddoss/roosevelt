@@ -791,7 +791,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #page-nav_menu .page-menu-sub {
 	float: none;
-	display: inline-block;
+	display: none;
 	position: absolute;
 	right: 275px;
 	top: 130px;

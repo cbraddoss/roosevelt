@@ -83,7 +83,7 @@
 		<small>on {{ $vaultAsset->created_at->format('F j, Y') }}</small>
 		
 		@if(Auth::user()->id == $vaultAsset->author_id || Auth::user()->can_manage == 'yes')
-		<small><a class="edit-vault-asset edit-link link" href="/assets/vault/asset/{{ $vaultAsset->slug }}/edit">Edit Me</a></small>
+		<small><a class="edit-vault-asset edit-link link" href="/assets/vault/asset/{{ $vaultAsset->slug }}/edit">Edit</a></small>
 		@endif
 		<small class="right">
 		Last edit: {{ $vaultAsset->updated_at->format('F j, Y h:i:s A') }} by {{ User::find($vaultAsset->edit_id)->first_name.' '.User::find($vaultAsset->edit_id)->last_name }}

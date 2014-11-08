@@ -85,7 +85,14 @@ class VaultController extends \BaseController {
 	 */
 	public function store()
 	{
-		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::to('assets.vault')->with('flash_message_error','Please enter vault key again.');
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) {
+			$response = array(
+				'actionType' => 'vault-add',
+				'windowAction' => '/assets/vault/',
+				'msg' => 'Session Timed Out. Please enter vault key again.'
+			);
+			return Response::json( $response );
+		}
 		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/assets/vault')->with('flash_message_error','Form submission error. Please don\'t do that.');
  		
  		$validator = Validator::make(Input::all(), array(
@@ -256,7 +263,7 @@ class VaultController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function tags($tag)
+	public function tagsFilter($tag)
 	{
 		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
 		if($tag == 'Tag Filter') return Redirect::to('/assets/vault');
@@ -264,21 +271,71 @@ class VaultController extends \BaseController {
 		$vaultTagsSelect = $this->vault->getSelectListVaultTags($tag);
 		$tag = Tag::where('slug','=',$tag)->first();
 		
-		$vaultTagRelationships = TagRelationship::where('tag_id','=',$tag->id)
-					->where('type','=','vault')
-					->orderBy('created_at','DESC')
-					->get();
-		foreach($vaultTagRelationships as $tagVault) {
-			$vaultIDs[] = $tagVault->type_id;
+		if(!empty($tag)) {
+
+			$vaultTagRelationships = TagRelationship::where('tag_id','=',$tag->id)
+						->where('type','=','vault')
+						->orderBy('created_at','DESC')
+						->get();
+			foreach($vaultTagRelationships as $tagVault) {
+				$vaultIDs[] = $tagVault->type_id;
+			}
+			if(!empty($vaultIDs)) $vaultIDs = array_unique($vaultIDs);
+			else $vaultIDs = array(0);
+			$vaults = Vault::whereIn('id',$vaultIDs)
+						 ->orderBy('created_at','DESC')
+						 ->paginate(30);
+			$vaultsCount = Vault::whereIn('id',$vaultIDs)->count();
+			
+			return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect','vaultsCount'));
 		}
-		if(!empty($vaultIDs)) $vaultIDs = array_unique($vaultIDs);
-		else $vaultIDs = array(0);
-		$vaults = Vault::whereIn('id',$vaultIDs)
-					 ->orderBy('created_at','DESC')
-					 ->get();
-		$vaultsCount = Vault::whereIn('id',$vaultIDs)->count();
+
+		return Redirect::to('/assets/vault/')->with('flash_message_error','No Tags found with that name');
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function typeFilter($type)
+	{
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
+		if($type == 'Type Filter') return Redirect::to('/assets/vault');
+
+		$vaultTagsSelect = $this->vault->getSelectListVaultTags();
 		
-		return View::make('assets.vault-tag', compact('tag','vaults','vaultTagsSelect','vaultsCount'));
+		$vaults = Vault::where('type','=',$type)
+					  ->orderBy('created_at','DESC')
+					  ->paginate(30);
+		$vaultsCount = Vault::where('type','=',$type)->count();
+		
+		return View::make('assets.vault-type', compact('type','vaults','vaultTagsSelect','vaultsCount'));
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function dateFilter($year, $month)
+	{
+		if ( Cache::get('vault_key_'.Auth::user()->user_path) != 'vault access' ) return Redirect::route('assets.vault');
+		$vaultTagsSelect = $this->vault->getSelectListVaultTags();
+		$date = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax = new DateTime($year.'-'.$month.'-'.'01');
+		$dateMax->modify('+1 month');		
+		$vaults = Vault::where('created_at','>=', $date)
+					->where('created_at','<', $dateMax)
+					->orderBy('created_at','DESC')
+					->paginate(30);
+		$vaultsCount = Vault::where('created_at','>=', $date)
+						 ->where('created_at','<', $dateMax)
+						 ->count();
+		$date = $date->format('F, Y');
+		return View::make('assets.vault-date', compact('date','vaults','vaultTagsSelect','vaultsCount'));
 	}
 
 	/**
@@ -287,9 +344,15 @@ class VaultController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($vault)
 	{
-		//
+		
+		$vaultAsset = Vault::where('slug', $vault)->first();
+		if(Auth::user()->id == $vaultAsset->author_id || Auth::user()->userrole == 'admin') {
+			if(empty($vaultAsset)) return Redirect::to('/assets/vault');
+			else return View::make('assets.vault-edit', compact('vaultAsset'));
+		}
+		else return Redirect::to('/assets/vault/asset/'.$vaultAsset->slug);
 	}
 
 
@@ -299,9 +362,66 @@ class VaultController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update($vault)
 	{
-		//
+		if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/assets/vault/asset/'.$vault)->withInput()->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+ 		$validator = Validator::make(Input::all(), array(
+			'title' => 'required|max:120',
+			'url' => 'required',
+			'username' => 'required',
+		));
+
+		if($validator->fails()) {
+			$messages = $validator->messages();
+			return Redirect::to('/assets/vault/asset/'.$vault.'/edit')->withInput()->withErrors($messages->first());
+		}
+		else {
+			$updateVault = Vault::find(Input::get('id'));
+			$updateVault->title = clean_title(Input::get('title'));
+			$updateVault->slug = convert_title_to_path(Input::get('title'));
+			
+			$updateVault->edit_id = Auth::user()->id;
+			$updateVault->account_id = Input::get('account_id');
+			$updateVault->url = Input::get('url');
+			$updateVault->username = Input::get('username');
+
+ 			if(Input::has('password')) {
+ 				$vaultPW = Input::get('password');
+				$updateVault->password = Crypt::encrypt($vaultPW);
+			}
+
+			if(Input::has('notes')) $updateVault->notes = clean_content(Input::get('notes'));
+			
+			if(Input::has('database_name')) $updateVault->database_name = Input::get('database_name');
+			if(Input::has('ftp_path')) $updateVault->ftp_path = Input::get('ftp_path');
+
+			if(Input::hasFile('attachment')) {
+				$attachment = Input::file('attachment');
+				$fileNames = array();
+				foreach($attachment as $attach) {
+					$fileName = $attach->getClientOriginalName();
+					$fileExtension = $attach->getClientOriginalExtension();
+					$currentTime = Carbon::now()->timestamp;
+					$attach = $attach->move(upload_path(), $currentTime.'-'.$fileName);
+					if($fileExtension != 'pdf') $attachThumbnail = Image::make($attach)->resize(300, null, true)->crop(200,200,0,0)->save(upload_path().'thumbnail-'.$currentTime.'-'.$fileName);
+					$fileNames[] = '/uploads/'.Carbon::now()->format('Y').'/'.Carbon::now()->format('m').'/'.$currentTime.'-'.$fileName;
+				}
+				$updateVault->attachment = serialize($fileNames);
+			}
+
+			try
+			{
+				$updateVault->save();
+			} catch(Illuminate\Database\QueryException $e)
+			{
+				return Redirect::to('/assets/vault/asset/'.$vault.'/edit')->withInput()->with('flash_message_error','Oops, there might be an article with this title already. Try a different title.');
+			}
+		
+			return Redirect::to('/assets/vault/asset/'.$updateVault->slug)->withInput()->with('flash_message_success','Vault asset updated successfully!');
+		}
+		
+		return Redirect::to('/assets/vault/asset/'.$vault.'/edit')->withInput()->with('flash_message_error','Something went wrong. :(');
 	}
 
 	/**
@@ -423,12 +543,12 @@ class VaultController extends \BaseController {
 	public function destroy($id)
 	{
 		$vault = Vault::find($id);
-		if(Auth::user()->userrole != 'admin') {
+		if(Auth::user()->userrole == 'admin') {
 			$vaultTitle = $vault->title;
 			$vault->delete();
 			return Redirect::to('/assets/vault/')->with('flash_message_error', '<i>' . $vaultTitle . '</i> successfully deleted.');
 		}
-		else return Redirect::route('assets.vault');
+		else return Redirect::route('assets.vault')->with('flash_message_error', 'Oops, you don\'t have permission to delete this item.');
 	}
 
 

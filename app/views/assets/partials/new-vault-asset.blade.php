@@ -57,7 +57,7 @@
 
 <div class="new-form-field">
 {{ Form::label('ftp_path', 'FTP Path:') }}
-{{ Form::text('ftp_path', null, array('placeholder' => 'FTP Path (if needed)', 'class' => 'vault-ftp-path field vault-field vault-hidden')) }}
+{{ Form::text('ftp_path', null, array('placeholder' => 'Optional', 'class' => 'vault-ftp-path field vault-field vault-hidden')) }}
 </div>
 
 <div class="new-form-field">

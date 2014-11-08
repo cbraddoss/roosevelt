@@ -2080,6 +2080,7 @@ jQuery(document).ready(function($){
 		if($(this).hasClass('news-filter') ) return;
 		if($(this).hasClass('tags-filter') ) return;
 		if($(this).hasClass('projects-filter') ) return;
+		if($(this).hasClass('type-filter') ) return;
 		if($(this).hasClass('todo-filter') ) return;
 		if($(this).hasClass('checklist-checkbox') ) return;
 		if($(this).hasClass('show-me-input') ) return;

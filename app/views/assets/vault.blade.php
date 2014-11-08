@@ -12,19 +12,7 @@
 <div class="page-menu">
 	<ul>
 		@include('assets.partials.assets-menu')
-		<li class="right">
-			<div id="vault-new-vault-form" class="create-something-new">
-				<div class="vault-button"><span formtype="add-vault-asset" formlocation="/assets/vault/create" class="add-new add-button"><span class="ss-plus"></span> Add New</span></div>
-			</div>
-		</li>
-		<li class="right select-dropdown">
-			<span class="ss-dropdown"></span>
-			<span class="ss-directup"></span>
-			<select filterlink="/assets/vault/tags/" class="filter-this filter-vault-tag tags-filter">
-				<option>Tag Filter</option>
-				{{ $vaultTagsSelect }}
-			</select>
-		</li>
+		@include('assets.partials.vault-menu')
 	</ul>
 </div>
 @stop
