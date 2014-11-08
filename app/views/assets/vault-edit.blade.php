@@ -23,7 +23,7 @@
 <h2>@yield('page-h2')</h2>
 
 <div class="update-something-form">
-{{ Form::open( array('id' => $vaultAsset->id, 'files' => true, 'class' => 'update-vault-asset', 'url' => '/assets/vault/asset/'.$vaultAsset->slug, 'method' => 'post') ) }}
+{{ Form::open( array('id' => $vaultAsset->id, 'files' => true, 'class' => 'update-something update-vault-asset', 'url' => '/assets/vault/asset/'.$vaultAsset->slug, 'method' => 'post') ) }}
 
 {{ Form::hidden('id', $vaultAsset->id) }}
 

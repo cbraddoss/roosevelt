@@ -424,6 +424,41 @@ class VaultController extends \BaseController {
 		return Redirect::to('/assets/vault/asset/'.$vault.'/edit')->withInput()->with('flash_message_error','Something went wrong. :(');
 	}
 
+	public function removeImage($id,$imageName) {
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/assets/vault')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$vault = Vault::find($id);
+			$attachments = $vault->attachment;
+			$attachments = unserialize($attachments);
+			$imagePath = Input::get('imagePath');
+			$imageName = $imagePath;
+			$name = array_search($imageName, $attachments);
+			if($name !== false) unset($attachments[$name]);
+			if(empty($attachments)) $vault->attachment = '';
+			else $vault->attachment = serialize($attachments);
+			try
+				{
+					$vault->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'actionType' => 'attachment-delete',
+						'errorMsg' => 'Oops, something went wrong. Please try again.',
+					);
+					return Response::json( $response );
+				}
+
+			$response = array(
+				'actionType' => 'attachment-delete',
+				'msg' => 'Attachment removed.',
+				'image' => $imageName,
+			);
+				
+			return Response::json( $response );
+		}
+	}
+
 	/**
 	 * Update the specified resource in storage.
 	 *

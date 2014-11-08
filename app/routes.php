@@ -127,6 +127,7 @@ Route::get('/assets/vault/asset/{slug}', array('as' => 'assets.vaultAsset', 'use
 Route::get('/assets/vault/asset/{asset}/edit', array('uses' => 'VaultController@edit'));
 Route::post('/assets/vault/asset/{asset}', array('uses' => 'VaultController@update'));
 Route::delete('/assets/vault/asset/{id}', array('uses' => 'VaultController@destroy'));
+Route::post('/assets/vault/asset/{id}/remove/{imageName}', array('uses' => 'VaultController@removeImage'));
 
 /* Tags */
 Route::post('/tags/search/{title}',array('as' => 'tags.search', 'uses' => 'TagsController@search'));
