@@ -73,14 +73,14 @@ ul {
 	background: rgba(255,102,102,0.1);
 }
 #message-success {
-	border:1px solid rgba(75,131,180,0.9);;
+	border:1px solid rgba(75,131,180,0.9);
 	border-radius:5px;
 	padding:10px;
 	margin-bottom:10px;
 	text-align:center;
 	color:rgba(32,32,32,1);
 	font-size:1.3em;
-	background: rgba(75,131,180,0.1);;
+	background: rgba(75,131,180,0.1);
 }
 #login {
 	width:320px;

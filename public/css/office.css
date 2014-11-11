@@ -731,6 +731,10 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	background: none;
 	color: #2E9999;
 }
+#page-nav_menu .page-meta a:before,
+#page-nav_menu .page-meta span:before {
+	padding-right: 5px;
+}
 #page-nav_menu .page-meta .favorite-this {
 	color: #858585;
 }
@@ -789,6 +793,18 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	cursor: pointer;
 	position: relative;
 }
+#page-nav_menu a.account-status-active {
+	color: #2E9999;
+}
+#page-nav_menu span.account-status-inactive {
+	color: #FF4D4D;
+}
+#page-nav_menu a.account-website:hover {
+	color: #FF4D4D;
+}
+#page-nav_menu a.account-pastdue {
+	color: #FF4D4D;
+}
 #page-nav_menu .page-menu-sub {
 	float: none;
 	display: none;
@@ -842,6 +858,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content h2 .count-of-total {
 	float: right;
 	padding-top: 4px;
+}
+#content h2.account-past-due:before {
+	color: #FF4D4D;
 }
 #content h3 {
 	font-size: 1.3em;
@@ -1649,6 +1668,9 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content .office-post-single  h4 {
 	font-weight: 500;
 }
+#content .office-post-single  h3:before {
+	padding-right: 5px;
+}
 #content .office-post-single .post-tags {
 	display: block;
 	height: 40px;
@@ -1905,6 +1927,51 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content #projects-page .office-post-single .checklist-section .checklist-header-progress {
 	font-size: 0.8em;
+}
+/* Accounts Single View */
+#content #accounts-page .office-post-single .post-tags,
+#content #accounts-page .office-post-single .post-account-contact-info,
+#content #accounts-page .office-post-single .post-account-billable-time,
+#content #accounts-page .office-post-single .post-account-extras {
+	border-left: 8px solid #4B83B4;
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	background: #e5e5e5;
+	padding: 10px 20px;
+	margin: 0 0 20px 0;
+	display: block;
+	clear: both;
+	min-height: 60px;
+}
+#content #accounts-page .office-post-single .post-account-contact-info {
+	min-height: 340px;
+	font-size: 1.2em;
+}
+#content #accounts-page .office-post-single .post-tags h3 {
+	margin: 5px 10px 0 0;
+	float: left;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-map {
+	float: right;
+	border: 1px solid #333333;
+	margin-top: 10px;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-field {
+	margin-bottom: 5px;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-field .contact-info-icon:before {
+	vertical-align: middle;
+	padding-right: 5px;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-field.physical-address .contact-info-icon:before {
+	vertical-align: top;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-field.physical-address .contact-info-multi-text {
+	display: inline-block;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .contact-info-field.physical-address .contact-info-text {
+	display: block;
 }
 /* Post Comments */
 #content .post-comment.add-button {

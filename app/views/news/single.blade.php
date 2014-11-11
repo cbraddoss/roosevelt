@@ -93,7 +93,6 @@
 			<small class="right">
 			Last edit: {{ $article->updated_at->format('F j, Y h:i:s A') }} by {{ link_to('/news/author/'.any_user_path($article->edit_id), User::find($article->edit_id)->first_name.' '.User::find($article->edit_id)->last_name) }}
 			</small>
-			
 		</div>
 		{{ Form::open( array('id' => 'add-tag-'.$article->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$article->id, 'method' => 'post') ) }}
 		<div class="post-tags post-tooltip">

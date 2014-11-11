@@ -59,7 +59,7 @@
 		
 		{{ Form::open( array('id' => 'add-tag-'.$project->id, 'class' => 'add-new-tag', 'url' => '/tags/newtag/'.$project->id, 'method' => 'post') ) }}
 		<div class="post-tags post-tooltip">
-			<h3 class="ss-tag"> Tags:</h3>
+			<h3 class="ss-tag">Tags:</h3>
 			<div class="tags-added-ajax tags-existing-ajax" formtypeid="{{ $project->id }}" formtype="add-tag-type" formlocation="/projects/singleviewupdate/{{ $project->id }}/tag_id">{{ $project->displayTags($project->id, 'project') }}</div>
 			<span class="tag-addnew tooltip-hover ss-plus add-button"><span class="tooltip">Add New<br />Tag</span></span>
 			{{ Form::text('tag_name', null, array('placeholder' => 'Add tags one at a time.', 'class' => 'none addnew-tag search-tags')) }}
@@ -71,7 +71,7 @@
 		{{ Form::close() }}
 
 		<div class="post-content">
-			<h3 class="ss-crosshair"> Project Scope:</h3>
+			<h3 class="ss-crosshair">Project Scope:</h3>
 			<p>{{ display_content($project->content) }}</p>
 			<div class="post-project-attachment">
 				@if($project->getAttachments($project->id))
@@ -82,11 +82,11 @@
 		</div>
 		
 		<div class="post-project-account">
-			<h3 class="ss-buildings"> Account:</h3>
+			<h3 class="ss-buildings">Account:</h3>
 			<h4><a href="/accounts/account/{{ Account::find($project->account_id)->slug }}">{{ Account::find($project->account_id)->name }}</a></h4>
 		</div>
 		<div class="post-subscribed">
-			<h3 class="ss-send"> Subscribed:
+			<h3 class="ss-send">Subscribed:
 					<div class="select-dropdown">
 						<span class="ss-dropdown"></span>
 						<span class="ss-directup"></span>
@@ -113,12 +113,12 @@
 		
 		<div class="clear"></div>
 		<div class="project-stage-due-date">
-			<h3 class="ss-location"><small> Stage:</small></h3>
+			<h3 class="ss-location"><small>Stage:</small></h3>
 			<span class="project-stage">{{ $project->stage }}</span>
 			</div>
 
 		<div class="project-stage-due-date">
-			<h3 class="ss-calendar"><small> Due Date:</small></h3>
+			<h3 class="ss-calendar"><small>Due Date:</small></h3>
 			<div class="project-due-date change-project-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->due_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
 				<span class="project-due-date-text tooltip-hover">
 					<span class="tooltip">Change<br />Due Date</span>
@@ -132,7 +132,7 @@
 
 		<div class="project-stage-due-date">
 			<div class="post-assigned-to">
-			<h3><img class="project-assigned-avatar" src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /><small> Assigned To:</small></h3>
+			<h3><img class="project-assigned-avatar" src="{{ gravatar_url(User::find($project->assigned_id)->email,20) }}" alt="{{ User::find($project->assigned_id)->first_name }} {{ User::find($project->assigned_id)->last_name }}" /> <small>Assigned To:</small></h3>
 <span class="tooltip-hover"><span class="tooltip">Change<br />User</span></span>
 <div class="select-dropdown">
 <span class="ss-dropdown"></span>
@@ -146,7 +146,7 @@
 		</div>
 
 		<div class="project-stage-due-date">
-			<h3 class="ss-alert"><small> Priority:</small></h3>
+			<h3 class="ss-alert"><small>Priority:</small></h3>
 			<div class="post-priority">
 <span class="priority-icon tooltip-hover"><span class="tooltip">Change<br />Priority</span></span>
 <div class="select-dropdown">
@@ -161,7 +161,7 @@
 			</div>
 
 		<div class="project-stage-due-date">
-			<h3><img class="project-manager-avatar" src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /><small> Manager:</small></h3>
+			<h3><img class="project-manager-avatar" src="{{ gravatar_url(User::find($project->manager_id)->email,20) }}" alt="{{ User::find($project->manager_id)->first_name }} {{ User::find($project->manager_id)->last_name }}" /> <small>Manager:</small></h3>
 			
 			<div class="post-manager">
 <span class="manager-icon tooltip-hover"><span class="tooltip">Project<br />Manager</span></span>
@@ -185,9 +185,9 @@
 
 		<div class="project-stage-due-date">
 			@if($project->period == 'recurring')
-			<h3 class="ss-refresh"><small> Refreshes:</small></h3>
+			<h3 class="ss-refresh"><small>Refreshes:</small></h3>
 			@else
-			<h3 class="ss-uploadcloud"><small> Launching:</small></h3>
+			<h3 class="ss-uploadcloud"><small>Launching:</small></h3>
 			@endif
 			<div class="project-launch-date change-project-launch-date" data-date="{{ Carbon::createFromFormat('Y-m-d H:i:s', $project->end_date)->format('m-d-Y') }}" data-date-format="mm-dd-yyyy" data-date-viewmode="days">
 				<span class="project-launch-date-text tooltip-hover">

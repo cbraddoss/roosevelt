@@ -17,7 +17,6 @@ class CreateAccountsTable extends Migration {
 			$table->increments('id');
 			$table->string('name', 128)->unique();
 			$table->string('slug')->unique();
-			$table->string('tags');
 			$table->enum('status', array('active', 'inactive'));
 			$table->string('email',50);
 			$table->string('website',128);
@@ -25,7 +24,7 @@ class CreateAccountsTable extends Migration {
 			$table->date('billable_expire');
 			$table->date('billable_renew');
 			$table->integer('billable_time_max');
-			$table->string('past_due');
+			$table->enum('past_due',array('no','yes'));
 			$table->text('website_aliases');
 			$table->text('outside_accounts');
 			$table->string('address');
@@ -57,7 +56,10 @@ class CreateAccountsTable extends Migration {
 			$table->string('print_last_letter_head_quantity');
 			$table->date('print_last_envelopes_date');
 			$table->string('print_last_envelopes_quantity');
+			$table->text('subscribed');
 			$table->integer('author_id');
+			$table->integer('edit_id');
+			$table->text('attachment');
 			$table->timestamps();
 		});
 	}
