@@ -63,62 +63,165 @@
 		{{ Form::close() }}
 
 		<div class="post-account-contact-info">
+			<div class="edit-account-contact-info" accountvalue="{{ $account->id }}"><small class="right ss-settings tooltip-hover"><span class="tooltip">Edit<br />Contact Info</span></small></div>
 			<div class="contact-info-map">
 				{{ $mapMap }}
 			</div>
 			<h3 class="ss-signpost">Contact Info:</h3>
-			<div class="contact-info-field email-address">
-				<span class="contact-info-icon ss-mail tooltip-hover"><span class="tooltip">Email<br />Address</span></span>
-				<span class="contact-info-text"><a href="mailto:{{ $account->email }}">{{ $account->email }}</a></span>
-			</div>
-			<div class="contact-info-field website-address">
-				<span class="contact-info-icon ss-globe tooltip-hover"><span class="tooltip">Website<br />Address</span></span>
-				<span class="contact-info-text"><a href="http://{{ $account->website }}">{{ $account->website }}</a></span>
-			</div>
-			<div class="contact-info-field physical-address">
-				<span class="contact-info-icon ss-location tooltip-hover"><span class="tooltip">Physical<br />Address</span></span>
-				<div class="contact-info-multi-text">
-					<span class="contact-info-text">{{ $account->address }}</span>
-					<span class="contact-info-text">{{ $account->city }}, {{ $account->state }}</span>
-					<span class="contact-info-text">{{ $account->zip }}</span>
+			<div class="contact-info-fields">
+				<div class="contact-info-field email-address">
+					<span class="contact-info-icon ss-mail tooltip-hover"><span class="tooltip">Email<br />Address</span></span>
+					<span class="contact-info-text" accountdetail="email" accountvalue="{{ $account->email }}"><a href="mailto:{{ $account->email }}">{{ $account->email }}</a></span>
 				</div>
-				
-			</div>
-			<div class="contact-info-field phone-number">
-				<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">Phone<br />Number</span></span>
-				<span class="contact-info-text">{{ $account->phone_number }}</span>
-			</div>
-			<div class="contact-info-field toll-free-number">
-				<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">800<br />Number</span></span>
-				@if(empty($account->toll_free_number))
-				<span class="contact-info-text"><span class="add-something-form ss-plus">Add one</span></span>
-				@else
-				<span class="contact-info-text">{{ $account->toll_free_number }}</span>
-				@endif
-			</div>
-			<div class="contact-info-field fax-number">
-				<span class="contact-info-icon ss-fax tooltip-hover"><span class="tooltip">Fax<br />Number</span></span>
-				@if(empty($account->fax))
-				<span class="contact-info-text"><span class="add-something-form ss-plus">Add one</span></span>
-				@else
-				<span class="contact-info-text">{{ $account->fax }}</span>
-				@endif
+				<div class="contact-info-field website-address">
+					<span class="contact-info-icon ss-globe tooltip-hover"><span class="tooltip">Website<br />Address</span></span>
+					<span class="contact-info-text" accountdetail="website" accountvalue="{{ $account->website }}"><a href="http://{{ $account->website }}">{{ $account->website }}</a></span>
+				</div>
+				<div class="contact-info-field physical-address">
+					<span class="contact-info-icon ss-location tooltip-hover"><span class="tooltip">Physical<br />Address</span></span>
+					<div class="contact-info-multi-text">
+						<span class="contact-info-text" accountdetail="street" accountvalue="{{ $account->address }}">{{ $account->address }}</span><br />
+						<span class="contact-info-text" accountdetail="city" accountvalue="{{ $account->city }}">{{ $account->city }}</span>,
+						<span class="contact-info-text" accountdetail="state" accountvalue="{{ $account->state }}">{{ $account->state }}</span><br />
+						<span class="contact-info-text" accountdetail="zip" accountvalue="{{ $account->zip }}">{{ $account->zip }}</span>
+					</div>
+					
+				</div>
+				<div class="contact-info-field phone-number">
+					<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">Phone<br />Number</span></span>
+					<span class="contact-info-text" accountdetail="phone" accountvalue="{{ $account->phone_number }}">{{ $account->phone_number }}</span>
+				</div>
+				<div class="contact-info-field toll-free-number">
+					<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">800<br />Number</span></span>
+					@if(empty($account->toll_free_number))
+					<span class="contact-info-text"><span class="add-something-form ss-plus">Add number</span></span>
+					@else
+					<span class="contact-info-text" accountdetail="toll-free" accountvalue="{{ $account->toll_free_number }}">{{ $account->toll_free_number }}</span>
+					@endif
+				</div>
+				<div class="contact-info-field fax-number">
+					<span class="contact-info-icon ss-fax tooltip-hover"><span class="tooltip">Fax<br />Number</span></span>
+					@if(empty($account->fax))
+					<span class="contact-info-text"><span class="add-something-form ss-plus">Add number</span></span>
+					@else
+					<span class="contact-info-text" accountdetail="fax" accountvalue="{{ $account->fax }}">{{ $account->fax }}</span>
+					@endif
+				</div>
 			</div>
 		</div>
 
 		<div class="post-account-billable-time">
-			<div><span>Available Billable Time</span>{{ $account->billable_time }} hours</div>
-			<div><span>Billable Time Expire Date</span>{{ $account->billable_expire }}</div>
-			<div><span>Billable Time Renew Date</span>{{ $account->billable_renew }}</div>
+			<h3 class="ss-clock">Billable Time:</h3>
+			<div class="account-billable-time-available">
+				<span class="account-billable-time-available-label account-billable-time-label">Available:</span>
+				<span class="account-billable-time-available-text">{{ $account->billable_time }} hours</span>
+			</div>
+			<div class="account-billable-time-expire">
+				<span class="account-billable-time-expire-label account-billable-time-label">Expire Date:</span>
+				<span class="account-billable-time-expire-text">{{ $account->billable_expire }}</span>
+			</div>
+			<div class="account-billable-time-renew">
+				<span class="account-billable-time-renew-label account-billable-time-label">Renew Date:</span>
+				<span class="account-billable-time-renew-text">{{ $account->billable_renew }}</span>
+			</div>
 		</div>
 		
 		<div class="post-account-extras">
-			<div><span>Site Designed by IOS</span>{{ $account->site_designed }}</div>
-			<div><span>Site Launch Date</span>{{ $account->site_launch_date }}</div>
-			<div><span>Hosting Started Date</span>{{ $account->hosting_started }}</div>
-			<div><span>Hosting Ended Date</span>{{ $account->hosting_ended }}</div>
-			<div><span>Hosting Type</span>{{ $account->hosting_type }}</div>
-			<div><span>Hosting Addons</span>{{ $account->hosting_addons }}</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Site Designed by IOS?</span>
+				<span class="account-extras-text">{{ $account->site_designed }}</span>
+			</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Site Launch Date:</span>
+				<span class="account-extras-text">{{ $account->site_launch_date }}</span>
+			</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Hosting Started Date:</span>
+				<span class="account-extras-text">{{ $account->hosting_started }}</span>
+			</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Hosting Ended Date:</span>
+				<span class="account-extras-text">{{ $account->hosting_ended }}</span>
+			</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Hosting Type:</span>
+				<span class="account-extras-text">{{ $account->hosting_type }}</span>
+			</div>
+			<div class="account-extras">
+				<span class="account-extras-label">Hosting Addons:</span>
+				<span class="account-extras-text">{{ $account->hosting_addons }}</span>
+			</div>
+		</div>
+
+		<div class="post-account-relationships">
+			<h3 class="ss-list">Projects</h3>
+			<div class="account-relationship account-projects">
+				<ul>
+					@if($projects->isEmpty())
+					<li>No projects found for {{$account->name}}</li>
+					@else
+					@foreach($projects as $project)
+					<li><a class="account-project-link" href="/projects/post/{{ $project->slug }}">{{ $project->title }}</a></li>
+					@endforeach
+					@endif
+				</ul>
+			</div>
+		</div>
+		<div class="post-account-relationships">
+			<h3 class="ss-dollarsign">Billables</h3>
+			<div class="account-relationship account-billables">
+				<ul>
+					@if(empty($billables))
+					<li>No billables found for {{$account->name}}</li>
+					@else
+					@foreach($billables as $billable)
+					<li><a class="account-billable-link" href="/billables/post/{{ $billable->slug }}">{{ $billable->title }}</a></li>
+					@endforeach
+					@endif
+				</ul>
+			</div>
+		</div>
+		<div class="post-account-relationships">
+			<h3 class="ss-file">Invoices</h3>
+			<div class="account-relationship account-invoices">
+				<ul>
+					@if(empty($invoices))
+					<li>No invoices found for {{$account->name}}</li>
+					@else
+					@foreach($invoices as $invoice)
+					<li><a class="account-invoice-link" href="/invoices/post/{{ $invoice->slug }}">{{ $invoice->title }}</a></li>
+					@endforeach
+					@endif
+				</ul>
+			</div>
+		</div>
+		<div class="post-account-relationships">
+			<h3 class="ss-help">Help</h3>
+			<div class="account-relationship account-help">
+				<ul>
+					@if(empty($helps))
+					<li>No help posts found for {{$account->name}}</li>
+					@else
+					@foreach($helps as $help)
+					<li><a class="account-help-link" href="/help/post/{{ $help->slug }}">{{ $help->title }}</a></li>
+					@endforeach
+					@endif
+				</ul>
+			</div>
+		</div>
+		<div class="post-account-relationships">
+			<h3 class="ss-key">Vault Assets</h3>
+			<div class="account-relationship account-vault-asset">
+				<ul>
+					@if($vaults->isEmpty())
+					<li>No vault assets found for {{$account->name}}</li>
+					@else
+					@foreach($vaults as $vault)
+					<li><a class="account-vault-asset-link" href="/assets/vault/asset/{{ $vault->slug }}">{{ $vault->title }}</a></li>
+					@endforeach
+					@endif
+				</ul>
+			</div>
 		</div>
 
 		<div class="accounts-account-sub office-post-sub">
@@ -135,7 +238,6 @@
 			@endif
 		</div>
 	</div>
-
 	<div id="accounts-account-comment-form" class="create-something-new">
 		<div class="accounts-button">
 			<span formtype="post-reply" formlocation="/accounts/account/{{ $account->slug }}/comment" class="post-comment add-button">

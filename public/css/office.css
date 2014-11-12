@@ -1670,6 +1670,7 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post-single  h3:before {
 	padding-right: 5px;
+	vertical-align: middle;
 }
 #content .office-post-single .post-tags {
 	display: block;
@@ -1696,6 +1697,17 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content .office-post-single .post-single-attachment img {
 	border: 1px solid #353535;
+}
+#content .office-post-single .add-something-form {
+	color: #858585;
+	font-size: 0.8em;
+	cursor: pointer;
+}
+#content .office-post-single .add-something-form:before {
+	padding-right: 5px;
+}
+#content .office-post-single .add-something-form:hover {
+	color: #FF4D4D;
 }
 #content .office-post-single .office-post-sub {
 	clear: both;
@@ -1932,7 +1944,8 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 #content #accounts-page .office-post-single .post-tags,
 #content #accounts-page .office-post-single .post-account-contact-info,
 #content #accounts-page .office-post-single .post-account-billable-time,
-#content #accounts-page .office-post-single .post-account-extras {
+#content #accounts-page .office-post-single .post-account-extras,
+#content #accounts-page .office-post-single .post-account-relationships {
 	border-left: 8px solid #4B83B4;
 	width: 100%;
 	height: auto;
@@ -1946,19 +1959,29 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 }
 #content #accounts-page .office-post-single .post-account-contact-info {
 	min-height: 340px;
-	font-size: 1.2em;
+}
+#content #accounts-page .office-post-single .post-account-billable-time,
+#content #accounts-page .office-post-single .post-account-extras {
+	width: 50%;
+	float: left;
+	clear: none;
+	min-height: 195px;
 }
 #content #accounts-page .office-post-single .post-tags h3 {
 	margin: 5px 10px 0 0;
 	float: left;
 }
+#content #accounts-page .office-post-single .post-account-contact-info .edit-account-contact-info {
+	margin-left: 10px;
+}
 #content #accounts-page .office-post-single .post-account-contact-info .contact-info-map {
 	float: right;
 	border: 1px solid #333333;
-	margin-top: 10px;
+	margin: 10px;
 }
 #content #accounts-page .office-post-single .post-account-contact-info .contact-info-field {
 	margin-bottom: 5px;
+	font-size: 1.2em;
 }
 #content #accounts-page .office-post-single .post-account-contact-info .contact-info-field .contact-info-icon:before {
 	vertical-align: middle;
@@ -1971,7 +1994,22 @@ input[type=checkbox].checklist-checkbox:checked + label.checklist-checkbox-label
 	display: inline-block;
 }
 #content #accounts-page .office-post-single .post-account-contact-info .contact-info-field.physical-address .contact-info-text {
-	display: block;
+	display: inline-block;
+}
+#content #accounts-page .office-post-single .post-account-billable-time .account-billable-time-label,
+#content #accounts-page .office-post-single .post-account-extras .account-extras-label {
+	width: 200px;
+	display: inline-block;
+	padding: 5px 0;
+}
+#content #accounts-page .office-post-single .post-account-relationships .account-relationship ul li {
+	padding: 5px 0;
+}
+#content #accounts-page .office-post-single .post-account-contact-info .new-form-field input[type=text],
+#content #accounts-page .office-post-single .post-account-contact-info .new-form-field input[type=email],
+#content #accounts-page .office-post-single .post-account-contact-info .new-form-field input[type=password],
+#content #accounts-page .office-post-single .post-account-contact-info .new-form-field textarea {
+	width: 50%;
 }
 /* Post Comments */
 #content .post-comment.add-button {

@@ -88,6 +88,7 @@ class ProjectsTableSeeder extends Seeder {
 			'account_id' => '1',
 			'due_date' => '2014-09-30 08:00:00',
 			'period' => 'recurring',
+			'recur_cycle' => 'monthly',
 			'start_date' => '2014-09-01 08:00:00',
 			'end_date' => '2014-09-30 08:00:00',
 			'edit_id' => '1',

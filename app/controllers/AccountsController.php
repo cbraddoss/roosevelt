@@ -26,7 +26,7 @@ class AccountsController extends \BaseController {
 	/**
      * Instantiate a new AccountsController instance.
      */
-	public function __construct(Mailer $mailer, Project $project, Account $account)
+	public function __construct(Mailer $mailer, Project $project, Account $account, Tag $tag, TagRelationship $tagRelationship)
 	{
 		$this->beforeFilter('auth');
 
@@ -39,6 +39,10 @@ class AccountsController extends \BaseController {
         //$this->accountComment = $accountComment;
 
         $this->account = $account;
+
+		$this->tag = $tag;
+
+		$this->tagRelationship = $tagRelationship;
 	}
 
 	/**
@@ -175,31 +179,66 @@ class AccountsController extends \BaseController {
 		    // Add the marker to the map
 		    $map->addMarker($marker);
 		}
-$mapTypeControl = new MapTypeControl();
+		$mapTypeControl = new MapTypeControl();
 
-// Add your map type control to the map
-$map->setMapTypeControl($mapTypeControl);
-$map->setMapTypeControl(
-    array(MapTypeId::ROADMAP, MapTypeId::SATELLITE),
-    ControlPosition::TOP_RIGHT,
-    MapTypeControlStyle::DEFAULT_
-);
-$zoomControl = new ZoomControl();
+		// Add your map type control to the map
+		$map->setMapTypeControl($mapTypeControl);
+		$map->setMapTypeControl(
+		    array(MapTypeId::ROADMAP, MapTypeId::SATELLITE),
+		    ControlPosition::TOP_RIGHT,
+		    MapTypeControlStyle::DEFAULT_
+		);
+		$zoomControl = new ZoomControl();
 
-// Add your zoom control to the map
-$map->setZoomControl($zoomControl);
-$map->setZoomControl(ControlPosition::TOP_LEFT, ZoomControlStyle::DEFAULT_);
-$overviewMapControl = new OverviewMapControl();
+		// Add your zoom control to the map
+		$map->setZoomControl($zoomControl);
+		$map->setZoomControl(ControlPosition::TOP_LEFT, ZoomControlStyle::DEFAULT_);
+		$overviewMapControl = new OverviewMapControl();
 
-// Add your overview map control to the map
-$map->setOverviewMapControl($overviewMapControl);
-$map->setOverviewMapControl(false);
+		// Add your overview map control to the map
+		$map->setOverviewMapControl($overviewMapControl);
+		$map->setOverviewMapControl(false);
 		$mapHelper = new MapHelper();
 
 		$mapJS = $mapHelper->renderJavascripts($map);
 		$mapMap = $mapHelper->renderHtmlContainer($map);
 
-		return View::make('accounts.single',compact('account','mapMap','mapJS'));
+		//Find projects, billables, help, invoices, and vault assets for this account
+		$vaults = Vault::where('account_id','=',$account->id)
+					  ->orderBy('created_at','DESC')
+					  ->get();
+		$projects = Project::where('account_id','=',$account->id)
+					->orderBy('created_at','DESC')
+					->get();
+		// $billables = Billable::where('account_id','=',$account->id)
+		// 			->orderBy('created_at','DESC')
+		// 			->get();
+		$billables = '';
+		// $invoices = Invoice::where('account_id','=',$account->id)
+		// 			->orderBy('created_at','DESC')
+		// 			->get();
+		$invoices = '';
+		// $helps = Help::where('account_id','=',$account->id)
+		// 			->orderBy('created_at','DESC')
+		// 			->get();
+		$helps = '';
+
+		return View::make('accounts.single',compact('account','mapMap','mapJS','vaults','projects','billables','invoices','helps'));
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function accountContactInfo($id)
+	{
+		if(Request::ajax()) {
+			$account = Account::find($id);
+			return View::make('accounts.partials.account-contact-info-edit',compact('account'));
+		}
+		else return Redirect::route('accounts');
 	}
 
 	/**
@@ -225,6 +264,158 @@ $map->setOverviewMapControl(false);
 	}
 
 	/**
+	 * Update the account on single view pages.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function updateOnSingleView($id, $value)
+	{
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/accounts')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$account = Account::where('id','=',$id)->first();
+			if(empty($account)) return Redirect::to('/accounts');
+			else $oldValue = $account->$value;
+			
+			if(Input::has('attachnewtag') == 'attachtag') {
+
+		 		$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'account-update',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+
+				$articleId = Input::get('type_id');
+				$parseTags = Input::get('tag_id');
+				$parseTags = explode(',', $parseTags);
+				$parseTags = array_unique($parseTags);
+				foreach($parseTags as $parseTag) {
+					if(is_numeric($parseTag)) {
+						$newTagRelationship = $this->tagRelationship->newRelationship($parseTag, 'account', $articleId);
+						if($newTagRelationship == 'fail') {
+							$response = array(
+								'actionType' => 'account-update',
+								'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+							);
+							return Response::json( $response );
+						}
+						if($newTagRelationship == 'existing') {
+							$response = array(
+								'actionType' => 'account-update',
+								'errorMsg' => 'This tag is already attached to this Account.'
+							);
+							return Response::json( $response );
+						}
+					}
+					else {
+						$response = array(
+							'actionType' => 'account-update',
+							'errorMsg' => 'Oops, there was a problem attaching the tag(s). Please try again.'
+						);
+						return Response::json( $response );
+					}
+				}
+
+				$response = array(
+					'actionType' => 'account-update',
+					'tagsText' => Input::get('tagsText'),
+					'tagID' => Input::get('tag_id'),
+					'msg' => 'Tag added successfully!'
+				);
+				return Response::json( $response );
+
+			}
+			if(Input::has('detachtag') == 'detachtag') {
+				$validator = Validator::make(Input::all(), array(
+					'tag_id' => 'required|integer',
+					'type_id' => 'required|integer'
+				));
+				if($validator->fails()) {
+					$messages = $validator->messages();
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => $messages->first()
+					);
+					return Response::json( $response );
+				}
+				$tagID = Input::get('tag_id');
+				$type = 'account';
+				$typeID = Input::get('type_id');
+
+				$findExisitingRelationship = TagRelationship::where('tag_id','=',$tagID)
+											 ->where('type','=',$type)
+											 ->where('type_id','=',$typeID)
+											 ->first();
+				try
+				{
+					$findExisitingRelationship->delete();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'actionType' => 'tag-detach',
+						'errorMsg' => 'Oops, there was a problem removing the tag. Please try again.'
+					);
+					return Response::json( $response );
+				}
+
+				$response = array(
+					'actionType' => 'tag-detach',
+					'tagsText' => Input::get('tagsText'),
+					'msg' => 'Tag removed successfully!'
+				);
+				return Response::json( $response );
+			}
+			
+			return Response::json( $response );
+		}
+		else return Redirect::route('accounts');
+	}
+
+	public function removeImage($id,$imageName) {
+		if(Request::ajax()) {
+			if ( Session::token() !== Input::get( '_token' ) ) return Redirect::to('/accounts')->with('flash_message_error','Form submission error. Please don\'t do that.');
+ 		
+			$account = Account::find($id);
+			$attachments = $account->attachment;
+			$attachments = unserialize($attachments);
+			$imagePath = Input::get('imagePath');
+			$imageName = $imagePath;
+			$name = array_search($imageName, $attachments);
+			if($name !== false) unset($attachments[$name]);
+			if(empty($attachments)) $account->attachment = '';
+			else $account->attachment = serialize($attachments);
+			try
+				{
+					$account->save();
+				} catch(Illuminate\Database\QueryException $e)
+				{
+					$response = array(
+						'actionType' => 'attachment-delete',
+						'errorMsg' => 'Oops, something went wrong. Please try again.',
+					);
+					return Response::json( $response );
+				}
+
+			$response = array(
+				'actionType' => 'attachment-delete',
+				'msg' => 'Attachment removed.',
+				'image' => $imageName,
+			);
+				
+			return Response::json( $response );
+		}
+	}
+
+	/**
 	 * Remove the specified resource from storage.
 	 *
 	 * @param  int  $id
@@ -232,7 +423,13 @@ $map->setOverviewMapControl(false);
 	 */
 	public function destroy($id)
 	{
-		//
+		$account = Account::find($id);
+		if(Auth::user()->userrole == 'admin' || Auth::user()->id == $account->author_id) {
+			$accountTitle = $account->title;
+			$account->delete();
+			return Redirect::to('/accounts/')->with('flash_message_error', '<i>' . $accountTitle . '</i> successfully deleted');
+		}
+		else return Redirect::route('accounts');
 	}
 
 }

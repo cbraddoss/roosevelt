@@ -108,8 +108,9 @@ Route::post('/projects/post/comment/{id}/remove/{imageName}', array('uses' => 'P
 Route::post('/accounts/search/{title}',array('as' => 'accounts.search', 'uses' => 'AccountsController@search'));
 Route::get('/accounts',array('as' => 'accounts', 'uses' => 'AccountsController@index'));
 Route::get('/accounts/create', array('as' => 'accounts.accountCreate', 'uses' => 'AccountsController@create'));
+Route::post('/accounts/singleviewupdate/{id}/{value}', array('as' => 'accounts.updateOnSingleView', 'uses' => 'AccountsController@updateOnSingleView'));
 Route::get('/accounts/account/{accountname}',array('as' => 'accounts.accountShow', 'uses' => 'AccountsController@show'));
-Route::get('/account-new/',array('as' => 'account.new', 'uses' => 'AccountsController@create'));
+Route::get('/accounts/edit-contact-info/{id}', array('uses' => 'AccountsController@accountContactInfo'));
 
 /* Assets */
 Route::get('/assets', array('as' => 'assets', 'uses' => 'AssetsController@index'));

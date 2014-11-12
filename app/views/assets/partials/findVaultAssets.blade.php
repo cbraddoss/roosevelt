@@ -47,9 +47,11 @@
 
 
 @if(!strpos(current_page(),'tags') )
+@if(!strpos(current_page(),'accounts') )
 	@if($vaults->links() != '')
 	<div class="pagination-footer">
 		{{ $vaults->links() }}
 	</div>
 	@endif
+@endif
 @endif

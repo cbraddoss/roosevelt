@@ -177,10 +177,11 @@
 @endforeach
 
 @if(!strpos(current_page(),'tags') )
- <!-- || current_page() != '/to-do/brad-doss' -->
+@if(!strpos(current_page(),'accounts') )
 	@if($projects->links() != '')
 	<div class="pagination-footer">
 		{{ $projects->links() }}
 	</div>
 	@endif
+@endif
 @endif
