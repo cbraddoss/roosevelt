@@ -1972,43 +1972,31 @@ jQuery(document).ready(function($){
 	
 	
 	/* Accounts */
-	$(document).on('click','#accounts-page .add-something-form', function(){
+	$(document).on('click','#accounts-page .add-something-form.ss-plus', function(){
+		var accountDetail = $(this).attr('accountdetail');
 		$(this).slideUp(1000,function() {
-			$(this).html('<span>Coming Soon</span>').removeClass('ss-plus');
+			$(this).html('<div class="new-form-field"><input type="text" name="'+accountDetail+'" class="update-account-'+accountDetail+' field" id="update-account-'+accountDetail+'" /><input class="save form-button" id="update-account-contact-info" type="submit" value="Update"></div>').removeClass('ss-plus');
 		});
 		$(this).slideDown(1000);
 	});
 	$(document).on('click','#accounts-page .edit-account-contact-info', function(){
 		// $(this).parent().addClass('update-something-form');
 		var accountId = $(this).attr('accountvalue');
+		$(this).prop('disabled',true);
 		$.get( "/accounts/edit-contact-info/"+accountId, function( data ) {
 			$(document).find('.contact-info-map').slideUp(1000);
 			$(document).find('.post-account-contact-info .contact-info-fields').slideUp(1000);
 			$(document).find('.post-account-contact-info .contact-info-fields').after(data);
 			$(document).find('.post-account-contact-info .update-something-form').hide().slideDown(1000).addClass('update-something-form-active');
 		});
-		// $(document).find('.post-account-contact-info .contact-info-field .contact-info-text').each(function() {
-		// 	$(this).addClass('new-form-field');
-		// 	var accountVal = $(this).attr('accountvalue');
-		// 	if(typeof accountVal == 'undefined') {
-		// 		$(this).slideUp(1000, function() {
-		// 			$(this).html('<input type="text" class="field contact-info-input-text" placeholder="Add New" />');
-		// 		});
-		// 	}
-		// 	else {
-		// 		$(this).slideUp(1000, function() {
-		// 			$(this).html('<input type="text" class="field contact-info-input-text" value="'+accountVal+'" />');
-		// 		});
-		// 	}
-		// 	$(this).slideDown(1000);
-		// });
 	});
 	$(document).on('click','#accounts-page .post-account-contact-info .update-something-form-active .cancel', function(){
 		$(document).find('.post-account-contact-info .update-something-form-active').slideUp(1000, function() {
 			$(this).remove();
 		});
 		$(document).find('.post-account-contact-info .contact-info-fields').slideDown(1000);
-			$(document).find('.contact-info-map').slideDown(1000);
+		$(document).find('.contact-info-map').slideDown(1000);
+		$(document).find('#accounts-page .edit-account-contact-info').prop('disabled',false);
 	});
 
 	/* Billables */

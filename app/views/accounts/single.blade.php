@@ -89,20 +89,24 @@
 				</div>
 				<div class="contact-info-field phone-number">
 					<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">Phone<br />Number</span></span>
-					<span class="contact-info-text" accountdetail="phone" accountvalue="{{ $account->phone_number }}">{{ $account->phone_number }}</span>
+					@if(empty($account->phone_number))
+					<span class="contact-info-text"><span accountdetail="phone_number" class="add-something-form ss-plus">Add number</span></span>
+					@else
+					<span class="contact-info-text" accountdetail="phone_number" accountvalue="{{ $account->phone_number }}">{{ $account->phone_number }}</span>
+					@endif
 				</div>
 				<div class="contact-info-field toll-free-number">
 					<span class="contact-info-icon ss-phone tooltip-hover"><span class="tooltip">800<br />Number</span></span>
 					@if(empty($account->toll_free_number))
-					<span class="contact-info-text"><span class="add-something-form ss-plus">Add number</span></span>
+					<span class="contact-info-text"><span accountdetail="toll_free_number" class="add-something-form ss-plus">Add number</span></span>
 					@else
-					<span class="contact-info-text" accountdetail="toll-free" accountvalue="{{ $account->toll_free_number }}">{{ $account->toll_free_number }}</span>
+					<span class="contact-info-text" accountdetail="toll_free_number" accountvalue="{{ $account->toll_free_number }}">{{ $account->toll_free_number }}</span>
 					@endif
 				</div>
 				<div class="contact-info-field fax-number">
 					<span class="contact-info-icon ss-fax tooltip-hover"><span class="tooltip">Fax<br />Number</span></span>
 					@if(empty($account->fax))
-					<span class="contact-info-text"><span class="add-something-form ss-plus">Add number</span></span>
+					<span class="contact-info-text"><span accountdetail="fax" class="add-something-form ss-plus">Add number</span></span>
 					@else
 					<span class="contact-info-text" accountdetail="fax" accountvalue="{{ $account->fax }}">{{ $account->fax }}</span>
 					@endif

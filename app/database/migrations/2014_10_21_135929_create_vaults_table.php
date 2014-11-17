@@ -20,7 +20,6 @@ class CreateVaultsTable extends Migration {
 			$table->integer('author_id');
 			$table->integer('edit_id');
 			$table->integer('account_id');
-			$table->text('tag_id');
 			$table->enum('type',array('website','ftp','database','email','server','generic'));
 			$table->string('url');
 			$table->string('username');
