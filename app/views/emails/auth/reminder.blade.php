@@ -1,9 +1,8 @@
 @extends('emails.main')
 
 @section('email-content')
-<h2>Password Reset</h2>
-
-<div>
+<div class="content-div">
+	<h2>Password Reset</h2>
 	<p>To reset your password, complete this form: {{ URL::to('password/reset', array($token)) }}.</p>
 	<br />
 	<p>

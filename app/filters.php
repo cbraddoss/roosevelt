@@ -91,3 +91,14 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+/*
+|--------------------------------------------------------------------------
+| Password Reset Tweaks
+|--------------------------------------------------------------------------
+|
+*/
+Password::validator(function($credentials)
+{
+    return strlen($credentials['password']) >= 8;
+});

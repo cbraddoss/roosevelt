@@ -8,7 +8,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'brad@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'admin',
 			'first_name' => 'Brad',
 			'last_name' => 'Doss',
@@ -22,7 +22,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'jack@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'admin',
 			'first_name' => 'Jack',
 			'last_name' => 'Waknitz',
@@ -35,7 +35,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'taylor@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'admin',
 			'first_name' => 'Taylor',
 			'last_name' => 'Hasenpflug',
@@ -87,7 +87,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'devteam@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'One',
@@ -99,7 +99,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'sysadmin@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'standard',
 			'first_name' => 'User',
 			'last_name' => 'Two',
@@ -112,7 +112,7 @@ class UsersTableSeeder extends Seeder {
 
 		User::create(array(
 			'email' => 'servers@insideout.com',
-			'password' => Hash::make('1234'),
+			'password' => Hash::make('12345678'),
 			'userrole' => 'non-standard',
 			'first_name' => 'User',
 			'last_name' => 'Three',
