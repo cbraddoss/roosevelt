@@ -1,15 +1,12 @@
-## InsideOut Solutions Employee Remote Office
+# PLEASE NOTE THIS REPOSITORY IS OUTDATED AND IS HERE FOR INFORMATION PURPOSES ONLY.
+
+## Employee Remote Office
 
 ### Code Name: Roosevelt
 
 Project management, Account management, and internal company tools system designed for InsideOut Solutions.
 
-##Pulling from bitbucket
-Use SourceTree and clone this project into a new directory (office.localdev for example)
-
-In terminal, go to the new directory stated above (your directory may vary), e.g.:
-
-	cd ~/Sites/office.localdev
+## Installation
 
 Run in terminal:
 
@@ -17,7 +14,7 @@ Run in terminal:
 
 Installation complete at http://office.localdev !
 
-##Once pulled from bitbucket:
+## Once pulled:
 Overwrite .gitignore with the following (exactly):
 
 	/bootstrap/compiled.php
