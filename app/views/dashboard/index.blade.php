@@ -138,7 +138,7 @@
 				<!-- @ include('billables.partials.findBillables') -->
 
 				@if( $projectsCount > 5 )
-					<h4><a href="/projects/assigned-to/{{ current_user_path() }}">View All To-Do List Items...</a></h4>
+					<h4 class="dashboard-view-more"><a href="/projects/assigned-to/{{ current_user_path() }}">View All To-Do List Items...</a></h4>
 				@endif
 
 				@if($projects->isEmpty())
@@ -161,7 +161,7 @@
 		</div>
 		
 		<div id="second-half" class="dashboard-half">
-			<h2><a href="/news">Latest Company News:</a><small>@if( $articlesCount >= 5 ) [5 of {{ $articlesCount }}] @endif</small></h2>
+			<h2><a href="/news">Latest Company News:</a><small>@if( $articlesCount >= 5 ) [5 newest] @endif</small></h2>
 			<div id="news-dashboard-page" class="dashboard-list">
 						
 				@foreach($articles as $article)
@@ -199,6 +199,10 @@
 						
 					</div>
 				@endforeach
+
+				@if( $articlesCount > 5 )
+					<h4 class="dashboard-view-more"><a href="/news/">View All News Posts...</a></h4>
+				@endif
 				
 			</div>
 		</div>

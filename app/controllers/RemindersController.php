@@ -77,6 +77,7 @@ class RemindersController extends Controller {
 		switch ($response)
 		{
 			case Password::INVALID_PASSWORD:
+				return Redirect::back()->with('error', 'Passwords must be at least 8 characters and match confirmation.');
 			case Password::INVALID_TOKEN:
 			case Password::INVALID_USER:
 				return Redirect::back()->with('error', Lang::get($response));

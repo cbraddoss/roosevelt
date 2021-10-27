@@ -22,6 +22,7 @@
 		</li>
 		<li class="page-menu-sub">
 		<ul>
+		<li class="sub-ident ss-layout"><span ></span></li>
 		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -30,6 +31,7 @@
 				{{ $projectTypes }}
 			</select>
 		</li>
+		<li class="sub-ident ss-tag"><span ></span></li>
 		<li class="right select-dropdown this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -38,6 +40,7 @@
 				{{ $projectsTagsSelect }}
 			</select>
 		</li>
+		<li class="sub-ident ss-users"><span ></span></li>
 		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -46,6 +49,7 @@
 				{{ get_user_list_select() }}
 			</select>
 		</li>
+		<li class="sub-ident ss-alert"><span ></span></li>
 		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -56,6 +60,7 @@
 				<option value="high">High</option>
 			</select>
 		</li>
+		<li class="sub-ident ss-info"><span ></span></li>
 		<li class="select-dropdown right this-filter">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>

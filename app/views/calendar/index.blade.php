@@ -22,7 +22,6 @@
 			</div>
 		</li>
 		<li class="right"><a href="/calendar/{{ $nextMonthYear }}" class="add-button show-next-month navigateright">{{ preg_replace('/\d{4}\//','', $nextMonthYear) }} <span class="ss-navigateright"></span></a></li>
-		
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -36,6 +35,7 @@
 				<option value="hide-all">Hide All</option>
 			</select>
 		</li>
+		<li class="right"><span class="faux-link ss-view"></span></li>
 	</ul>
 </div>
 @stop

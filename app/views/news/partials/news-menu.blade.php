@@ -19,6 +19,7 @@
 </li>
 <li class="page-menu-sub">
 	<ul>
+		<li class="sub-ident ss-users"><span ></span></li>
 		<li class="select-dropdown right">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
@@ -27,6 +28,7 @@
 				@if(!empty($userAuthor)) {{ get_user_list_select($userAuthor->first_name.' '.$userAuthor->last_name) }} @else {{ get_user_list_select() }} @endif
 			</select>
 		</li>
+		<li class="sub-ident ss-tag"><span></span></li>
 		<li class="right select-dropdown">
 			<span class="ss-dropdown"></span>
 			<span class="ss-directup"></span>
